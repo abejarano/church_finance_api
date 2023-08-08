@@ -1,38 +1,46 @@
 version: '3'
 
 services:
-  #  db:
-  #    restart: always
-  #    image: postgres
-  #    environment:
-  #      POSTGRES_USER: postgres
-  #      POSTGRES_PASSWORD: postgres
-  #      POSTGRES_DB: db_beru
-  #    volumes:
-  #      - postgres_data:/var/lib/postgresql/data/
-  #    ports:
-  #      - 5432:5432
+  db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: church_financial
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
 
-  api_financial:
+  church_financial_api:
     restart: always
     build: .
-    env_file: .env
     container_name: church_financial_api
-    image: api_financial
+    image: church_financial_api
     environment:
+      ENV: dev
       DJANGO_SUPERUSER_USERNAME: admin
       DJANGO_SUPERUSER_PASSWORD: 12345678
       DJANGO_SUPERUSER_EMAIL: admin@local.com
-    command: gunicorn --bind 0.0.0.0:8080 --workers 1 --threads 8 --timeout 0 church_financial_api.wsgi:application --reload
+
+      SQL_DATABASE: church_financial
+      SQL_USER: postgres
+      SQL_PASSWORD: postgres
+      SQL_HOST: db
+      SQL_PORT: 5432
+
+    entrypoint: ["./entrypoint-dev.sh"]
+    command: [ "python", "manage.py", "runserver", "0.0.0.0:8080" ]
     volumes:
       - ./:/app
     ports:
-      - "8000:8080"
-#    depends_on:
-#      - db
+      - "9200:8080"
+    depends_on:
+      - db
 
 
 volumes:
-  #  postgres_data:
+  postgres_data:
   static_volume:
   media_volume:

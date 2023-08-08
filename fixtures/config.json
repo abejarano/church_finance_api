@@ -1,0 +1,191 @@
+[
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "ACRE",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "ALAGOAS",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "AMAPA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "AMAZONAS",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "BAHIA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "CEARA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "DISTRITO FEDERAL",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "ESPIRITO SANTO",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "GOIAS",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "MARANHAO",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "MATO GROSSO",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "MATO GROSSO DO SUL",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "MINAS GERAIS",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "PARA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "PARAIBA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "PARANA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "PERNAMBUCO",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "PIAUI",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "RIO DE JANEIRO",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "RIO GRANDE DO NORTE",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "RIO GRANDE DO SUL",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "RONDONIA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "RORAIMA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "SANTA CATARINA",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "SAO PAULO",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "SERGIPE",
+      "country": "BRA"
+    }
+  },
+  {
+    "model": "config.state",
+    "fields": {
+      "name": "TOCANTINS",
+      "country": "BRA"
+    }
+  }
+]

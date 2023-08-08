@@ -1,19 +1,20 @@
 from django.db import models
+from django_softdelete.models import SoftDeleteModel
 
 
 # Create your models here.
 
-class District(models.Model):
+class District(SoftDeleteModel):
     name = models.CharField(max_length=200, null=False, blank=False)
     registry_number = models.TextField(max_length=80, null=False, blank=False)
 
 
-class Region(models.Model):
+class Region(SoftDeleteModel):
     name = models.CharField(max_length=200, null=False, blank=False)
     district = models.ForeignKey(District, related_name='region_district', on_delete=models.RESTRICT)
 
 
-class Church(models.Model):
+class Church(SoftDeleteModel):
     name = models.CharField(max_length=200, null=False, blank=False)
     registry_number = models.TextField(max_length=80)
     address = models.TextField(null=False, blank=False)

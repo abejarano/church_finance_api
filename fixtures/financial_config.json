@@ -1,0 +1,182 @@
+[
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Gastos de Pessoal",
+      "description": "Salários e honorários para pastores, ministros, pessoal administrativo e outros funcionários da igreja",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Aluguel ou Arrendamento",
+      "description": "Despesas relacionadas ao aluguel ou arrendamento de instalações para reuniões e atividades da igreja / alugel do salāo",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Suprimentos de Escritório",
+      "description": "Compra de papel, tinta, equipamentos de escritório e outros suprimentos necessários para a administração da igreja",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Serviços Públicos",
+      "description": "Pagamentos de eletricidade, água, gás e outros serviços públicos para manter as instalações da igreja",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Manutenção e Reparos",
+      "description": "Despesas com a manutenção e reparo de edifícios, equipamentos e terrenos da igreja",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Despesas de Eventos / Conferências e Convenções",
+      "description": "Custos associados a eventos especiais, conferências, retiros e atividades para a congregação",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Programas de Assistência",
+      "description": "Despesas destinadas a programas de assistência e caridade, como doações a instituições de caridade e projetos comunitários",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Educação Religiosa",
+      "description": "Despesas com programas educacionais, estudos bíblicos, aulas e materiais de ensino",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Publicidade e Promoção",
+      "description": "Despesas relacionadas à publicidade, promoção de eventos e atividades da igreja",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Equipamento Tecnológico",
+      "description": "Compra e manutenção de equipamentos tecnológicos, como projetores, sistemas de som e equipamentos audiovisuais",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Missões e Evangelismo",
+      "description": "Despesas relacionadas a atividades missionárias, viagens de evangelização e apoio a missionários",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Despesas de Viagem",
+      "description": "Custos de viagem para conferências, retiros e atividades pastorais",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Treinamento e Desenvolvimento",
+      "description": "Despesas para a formação e capacitação de líderes e membros da igreja",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Benevolência",
+      "description": "Ajuda financeira fornecida a membros necessitados ou famílias em dificuldades",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Despesas Legais e Contábeis",
+      "description": "Honorários de advogados e serviços de contabilidade relacionados a questões legais e fiscais",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Dívidas e Empréstimos",
+      "description": "Pagamentos de empréstimos ou dívidas pendentes, como hipotecas ou outros compromissos financeiros",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Despesas de Culto",
+      "description": "Custos associados à organização de cultos, música, adoração e recursos litúrgicos",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Despesas de Decoração",
+      "description": "Custos associados à decoração de eventos, celebrações e cultos especiais da igreja",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Assistência a Necessitados",
+      "description": "Recursos destinados a ajudar membros em situações financeiras difíceis, como emergências ou crises",
+      "type": "E",
+      "activated": true
+    }
+  },
+  {
+    "model": "financial.financialconcepts",
+    "fields": {
+      "name": "Despesas de Alimentação",
+      "description": "Gastos relacionados a refeições, lanches e eventos de alimentação da igreja e seus membros",
+      "type": "E",
+      "activated": true
+    }
+  }
+]
