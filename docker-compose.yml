@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  #  db:
+  #    restart: always
+  #    image: postgres
+  #    environment:
+  #      POSTGRES_USER: postgres
+  #      POSTGRES_PASSWORD: postgres
+  #      POSTGRES_DB: db_beru
+  #    volumes:
+  #      - postgres_data:/var/lib/postgresql/data/
+  #    ports:
+  #      - 5432:5432
+
+  api_financial:
+    restart: always
+    build: .
+    env_file: .env
+    container_name: api_financial
+    image: api_financial
+    environment:
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_PASSWORD: 12345678
+      DJANGO_SUPERUSER_EMAIL: admin@local.com
+    command: gunicorn --bind 0.0.0.0:8080 --workers 1 --threads 8 --timeout 0 api_financial.wsgi:application --reload
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8080"
+#    depends_on:
+#      - db
+
+
+volumes:
+  #  postgres_data:
+  static_volume:
+  media_volume:
