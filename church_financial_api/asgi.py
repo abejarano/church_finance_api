@@ -1,5 +1,5 @@
 """
-ASGI config for api_financial project.
+ASGI config for church_financial_api project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api_financial.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'church_financial_api.settings')
 
 application = get_asgi_application()

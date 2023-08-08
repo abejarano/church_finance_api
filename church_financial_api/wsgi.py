@@ -1,5 +1,5 @@
 """
-WSGI config for api_financial project.
+WSGI config for church_financial_api project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api_financial.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'church_financial_api.settings')
 
 application = get_wsgi_application()
