@@ -20,6 +20,14 @@ class District(SoftDeleteModel):
         return self.name
 
 
+class Region(SoftDeleteModel):
+    name = models.CharField(max_length=200, null=False, blank=False)
+    district = models.ForeignKey(District, related_name='region_district', on_delete=models.RESTRICT)
+
+    def __str__(self):
+        return self.name
+
+
 class DistrictLeadership(SoftDeleteModel):
     LEADERSHIP = (
         (OrganizationalStructure.PRESIDENT, _('Presidente')),
@@ -29,14 +37,6 @@ class DistrictLeadership(SoftDeleteModel):
     district = models.ForeignKey(District, related_name='district_districtLeadership', on_delete=models.CASCADE)
     dni = models.CharField(max_length=30, primary_key=True)
     name = models.TextField(max_length=100, null=False, blank=False)
-
-
-class Region(SoftDeleteModel):
-    name = models.CharField(max_length=200, null=False, blank=False)
-    district = models.ForeignKey(District, related_name='region_district', on_delete=models.RESTRICT)
-
-    def __str__(self):
-        return self.name
 
 
 class Minister(SoftDeleteModel):
@@ -53,8 +53,8 @@ class Minister(SoftDeleteModel):
     dni = models.CharField(max_length=30, primary_key=True)
     name = models.TextField(max_length=100, null=False, blank=False)
     minister_type = models.CharField(max_length=10, choices=MINISTER_TYPE, db_index=True)
-    district = models.ForeignKey(District, related_name='church_district', on_delete=models.RESTRICT)
-    region = models.ForeignKey(Region, related_name='church_region', on_delete=models.RESTRICT)
+    district = models.ForeignKey(District, related_name='minister_district', on_delete=models.RESTRICT)
+    region = models.ForeignKey(Region, related_name='minister_region', on_delete=models.RESTRICT)
 
     def __str__(self):
         return self.name
@@ -71,9 +71,12 @@ class Church(SoftDeleteModel):
     country = models.ForeignKey(Country, related_name='church_country', on_delete=models.PROTECT,
                                 verbose_name=_('Pais'))
     state = models.ForeignKey(State, related_name='church_state', on_delete=models.PROTECT, verbose_name=_('Estado'))
-    minister = models.ForeignKey(Minister, related_name='church_minister', on_delete=models.PROTECT, verbose_name=_('Ministro'))
-    district = models.ForeignKey(District, related_name='church_district', on_delete=models.RESTRICT, verbose_name=_('Regiāo'))
-    region = models.ForeignKey(Region, related_name='church_region', on_delete=models.RESTRICT, verbose_name=_('Regiāo'))
+    minister = models.ForeignKey(Minister, related_name='church_minister', on_delete=models.PROTECT,
+                                 verbose_name=_('Ministro'))
+    district = models.ForeignKey(District, related_name='church_district', on_delete=models.RESTRICT,
+                                 verbose_name=_('Regiāo'))
+    region = models.ForeignKey(Region, related_name='church_region', on_delete=models.RESTRICT,
+                               verbose_name=_('Regiāo'))
 
     def __str__(self):
         return self.name
