@@ -1,3 +1,6 @@
+import time
+from datetime import date
+
 from django.db import models
 from django.db.models import ForeignKey
 from django_softdelete.models import SoftDeleteModel
@@ -41,7 +44,7 @@ class DistrictLeadership(SoftDeleteModel):
 
 class Minister(SoftDeleteModel):
     REVERED = 'REVERED'
-    DEACONS = 'REACONS'
+    DEACONS = 'DEACONS'
     WORKERS = 'WORKERS'
 
     MINISTER_TYPE = (
@@ -55,6 +58,7 @@ class Minister(SoftDeleteModel):
     minister_type = models.CharField(max_length=10, choices=MINISTER_TYPE, db_index=True)
     district = models.ForeignKey(District, related_name='minister_district', on_delete=models.RESTRICT)
     region = models.ForeignKey(Region, related_name='minister_region', on_delete=models.RESTRICT)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -77,6 +81,7 @@ class Church(SoftDeleteModel):
                                  verbose_name=_('Regiāo'))
     region = models.ForeignKey(Region, related_name='church_region', on_delete=models.RESTRICT,
                                verbose_name=_('Regiāo'))
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -96,9 +101,15 @@ class Member(SoftDeleteModel):
     conversion_date = models.DateField(null=False, blank=False)
     baptism_date = models.DateField(null=True, blank=True)
     church = models.ForeignKey(Church, related_name='member_church', on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+    def age(self) -> int:
+        today = date.today()
+        age = today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
+        return age
 
 
 class Treasurer(SoftDeleteModel):
