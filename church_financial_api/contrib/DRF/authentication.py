@@ -38,16 +38,16 @@ class TokenAuthentication(DjTokenAuthentication):
             return None
 
         if len(auth) == 1:
-            msg = _('Invalid token header. No credentials provided.')
+            msg = _('Cabeçalho de token inválido. Nenhuma credencial fornecida.')
             raise AuthenticationFailed(msg)
         elif len(auth) > 2:
-            msg = _('Invalid token header. Token string should not contain spaces.')
+            msg = _('Cabeçalho de token inválido. A string de token não deve conter espaços.')
             raise AuthenticationFailed(msg)
 
         try:
             token = auth[1].decode()
         except UnicodeError:
-            msg = _('Invalid token header. Token string should not contain invalid characters.')
+            msg = _('Cabeçalho de token inválido. A string de token não deve conter caracteres inválidos.')
             raise AuthenticationFailed(msg)
 
         return self.authenticate_credentials(token)
@@ -57,10 +57,10 @@ class TokenAuthentication(DjTokenAuthentication):
         try:
             token = model.objects.select_related('user').get(key=key)
         except model.DoesNotExist:
-            raise AuthenticationFailed(_('Invalid token.'))
+            raise AuthenticationFailed(_('Token inválido.'))
 
         if not token.user.is_active:
-            raise AuthenticationFailed(_('User inactive or deleted.'))
+            raise AuthenticationFailed(_('Usuário inativo ou excluído.'))
 
         return (token.user, token)
 
