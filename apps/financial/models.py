@@ -1,25 +1,29 @@
 from django.db import models
 from django_softdelete.models import SoftDeleteModel
-
+from django.utils.translation import gettext_lazy as _
 from apps.church.models import Church
 
 # Create your models here.
 
+IN_CASH = 'C'
+BANK = 'B'
 DESTINATION_MOVEMENT = (
-    ('C', 'PETTY_CASH'),
-    ('E', 'BANK'),
+    (IN_CASH, _('Em espécie')),
+    (BANK, 'Em Banco'),
 )
 
 
 class FinancialConcepts(SoftDeleteModel):
+    INCOME = 'I'
+    DISCHARGE = 'E'
     CONCEPTS_TYPES = (
-        ('I', 'INCOME'),
-        ('E', 'DISCHARGE'),
+        (INCOME, _('INGRESO')),
+        (DISCHARGE, _('SAIDA')),
     )
-    name = models.CharField(max_length=80)
-    description = models.CharField(max_length=200)
-    type = models.CharField(max_length=1, choices=CONCEPTS_TYPES)
-    activated = models.BooleanField(default=True)
+    name = models.CharField(max_length=80, verbose_name=_('Nome'))
+    description = models.CharField(max_length=200, verbose_name=_('Descriçāo'))
+    type = models.CharField(max_length=1, choices=CONCEPTS_TYPES, verbose_name=_('Tipo'))
+    activated = models.BooleanField(default=True, verbose_name=_('Ativo?'))
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
