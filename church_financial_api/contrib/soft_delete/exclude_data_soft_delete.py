@@ -9,6 +9,7 @@ from church_financial_api.contrib.soft_delete.utils.utils import get_deleted_obj
 
 
 class ExcludeDataSoftDelete(admin.ModelAdmin):
+    exclude = ['deleted_at', 'is_deleted']
 
     def get_deleted_objects(self, objs, request):
         """

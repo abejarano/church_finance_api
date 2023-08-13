@@ -1,191 +1,198 @@
 [
   {
+    "model": "config.country",
+    "fields": {
+      "country_code": "BRL",
+      "name": "Brasil"
+    }
+  },
+  {
     "model": "config.state",
     "fields": {
       "name": "ACRE",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "ALAGOAS",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "AMAPA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "AMAZONAS",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "BAHIA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "CEARA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "DISTRITO FEDERAL",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "ESPIRITO SANTO",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "GOIAS",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "MARANHAO",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "MATO GROSSO",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "MATO GROSSO DO SUL",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "MINAS GERAIS",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "PARA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "PARAIBA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "PARANA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "PERNAMBUCO",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "PIAUI",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "RIO DE JANEIRO",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "RIO GRANDE DO NORTE",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "RIO GRANDE DO SUL",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "RONDONIA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "RORAIMA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "SANTA CATARINA",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "SAO PAULO",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "SERGIPE",
-      "country": "BRA"
+      "country": "BRL"
     }
   },
   {
     "model": "config.state",
     "fields": {
       "name": "TOCANTINS",
-      "country": "BRA"
+      "country": "BRL"
     }
   }
 ]

@@ -8,7 +8,7 @@ until nc -z -v -w30 db 5432; do
 done
 
 # Ejecutar las migraciones
-python manage.py makemigrations
+python manage.py makemigrations config church financial
 python manage.py migrate
 
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ] ; then

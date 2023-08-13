@@ -13,11 +13,11 @@ DESTINATION_MOVEMENT = (
 )
 
 
-class FinancialConcepts(SoftDeleteModel):
+class Concept(SoftDeleteModel):
     INCOME = 'I'
     DISCHARGE = 'E'
     CONCEPTS_TYPES = (
-        (INCOME, _('INGRESO')),
+        (INCOME, _('ENTRADA')),
         (DISCHARGE, _('SAIDA')),
     )
     name = models.CharField(max_length=80, verbose_name=_('Nome'))
@@ -30,8 +30,13 @@ class FinancialConcepts(SoftDeleteModel):
         return self.description
 
 
+    class Meta:
+        verbose_name_plural = _('Conceitos')
+        verbose_name = _('Conceito')
+
+
 class Income(SoftDeleteModel):
-    concept = models.ForeignKey(FinancialConcepts, related_name='income_concept', on_delete=models.PROTECT)
+    concept = models.ForeignKey(Concept, related_name='income_concept', on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
     church = models.ForeignKey(Church, related_name='income_church', on_delete=models.CASCADE)
@@ -43,6 +48,7 @@ class Income(SoftDeleteModel):
 
 
 class Expense(models.Model):
+    concept = models.ForeignKey(Concept, related_name='expense_concept', on_delete=models.PROTECT)
     description = models.TextField()
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
