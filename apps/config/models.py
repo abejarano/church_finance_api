@@ -1,3 +1,5 @@
+import secrets
+
 from django.contrib.auth.models import User
 from django.db import models
 import binascii
@@ -35,7 +37,7 @@ class State(SoftDeleteModel):
 
 
 class Token(models.Model):
-    key = models.CharField(verbose_name='Key', max_length=40, primary_key=True)
+    key = models.CharField(verbose_name='Key', max_length=100, primary_key=True)
     user = models.OneToOneField(
         User, related_name='token_user',
         on_delete=models.CASCADE
@@ -52,7 +54,7 @@ class Token(models.Model):
         return super().save(*args, **kwargs)
 
     def generate_key(self):
-        return binascii.hexlify(os.urandom(20)).decode()
+        return secrets.token_hex(32)
 
     def __str__(self):
         return self.key
