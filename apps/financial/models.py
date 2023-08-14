@@ -27,31 +27,38 @@ class Concept(SoftDeleteModel):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.description
-
+        return self.name
 
     class Meta:
         verbose_name_plural = _('Conceitos')
         verbose_name = _('Conceito')
+        ordering = ['name']
 
 
 class Income(SoftDeleteModel):
-    concept = models.ForeignKey(Concept, related_name='income_concept', on_delete=models.PROTECT)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField()
-    church = models.ForeignKey(Church, related_name='income_church', on_delete=models.CASCADE)
-    destination_movement = models.CharField(max_length=1, choices=DESTINATION_MOVEMENT)
-    created_at = models.DateTimeField(auto_now_add=True)
+    concept = models.ForeignKey(Concept, related_name='income_concept', on_delete=models.PROTECT,
+                                verbose_name=_('Conceito'))
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, verbose_name=_('Quantia'))
+    church = models.ForeignKey(Church, related_name='income_church', on_delete=models.CASCADE, verbose_name=_('Igreja'))
+    destination_movement = models.CharField(max_length=1, choices=DESTINATION_MOVEMENT, null=False, blank=False,
+                                            verbose_name=_('Entrada feita em?'))
+    observation = models.CharField(max_length=100, null=True, blank=True, verbose_name=_('Observação'))
+    income_data = models.DateField(null=False, blank=False, verbose_name=_('Data da entrada'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Data da entrada'))
 
     def __str__(self):
-        return f"{self.get_type_display()} - {self.amount}"
+        return str(self.amount)
+
+    class Meta:
+        verbose_name_plural = _('Entradas')
+        verbose_name = _('Entrada')
 
 
 class Expense(models.Model):
     concept = models.ForeignKey(Concept, related_name='expense_concept', on_delete=models.PROTECT)
     description = models.TextField()
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField()
+    expense_data = models.DateField(null=False, blank=False, verbose_name=_('Data da saida'))
     church = models.ForeignKey(Church, related_name='expense_church', on_delete=models.CASCADE)
     destination_movement = models.CharField(max_length=1, choices=DESTINATION_MOVEMENT)
     created_at = models.DateTimeField(auto_now_add=True)

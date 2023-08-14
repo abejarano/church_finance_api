@@ -30,6 +30,12 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+APP_CHURCH = [
+    'apps.config',
+    'apps.financial',
+    'apps.church',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,13 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'drf_yasg',
     'rest_framework',
-    'apps.config',
-    'apps.financial',
-    'apps.church',
+    'django_admin_filters',
+    'admin_auto_filters',
 ]
 
+INSTALLED_APPS = INSTALLED_APPS + APP_CHURCH
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -143,6 +150,10 @@ CORS_ALLOW_METHODS = (
     "PUT",
 )
 
+DATE_FORMAT = 'd/m/Y'
+SHORT_DATE_FORMAT = 'd/m/Y'
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -155,20 +166,6 @@ DATABASES = {
 }
 
 if os.environ['ENV'] == 'prod':
-
-    REST_FRAMEWORK = {
-        'DATETIME_FORMAT': '%b %d, %Y %H:%M:%S',
-        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-        'MAX_PAGINATE_BY': 100,
-        'PAGE_SIZE': 12,
-        'DEFAULT_AUTHENTICATION_CLASSES': [
-            'church_financial_api.contrib.DRF.authentication.TokenAuthentication',
-        ],
-        'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-    }
-
-else:
-
     REST_FRAMEWORK = {
         'DATETIME_FORMAT': '%b %d, %Y %H:%M:%S',
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -183,4 +180,17 @@ else:
         'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
     }
 
-print(os.environ['SQL_DATABASE'])
+
+else:
+    REST_FRAMEWORK = {
+        'DATETIME_FORMAT': '%b %d, %Y %H:%M:%S',
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+        'MAX_PAGINATE_BY': 100,
+        'PAGE_SIZE': 12,
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'church_financial_api.contrib.DRF.authentication.TokenAuthentication',
+        ],
+        'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    }
+
+print(os.environ['ENV'])

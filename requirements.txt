@@ -6,3 +6,6 @@ psycopg2-binary
 django-soft-delete
 gunicorn
 drf-yasg
+django-filter
+django-admin-autocomplete-filter
+

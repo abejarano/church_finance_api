@@ -6,14 +6,18 @@ class LanguageMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        if request.META.get('CONTENT_TYPE') != 'application/json':
+            return self.get_response(request)
+
         language = request.META.get('HTTP_ACCEPT_LANGUAGE')
+
         if language:
             language = language.split(',')[0][:2]
-            if language in ['es', 'pt']:
+            if language in ['es', 'en']:
                 activate(language)
             else:
-                activate('en')
+                activate('pt-br')
         else:
-            activate('en')
+            activate('pt-br')
 
         return self.get_response(request)

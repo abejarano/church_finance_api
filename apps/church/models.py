@@ -16,19 +16,30 @@ class OrganizationalStructure:
 
 
 class District(SoftDeleteModel):
-    name = models.CharField(max_length=200, null=False, blank=False)
-    registry_number = models.TextField(max_length=80, null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False, verbose_name=_('Nome'))
+    registry_number = models.TextField(max_length=80, null=False, blank=False, verbose_name=_('CNPJ'))
+    country = models.ForeignKey(Country, related_name='district_country', on_delete=models.PROTECT)
+    state = models.ForeignKey(State, related_name='district_state', on_delete=models.PROTECT)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = _('Distritos')
+        verbose_name = _('Distrito')
 
 
 class Region(SoftDeleteModel):
-    name = models.CharField(max_length=200, null=False, blank=False)
-    district = models.ForeignKey(District, related_name='region_district', on_delete=models.RESTRICT)
+    name = models.CharField(max_length=200, null=False, blank=False, verbose_name=_('Nome'))
+    district = models.ForeignKey(District, related_name='region_district', on_delete=models.RESTRICT,
+                                 verbose_name=_('Distrito'))
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = _('Regiões')
+        verbose_name = _('Região')
 
 
 class DistrictLeadership(SoftDeleteModel):
@@ -40,6 +51,13 @@ class DistrictLeadership(SoftDeleteModel):
     district = models.ForeignKey(District, related_name='district_districtLeadership', on_delete=models.CASCADE)
     dni = models.CharField(max_length=30, primary_key=True)
     name = models.TextField(max_length=100, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = _('Lideres de distritos')
+        verbose_name = _('Lider del distrito')
 
 
 class Minister(SoftDeleteModel):
@@ -62,6 +80,10 @@ class Minister(SoftDeleteModel):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = _('Ministros')
+        verbose_name = _('Ministro')
 
 
 class Church(SoftDeleteModel):
@@ -91,6 +113,10 @@ class Church(SoftDeleteModel):
 
         return super(Church, self).save(*args, **kwargs)
 
+    class Meta:
+        verbose_name_plural = _('Igrejas')
+        verbose_name = _('Igreja')
+
 
 class Member(SoftDeleteModel):
     dni = models.CharField(max_length=30, primary_key=True)
@@ -110,6 +136,10 @@ class Member(SoftDeleteModel):
         today = date.today()
         age = today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
         return age
+
+    class Meta:
+        verbose_name_plural = _('Membros')
+        verbose_name = _('Membro')
 
 
 class Treasurer(SoftDeleteModel):

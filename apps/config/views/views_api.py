@@ -16,10 +16,11 @@ from apps.config.serializers import AuthAppSerializer
 
 class AuthApp(APIView):
     permission_classes = (AllowAny,)
+    serializers = AuthAppSerializer
 
     def post(self, request, *args, **kwargs):
         try:
-            serializer = AuthAppSerializer(data=request.data)
+            serializer = self.serializers(data=request.data)
             serializer.is_valid(raise_exception=True)
             data = serializer.data
 

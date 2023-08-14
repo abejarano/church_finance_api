@@ -23,3 +23,11 @@ docker exec -it church_financial_api python manage.py makemigrations config chur
 ```
 docker exec -it church_financial_api python manage.py migrate
 ```
+
+3. Carga de datos basicos
+
+```
+docker exec -it church_financial_api python manage.py loaddata fixtures/config.json
+docker exec -it church_financial_api python manage.py loaddata fixtures/church.json
+docker exec -it church_financial_api python manage.py loaddata fixtures/financial_config.json
+```

@@ -222,8 +222,8 @@
   {
     "model": "financial.concept",
     "fields": {
-      "name": "Oferta pro Terreno",
-      "description": "Oferta destinadas para adquirir terreno pra igreja.",
+      "name": "Oferta mensal pro Terreno",
+      "description": "Oferta messal destinadas para adquirir terreno pra igreja.",
       "type": "I",
       "activated": true,
       "created_at": "2023-08-13 14:29"
@@ -232,18 +232,8 @@
   {
     "model": "financial.concept",
     "fields": {
-      "name": "Vendas de produtos, comida ou mercadorias",
+      "name": "Vendas de comida ou mercadorias",
       "description": "Ingresos obtidos por vendas.",
-      "type": "I",
-      "activated": true,
-      "created_at": "2023-08-13 14:29"
-    }
-  },
-  {
-    "model": "financial.concept",
-    "fields": {
-      "name": "Cuotas de Miembros",
-      "description": "Pagos regulares realizados por los miembros de la iglesia como parte de su compromiso financiero.",
       "type": "I",
       "activated": true,
       "created_at": "2023-08-13 14:29"
@@ -262,8 +252,8 @@
   {
     "model": "financial.concept",
     "fields": {
-      "name": "Receitas de Grupos de Jovens",
-      "description": "Receitas geradas pelas atividades e eventos realizados pelo grupo de jovens da igreja.",
+      "name": "Projeto de Grupos de Jovens",
+      "description": "Ingreso geradas pelas atividades realizados pelo grupo de jovens da igreja em pro de um projeto especifico.",
       "type": "I",
       "activated": true,
       "created_at": "2023-08-13 14:29"
@@ -272,8 +262,8 @@
   {
     "model": "financial.concept",
     "fields": {
-      "name": "Receitas de Grupos de Crianças",
-      "description": "Receitas provenientes de atividades e reuniões organizadas pelos grupos de crianças da igreja.",
+      "name": "Projeto de Grupos de Crianças",
+      "description": "Ingreso provenientes de atividades e reuniões organizadas pelos grupos de crianças da igreja em pro de um projeto especifico.",
       "type": "I",
       "activated": true,
       "created_at": "2023-08-13 14:29"
@@ -282,8 +272,8 @@
   {
     "model": "financial.concept",
     "fields": {
-      "name": "Receitas de Grupos de Mulheres",
-      "description": "Receitas provenientes de atividades e reuniões organizadas pelos grupos de mulheres da igreja.",
+      "name": "Projeto de Grupos de Mulheres",
+      "description": "Ingreso provenientes de atividades organizadas pelos grupos de mulheres da igreja em pro de um projeto especifico.",
       "type": "I",
       "activated": true,
       "created_at": "2023-08-13 14:29"
@@ -292,8 +282,8 @@
   {
     "model": "financial.concept",
     "fields": {
-      "name": "Receitas de Grupos de Homens",
-      "description": "Receitas provenientes de atividades e reuniões organizadas pelos grupos de homens da igreja.",
+      "name": "Projeto de Grupos de Homens",
+      "description": "Projeto provenientes de atividades organizadas pelos grupos de homens da igreja em pro de um projeto especifico.",
       "type": "I",
       "activated": true,
       "created_at": "2023-08-13 14:29"
