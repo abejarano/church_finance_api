@@ -26,4 +26,4 @@ class AdminFinancialConcepts(ExcludeDataSoftDelete):
 class AdminIncome(ExcludeDataSoftDelete):
     form = IncomeForm
     list_display = ['amount', 'destination_movement', 'concept', 'income_data']
-    list_filter = ['church', ConceptFilter, 'destination_movement']
+    list_filter = ['church', 'cost_center', ConceptFilter, 'destination_movement']

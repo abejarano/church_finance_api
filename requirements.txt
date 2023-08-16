@@ -8,4 +8,5 @@ gunicorn
 drf-yasg
 django-filter
 django-admin-autocomplete-filter
+django-background-tasks
 
