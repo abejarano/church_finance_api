@@ -25,6 +25,7 @@ class Bank(SoftDeleteModel):
     address_instant_payments = models.CharField(max_length=100, null=False, blank=False, verbose_name=_('Chave PIX'))
     bank_instructions = models.TextField(null=False, blank=False, verbose_name=_('Instruções para depósitos'))
     account_type = models.CharField(max_length=2, choices=ACCOUNT_TYPE)
+    church = models.ForeignKey(Church, related_name='bank_church', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -49,7 +50,8 @@ class MovementBank(SoftDeleteModel):
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, verbose_name=_('Quantia'))
     movement_type = models.CharField(max_length=10, choices=MOVEMENT_TYPE, null=False, blank=False,
                                      verbose_name=_('Tipo de movimento'))
-    description = models.CharField(max_length=80, null=False, blank=False, verbose_name=_('Descrição'))
+    description = models.CharField(max_length=180, null=False, blank=False, verbose_name=_('Descrição'))
+    church = models.ForeignKey(Church, related_name='movement_bank_church', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -57,6 +59,7 @@ class CostCenter(SoftDeleteModel):
     name = models.CharField(max_length=100, null=False, blank=False, verbose_name=_('Nome'))
     bank = models.ForeignKey(Bank, related_name='cost_center_bank', on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
+    church = models.ForeignKey(Church, related_name='cost_center_church', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -130,3 +133,20 @@ class Expense(SoftDeleteModel):
 
     def __str__(self):
         return self.description
+
+
+class DiaryBook(SoftDeleteModel):
+    is_credit = models.BooleanField(null=False, blank=False, verbose_name=_('Foi um credito?'))
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    destination_movement = models.CharField(max_length=1, null=False, blank=True, choices=DESTINATION_MOVEMENT)
+    cost_center = models.ForeignKey(CostCenter, related_name='diary_book_cost_center', on_delete=models.PROTECT,
+                                    verbose_name=_('centro de custo'))
+    church = models.ForeignKey(Church, related_name='diary_book_church', on_delete=models.CASCADE)
+    bank = models.ForeignKey(Bank, related_name='diary_book_bank', null=True, blank=True, on_delete=models.PROTECT, verbose_name=_('Banco'))
+    concept = models.ForeignKey(Concept, related_name='diary_book_concept', on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = _('Livro diario')
+        verbose_name = _('Livro diario')
+        ordering = ['created_at']
