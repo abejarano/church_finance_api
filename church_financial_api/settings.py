@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'rest_framework',
-    'django_admin_filters',
     'admin_auto_filters',
+
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + APP_CHURCH
@@ -153,19 +153,18 @@ CORS_ALLOW_METHODS = (
 DATE_FORMAT = 'd/m/Y'
 SHORT_DATE_FORMAT = 'd/m/Y'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['SQL_DATABASE'],
-        'USER': os.environ['SQL_USER'],
-        'PASSWORD': os.environ['SQL_PASSWORD'],
-        'HOST': os.environ['SQL_HOST'],
-        'PORT': os.environ['SQL_PORT']
+        'NAME': os.environ.get('SQL_DATABASE'),
+        'USER': os.environ.get('SQL_USER'),
+        'PASSWORD': os.environ.get('SQL_PASSWORD'),
+        'HOST': os.environ.get('SQL_HOST'),
+        'PORT': os.environ.get('SQL_PORT')
     }
 }
 
-if os.environ['ENV'] == 'prod':
+if os.environ.get('ENV') == 'prod':
     REST_FRAMEWORK = {
         'DATETIME_FORMAT': '%b %d, %Y %H:%M:%S',
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -193,4 +192,10 @@ else:
         'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
     }
 
-print(os.environ['ENV'])
+print(os.environ.get('ENV'))
+
+CELERY_TIMEZONE = "America/Sao_Paulo"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = 'redis://' + os.environ.get('REDIS_URL')
+CELERY_RESULT_BACKEND = 'redis://' + os.environ.get('REDIS_URL')

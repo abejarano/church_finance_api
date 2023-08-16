@@ -13,6 +13,12 @@ services:
     ports:
       - 5432:5432
 
+  db_redis:
+    restart: always
+    image: redis
+    ports:
+      - 6379:6379
+
   church_financial_api:
     restart: always
     build: .
@@ -30,7 +36,9 @@ services:
       SQL_HOST: db
       SQL_PORT: 5432
 
-    entrypoint: ["./entrypoint-dev.sh"]
+      REDIS_URL: db_redis:6379
+
+    entrypoint: [ "./entrypoint-dev.sh" ]
     command: [ "python", "manage.py", "runserver", "0.0.0.0:8080" ]
     volumes:
       - ./:/app
@@ -39,6 +47,29 @@ services:
     depends_on:
       - db
 
+  celery_worker:
+    build: .
+    command: celery -A church_financial_api worker --loglevel=info
+    image: church_financial_worker
+    container_name: church_financial_worker
+    environment:
+      ENV: dev
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_PASSWORD: 12345678
+      DJANGO_SUPERUSER_EMAIL: admin@local.com
+
+      SQL_DATABASE: church_financial
+      SQL_USER: postgres
+      SQL_PASSWORD: postgres
+      SQL_HOST: db
+      SQL_PORT: 5432
+
+      REDIS_URL: db_redis:6379
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+      - db_redis
 
 volumes:
   postgres_data:
