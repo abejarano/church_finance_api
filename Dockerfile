@@ -1,4 +1,4 @@
-FROM python:3.10.0-buster
+FROM python:3.11-buster
 
 ENV HOME=/app
 WORKDIR $HOME

@@ -93,6 +93,7 @@ class Church(SoftDeleteModel):
     address = models.TextField(null=False, blank=False, verbose_name=_('Complemento'))
     street = models.TextField(max_length=60, null=False, blank=False, verbose_name=_('Rua'))
     postal_code = models.CharField(max_length=20, null=False, blank=False, verbose_name=_('CEP'))
+    opening_date = models.DateField(verbose_name=_('Data de abertura'))
     city = models.CharField(max_length=40, null=False, blank=False, verbose_name=_('Cidade'))
     country = models.ForeignKey(Country, related_name='church_country', on_delete=models.PROTECT,
                                 verbose_name=_('Pais'))

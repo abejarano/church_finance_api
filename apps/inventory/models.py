@@ -33,8 +33,13 @@ class Product(SoftDeleteModel):
                             verbose_name=_('Tipo de produto'))
     measurements_units = models.CharField(max_length=20, null=False, blank=False, choices=MEASUREMENT_UNITS,
                                           verbose_name=_('Unidade de medida'))
-    lang = models.CharField(max_length=3)  # lenguaje
+    lang = models.CharField(max_length=5)  # lenguaje
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        verbose_name = _('Produto')
+        verbose_name_plural = _('Produtos')
 
 
 class Meta:
