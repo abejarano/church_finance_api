@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.financial.DTO.diary_book_record_dto import DiayBookRecordDTO
 from apps.financial.DTO.movement_bank_dto import MovementBankDTO
-from apps.financial.models import Income, MovementBank, BANK
+from apps.financial.models import Income, MovementBank, BANK, Expense
 from apps.financial.tasks import create_bank_movement, create_movement_diary_book
 
 
@@ -22,12 +22,33 @@ def register_income_into_bank(sender, instance: Income, **kwargs):
                 church=instance.church
             ))
 
-        create_movement_diary_book(DiayBookRecordDTO(
-            is_credit=True,
-            amount=instance.amount,
-            destination_movement=instance.destination_movement,
-            cost_center=instance.cost_center,
-            church=instance.church,
-            bank=bank,
-            concept=instance.concept,
-        ))
+        _movement_diary_book(instance, True, bank)
+
+
+@receiver(post_save, sender=Expense)
+def register_expense_into_bank(sender, instance: Expense, **kwargs):
+    if kwargs.get('created'):
+        bank = None
+        if instance.destination_movement == BANK:
+            bank = instance.cost_center.bank
+            create_bank_movement(MovementBankDTO(
+                bank=bank,
+                amount=instance.amount,
+                movement_type=MovementBank.CREDIT,
+                description=_('Saida por:') + ' ' + instance.concept.description,
+                church=instance.church
+            ))
+
+        _movement_diary_book(instance, False, bank)
+
+
+def _movement_diary_book(instance, credit, bank):
+    create_movement_diary_book(DiayBookRecordDTO(
+        is_credit=credit,
+        amount=instance.amount,
+        destination_movement=instance.destination_movement,
+        cost_center=instance.cost_center,
+        church=instance.church,
+        bank=bank,
+        concept=instance.concept,
+    ))

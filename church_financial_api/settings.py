@@ -34,6 +34,7 @@ APP_CHURCH = [
     'apps.config',
     'apps.financial',
     'apps.church',
+    'apps.inventory',
 ]
 
 INSTALLED_APPS = [
