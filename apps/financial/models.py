@@ -81,7 +81,7 @@ class Concept(SoftDeleteModel):
     name = models.CharField(max_length=80, verbose_name=_('Nome'))
     description = models.CharField(max_length=200, verbose_name=_('Descriçāo'))
     type = models.CharField(max_length=1, choices=CONCEPTS_TYPES, verbose_name=_('Tipo'))
-    activated = models.BooleanField(default=True, verbose_name=_('Ativo?'))
+    activate = models.BooleanField(default=True, verbose_name=_('Ativo?'))
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

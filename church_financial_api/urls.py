@@ -39,6 +39,7 @@ router = routers.SimpleRouter()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/config/', include('apps.config.urls')),
+    path('api/v1/financial/', include('apps.financial.urls')),
     path('doc/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

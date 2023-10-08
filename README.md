@@ -16,7 +16,7 @@ password: 12345678
 ## Ejecutar migraciones manualmente
 1. Crear las migraciones
 ```
-docker exec -it church_financial_api python manage.py makemigrations config church financial
+docker exec -it church_financial_api python manage.py makemigrations config church financial inventory
 ```
 2. Ejecutar las migraciones
 
@@ -30,4 +30,4 @@ docker exec -it church_financial_api python manage.py migrate
 docker exec -it church_financial_api python manage.py loaddata fixtures/config.json
 docker exec -it church_financial_api python manage.py loaddata fixtures/church.json
 docker exec -it church_financial_api python manage.py loaddata fixtures/financial_config.json
-docker exec -it church_financial_api python manage.py loaddata fixtures/invetory_config.json
+docker exec -it church_financial_api python manage.py loaddata fixtures/inventory_config.json

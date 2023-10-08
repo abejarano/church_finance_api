@@ -27,7 +27,7 @@
       "name": "Gastos de Pessoal",
       "description": "Salários e honorários para pastores, ministros, pessoal administrativo e outros funcionários da igreja",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -37,7 +37,7 @@
       "name": "Aluguel ou Arrendamento",
       "description": "Despesas relacionadas ao aluguel ou arrendamento de instalações para reuniões e atividades da igreja / alugel do salāo",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -47,7 +47,7 @@
       "name": "Suprimentos de Escritório",
       "description": "Compra de papel, tinta, equipamentos de escritório e outros suprimentos necessários para a administração da igreja",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -57,7 +57,7 @@
       "name": "Serviços Públicos",
       "description": "Pagamentos de eletricidade, água, gás e outros serviços públicos para manter as instalações da igreja",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -67,7 +67,7 @@
       "name": "Manutenção e Reparos",
       "description": "Despesas com a manutenção e reparo de edifícios, equipamentos e terrenos da igreja",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -77,7 +77,7 @@
       "name": "Despesas de Eventos / Conferências e Convenções",
       "description": "Custos associados a eventos especiais, conferências, retiros e atividades para a congregação",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -87,7 +87,7 @@
       "name": "Programas de Assistência",
       "description": "Despesas destinadas a programas de assistência e caridade, como doações a instituições de caridade e projetos comunitários",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -97,7 +97,7 @@
       "name": "Educação Religiosa",
       "description": "Despesas com programas educacionais, estudos bíblicos, aulas e materiais de ensino",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -107,7 +107,7 @@
       "name": "Publicidade e Promoção",
       "description": "Despesas relacionadas à publicidade, promoção de eventos e atividades da igreja",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -117,7 +117,7 @@
       "name": "Equipamento Tecnológico",
       "description": "Compra e manutenção de equipamentos tecnológicos, como projetores, sistemas de som e equipamentos audiovisuais",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -127,7 +127,7 @@
       "name": "Missões e Evangelismo",
       "description": "Despesas relacionadas a atividades missionárias, viagens de evangelização e apoio a missionários",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -137,7 +137,7 @@
       "name": "Despesas de Viagem",
       "description": "Custos de viagem para conferências, retiros e atividades pastorais",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -147,7 +147,7 @@
       "name": "Treinamento e Desenvolvimento",
       "description": "Despesas para a formação e capacitação de líderes e membros da igreja",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -157,7 +157,7 @@
       "name": "Benevolência",
       "description": "Ajuda financeira fornecida a membros necessitados ou famílias em dificuldades",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -167,7 +167,7 @@
       "name": "Despesas Legais e Contábeis",
       "description": "Honorários de advogados e serviços de contabilidade relacionados a questões legais e fiscais",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -177,7 +177,7 @@
       "name": "Dívidas e Empréstimos",
       "description": "Pagamentos de empréstimos ou dívidas pendentes, como hipotecas ou outros compromissos financeiros",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -187,7 +187,7 @@
       "name": "Despesas de Culto",
       "description": "Custos associados à organização de cultos, música, adoração e recursos litúrgicos",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -197,7 +197,7 @@
       "name": "Despesas de Decoração",
       "description": "Custos associados à decoração de eventos, celebrações e cultos especiais da igreja",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -207,7 +207,7 @@
       "name": "Assistência a Necessitados",
       "description": "Recursos destinados a ajudar membros em situações financeiras difíceis, como emergências ou crises",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -217,7 +217,7 @@
       "name": "Despesas de Alimentação",
       "description": "Gastos relacionados a refeições, lanches e eventos de alimentação da igreja e seus membros",
       "type": "E",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -227,7 +227,7 @@
       "name": "Ofertas de Culto",
       "description": "Contribuições feitas pelos membros da igreja durante os cultos.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -237,7 +237,7 @@
       "name": "Dízimos de Membros",
       "description": "Dízimos regulares doados pelos membros da igreja para sustentar as atividades e ministérios.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -247,7 +247,7 @@
       "name": "Oferta mensal pro Terreno",
       "description": "Oferta messal destinadas para adquirir terreno pra igreja.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -257,7 +257,7 @@
       "name": "Vendas de comida ou mercadorias",
       "description": "Ingresos obtidos por vendas.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -267,7 +267,7 @@
       "name": "Ofertas para Missões",
       "description": "Contribuições destinadas a apoiar projetos missionários e atividades de alcance evangelístico da igreja.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -277,7 +277,7 @@
       "name": "Projeto de Grupos de Jovens",
       "description": "Ingreso geradas pelas atividades realizados pelo grupo de jovens da igreja em pro de um projeto especifico.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -287,7 +287,7 @@
       "name": "Projeto de Grupos de Crianças",
       "description": "Ingreso provenientes de atividades e reuniões organizadas pelos grupos de crianças da igreja em pro de um projeto especifico.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -297,7 +297,7 @@
       "name": "Projeto de Grupos de Mulheres",
       "description": "Ingreso provenientes de atividades organizadas pelos grupos de mulheres da igreja em pro de um projeto especifico.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   },
@@ -307,7 +307,7 @@
       "name": "Projeto de Grupos de Homens",
       "description": "Projeto provenientes de atividades organizadas pelos grupos de homens da igreja em pro de um projeto especifico.",
       "type": "I",
-      "activated": true,
+      "activate": true,
       "created_at": "2023-08-13 14:29"
     }
   }

@@ -1,6 +1,7 @@
-import time
-from datetime import date
+import secrets
 
+from datetime import date
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import ForeignKey
 from django_softdelete.models import SoftDeleteModel
@@ -152,3 +153,36 @@ class Treasurer(SoftDeleteModel):
 
     def data(self) -> ForeignKey:
         return self.member
+
+
+class UserChurch(models.Model):
+    church = models.ForeignKey(Church, null=True, blank=True, related_name='user_church', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_userchurch', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _('Usuário app')
+        verbose_name_plural = _('Usuários app')
+
+
+class Token(models.Model):
+    key = models.CharField(verbose_name='Key', max_length=100, primary_key=True)
+    user = models.OneToOneField(
+        UserChurch, related_name='token_user',
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        db_table = 'config_token'
+        verbose_name = 'Token'
+        verbose_name_plural = 'Tokens'
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = self.generate_key()
+        return super().save(*args, **kwargs)
+
+    def generate_key(self):
+        return secrets.token_hex(32)
+
+    def __str__(self):
+        return self.key

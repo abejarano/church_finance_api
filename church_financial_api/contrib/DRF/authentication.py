@@ -2,7 +2,7 @@ from rest_framework.authentication import TokenAuthentication as DjTokenAuthenti
 from rest_framework.exceptions import AuthenticationFailed
 from django.utils.translation import gettext_lazy as _
 
-from apps.config.models import Token
+from apps.church.models import Token
 
 
 class TokenAuthentication(DjTokenAuthentication):
@@ -15,7 +15,7 @@ class TokenAuthentication(DjTokenAuthentication):
             Authorization: Token 401f7ac837da42b97f613d789819ff93537bee6a
         """
 
-    keyword = 'Token'
+    keyword = 'Bearer'
     model = Token
 
     def get_model(self):

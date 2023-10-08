@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
-from apps.church.models import District, Region, Minister, Member, Church
+from apps.church.models import District, Region, Minister, Member, Church, UserChurch
 from church_financial_api.contrib.soft_delete.exclude_data_soft_delete import ExcludeDataSoftDelete
 
 
@@ -32,3 +33,7 @@ class AdminMember(ExcludeDataSoftDelete):
 class AdminChurch(ExcludeDataSoftDelete):
     list_display = ['name', 'minister']
     list_filter = ['district', 'region']
+
+
+admin.site.register(UserChurch)
+

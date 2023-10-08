@@ -165,33 +165,19 @@ DATABASES = {
     }
 }
 
-if os.environ.get('ENV') == 'prod':
-    REST_FRAMEWORK = {
-        'DATETIME_FORMAT': '%b %d, %Y %H:%M:%S',
-        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-        'MAX_PAGINATE_BY': 100,
-        'PAGE_SIZE': 12,
-        'DEFAULT_PERMISSION_CLASSES': (
-            'rest_framework.permissions.IsAuthenticated',
-        ),
-        'DEFAULT_AUTHENTICATION_CLASSES': [
-            'church_financial_api.contrib.DRF.authentication.TokenAuthentication',
-        ],
-        'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-    }
-
-
-else:
-    REST_FRAMEWORK = {
-        'DATETIME_FORMAT': '%b %d, %Y %H:%M:%S',
-        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-        'MAX_PAGINATE_BY': 100,
-        'PAGE_SIZE': 12,
-        'DEFAULT_AUTHENTICATION_CLASSES': [
-            'church_financial_api.contrib.DRF.authentication.TokenAuthentication',
-        ],
-        'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-    }
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%b %d, %Y %H:%M:%S',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'MAX_PAGINATE_BY': 100,
+    'PAGE_SIZE': 12,
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'church_financial_api.contrib.DRF.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
 
 print(os.environ.get('ENV'))
 

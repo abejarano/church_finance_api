@@ -1,21 +1,19 @@
-import json
-
 from django.contrib.auth.hashers import check_password
-from django.contrib.auth.models import User
+from apps.church.models import UserChurch
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import ValidationError
 from rest_framework import serializers, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from django.http import JsonResponse
 from rest_framework.views import APIView
 from django.utils.translation import gettext_lazy as _
-from apps.config.models import Token
+from apps.church.models import Token
 from apps.config.serializers import AuthAppSerializer
+from django.contrib.auth.models import User
 
 
 class AuthApp(APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = [AllowAny]
     serializers = AuthAppSerializer
 
     def post(self, request, *args, **kwargs):
@@ -25,13 +23,18 @@ class AuthApp(APIView):
             data = serializer.data
 
             user_instance = self.__validate_user(data)
+            user_church = UserChurch.objects.get(user=user_instance)
 
-            token, created = self.__get_token_auth(user_instance)
+            token, created = self.__get_token_auth(user_church)
 
             response = dict(
                 super_user=user_instance.is_superuser,
                 username=user_instance.username,
-                token=token.key
+                token=token.key,
+                church=dict(
+                    name=user_church.church.name,
+                    id=user_church.church.id
+                )
             )
 
             return Response(response)
@@ -42,7 +45,7 @@ class AuthApp(APIView):
             }
             return Response(error_response, status=status.HTTP_400_BAD_REQUEST)
 
-    def __get_token_auth(self, user: User) -> dict:
+    def __get_token_auth(self, user: UserChurch) -> dict:
         Token.objects.filter(user=user).delete()
         return Token.objects.get_or_create(user=user)
 
