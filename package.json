@@ -1,0 +1,40 @@
+{
+  "name": "church_financial_api",
+  "version": "0.0.1",
+  "description": "API Church Financial System",
+  "main": "dist/app.js",
+  "scripts": {
+    "dev": "nodemon src/app.ts",
+    "start:prod": "node dist/src/app.js",
+    "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --write \"src/**/*.ts\" ",
+    "format:check": "prettier --check \"src/**/*.ts\""
+  },
+  "author": "angel bejarano / angel.bejarano@jaspesoft.com",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jaspesoft/church_financial_api.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.3",
+    "@types/cors": "^2.8.14",
+    "@types/express": "^4.17.18",
+    "@types/express-fileupload": "^1.4.2",
+    "@types/uuid": "^9.0.5",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "ttypescript": "^1.5.15",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.1",
+    "express-rate-limit": "^7.1.1",
+    "mongodb": "^6.1.0",
+    "node-input-validator": "^4.5.1",
+    "uuid": "^9.0.1"
+  }
+}
