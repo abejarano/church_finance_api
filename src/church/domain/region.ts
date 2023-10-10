@@ -1,9 +1,7 @@
 import { District } from "./district";
-import { v4 } from "uuid";
-import { AggregateRoot } from "../../shared/domain/aggregate_root";
+import { IdentifyEntity } from "../../shared";
 
-export class Region extends AggregateRoot {
-  private id?: string;
+export class Region {
   private regionId: string;
   private name: string;
   private district: District;
@@ -12,13 +10,9 @@ export class Region extends AggregateRoot {
     const r: Region = new Region();
     r.name = name;
     r.district = district;
-    r.regionId = v4();
+    r.regionId = IdentifyEntity.get();
 
     return r;
-  }
-
-  getId(): string {
-    return this.id;
   }
 
   getRegionId(): string {
@@ -30,7 +24,6 @@ export class Region extends AggregateRoot {
 
   static fromPrimitives(plainData: any): Region {
     const r: Region = new Region();
-    r.id = plainData.id;
     r.name = plainData.name;
     r.regionId = plainData.regionId;
     r.district = District.fromPrimitives(plainData.district);

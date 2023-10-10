@@ -1,5 +1,5 @@
 import { Church } from "./church";
-import { v4 } from "uuid";
+import { IdentifyEntity } from "../../shared";
 
 export class Member {
   private memberId: string;
@@ -33,7 +33,7 @@ export class Member {
     m.baptismDate = baptismDate;
     m.church = church;
     m.birthdate = birthdate;
-    m.memberId = v4();
+    m.memberId = IdentifyEntity.get();
 
     return m;
   }

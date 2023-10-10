@@ -1,7 +1,6 @@
 import { MinisterType } from "./enums/minister_type.enum";
-import { Region } from "./Region";
-import { AggregateRoot } from "../../shared/domain/aggregate_root";
-import { v4 } from "uuid";
+import { Region } from "./region";
+import { AggregateRoot, IdentifyEntity } from "../../shared";
 
 export class Minister extends AggregateRoot {
   private id?: string;
@@ -30,7 +29,7 @@ export class Minister extends AggregateRoot {
     m.dni = dni;
     m.ministerType = ministerType;
     m.region = region;
-    m.ministerId = v4();
+    m.ministerId = IdentifyEntity.get();
 
     return m;
   }

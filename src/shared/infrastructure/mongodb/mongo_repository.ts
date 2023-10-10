@@ -64,6 +64,25 @@ export abstract class MongoRepository<T extends AggregateRoot> {
       .toArray();
   }
 
+  protected async searchByCriteriaWithProjection<D>(
+    criteria: Criteria,
+    fieldProjection: string,
+  ): Promise<D[]> {
+    this.criteria = criteria;
+    this.query = this.criteriaConverter.convert(criteria);
+
+    const projection: { [key: string]: any } = {};
+    projection[fieldProjection] = {
+      $slice: [this.query.skip, this.query.limit],
+    };
+
+    const collection = await this.collection();
+    return await collection
+      .find<D>(this.query.filter, { projection })
+      .sort(this.query.sort)
+      .toArray();
+  }
+
   transformationToUpsertInSubDocuments(
     subDocumentField: string,
     primitiveData: any,

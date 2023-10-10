@@ -1,5 +1,4 @@
-import { v4 } from "uuid";
-import { AggregateRoot } from "../../shared/domain/aggregate_root";
+import { AggregateRoot, IdentifyEntity } from "../../shared";
 
 export class District extends AggregateRoot {
   private id?: string;
@@ -20,9 +19,8 @@ export class District extends AggregateRoot {
     d.name = name;
     d.registerName = registerName;
     d.countryId = countryId;
-
     d.stateId = stateId;
-    d.districtId = v4();
+    d.districtId = IdentifyEntity.get();
     d.createdAt = new Date();
     return d;
   }

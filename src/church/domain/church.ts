@@ -1,7 +1,6 @@
 import { Minister } from "./minister";
-import { AggregateRoot } from "../../shared/domain/aggregate_root";
-import { v4 } from "uuid";
-import { Region } from "./Region";
+import { Region } from "./region";
+import { AggregateRoot, IdentifyEntity } from "../../shared";
 
 export class Church extends AggregateRoot {
   private id?: string;
@@ -46,7 +45,7 @@ export class Church extends AggregateRoot {
     c.minister = minister;
     c.region = region;
     c.createdAt = new Date();
-    c.churchId = v4();
+    c.churchId = IdentifyEntity.get();
 
     return c;
   }
@@ -99,7 +98,7 @@ export class Church extends AggregateRoot {
       email: this.email,
       openingDate: this.openingDate,
       minister: { id: this.minister.getId(), ...this.minister.toPrimitives() },
-      region: { id: this.region.getId(), ...this.region.toPrimitives() },
+      region: { ...this.region.toPrimitives() },
       createdAt: this.createdAt,
     };
   }
