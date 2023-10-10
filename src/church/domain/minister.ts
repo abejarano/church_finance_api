@@ -1,0 +1,73 @@
+import { MinisterType } from "./enums/minister_type.enum";
+import { Region } from "./Region";
+import { AggregateRoot } from "../../shared/domain/aggregate_root";
+import { v4 } from "uuid";
+
+export class Minister extends AggregateRoot {
+  private id?: string;
+  private ministerId: string;
+  private name: string;
+  private email: string;
+  private phone: string;
+  private createdAt: Date;
+  private dni: string;
+  private ministerType: MinisterType;
+  private region: Region;
+
+  static create(
+    name: string,
+    email: string,
+    phone: string,
+    dni: string,
+    ministerType: MinisterType,
+    region: Region,
+  ): Minister {
+    const m: Minister = new Minister();
+    m.name = name;
+    m.email = email;
+    m.phone = phone;
+    m.createdAt = new Date();
+    m.dni = dni;
+    m.ministerType = ministerType;
+    m.region = region;
+    m.ministerId = v4();
+
+    return m;
+  }
+
+  getRegion() {
+    return this.region;
+  }
+
+  getId(): string {
+    return this.id;
+  }
+
+  static fromPrimitives(plainData: any): Minister {
+    const m: Minister = new Minister();
+    m.id = plainData.id;
+    m.name = plainData.name;
+    m.email = plainData.email;
+    m.phone = plainData.phone;
+    m.createdAt = plainData.createdAt;
+    m.dni = plainData.dni;
+    m.ministerType = plainData.ministerType;
+    m.region = Region.fromPrimitives(plainData.region);
+    m.ministerId = plainData.ministerId;
+
+    return m;
+  }
+
+  toPrimitives(): any {
+    return {
+      ministerId: this.ministerId,
+      name: this.name,
+      email: this.email,
+      phone: this.phone,
+      createdAt: this.createdAt,
+      dni: this.dni,
+      ministerType: this.ministerType,
+      region: this.region,
+    };
+  }
+}

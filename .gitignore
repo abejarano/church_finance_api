@@ -1,26 +1,37 @@
-.idea/
-.vscode/
-*.egg-info
-*.pot
-*.py[co]
-.tox/
-__pycache__/
-media_root/
-MANIFEST
-dist/
-node_modules/
-tests/coverage_html/
-tests/.coverage
-build/
-tests/report/
-db.sqlite3
-*~
-*.sw[mnpcod]
-.tmp
-*.tmp
-*.tmp.*
-*.sublime-project
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
 *.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
 .DS_Store
-Thumbs.db
-/contenedores/
+upload

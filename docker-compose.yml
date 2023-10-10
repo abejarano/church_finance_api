@@ -1,77 +1,49 @@
-version: '3'
+version: '3.3'
 
 services:
-  db:
-    restart: always
-    image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: church_financial
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    ports:
-      - 5432:5432
 
-  db_redis:
-    restart: always
-    image: redis
-    ports:
-      - 6379:6379
-
-  church_financial_api:
+  noba_api_web_banking:
+    container_name: noba_api_web_banking
+    image: noba_api_web_banking
     restart: always
     build: .
-    container_name: church_financial_api
-    image: church_financial_api
+    command: npm run dev
     environment:
-      ENV: dev
-      DJANGO_SUPERUSER_USERNAME: admin
-      DJANGO_SUPERUSER_PASSWORD: 12345678
-      DJANGO_SUPERUSER_EMAIL: admin@local.com
+      NODE_ENV: local
+      BACKEND_ORIGIN: localhost:4000
+      GOOGLE_APPLICATION_CREDENTIALS: /service-account.json
+      URL_NOBA_INTGRATION_SYNC: https://tgqwledbn0.execute-api.us-east-1.amazonaws.com/api/
+      URL_NOBA_INTGRATION_SWAP: https://tgqwledbn0.execute-api.us-east-1.amazonaws.com/
+      TOKEN_NOBA_INTEGRATION_SYNC: 142347c94d02d019128ad7e11bf6c5b037ae9b5476f7428dc346af026d59c0a04ba91b7e5312559f8fffb38d12aed3b1165d4c27ca26f0d6681a45918e3ba488217
+      TOKEN_NOBA_INTEGRATION_SWAP: 142347c94d02d019128ad7e11bf6c5b037ae9b5476f7428dc346af026d59c0a04ba91b7e5312559f8fffb38d12aed3b1165d4c27ca26f0d6681a45918e3ba488217
 
-      SQL_DATABASE: church_financial
-      SQL_USER: postgres
-      SQL_PASSWORD: postgres
-      SQL_HOST: db
-      SQL_PORT: 5432
+      ACCOUNT_SEGREGATED_ID: DANIELLEE002
 
-      REDIS_URL: db_redis:6379
+      MONGO_PASS: zrfhowt0cguf
+      MONGO_USER: noab-dev-mongodb
+      MONGO_DB: dbnobadev
+      MONGO_SERVER: cluster0.xdwtnb4.mongodb.net
 
-    entrypoint: [ "./entrypoint-dev.sh" ]
-    command: [ "python", "manage.py", "runserver", "0.0.0.0:8080" ]
+      TOKEN_SECRET: 4665819835704fdc298857890614cc4298d3024d24471e800dc4d45bf9e9bc11
+      TOPIC_TRANSACTION_FIAT: transaction-fiat
+      TOPIC_TRANSACTION_ASSET: transaction-asset
+      TOPIC_PUBSUB_EMAIL: send-mail
+
+      AWS_ACCESS_KEY_ID: AKIA4F3QRMUKOPUP6LVD
+      AWS_SECRET_ACCESS_KEY: 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
+      AWS_REGION: us-east-1
+
+      CLOUD: AWS
+
+      URL_CONTINUE_REGISTER: https://pr-25.d2px7rv0q5i2m1.amplifyapp.com/continue-create-account
     volumes:
       - ./:/app
+      - ${GOOGLE_APPLICATION_CREDENTIALS_NOBA}:/service-account.json
+      - /home/node/app/node_modules
     ports:
-      - "9200:8080"
-    depends_on:
-      - db
+      - "4000:8080"
+    networks:
+      - noba
 
-  celery_worker:
-    build: .
-    command: celery -A church_financial_api worker --loglevel=info
-    image: church_financial_worker
-    container_name: church_financial_worker
-    environment:
-      ENV: dev
-      DJANGO_SUPERUSER_USERNAME: admin
-      DJANGO_SUPERUSER_PASSWORD: 12345678
-      DJANGO_SUPERUSER_EMAIL: admin@local.com
-
-      SQL_DATABASE: church_financial
-      SQL_USER: postgres
-      SQL_PASSWORD: postgres
-      SQL_HOST: db
-      SQL_PORT: 5432
-
-      REDIS_URL: db_redis:6379
-    volumes:
-      - ./:/app
-    depends_on:
-      - db
-      - db_redis
-
-volumes:
-  postgres_data:
-  static_volume:
-  media_volume:
+networks:
+  noba:

@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "declaration": true,
+      "removeComments": false,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "lib": [
+        "es2015",
+        "es2017"
+      ],
+      "target": "es2016",
+      "sourceMap": true,
+      "outDir": "./dist",
+      "baseUrl": "./",
+      "incremental": true,
+      "plugins": [
+        {
+          "transform": "ts-auto-mock/transformer",
+          "cacheBetweenTests": false
+        }
+      ],
+    },
+    "exclude": ["node_modules", "dist"]
+  }

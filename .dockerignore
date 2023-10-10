@@ -1,0 +1,11 @@
+# package directories
+node_modules/
+
+# TypeScript build folder
+.build
+
+# Coverage
+.nyc_output
+coverage
+
+.idea

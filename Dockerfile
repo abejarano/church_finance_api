@@ -1,33 +1,17 @@
-FROM python:3.11-buster
+FROM node:18.18.0-alpine
 
-ENV HOME=/app
-WORKDIR $HOME
+WORKDIR /app
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-RUN apt-get update && apt-get install -y netcat
-
-# create the appropriate directories
-RUN mkdir /app/static
-RUN mkdir /app/media
-
-
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		postgresql-client
-
+ENV NODE_AUTH_TOKEN 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
 
 ADD . .
 
-# install dependencies
-RUN pip install --upgrade pip
-RUN pip install -r /app/requirements.txt
+COPY .npmrc .npmrc
 
-#RUN sed -i 's/\r$//g' $HOME/entrypoint.sh
-#RUN chmod +x $HOME/entrypoint.sh
-#RUN sh entrypoint.sh
+RUN npm i -g ts-node
 
+RUN npm ci && npm run build && npm prune --production
 
-CMD exec gunicorn --bind 0.0.0.0:8080 --workers 1 --threads 8 --timeout 0 api_financial.wsgi:application --reload
+EXPOSE 8080
+
+CMD ["npm", "run", "start:prod"]
