@@ -10,7 +10,6 @@ export class MemberMongoRepository
   extends MongoRepository<any>
   implements IMemberRepository
 {
-  // singleton
   private static instance: MemberMongoRepository;
 
   public static getInstance(): MemberMongoRepository {
@@ -29,8 +28,16 @@ export class MemberMongoRepository
     return "churches";
   }
 
-  findById(memberId: string): Promise<Member> {
-    throw new Error("Method not implemented.");
+  async findById(memberId: string): Promise<Member> {
+    const collection = await this.collection();
+    const result = await collection.findOne<Member>(
+      {
+        "members.memberId": memberId,
+      },
+      { projection: { "members.$": 1 } },
+    );
+
+    return Member.fromPrimitives(result);
   }
   upsert(member: Member): Promise<void> {
     throw new Error("Method not implemented.");
