@@ -1,7 +1,7 @@
-import { FilterField } from "./filter_field";
-import { FilterOperator } from "./filter_operator";
-import { FilterValue } from "./filter_value";
-import { InvalidArgumentError } from "../exceptions/invalid_argument_error";
+import { FilterField } from "./filter-field";
+import { FilterOperator } from "./filter-operator";
+import { FilterValue } from "./filter-value";
+import { InvalidArgumentError } from "../exceptions/invalid-argument-error";
 
 export class Filter {
   readonly field: FilterField;
