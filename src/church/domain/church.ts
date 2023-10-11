@@ -1,6 +1,5 @@
-import { Minister } from "./minister";
-import { Region } from "./region";
 import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { Minister, Region } from "../../structure_organization";
 
 export class Church extends AggregateRoot {
   private id?: string;

@@ -51,28 +51,52 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     return result.upsertedId;
   }
 
-  protected async searchByCriteria<D>(criteria: Criteria): Promise<D[]> {
+  protected async searchByCriteria<D>(
+    criteria: Criteria,
+    fieldsToExclude: string[] = [],
+  ): Promise<D[]> {
     this.criteria = criteria;
     this.query = this.criteriaConverter.convert(criteria);
 
     const collection = await this.collection();
+
+    if (fieldsToExclude.length === 0) {
+      return await collection
+        .find<D>(this.query.filter, {})
+        .sort(this.query.sort)
+        .skip(this.query.skip)
+        .limit(this.query.limit)
+        .toArray();
+    }
+
+    const projection: { [key: string]: 0 } = {};
+    fieldsToExclude.forEach((field) => {
+      projection[field] = 0;
+    });
+
     return await collection
-      .find<D>(this.query.filter, {})
+      .find<D>(this.query.filter, { projection })
       .sort(this.query.sort)
       .skip(this.query.skip)
       .limit(this.query.limit)
       .toArray();
   }
 
+  /**
+   *
+   * @param criteria
+   * @param objectTypeField campo de tipo objeto que deseo paginar
+   * @protected
+   */
   protected async searchByCriteriaWithProjection<D>(
     criteria: Criteria,
-    fieldProjection: string,
+    objectTypeField: string,
   ): Promise<D[]> {
     this.criteria = criteria;
     this.query = this.criteriaConverter.convert(criteria);
 
     const projection: { [key: string]: any } = {};
-    projection[fieldProjection] = {
+    projection[objectTypeField] = {
       $slice: [this.query.skip, this.query.limit],
     };
 

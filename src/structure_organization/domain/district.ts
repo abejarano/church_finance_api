@@ -5,7 +5,6 @@ export class District extends AggregateRoot {
   private districtId: string;
   private name: string;
   private registerName: string;
-  private countryId: string;
   private stateId: string;
   private createdAt: Date;
 
@@ -18,7 +17,7 @@ export class District extends AggregateRoot {
     const d: District = new District();
     d.name = name;
     d.registerName = registerName;
-    d.countryId = countryId;
+    d.stateId = countryId;
     d.stateId = stateId;
     d.districtId = IdentifyEntity.get();
     d.createdAt = new Date();
@@ -33,15 +32,15 @@ export class District extends AggregateRoot {
     return this.districtId;
   }
 
-  static fromPrimitives(district: any): District {
+  static fromPrimitives(plainData: any): District {
     const d: District = new District();
-    d.id = district.id;
-    d.name = district.name;
-    d.registerName = district.registerName;
-    d.countryId = district.countryId;
-    d.stateId = district.stateId;
-    d.districtId = district.districtId;
-    d.createdAt = district.createdAt;
+    d.id = plainData.id;
+    d.name = plainData.name;
+    d.registerName = plainData.registerName;
+    d.stateId = plainData.stateId;
+    d.stateId = plainData.stateId;
+    d.districtId = plainData.districtId;
+    d.createdAt = plainData.createdAt;
     return d;
   }
 
@@ -50,7 +49,7 @@ export class District extends AggregateRoot {
       districtId: this.districtId,
       name: this.name,
       registerName: this.registerName,
-      countryId: this.countryId,
+      countryId: this.stateId,
       stateId: this.stateId,
       createdAt: this.createdAt,
     };

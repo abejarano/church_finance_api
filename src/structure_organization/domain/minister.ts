@@ -1,4 +1,4 @@
-import { MinisterType } from "./enums/minister_type.enum";
+import { MinisterType } from "../../church/domain/enums/minister_type.enum";
 import { Region } from "./region";
 import { AggregateRoot, IdentifyEntity } from "../../shared";
 

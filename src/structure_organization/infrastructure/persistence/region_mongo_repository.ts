@@ -4,6 +4,14 @@ import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../shared/infrastructure/mongodb";
+import {
+  Criteria,
+  Filters,
+  Operator,
+  Order,
+  OrderTypes,
+  Paginate,
+} from "../../../shared";
 
 export class RegionMongoRepository
   extends MongoRepository<any>
@@ -45,5 +53,31 @@ export class RegionMongoRepository
       { $push: { regions: region.toPrimitives() } },
       { upsert: true },
     );
+  }
+
+  async pageRegionsByDistrictId(
+    districtId: string,
+    page: number,
+    perPage: number,
+  ): Promise<Paginate<Region>> {
+    const filterDistrictId: Map<string, string> = new Map([
+      ["field", "districtId"],
+      ["operator", Operator.EQUAL],
+      ["value", districtId],
+    ]);
+
+    const criteria: Criteria = new Criteria(
+      Filters.fromValues([filterDistrictId]),
+      Order.fromValues("createdAt", OrderTypes.DESC),
+      perPage,
+      page,
+    );
+
+    let document = await this.searchByCriteriaWithProjection<Region>(
+      criteria,
+      "regions",
+    );
+
+    return this.buildPaginate<Region>(document);
   }
 }

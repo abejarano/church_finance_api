@@ -2,48 +2,29 @@ version: '3.3'
 
 services:
 
-  noba_api_web_banking:
-    container_name: noba_api_web_banking
-    image: noba_api_web_banking
+  church_sion_financial:
+    container_name: church_sion_financial
+    image: church_sion_financial
     restart: always
     build: .
     command: npm run dev
     environment:
       NODE_ENV: local
-      BACKEND_ORIGIN: localhost:4000
-      GOOGLE_APPLICATION_CREDENTIALS: /service-account.json
-      URL_NOBA_INTGRATION_SYNC: https://tgqwledbn0.execute-api.us-east-1.amazonaws.com/api/
-      URL_NOBA_INTGRATION_SWAP: https://tgqwledbn0.execute-api.us-east-1.amazonaws.com/
-      TOKEN_NOBA_INTEGRATION_SYNC: 142347c94d02d019128ad7e11bf6c5b037ae9b5476f7428dc346af026d59c0a04ba91b7e5312559f8fffb38d12aed3b1165d4c27ca26f0d6681a45918e3ba488217
-      TOKEN_NOBA_INTEGRATION_SWAP: 142347c94d02d019128ad7e11bf6c5b037ae9b5476f7428dc346af026d59c0a04ba91b7e5312559f8fffb38d12aed3b1165d4c27ca26f0d6681a45918e3ba488217
+      #GOOGLE_APPLICATION_CREDENTIALS: /service-account.json
 
-      ACCOUNT_SEGREGATED_ID: DANIELLEE002
+      MONGO_PASS: Ljm5aB8h7vOTeDeA
+      MONGO_USER: user_sion
+      MONGO_DB: dbsionfinancial
+      MONGO_SERVER: freesionfinancial.cmomlts.mongodb.net
 
-      MONGO_PASS: zrfhowt0cguf
-      MONGO_USER: noab-dev-mongodb
-      MONGO_DB: dbnobadev
-      MONGO_SERVER: cluster0.xdwtnb4.mongodb.net
-
-      TOKEN_SECRET: 4665819835704fdc298857890614cc4298d3024d24471e800dc4d45bf9e9bc11
-      TOPIC_TRANSACTION_FIAT: transaction-fiat
-      TOPIC_TRANSACTION_ASSET: transaction-asset
-      TOPIC_PUBSUB_EMAIL: send-mail
-
-      AWS_ACCESS_KEY_ID: AKIA4F3QRMUKOPUP6LVD
-      AWS_SECRET_ACCESS_KEY: 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
-      AWS_REGION: us-east-1
-
-      CLOUD: AWS
-
-      URL_CONTINUE_REGISTER: https://pr-25.d2px7rv0q5i2m1.amplifyapp.com/continue-create-account
     volumes:
       - ./:/app
-      - ${GOOGLE_APPLICATION_CREDENTIALS_NOBA}:/service-account.json
+      #- ${GOOGLE_APPLICATION_CREDENTIALS_JASPESOFT}:/service-account.json
       - /home/node/app/node_modules
     ports:
-      - "4000:8080"
+      - "5200:8080"
     networks:
-      - noba
+      - church_sion
 
 networks:
-  noba:
+  church_sion:
