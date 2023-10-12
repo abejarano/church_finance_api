@@ -35,7 +35,7 @@ export class User extends AggregateRoot {
     return u;
   }
 
-  static fromPrimitives(data: any): User {
+  static fromPrimitives(data: any, profile: Profile): User {
     const u: User = new User();
     u.email = data.email;
     u.createdAt = data.createdAt;
@@ -43,8 +43,8 @@ export class User extends AggregateRoot {
     u.id = data.id;
     u.password = data.password;
     u.userId = data.userId;
-    u.profileId = data.profileId;
-    u.permission = data.permission;
+    u.profileId = profile.getProfileId();
+    u.permission = profile.getPermission();
     u.isStaff = data.isStaff;
     u.isSuperuser = data.isSuperuser;
 

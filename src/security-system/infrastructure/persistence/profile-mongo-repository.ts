@@ -8,6 +8,14 @@ export class ProfileMongoRepository
   extends MongoRepository<Profile>
   implements IProfileRepository
 {
+  private static instance: ProfileMongoRepository;
+  static getInstance(): ProfileMongoRepository {
+    if (!ProfileMongoRepository.instance) {
+      ProfileMongoRepository.instance = new ProfileMongoRepository();
+    }
+    return ProfileMongoRepository.instance;
+  }
+
   constructor() {
     super(MongoClientFactory.createClient());
   }

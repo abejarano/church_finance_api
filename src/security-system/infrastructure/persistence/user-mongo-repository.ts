@@ -3,6 +3,7 @@ import {
   MongoRepository,
 } from "../../../shared/infrastructure";
 import { IUserRepository, PermissionDTO, User } from "../../domain";
+import { ProfileMongoRepository } from "./profile-mongo-repository";
 
 export class UserMongoRepository
   extends MongoRepository<User>
@@ -31,7 +32,15 @@ export class UserMongoRepository
     const collection = await this.collection();
     const result = await collection.findOne({ email });
     if (!result) return undefined;
-    return User.fromPrimitives({ ...result, id: result._id });
+
+    const profile = await ProfileMongoRepository.getInstance().findByProfileId(
+      result.profileId,
+    );
+
+    return User.fromPrimitives(
+      { ...result, id: result._id.toString() },
+      profile,
+    );
   }
 
   async searchPermissionByURLModuleOptionAndUserId(

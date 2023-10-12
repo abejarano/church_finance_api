@@ -7,10 +7,13 @@ export class Profile extends AggregateRoot {
   private name: string;
   private permission: PermissionDTO[];
 
-  static create(name: string, permission: PermissionDTO[]) {
+  static create(name: string, permission: PermissionDTO[]): Profile {
     const p = new Profile();
     p.name = name;
     p.profileId = IdentifyEntity.get();
+    p.permission = permission;
+
+    return p;
   }
 
   static fromPrimitives(plainData: any): Profile {
