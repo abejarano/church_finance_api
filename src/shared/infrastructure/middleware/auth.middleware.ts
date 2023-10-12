@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import jwt = require("jsonwebtoken");
 
-export default (req: Request, res: Response, next: NextFunction) => {
+export const AuthMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const token = req.header("Authorization");
 
   if (!token) {

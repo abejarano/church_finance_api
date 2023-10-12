@@ -1,6 +1,7 @@
 import { ActionInSystem } from "../enums/action-in.system";
+import { OptionModuleDTO } from "./option-module.type";
 
 export type PermissionDTO = {
-  action: ActionInSystem;
-  page: string;
+  action: ActionInSystem[];
+  optionModule: OptionModuleDTO;
 };

@@ -13,8 +13,25 @@ export class Profile extends AggregateRoot {
     p.profileId = IdentifyEntity.get();
   }
 
+  static fromPrimitives(plainData: any): Profile {
+    const p = new Profile();
+    p.id = plainData.id;
+    p.name = plainData.name;
+    p.profileId = plainData.profileId;
+    p.permission = plainData.permission;
+    return p;
+  }
+
   addPermission(permission: PermissionDTO): void {
     this.permission.push(permission);
+  }
+
+  getPermission(): PermissionDTO[] {
+    return this.permission;
+  }
+
+  getProfileId(): string {
+    return this.profileId;
   }
 
   toPrimitives(): any {

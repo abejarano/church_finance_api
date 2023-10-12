@@ -4,7 +4,12 @@ export { User } from "./user";
 export { ActionInSystem } from "./enums/action-in.system";
 
 export { IUserRepository } from "./interfaces/user-repository.interface";
-
-export { PermissionDTO } from "./types/permission.type";
-
+export { IProfileRepository } from "./interfaces/profile-repository.interface";
 export { IAuthToken } from "./interfaces/auth-token.interface";
+export { ISystemModuleRepository } from "./interfaces/system-module-repository.interface";
+
+export { OptionModuleDTO } from "./types/option-module.type";
+export { PermissionDTO } from "./types/permission.type";
+export { UserAuthDTO } from "./types/user-auth.type";
+
+export { SystemModule } from "./system-module";
