@@ -5,6 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "dev": "nodemon src/app.ts",
+    "test": "jest --forceExit --runInBand --detectOpenHandles",
     "start:prod": "node dist/src/app.js",
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" ",
@@ -17,16 +18,22 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.1.0",
     "@types/bcryptjs": "^2.4.4",
     "@types/body-parser": "^1.19.3",
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.18",
     "@types/express-fileupload": "^1.4.2",
+    "@types/jest": "^29.5.5",
     "@types/jsonwebtoken": "^9.0.3",
     "@types/pino": "^7.0.5",
     "@types/uuid": "^9.0.5",
+    "jest": "^29.7.0",
+    "jest-ts-auto-mock": "^2.1.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
+    "ts-auto-mock": "^3.7.1",
+    "ts-jest": "^29.1.1",
     "ttypescript": "^1.5.15",
     "typescript": "^5.2.2"
   },
@@ -42,5 +49,28 @@
     "node-input-validator": "^4.5.1",
     "pino": "^8.16.0",
     "uuid": "^9.0.1"
+  },
+  "jest": {
+    "setupFiles": [
+      "./test/jest/config.ts"
+    ],
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "^src/(.*)": "<rootDir>/$1",
+      "^test/(.*)": "<rootDir>/../test/$1"
+    },
+    "testRegex": ".spec.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ]
   }
 }
