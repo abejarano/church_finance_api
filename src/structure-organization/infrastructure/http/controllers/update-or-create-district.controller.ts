@@ -1,11 +1,11 @@
-import { DistrictDTO } from "../../../domain/types/district.type";
+import { DistrictStructureType } from "../../../domain/types/district-structure.type";
 import { Response } from "express";
 import { RegisterOrUpdateDistrict } from "../../../usecase/register-or-update-district";
 import { DistrictMongoRepository } from "../../persistence/district-mongo-repository";
 import { DomainException, HttpStatus } from "../../../../shared";
 
 export class UpdateOrCreateDistrictController {
-  static async handle(request: DistrictDTO, res: Response) {
+  static async handle(request: DistrictStructureType, res: Response) {
     try {
       await new RegisterOrUpdateDistrict(
         DistrictMongoRepository.getInstance(),

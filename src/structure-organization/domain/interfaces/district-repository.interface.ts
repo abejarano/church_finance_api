@@ -4,7 +4,7 @@ import { Paginate } from "../../../shared";
 
 export interface IDistrictRepository {
   findById(districtId: string): Promise<District>;
-  pageDistrictsByStateId(
+  listDistrictsByStateId(
     stateId: string,
     page: number,
     perPage: number,

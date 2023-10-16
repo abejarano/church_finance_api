@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { UpdateOrCreateDistrictController } from "./controllers/update-or-create-district.controller";
-import { DistrictDTO } from "../../domain/types/district.type";
+import { DistrictStructureType } from "../../domain/types/district-structure.type";
 import districtValidator from "./validators/district.validator";
 
 const structureOrganizationRoute: Router = Router();

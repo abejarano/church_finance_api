@@ -3,8 +3,8 @@ import { Criteria, Paginate } from "src/shared";
 import {
   MongoClientFactory,
   MongoRepository,
-} from "../../../shared/infrastructure/mongodb";
-import { IMemberRepository } from "../../domain/interfaces/member-repository.interface";
+} from "../../../shared/infrastructure";
+import { IMemberRepository } from "../../domain";
 
 export class MemberMongoRepository
   extends MongoRepository<any>
@@ -12,16 +12,16 @@ export class MemberMongoRepository
 {
   private static instance: MemberMongoRepository;
 
+  constructor() {
+    super(MongoClientFactory.createClient());
+  }
+
   public static getInstance(): MemberMongoRepository {
     if (MemberMongoRepository.instance) {
       return MemberMongoRepository.instance;
     }
     MemberMongoRepository.instance = new MemberMongoRepository();
     return MemberMongoRepository.instance;
-  }
-
-  constructor() {
-    super(MongoClientFactory.createClient());
   }
 
   collectionName(): string {

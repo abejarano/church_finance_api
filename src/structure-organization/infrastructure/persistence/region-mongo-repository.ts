@@ -55,7 +55,7 @@ export class RegionMongoRepository
     );
   }
 
-  async pageRegionsByDistrictId(
+  async listRegionsByDistrictId(
     districtId: string,
     page: number,
     perPage: number,

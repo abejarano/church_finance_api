@@ -1,12 +1,14 @@
-import { IDistrictRepository } from "../domain/interfaces/district_repository.interface";
-import { DistrictDTO } from "../domain/types/district.type";
-import { DistrictNotFound } from "../domain/exceptions/district-not-found";
-import { District } from "../domain/district";
+import {
+  District,
+  DistrictStructureType,
+  DistrictNotFound,
+  IDistrictRepository,
+} from "../domain";
 
 export class RegisterOrUpdateDistrict {
   constructor(private readonly districtRepository: IDistrictRepository) {}
 
-  async execute(request: DistrictDTO): Promise<void> {
+  async execute(request: DistrictStructureType): Promise<void> {
     if (request.districtId) {
       await this.update(request);
       return;
@@ -21,8 +23,10 @@ export class RegisterOrUpdateDistrict {
     await this.districtRepository.upsert(district);
   }
 
-  private async update(request: DistrictDTO): Promise<void> {
-    const district = await this.districtRepository.findById(request.districtId);
+  private async update(request: DistrictStructureType): Promise<void> {
+    const district: District = await this.districtRepository.findById(
+      request.districtId,
+    );
     if (!district) {
       throw new DistrictNotFound();
     }

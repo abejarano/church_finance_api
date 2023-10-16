@@ -4,7 +4,7 @@ import { Paginate } from "../../../shared";
 export interface IRegionRepository {
   upsert(region: Region): Promise<void>;
   findById(regionId: string): Promise<Region>;
-  pageRegionsByDistrictId(
+  listRegionsByDistrictId(
     districtId: string,
     page: number,
     perPage: number,

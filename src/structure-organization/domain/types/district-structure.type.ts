@@ -1,4 +1,4 @@
-export type DistrictDTO = {
+export type DistrictStructureType = {
   name: string;
   registerName: string;
   stateId: string;

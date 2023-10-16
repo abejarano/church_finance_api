@@ -1,10 +1,4 @@
 import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../shared/infrastructure/mongodb";
-import { District } from "../../domain/district";
-import { IDistrictRepository } from "../../domain/interfaces/district_repository.interface";
-import {
   Criteria,
   Filters,
   Operator,
@@ -12,6 +6,11 @@ import {
   OrderTypes,
   Paginate,
 } from "../../../shared";
+import { District, IDistrictRepository } from "../../domain";
+import {
+  MongoClientFactory,
+  MongoRepository,
+} from "../../../shared/infrastructure";
 
 export class DistrictMongoRepository
   extends MongoRepository<District>
@@ -45,7 +44,7 @@ export class DistrictMongoRepository
     return District.fromPrimitives({ id: result._id.toString(), ...result });
   }
 
-  async pageDistrictsByStateId(
+  async listDistrictsByStateId(
     stateId: string,
     page: number,
     perPage: number,

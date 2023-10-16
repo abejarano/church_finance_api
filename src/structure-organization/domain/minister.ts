@@ -1,6 +1,6 @@
-import { MinisterType } from "../../church/domain/enums/minister-type.enum";
 import { Region } from "./region";
 import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { MinisterType } from "./enums/minister-type.enum";
 
 export class Minister extends AggregateRoot {
   private id?: string;
@@ -34,14 +34,6 @@ export class Minister extends AggregateRoot {
     return m;
   }
 
-  getRegion() {
-    return this.region;
-  }
-
-  getId(): string {
-    return this.id;
-  }
-
   static fromPrimitives(plainData: any): Minister {
     const m: Minister = new Minister();
     m.id = plainData.id;
@@ -55,6 +47,14 @@ export class Minister extends AggregateRoot {
     m.ministerId = plainData.ministerId;
 
     return m;
+  }
+
+  getRegion() {
+    return this.region;
+  }
+
+  getId(): string {
+    return this.id;
   }
 
   toPrimitives(): any {

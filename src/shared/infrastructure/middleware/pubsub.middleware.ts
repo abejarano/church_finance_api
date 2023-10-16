@@ -1,0 +1,26 @@
+import { logger } from "../../index";
+import { NextFunction, Request, Response } from "express";
+
+export const PubSubMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.body) {
+    const msg = "no Pub/Sub message received";
+    logger.error(`ERROR: ${msg}`);
+    res.status(400).send(`Bad Request: ${msg}`);
+    return;
+  }
+  if (!req.body.message) {
+    const msg = "invalid Pub/Sub message format";
+    logger.error(`ERROR: ${msg}`);
+    res.status(400).send(`Bad Request: ${msg}`);
+    return;
+  }
+
+  const buff = Buffer.from(req.body.message.data, "base64");
+  req.body = JSON.parse(buff.toString("utf-8"));
+
+  next();
+};
