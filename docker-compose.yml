@@ -17,6 +17,9 @@ services:
       MONGO_DB: dbsionfinancial
       MONGO_SERVER: freesionfinancial.cmomlts.mongodb.net
 
+      TOPIC_ASSIGN_CHURCH: assign_church
+      TOPIC_CREATE_USRE_APP: create_user_app
+
     volumes:
       - ./:/app
       #- ${GOOGLE_APPLICATION_CREDENTIALS_JASPESOFT}:/service-account.json

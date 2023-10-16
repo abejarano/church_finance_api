@@ -1,5 +1,5 @@
 import { User } from "../user";
 
 export interface IAuthToken {
-  createToken(user: User): string;
+  createToken(user: any): string;
 }

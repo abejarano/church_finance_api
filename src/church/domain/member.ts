@@ -4,7 +4,7 @@ import { IdentifyEntity } from "../../shared";
 export class Member {
   private memberId: string;
   private name: string;
-  private email?: string;
+  private email: string;
   private phone: string;
   private createdAt: Date;
   private dni: string;
@@ -19,9 +19,9 @@ export class Member {
     dni: string,
     church: Church,
     birthdate: Date,
+    email: string,
     conversionDate?: Date,
     baptismDate?: Date,
-    email?: string,
   ): Member {
     const m: Member = new Member();
     m.name = name;
@@ -38,10 +38,6 @@ export class Member {
     return m;
   }
 
-  getChurchId(): string {
-    return this.church.getChurchId();
-  }
-
   static fromPrimitives(plainData: any): Member {
     const m: Member = new Member();
     m.memberId = plainData.memberId;
@@ -56,6 +52,26 @@ export class Member {
     m.church = Church.fromPrimitives(plainData.church);
 
     return m;
+  }
+
+  getChurchId(): string {
+    return this.church.getChurchId();
+  }
+
+  getEmail(): string {
+    return this.email;
+  }
+
+  getDni(): string {
+    return this.dni;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getMemberId(): string {
+    return this.memberId;
   }
 
   toPrimitives(): any {

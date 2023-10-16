@@ -8,7 +8,7 @@ export class MakeLogin {
     private readonly authToken: IAuthToken,
   ) {}
 
-  async run(emailUser: string, passUser: string): Promise<[User, string]> {
+  async execute(emailUser: string, passUser: string): Promise<[User, string]> {
     const user: User = await this.userRepository.findByEmail(emailUser);
 
     if (!user) {
@@ -23,6 +23,15 @@ export class MakeLogin {
       throw new InvalidPassword();
     }
 
-    return [user, this.authToken.createToken(user)];
+    return [
+      user,
+      this.authToken.createToken({
+        userId: user.getUserId(),
+        email: user.getEmail(),
+        isStaff: user.staff(),
+        isSuperuser: user.superUser(),
+        profileId: user.getProfileId(),
+      }),
+    ];
   }
 }
