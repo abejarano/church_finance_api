@@ -1,0 +1,49 @@
+import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { Bank } from "./bank";
+
+export class CostCenter extends AggregateRoot {
+  private id?: string;
+  private costCenterId: string;
+  private active: boolean;
+  private name: string;
+  private churchId: string;
+  private bank: Bank;
+  private createdAt: Date;
+
+  static create(active: boolean, name: string, bank: Bank): CostCenter {
+    const costCenter: CostCenter = new CostCenter();
+    costCenter.active = active;
+    costCenter.costCenterId = IdentifyEntity.get();
+    costCenter.name = name;
+    costCenter.churchId = bank.getChurchId();
+    costCenter.bank = bank;
+    costCenter.createdAt = new Date();
+    return costCenter;
+  }
+
+  static fromPrimitives(plainData: any, bank: Bank): CostCenter {
+    const costCenter: CostCenter = new CostCenter();
+    costCenter.active = plainData.active;
+    costCenter.costCenterId = plainData.costCenterId;
+    costCenter.name = plainData.name;
+    costCenter.churchId = plainData.churchId;
+    costCenter.bank = Bank.fromPrimitives(plainData.bank);
+    costCenter.createdAt = plainData.createdAt;
+    return costCenter;
+  }
+
+  getId(): string {
+    return this.id;
+  }
+
+  toPrimitives(): any {
+    return {
+      active: this.active,
+      costCenterId: this.costCenterId,
+      name: this.name,
+      churchId: this.churchId,
+      bankId: this.bank.getBankId(),
+      createdAt: this.createdAt,
+    };
+  }
+}
