@@ -4,9 +4,13 @@ import {
   DistrictNotFound,
   IDistrictRepository,
 } from "../domain";
+import { IWorldRepository, States } from "../../world/domain";
 
 export class RegisterOrUpdateDistrict {
-  constructor(private readonly districtRepository: IDistrictRepository) {}
+  constructor(
+    private readonly districtRepository: IDistrictRepository,
+    private readonly worldRepository: IWorldRepository,
+  ) {}
 
   async execute(request: DistrictStructureType): Promise<void> {
     if (request.districtId) {
@@ -14,13 +18,20 @@ export class RegisterOrUpdateDistrict {
       return;
     }
 
-    const district: District = District.create(
-      request.name,
-      request.registerName,
-      request.stateId,
-    );
+    const state = await this.findState(request.stateId);
+
+    const district: District = District.create(request.name, state);
 
     await this.districtRepository.upsert(district);
+  }
+
+  private async findState(stateId: string): Promise<States> {
+    const state = await this.worldRepository.findStateById(stateId);
+    if (!state) {
+      throw new DistrictNotFound();
+    }
+
+    return state;
   }
 
   private async update(request: DistrictStructureType): Promise<void> {
@@ -30,9 +41,11 @@ export class RegisterOrUpdateDistrict {
     if (!district) {
       throw new DistrictNotFound();
     }
+
+    const state = await this.findState(request.stateId);
+
     district.setName(request.name);
-    district.setRegisterName(request.registerName);
-    district.setStateId(request.stateId);
+    district.setState(state);
     await this.districtRepository.upsert(district);
   }
 }

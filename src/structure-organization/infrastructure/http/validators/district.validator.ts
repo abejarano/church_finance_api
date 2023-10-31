@@ -9,7 +9,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   const rule = {
     name: "required",
-    registerName: "required|",
+    registerName: "required",
     stateId: "required",
   };
 

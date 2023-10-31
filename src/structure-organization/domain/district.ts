@@ -1,18 +1,17 @@
 import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { States } from "../../world/domain";
 
 export class District extends AggregateRoot {
   private id?: string;
   private districtId: string;
   private name: string;
-  private registerName: string;
   private stateId: string;
   private createdAt: Date;
 
-  static create(name: string, registerName: string, stateId: string): District {
+  static create(name: string, state: States): District {
     const d: District = new District();
     d.name = name;
-    d.registerName = registerName;
-    d.stateId = stateId;
+    d.stateId = state.getStateId();
     d.districtId = IdentifyEntity.get();
     d.createdAt = new Date();
     return d;
@@ -30,13 +29,8 @@ export class District extends AggregateRoot {
     return this;
   }
 
-  setStateId(stateId: string): District {
-    this.stateId = stateId;
-    return this;
-  }
-
-  setRegisterName(registerName: string): District {
-    this.registerName = registerName;
+  setState(state: States): District {
+    this.stateId = state.getStateId();
     return this;
   }
 
@@ -44,7 +38,6 @@ export class District extends AggregateRoot {
     const d: District = new District();
     d.id = plainData.id;
     d.name = plainData.name;
-    d.registerName = plainData.registerName;
     d.stateId = plainData.stateId;
     d.stateId = plainData.stateId;
     d.districtId = plainData.districtId;
@@ -56,7 +49,6 @@ export class District extends AggregateRoot {
     return {
       districtId: this.districtId,
       name: this.name,
-      registerName: this.registerName,
       countryId: this.stateId,
       stateId: this.stateId,
       createdAt: this.createdAt,
