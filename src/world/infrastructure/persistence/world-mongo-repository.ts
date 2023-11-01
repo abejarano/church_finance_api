@@ -1,10 +1,23 @@
 import { IWorldRepository, States } from "../../domain";
-import { MongoRepository } from "../../../shared/infrastructure";
+import {
+  MongoClientFactory,
+  MongoRepository,
+} from "../../../shared/infrastructure";
 
 export class WorldMongoRepository
   extends MongoRepository<any>
   implements IWorldRepository
 {
+  private static instance: WorldMongoRepository;
+  static getInstance(): WorldMongoRepository {
+    if (!WorldMongoRepository.instance) {
+      WorldMongoRepository.instance = new WorldMongoRepository();
+    }
+    return WorldMongoRepository.instance;
+  }
+  constructor() {
+    super(MongoClientFactory.createClient());
+  }
   private collectName: string = "states";
 
   collectionName(): string {

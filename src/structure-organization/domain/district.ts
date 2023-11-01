@@ -49,7 +49,6 @@ export class District extends AggregateRoot {
     return {
       districtId: this.districtId,
       name: this.name,
-      countryId: this.stateId,
       stateId: this.stateId,
       createdAt: this.createdAt,
     };

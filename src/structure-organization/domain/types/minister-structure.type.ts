@@ -1,4 +1,4 @@
-import { MinisterType } from "../../../church/domain";
+import { MinisterType } from "../enums/minister-type.enum";
 
 export type MinisterStructureType = {
   name: string;

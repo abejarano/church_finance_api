@@ -5,6 +5,7 @@ import {
   IDistrictRepository,
 } from "../domain";
 import { IWorldRepository, States } from "../../world/domain";
+import { StateNotFound } from "../../world/domain/exceptions/state-not-found.exception";
 
 export class RegisterOrUpdateDistrict {
   constructor(
@@ -28,7 +29,7 @@ export class RegisterOrUpdateDistrict {
   private async findState(stateId: string): Promise<States> {
     const state = await this.worldRepository.findStateById(stateId);
     if (!state) {
-      throw new DistrictNotFound();
+      throw new StateNotFound();
     }
 
     return state;
@@ -42,7 +43,7 @@ export class RegisterOrUpdateDistrict {
       throw new DistrictNotFound();
     }
 
-    const state = await this.findState(request.stateId);
+    const state: States = await this.findState(request.stateId);
 
     district.setName(request.name);
     district.setState(state);
