@@ -1,6 +1,5 @@
 import { District, IDistrictRepository } from "../domain";
 import { DistrictPaginateRequest } from "../infrastructure";
-import * as console from "console";
 import { Paginate } from "../../shared";
 
 export class SearchDistrict {

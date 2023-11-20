@@ -18,6 +18,7 @@ export class RegionMongoRepository
   implements IRegionRepository
 {
   private static instance: RegionMongoRepository;
+
   private constructor() {
     super(MongoClientFactory.createClient());
   }
@@ -60,24 +61,75 @@ export class RegionMongoRepository
     page: number,
     perPage: number,
   ): Promise<Paginate<Region>> {
-    const filterDistrictId: Map<string, string> = new Map([
-      ["field", "districtId"],
-      ["operator", Operator.EQUAL],
-      ["value", districtId],
-    ]);
+    if (districtId) {
+      const filterDistrictId: Map<string, string> = new Map([
+        ["field", "districtId"],
+        ["operator", Operator.EQUAL],
+        ["value", districtId],
+      ]);
 
-    const criteria: Criteria = new Criteria(
-      Filters.fromValues([filterDistrictId]),
-      Order.fromValues("createdAt", OrderTypes.DESC),
-      perPage,
-      page,
-    );
+      const criteria: Criteria = new Criteria(
+        Filters.fromValues([filterDistrictId]),
+        Order.fromValues("createdAt", OrderTypes.DESC),
+        perPage,
+        page,
+      );
 
-    let document = await this.searchByCriteriaWithProjection<Region>(
-      criteria,
-      "regions",
-    );
+      let document = await this.searchByCriteriaWithProjection<Region>(
+        criteria,
+        "regions",
+      );
 
-    return this.buildPaginate<Region>(document);
+      return this.buildPaginate<Region>(document);
+    }
+
+    const skip = (page - 1) * perPage;
+    const agg = [
+      {
+        $project: {
+          _id: 0,
+          district: 0,
+          regions: {
+            $slice: [skip, Number(perPage)],
+          },
+        },
+      },
+    ];
+    const collection = await this.collection();
+
+    const result = await collection.aggregate(agg).toArray();
+
+    if (!result) {
+      return {
+        nextPag: null,
+        count: 0,
+        results: [],
+      };
+    }
+
+    const pipeline = [
+      {
+        $unwind: "regions", // Separa cada objeto en la lista en documentos individuales
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: 1 }, // Cuenta los documentos resultantes
+        },
+      },
+    ];
+
+    const countResult = await collection.aggregate(pipeline).toArray();
+    let count = 0;
+    if (countResult.length > 0) {
+      count = result[0].total;
+    }
+
+    const hasNextPage: boolean = skip * perPage < count;
+    return {
+      nextPag: !hasNextPage ? Number(skip) + 2 : null,
+      count: count,
+      results: result as Region[],
+    };
   }
 }

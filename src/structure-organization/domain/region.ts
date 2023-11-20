@@ -18,6 +18,7 @@ export class Region {
   getRegionId(): string {
     return this.regionId;
   }
+
   getDistrict(): District {
     return this.district;
   }
@@ -34,7 +35,7 @@ export class Region {
     return {
       regionId: this.regionId,
       name: this.name,
-      district: { id: this.district.getId(), ...this.district.toPrimitives() },
+      //district: { id: this.district.getId(), ...this.district.toPrimitives() },
     };
   }
 }

@@ -30,6 +30,7 @@ export class DistrictController {
 
   static async search(request: DistrictPaginateRequest, res: Response) {
     try {
+
       const data = await new SearchDistrict(
         DistrictMongoRepository.getInstance(),
       ).paginate(request);
@@ -40,6 +41,15 @@ export class DistrictController {
   static async findByDistrictId(districtId: string, res: Response) {
     try {
       res.status(HttpStatus.CREATED).json({ message: districtId });
-    } catch (e) {}
+    } catch (e) {
+      if (e instanceof DomainException) {
+        res
+            .status(HttpStatus.BAD_REQUEST)
+            .json({ code: e.getErrorCode(), message: e.getMessage() });
+        return;
+      }
+
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: e.message });
+    }
   }
 }

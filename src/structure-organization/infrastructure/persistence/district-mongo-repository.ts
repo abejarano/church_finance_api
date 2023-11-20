@@ -49,22 +49,58 @@ export class DistrictMongoRepository
     page: number,
     perPage: number,
   ): Promise<Paginate<District>> {
-    const filterStateId: Map<string, string> = new Map([
-      ["field", "stateId"],
-      ["operator", Operator.EQUAL],
-      ["value", stateId],
-    ]);
+    if (stateId) {
+      const filterStateId: Map<string, string> = new Map([
+        ["field", "stateId"],
+        ["operator", Operator.EQUAL],
+        ["value", stateId],
+      ]);
 
-    const criteria: Criteria = new Criteria(
-      Filters.fromValues([filterStateId]),
-      Order.fromValues("createdAt", OrderTypes.DESC),
-      perPage,
-      page,
-    );
+      const criteria: Criteria = new Criteria(
+        Filters.fromValues([filterStateId]),
+        Order.fromValues("createdAt", OrderTypes.DESC),
+        perPage,
+        page,
+      );
 
-    let document = await this.searchByCriteria<District>(criteria, ["regions"]);
+      const document = await this.searchByCriteria<District>(criteria);
+      return this.buildPaginate<District>(document);
+    }
 
-    return this.buildPaginate<District>(document);
+    const skip = (page - 1) * perPage;
+    const agg = [
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: Number(perPage),
+      },
+    ];
+    const collection = await this.collection();
+
+    const result = await collection.aggregate(agg).toArray();
+
+    if (!result) {
+      return {
+        nextPag: null,
+        count: 0,
+        results: [],
+      };
+    }
+
+    const count = await collection.countDocuments();
+
+    const hasNextPage: boolean = skip * perPage < count;
+    return {
+      nextPag: !hasNextPage ? Number(skip) + 2 : null,
+      count: count,
+      results: result as District[],
+    };
   }
 
   async upsert(district: District): Promise<void> {
