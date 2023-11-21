@@ -1,11 +1,11 @@
 import { Request, Response, Router } from "express";
-import { DistrictController } from "./controllers/update-or-create-district.controller";
-import districtValidator from "./validators/district.validator";
-import { DistrictPaginateRequest } from "./requests/district-paginate.request";
+import { DistrictController } from "../controllers/update-or-create-district.controller";
+import districtValidator from "../validators/district.validator";
+import { DistrictPaginateRequest } from "../requests/district-paginate.request";
 
-const structureOrganizationRoute: Router = Router();
+const districtRoute: Router = Router();
 
-structureOrganizationRoute.post(
+districtRoute.post(
   "/district",
   districtValidator,
   async (req: Request, res: Response): Promise<void> => {
@@ -13,7 +13,7 @@ structureOrganizationRoute.post(
   },
 );
 
-structureOrganizationRoute.get(
+districtRoute.get(
   "/district",
   async (req: Request, res: Response): Promise<void> => {
     const params = req.query as unknown as DistrictPaginateRequest;
@@ -21,11 +21,11 @@ structureOrganizationRoute.get(
   },
 );
 
-structureOrganizationRoute.get(
+districtRoute.get(
   "/district/:districtId",
   async (req: Request, res: Response): Promise<void> => {
     await DistrictController.findByDistrictId(req.params.districtId, res);
   },
 );
 
-export default structureOrganizationRoute;
+export default districtRoute;

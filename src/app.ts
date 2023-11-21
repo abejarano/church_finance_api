@@ -1,10 +1,12 @@
 import { Express } from "express";
 import { AppServer } from "./shared/infrastructure";
-import structureOrganizationRoute from "./structure-organization/infrastructure/http/routers";
+import districtRoute from "./structure-organization/infrastructure/http/routes/district-routers";
+import ministerRoute from "./structure-organization/infrastructure/http/routes/minister-routers";
 
 const port = 8080;
 const server: Express = AppServer(port);
 
-server.use("/api/v1/structure-organization", structureOrganizationRoute);
+server.use("/api/v1/structure-organization/district", districtRoute);
+server.use("/api/v1/structure-organization/minister", ministerRoute);
 
 server.listen(port, () => console.log("server running on port 8080"));

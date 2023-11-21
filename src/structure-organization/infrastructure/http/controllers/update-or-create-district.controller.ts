@@ -6,6 +6,7 @@ import { DistrictStructureType } from "../../../domain";
 import { WorldMongoRepository } from "../../../../world/infrastructure/persistence/world-mongo-repository";
 import { DistrictPaginateRequest } from "../requests/district-paginate.request";
 import { SearchDistrict } from "../../../usecase/search-district";
+import { FindDistrictById } from "../../../usecase/find-district-by-id";
 
 export class DistrictController {
   static async createOrUpdate(request: DistrictStructureType, res: Response) {
@@ -30,7 +31,6 @@ export class DistrictController {
 
   static async search(request: DistrictPaginateRequest, res: Response) {
     try {
-
       const data = await new SearchDistrict(
         DistrictMongoRepository.getInstance(),
       ).paginate(request);
@@ -40,12 +40,16 @@ export class DistrictController {
 
   static async findByDistrictId(districtId: string, res: Response) {
     try {
-      res.status(HttpStatus.CREATED).json({ message: districtId });
+      const district = await new FindDistrictById(
+        DistrictMongoRepository.getInstance(),
+      ).execute(districtId);
+
+      res.status(HttpStatus.CREATED).json({ data: district });
     } catch (e) {
       if (e instanceof DomainException) {
         res
-            .status(HttpStatus.BAD_REQUEST)
-            .json({ code: e.getErrorCode(), message: e.getMessage() });
+          .status(HttpStatus.BAD_REQUEST)
+          .json({ code: e.getErrorCode(), message: e.getMessage() });
         return;
       }
 
