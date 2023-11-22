@@ -11,6 +11,7 @@ import {
   MongoRepository,
 } from "../../../shared/infrastructure";
 import { IRegionRepository, Region } from "../../domain";
+import * as console from "console";
 
 export class RegionMongoRepository
   extends MongoRepository<any>
@@ -83,20 +84,23 @@ export class RegionMongoRepository
     }
 
     const skip = (page - 1) * perPage;
-    const agg = [
-      {
-        $project: {
-          _id: 0,
-          district: 0,
-          regions: {
-            $slice: [skip, Number(perPage)],
-          },
-        },
-      },
-    ];
+
     const collection = await this.collection();
 
-    const result = await collection.aggregate(agg).toArray();
+    const result = await collection
+      .find({})
+      .project({
+        _id: 0,
+        district: 0,
+        name: 0,
+        stateId: 0,
+        districtId: 0,
+        createdAt: 0,
+        regions: {
+          $slice: [Number(skip), Number(perPage)],
+        },
+      })
+      .toArray();
 
     if (!result) {
       return {
@@ -106,29 +110,26 @@ export class RegionMongoRepository
       };
     }
 
-    const pipeline = [
+    const agg = [
       {
-        $unwind: "regions", // Separa cada objeto en la lista en documentos individuales
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: 1 }, // Cuenta los documentos resultantes
+        $project: {
+          numberOfRegions: { $size: "$regions" },
         },
       },
     ];
 
-    const countResult = await collection.aggregate(pipeline).toArray();
+    const r = await collection.aggregate(agg).toArray();
+
     let count = 0;
-    if (countResult.length > 0) {
-      count = result[0].total;
+    if (r.length > 0) {
+      count = r[0].numberOfRegions;
     }
 
     const hasNextPage: boolean = skip * perPage < count;
     return {
       nextPag: !hasNextPage ? Number(skip) + 2 : null,
       count: count,
-      results: result as Region[],
+      results: result[0].regions as Region[],
     };
   }
 }

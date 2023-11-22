@@ -72,6 +72,7 @@ export class DistrictMongoRepository
       {
         $project: {
           _id: 0,
+          regions: 0,
         },
       },
       {
