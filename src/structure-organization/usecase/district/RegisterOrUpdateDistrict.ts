@@ -3,9 +3,9 @@ import {
   DistrictStructureType,
   DistrictNotFound,
   IDistrictRepository,
-} from "../domain";
-import { IWorldRepository, States } from "../../world/domain";
-import { StateNotFound } from "../../world/domain/exceptions/state-not-found.exception";
+} from "../../domain";
+import { IWorldRepository, States } from "../../../world/domain";
+import { StateNotFound } from "../../../world/domain/exceptions/state-not-found.exception";
 
 export class RegisterOrUpdateDistrict {
   constructor(

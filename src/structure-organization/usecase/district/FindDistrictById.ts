@@ -1,4 +1,4 @@
-import { District, DistrictNotFound, IDistrictRepository } from "../domain";
+import { District, DistrictNotFound, IDistrictRepository } from "../../domain";
 
 export class FindDistrictById {
   constructor(private readonly districtRepository: IDistrictRepository) {}

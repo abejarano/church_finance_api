@@ -1,4 +1,3 @@
-import { Region } from "../region";
 import { District } from "../district";
 import { Paginate } from "../../../shared";
 

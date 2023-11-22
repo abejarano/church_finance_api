@@ -1,6 +1,6 @@
-import { District, IDistrictRepository } from "../domain";
-import { DistrictPaginateRequest } from "../infrastructure";
-import { Paginate } from "../../shared";
+import { District, IDistrictRepository } from "../../domain";
+import { DistrictPaginateRequest } from "../../infrastructure";
+import { Paginate } from "../../../shared";
 
 export class SearchDistrict {
   constructor(private readonly districtRepository: IDistrictRepository) {}

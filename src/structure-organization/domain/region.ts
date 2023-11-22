@@ -30,6 +30,9 @@ export class Region {
     r.district = District.fromPrimitives(plainData.district);
     return r;
   }
+  setName(name: string): void {
+    this.name = name;
+  }
 
   toPrimitives(): any {
     return {

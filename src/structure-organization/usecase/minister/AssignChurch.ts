@@ -1,5 +1,5 @@
-import { IMinisterRepository } from "../domain";
-import { Church } from "../../church/domain";
+import { IMinisterRepository } from "../../domain";
+import { Church } from "../../../church/domain";
 
 export class AssignChurch {
   constructor(private readonly ministerRepository: IMinisterRepository) {}

@@ -1,12 +1,13 @@
 import { Response } from "express";
-import { RegisterOrUpdateDistrict } from "../../../usecase/register-or-update-district";
-import { DistrictMongoRepository } from "../../persistence/district-mongo-repository";
+import { RegisterOrUpdateDistrict } from "../../../usecase/district/RegisterOrUpdateDistrict";
+import { DistrictMongoRepository } from "../../persistence/DistrictMongoRepository";
 import { DomainException, HttpStatus } from "../../../../shared";
 import { DistrictStructureType } from "../../../domain";
 import { WorldMongoRepository } from "../../../../world/infrastructure/persistence/world-mongo-repository";
-import { DistrictPaginateRequest } from "../requests/district-paginate.request";
-import { SearchDistrict } from "../../../usecase/search-district";
-import { FindDistrictById } from "../../../usecase/find-district-by-id";
+import { DistrictPaginateRequest } from "../requests/DistrictPaginate.request";
+import { SearchDistrict } from "../../../usecase/district/SearchDistrict";
+import { FindDistrictById } from "../../../usecase/district/FindDistrictById";
+import domainResponse from "../../../../shared/helpers/domainResponse";
 
 export class DistrictController {
   static async createOrUpdate(request: DistrictStructureType, res: Response) {
@@ -16,16 +17,9 @@ export class DistrictController {
         WorldMongoRepository.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.CREATED).json({ message: "District created" });
+      res.status(HttpStatus.CREATED).json({ message: "Registered district" });
     } catch (e) {
-      if (e instanceof DomainException) {
-        res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ code: e.getErrorCode(), message: e.getMessage() });
-        return;
-      }
-
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: e.message });
+      domainResponse(e, res);
     }
   }
 
@@ -35,7 +29,9 @@ export class DistrictController {
         DistrictMongoRepository.getInstance(),
       ).paginate(request);
       res.status(HttpStatus.OK).json(data);
-    } catch (e) {}
+    } catch (e) {
+      domainResponse(e, res);
+    }
   }
 
   static async findByDistrictId(districtId: string, res: Response) {
@@ -46,14 +42,7 @@ export class DistrictController {
 
       res.status(HttpStatus.CREATED).json({ data: district });
     } catch (e) {
-      if (e instanceof DomainException) {
-        res
-          .status(HttpStatus.BAD_REQUEST)
-          .json({ code: e.getErrorCode(), message: e.getMessage() });
-        return;
-      }
-
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: e.message });
+      domainResponse(e, res);
     }
   }
 }

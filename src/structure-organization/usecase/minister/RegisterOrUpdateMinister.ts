@@ -3,7 +3,8 @@ import {
   IRegionRepository,
   Minister,
   MinisterStructureType,
-} from "../domain";
+  Region,
+} from "../../domain";
 
 export class RegisterOrUpdateMinister {
   constructor(
@@ -15,16 +16,28 @@ export class RegisterOrUpdateMinister {
       request.dni,
     );
     if (!minister) {
-      minister = Minister.create(
-        request.name,
-        request.email,
-        request.phone,
-        request.dni,
-        request.ministerType,
-        await this.regionRepository.findById(request.regionId),
-      );
+      const minister = await this.createMinister(request);
     }
 
     await this.ministerRepository.upsert(minister);
+  }
+
+  private async createMinister(
+    request: MinisterStructureType,
+  ): Promise<Minister> {
+    const region: Region = await this.regionRepository.findById(
+      request.regionId,
+    );
+    if (!region) {
+      throw new Error("Region not found");
+    }
+    return Minister.create(
+      request.name,
+      request.email,
+      request.phone,
+      request.dni,
+      request.ministerType,
+      region,
+    );
   }
 }

@@ -1,9 +1,3 @@
-import { IRegionRepository } from "../../domain/interfaces/region-repository.interface";
-import { Region } from "../../domain/region";
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../shared/infrastructure/mongodb";
 import {
   Criteria,
   Filters,
@@ -12,6 +6,11 @@ import {
   OrderTypes,
   Paginate,
 } from "../../../shared";
+import {
+  MongoClientFactory,
+  MongoRepository,
+} from "../../../shared/infrastructure";
+import { IRegionRepository, Region } from "../../domain";
 
 export class RegionMongoRepository
   extends MongoRepository<any>
