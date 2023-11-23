@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../domain/enums/http-status.enum";
-import { ValidateActionInSystem } from "../../../security-system/usecase/validate-action-in-system";
+import { ValidateActionInSystem } from "../../../security-system/applications/validate-action-in-system";
 import { UserMongoRepository } from "../../../security-system/infrastructure";
 import { ActionInSystem, UserAuthDTO } from "../../../security-system/domain";
 

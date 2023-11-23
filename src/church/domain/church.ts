@@ -24,11 +24,10 @@ export class Church extends AggregateRoot {
     street: string,
     number: string,
     postalCode: string,
-    registerNumber: string,
     email: string,
     openingDate: Date,
-    minister: Minister,
     region: Region,
+    registerNumber?: string,
   ): Church {
     const c: Church = new Church();
 
@@ -41,7 +40,6 @@ export class Church extends AggregateRoot {
     c.registerNumber = registerNumber;
     c.email = email;
     c.openingDate = openingDate;
-    c.minister = minister;
     c.region = region;
     c.createdAt = new Date();
     c.churchId = IdentifyEntity.get();
@@ -55,6 +53,40 @@ export class Church extends AggregateRoot {
 
   getChurchId(): string {
     return this.churchId;
+  }
+
+  setRegion(region: Region) {
+    this.region = region;
+  }
+
+  setRegisterNumber(registerNumber: string) {
+    this.registerNumber = registerNumber;
+  }
+
+  setMinister(minister: Minister) {
+    this.minister = minister;
+  }
+
+  setEmail(email: string) {
+    this.email = email;
+  }
+
+  setAddress(
+    city: string,
+    address: string,
+    street: string,
+    number: string,
+    postalCode: string,
+  ) {
+    this.city = city;
+    this.address = address;
+    this.street = street;
+    this.number = number;
+    this.postalCode = postalCode;
+  }
+
+  setOpeningDate(openingDate: Date) {
+    this.openingDate = openingDate;
   }
 
   static fromPrimitives(plainData: any): Church {
@@ -96,7 +128,6 @@ export class Church extends AggregateRoot {
       registerNumber: this.registerNumber,
       email: this.email,
       openingDate: this.openingDate,
-      minister: { id: this.minister.getId(), ...this.minister.toPrimitives() },
       region: { ...this.region.toPrimitives() },
       createdAt: this.createdAt,
     };

@@ -1,12 +1,12 @@
 import { Response } from "express";
-import { RegisterOrUpdateDistrict } from "../../../usecase/district/RegisterOrUpdateDistrict";
+import { RegisterOrUpdateDistrict } from "../../../applications/district/RegisterOrUpdateDistrict";
 import { DistrictMongoRepository } from "../../persistence/DistrictMongoRepository";
-import { DomainException, HttpStatus } from "../../../../shared";
+import { HttpStatus } from "../../../../shared";
 import { DistrictStructureType } from "../../../domain";
 import { WorldMongoRepository } from "../../../../world/infrastructure/persistence/world-mongo-repository";
 import { DistrictPaginateRequest } from "../requests/DistrictPaginate.request";
-import { SearchDistrict } from "../../../usecase/district/SearchDistrict";
-import { FindDistrictById } from "../../../usecase/district/FindDistrictById";
+import { SearchDistrict } from "../../../applications/district/SearchDistrict";
+import { FindDistrictById } from "../../../applications/district/FindDistrictById";
 import domainResponse from "../../../../shared/helpers/domainResponse";
 
 export class DistrictController {

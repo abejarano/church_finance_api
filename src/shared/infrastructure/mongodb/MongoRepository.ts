@@ -1,6 +1,6 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
 import { Criteria } from "../../domain/criteria";
-import { MongoCriteriaConverter, MongoQuery } from "./mongo-criteria-converter";
+import { MongoCriteriaConverter, MongoQuery } from "./MongoCriteriaConverter";
 import { Paginate } from "../../domain/types/paginate";
 import { AggregateRoot } from "../../domain/aggregate-root";
 

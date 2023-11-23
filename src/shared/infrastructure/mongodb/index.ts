@@ -1,3 +1,3 @@
-export { MongoRepository } from "./mongo-repository";
-export { MongoClientFactory } from "./mongo-client-factory";
-export { MongoCriteriaConverter } from "./mongo-criteria-converter";
+export { MongoRepository } from "./MongoRepository";
+export { MongoClientFactory } from "./MongoClientFactory";
+export { MongoCriteriaConverter } from "./MongoCriteriaConverter";
