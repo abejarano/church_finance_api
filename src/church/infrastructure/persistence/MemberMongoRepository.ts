@@ -1,10 +1,9 @@
-import { Member } from "src/church/domain/member";
-import { Criteria, Paginate } from "src/shared";
 import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../shared/infrastructure";
-import { IMemberRepository } from "../../domain";
+import { IMemberRepository, Member } from "../../domain";
+import { Criteria, Paginate } from "../../../shared";
 
 export class MemberMongoRepository
   extends MongoRepository<any>
@@ -39,14 +38,17 @@ export class MemberMongoRepository
 
     return Member.fromPrimitives(result);
   }
-  upsert(member: Member): Promise<void> {
-    throw new Error("Method not implemented.");
+  async upsert(member: Member): Promise<void> {
+    const collection = await this.collection();
+
+    await collection.updateOne(
+      { churchId: member.getChurchId() },
+      { $push: { members: member.toPrimitives() } },
+      { upsert: true },
+    );
   }
-  async paginate(
-    criteria: Criteria,
-    page: number,
-    perPage: number,
-  ): Promise<Paginate<Member>> {
+
+  async list(criteria: Criteria): Promise<Paginate<Member>> {
     const members = await this.searchByCriteriaWithProjection<Member>(
       criteria,
       "members",
