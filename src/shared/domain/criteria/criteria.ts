@@ -7,10 +7,10 @@ export class Criteria {
   readonly limit?: number;
   readonly offset?: number;
 
-  constructor(filters: Filters, order: Order, limit?: number, offset?: number) {
+  constructor(filters: Filters, order: Order, limit: number, offset?: number) {
     this.filters = filters;
     this.order = order;
-    this.limit = limit;
+    this.limit = Number(limit);
     this.offset = offset !== undefined ? (offset - 1) * limit : undefined;
   }
 

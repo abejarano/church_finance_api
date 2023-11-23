@@ -5,7 +5,9 @@ import { RegionMongoRepository } from "../../persistence/RegionMongoRepository";
 import { Minister, MinisterStructureType } from "../../../domain";
 import { Response } from "express";
 import domainResponse from "../../../../shared/helpers/domainResponse";
-import { FindMinisterById } from "../../../usecase/minister/FindMinisterById";
+import { FindMinisterByDNI } from "../../../usecase/minister/FindMinisterByDNI";
+import { MinisterPaginateRequest } from "../requests/MinisterPaginate.request";
+import { SearchMinister } from "../../../usecase/minister/SearchMinister";
 
 export class MinisterController {
   static async createOrUpdate(request: MinisterStructureType, res: Response) {
@@ -21,13 +23,25 @@ export class MinisterController {
     }
   }
 
-  static async findById(ministerId: string, res: Response) {
+  static async findByDNI(ministerDni: string, res: Response) {
     try {
-      const minister: Minister = await new FindMinisterById(
+      const minister: Minister = await new FindMinisterByDNI(
         MinisterMongoRepository.getInstance(),
-      ).execute(ministerId);
+      ).execute(ministerDni);
 
       res.status(HttpStatus.CREATED).json({ data: minister });
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async search(request: MinisterPaginateRequest, res: Response) {
+    try {
+      const ministers = await new SearchMinister(
+        MinisterMongoRepository.getInstance(),
+      ).execute(request);
+
+      res.status(HttpStatus.OK).json(ministers);
     } catch (e) {
       domainResponse(e, res);
     }

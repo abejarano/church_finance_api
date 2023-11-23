@@ -53,8 +53,24 @@ export class Minister extends AggregateRoot {
     return this.region;
   }
 
+  setEmail(email: string) {
+    this.email = email;
+  }
+
+  setPhone(phone: string) {
+    this.phone = phone;
+  }
+
+  setName(name: string) {
+    this.name = name;
+  }
+
   getId(): string {
     return this.id;
+  }
+
+  setRegion(region: Region) {
+    this.region = region;
   }
 
   toPrimitives(): any {

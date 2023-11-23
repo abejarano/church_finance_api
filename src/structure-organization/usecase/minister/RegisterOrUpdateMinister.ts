@@ -4,6 +4,7 @@ import {
   Minister,
   MinisterStructureType,
   Region,
+  RegionNotFound,
 } from "../../domain";
 
 export class RegisterOrUpdateMinister {
@@ -17,25 +18,34 @@ export class RegisterOrUpdateMinister {
       request.dni,
     );
 
-    //if (!minister) {
-    minister = await this.createMinister(request);
-    //}
+    if (!minister) {
+      minister = await this.createMinister(request);
+    }
 
-    //await this.ministerRepository.upsert(minister);
+    const region: Region = await this.getRegion(request.regionId);
+
+    minister.setPhone(request.phone);
+    minister.setEmail(request.email);
+    minister.setName(request.name);
+    minister.setRegion(region);
+
+    await this.ministerRepository.upsert(minister);
+  }
+
+  private async getRegion(regionId: string): Promise<Region> {
+    const region: Region = await this.regionRepository.findById(regionId);
+
+    if (!region) {
+      throw new RegionNotFound();
+    }
+
+    return region;
   }
 
   private async createMinister(
     request: MinisterStructureType,
   ): Promise<Minister> {
-    const region: Region = await this.regionRepository.findById(
-      request.regionId,
-    );
-
-    if (!region) {
-      throw new Error("Region not found");
-    }
-
-    console.log(region);
+    const region: Region = await this.getRegion(request.regionId);
 
     return Minister.create(
       request.name,
