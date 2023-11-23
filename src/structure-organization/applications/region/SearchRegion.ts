@@ -8,7 +8,6 @@ export class SearchRegion {
   async paginate(
     regionPaginateRequest: RegionPaginateRequest,
   ): Promise<Paginate<Region>> {
-    console.log(regionPaginateRequest);
     return await this.regionRepository.listRegionsByDistrictId(
       regionPaginateRequest.districtId,
       regionPaginateRequest.page,
