@@ -25,6 +25,7 @@ export class ChurchMongoRepository
   collectionName(): string {
     return "churches";
   }
+
   async findById(churchId: string): Promise<Church | undefined> {
     const collection = await this.collection();
     const result = await collection.findOne({ churchId: churchId });
@@ -38,6 +39,7 @@ export class ChurchMongoRepository
   async upsert(church: Church): Promise<void> {
     await this.persist(church.getId(), church);
   }
+
   async list(criteria: Criteria): Promise<Paginate<Church>> {
     const result: Church[] = await this.searchByCriteria<Church>(criteria);
     return this.buildPaginate<Church>(result);

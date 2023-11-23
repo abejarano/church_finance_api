@@ -7,6 +7,8 @@ import { CreateOrUpdateChurch } from "../../../applications/church/CreateOrUpdat
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
 import { SearchChurch } from "../../../applications/church/SearchChurch";
+import { FindChurchById } from "../../../applications/church/FindChurchById";
+import { Church } from "../../../domain";
 
 export class ChurchController {
   static async createOrUpdate(request: ChurchRequest, res: Response) {
@@ -29,6 +31,18 @@ export class ChurchController {
       ).execute(req);
 
       res.status(HttpStatus.OK).json(churches);
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async findByChurchId(churchId: string, res: Response) {
+    try {
+      const church: Church = await new FindChurchById(
+        ChurchMongoRepository.getInstance(),
+      ).execute(churchId);
+
+      res.status(HttpStatus.OK).json(church);
     } catch (e) {
       domainResponse(e, res);
     }

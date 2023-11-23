@@ -14,7 +14,7 @@ churchRoute.get("/", async (req, res) => {
 });
 
 churchRoute.get("/:churchId", async (req, res) => {
-  res.status(200).json({});
+  await ChurchController.findByChurchId(req.params.churchId, res);
 });
 
 export default churchRoute;

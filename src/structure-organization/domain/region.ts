@@ -27,7 +27,10 @@ export class Region {
     const r: Region = new Region();
     r.name = plainData.name;
     r.regionId = plainData.regionId;
-    r.district = District.fromPrimitives(plainData.district);
+
+    if (plainData.district)
+      r.district = District.fromPrimitives(plainData.district);
+
     return r;
   }
   setName(name: string): void {

@@ -91,6 +91,7 @@ export class Church extends AggregateRoot {
 
   static fromPrimitives(plainData: any): Church {
     const c: Church = new Church();
+
     c.id = plainData.id;
     c.churchId = plainData.churchId;
     c.name = plainData.name;
@@ -102,9 +103,14 @@ export class Church extends AggregateRoot {
     c.registerNumber = plainData.registerNumber;
     c.email = plainData.email;
     c.openingDate = plainData.openingDate;
-    c.minister = Minister.fromPrimitives(plainData.minister);
+
+    if (plainData.minister) {
+      c.minister = Minister.fromPrimitives(plainData.minister);
+    }
+
     c.region = Region.fromPrimitives(plainData.region);
     c.createdAt = plainData.createdAt;
+
     return c;
   }
 
