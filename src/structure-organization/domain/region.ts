@@ -38,7 +38,6 @@ export class Region {
     return {
       regionId: this.regionId,
       name: this.name,
-      //district: { id: this.district.getId(), ...this.district.toPrimitives() },
     };
   }
 }

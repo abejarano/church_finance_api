@@ -11,15 +11,17 @@ export class RegisterOrUpdateMinister {
     private readonly ministerRepository: IMinisterRepository,
     private readonly regionRepository: IRegionRepository,
   ) {}
+
   async execute(request: MinisterStructureType): Promise<void> {
     let minister: Minister = await this.ministerRepository.findByDni(
       request.dni,
     );
-    if (!minister) {
-      const minister = await this.createMinister(request);
-    }
 
-    await this.ministerRepository.upsert(minister);
+    //if (!minister) {
+    minister = await this.createMinister(request);
+    //}
+
+    //await this.ministerRepository.upsert(minister);
   }
 
   private async createMinister(
@@ -28,9 +30,13 @@ export class RegisterOrUpdateMinister {
     const region: Region = await this.regionRepository.findById(
       request.regionId,
     );
+
     if (!region) {
       throw new Error("Region not found");
     }
+
+    console.log(region);
+
     return Minister.create(
       request.name,
       request.email,

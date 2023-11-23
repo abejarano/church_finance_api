@@ -37,13 +37,30 @@ export class RegionMongoRepository
 
   async findById(regionId: string): Promise<Region> {
     const collection = await this.collection();
-    const result = await collection.findOne({ "regions.regionId": regionId });
+    const result = await collection.findOne(
+      {
+        "regions.regionId": regionId,
+      },
+      {
+        projection: {
+          _id: 1,
+          name: 1,
+          stateId: 1,
+          districtId: 1,
+          createdAt: 1,
+          "regions.$": 1,
+        },
+      },
+    );
 
     if (!result) {
       return undefined;
     }
 
-    return Region.fromPrimitives({ ...result, district: result });
+    return Region.fromPrimitives({
+      ...result.regions[0],
+      district: { id: result._id.toString(), ...result },
+    });
   }
 
   async upsert(region: Region): Promise<void> {
@@ -75,12 +92,20 @@ export class RegionMongoRepository
         page,
       );
 
-      let document = await this.searchByCriteriaWithProjection<Region>(
+      let document = await this.searchByCriteriaWithProjection<any>(
         criteria,
         "regions",
       );
 
-      return this.buildPaginate<Region>(document);
+      if (document.length === 0) {
+        return {
+          nextPag: null,
+          count: 0,
+          results: [],
+        };
+      }
+
+      return this.buildPaginate<Region>(document[0].regions);
     }
 
     const skip = (page - 1) * perPage;

@@ -97,7 +97,7 @@ export abstract class MongoRepository<T extends AggregateRoot> {
 
     const projection: { [key: string]: any } = {};
     projection[objectTypeField] = {
-      $slice: [this.query.skip, this.query.limit],
+      $slice: [Number(this.query.skip), Number(this.query.limit)],
     };
 
     const collection = await this.collection();

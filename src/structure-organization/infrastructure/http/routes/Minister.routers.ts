@@ -5,15 +5,15 @@ import { MinisterController } from "../controllers/Minister.controller";
 const ministerRoute: Router = Router();
 
 ministerRoute.post(
-  "/minister",
+  "/",
   ministerValidator,
   async (req: Request, res: Response): Promise<void> => {
     await MinisterController.createOrUpdate(req.body, res);
   },
 );
 
-ministerRoute.post(
-  "/minister/:ministerId",
+ministerRoute.get(
+  "/:ministerId",
   async (req: Request, res: Response): Promise<void> => {
     await MinisterController.findById(req.params.ministerId, res);
   },
