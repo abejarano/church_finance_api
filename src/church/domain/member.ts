@@ -50,7 +50,7 @@ export class Member {
     m.conversionDate = plainData.conversionDate;
     m.baptismDate = plainData.baptismDate;
     m.birthdate = plainData.birthdate;
-    m.church = Church.fromPrimitives(plainData.church);
+    m.id = plainData.id;
 
     return m;
   }

@@ -4,4 +4,5 @@ export { Church } from "./church";
 export { IChurchRepository } from "./interfaces/ChurchRepository.interface";
 export { IMemberRepository } from "./interfaces/MemberRepository.interface";
 
-export { ChurchNotFound } from "./exceptions/church-not-found.exception";
+export { ChurchNotFound } from "./exceptions/ChurchNotFound.exception";
+export { MemberNotFound } from "./exceptions/MemberNotFound.exception";

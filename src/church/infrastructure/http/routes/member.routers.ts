@@ -14,7 +14,7 @@ memberRoute.get("/list", async (req, res) => {
 });
 
 memberRoute.get("/:memberId", async (req, res) => {
-  res.send("memberRoute detail");
+  await MemberController.findById(req.params.memberId, res);
 });
 
 export default memberRoute;

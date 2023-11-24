@@ -7,6 +7,7 @@ import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { HttpStatus } from "../../../../shared";
 import { MemberPaginateRequest } from "../requests/MemberPaginate.request";
 import { SearchMember } from "../../../applications/members/SearchMember";
+import { FindMemberById } from "../../../applications/members/FindMemberById";
 
 export class MemberController {
   static async createOrUpdate(memberRequest: MemberRequest, res: Response) {
@@ -29,6 +30,18 @@ export class MemberController {
       ).execute(memberRequest);
 
       res.status(HttpStatus.OK).json(members);
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async findById(memberId: string, res: Response) {
+    try {
+      const member = await new FindMemberById(
+        MemberMongoRepository.getInstance(),
+      ).execute(memberId);
+
+      res.status(HttpStatus.OK).json({ data: member });
     } catch (e) {
       domainResponse(e, res);
     }

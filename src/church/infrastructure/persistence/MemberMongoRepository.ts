@@ -31,14 +31,17 @@ export class MemberMongoRepository
 
   async findById(memberId: string): Promise<Member> {
     const collection = await this.collection();
-    const result = await collection.findOne<Member>(
+    const result = await collection.findOne<any>(
       {
         "members.memberId": memberId,
       },
       { projection: { "members.$": 1 } },
     );
 
-    return Member.fromPrimitives(result);
+    return Member.fromPrimitives({
+      id: result._id.toString(),
+      ...result.members[0],
+    });
   }
   async upsert(member: Member): Promise<void> {
     const collection = await this.collection();
