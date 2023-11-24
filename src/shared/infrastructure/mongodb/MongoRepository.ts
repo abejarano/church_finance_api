@@ -91,6 +91,7 @@ export abstract class MongoRepository<T extends AggregateRoot> {
   protected async searchByCriteriaWithProjection<D>(
     criteria: Criteria,
     objectTypeField: string,
+    fieldsToExclude: string[] = [],
   ): Promise<D[]> {
     this.criteria = criteria;
     this.query = this.criteriaConverter.convert(criteria);
@@ -99,6 +100,12 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     projection[objectTypeField] = {
       $slice: [Number(this.query.skip), Number(this.query.limit)],
     };
+
+    if (fieldsToExclude.length > 0) {
+      fieldsToExclude.forEach((field) => {
+        projection[field] = 0;
+      });
+    }
 
     const collection = await this.collection();
     return await collection

@@ -44,7 +44,7 @@ export class SearchMember {
 
     return new Criteria(
       Filters.fromValues(filters),
-      Order.fromValues("createdAt", OrderTypes.DESC),
+      Order.fromValues("members.name", OrderTypes.DESC),
       request.perPage,
       request.page,
     );

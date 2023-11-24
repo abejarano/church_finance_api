@@ -4,6 +4,7 @@ import {
 } from "../../../shared/infrastructure";
 import { IMemberRepository, Member } from "../../domain";
 import { Criteria, Paginate } from "../../../shared";
+import * as console from "console";
 
 export class MemberMongoRepository
   extends MongoRepository<any>
@@ -49,11 +50,23 @@ export class MemberMongoRepository
   }
 
   async list(criteria: Criteria): Promise<Paginate<Member>> {
-    const members = await this.searchByCriteriaWithProjection<Member>(
+    const documents = await this.searchByCriteriaWithProjection<any>(
       criteria,
       "members",
     );
 
-    return this.buildPaginate<Member>(members);
+    const listMembers = [];
+
+    for (const d of documents) {
+      for (const m of d.members) {
+        listMembers.push({
+          ...m,
+          church: { name: d.name, churchId: d.churchId },
+          region: d.region,
+        });
+      }
+    }
+
+    return this.buildPaginate<Member>(listMembers);
   }
 }
