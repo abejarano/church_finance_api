@@ -1,6 +1,6 @@
-export { Region } from "./domain/region";
-export { District } from "./domain/district";
-export { Minister } from "./domain/minister";
+export { Region } from "./domain/Region";
+export { District } from "./domain/District";
+export { Minister } from "./domain/Minister";
 
 export { IRegionRepository } from "./domain/interfaces/RegionRepository.interface";
 export { IDistrictRepository } from "./domain/interfaces/DistrictRepository.interface";

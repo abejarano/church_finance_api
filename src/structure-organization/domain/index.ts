@@ -1,6 +1,6 @@
-export { District } from "./district";
-export { Region } from "./region";
-export { Minister } from "./minister";
+export { District } from "./District";
+export { Region } from "./Region";
+export { Minister } from "./Minister";
 
 export { DistrictNotFound } from "./exceptions/DistrictNotFound.exception";
 export { RegionNotFound } from "./exceptions/RegionNotFound.exception";

@@ -1,4 +1,4 @@
-import { District } from "./district";
+import { District } from "./District";
 import { IdentifyEntity } from "../../shared";
 
 export class Region {

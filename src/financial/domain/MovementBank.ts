@@ -1,6 +1,6 @@
 import { MovementBankType } from "./enums/movement-bank-type.enum";
 import { IdentifyEntity } from "../../shared";
-import { Bank } from "./bank";
+import { Bank } from "./Bank";
 
 export class MovementBank {
   private movementBankId: string;

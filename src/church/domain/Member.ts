@@ -1,4 +1,4 @@
-import { Church } from "./church";
+import { Church } from "./Church";
 import { IdentifyEntity } from "../../shared";
 
 export class Member {

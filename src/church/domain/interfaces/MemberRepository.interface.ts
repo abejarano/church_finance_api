@@ -1,5 +1,5 @@
 import { Criteria, Paginate } from "../../../shared";
-import { Member } from "../member";
+import { Member } from "../Member";
 
 export interface IMemberRepository {
   findById(memberId: string): Promise<Member>;

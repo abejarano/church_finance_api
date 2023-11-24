@@ -1,5 +1,5 @@
-export { Member } from "./member";
-export { Church } from "./church";
+export { Member } from "./Member";
+export { Church } from "./Church";
 
 export { IChurchRepository } from "./interfaces/ChurchRepository.interface";
 export { IMemberRepository } from "./interfaces/MemberRepository.interface";

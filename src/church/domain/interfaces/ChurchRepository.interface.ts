@@ -1,5 +1,5 @@
-import { Member } from "../member";
-import { Church } from "../church";
+import { Member } from "../Member";
+import { Church } from "../Church";
 import { Criteria, Paginate } from "../../../shared";
 
 export interface IChurchRepository {

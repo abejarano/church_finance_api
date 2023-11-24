@@ -1,4 +1,4 @@
-import { Region } from "../region";
+import { Region } from "../Region";
 import { Paginate } from "../../../shared";
 
 export interface IRegionRepository {

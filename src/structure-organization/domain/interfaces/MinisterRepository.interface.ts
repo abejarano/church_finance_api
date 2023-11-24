@@ -1,4 +1,4 @@
-import { Minister } from "../minister";
+import { Minister } from "../Minister";
 import { Criteria, Paginate } from "../../../shared";
 import { Church } from "../../../church/domain";
 

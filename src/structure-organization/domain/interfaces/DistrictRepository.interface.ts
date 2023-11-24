@@ -1,4 +1,4 @@
-import { District } from "../district";
+import { District } from "../District";
 import { Paginate } from "../../../shared";
 
 export interface IDistrictRepository {
