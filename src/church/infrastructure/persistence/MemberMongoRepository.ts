@@ -5,6 +5,7 @@ import {
 import { IMemberRepository, Member } from "../../domain";
 import { Criteria, Paginate } from "../../../shared";
 import * as console from "console";
+import { Region } from "../../../structure-organization";
 
 export class MemberMongoRepository
   extends MongoRepository<any>
@@ -67,6 +68,28 @@ export class MemberMongoRepository
       }
     }
 
-    return this.buildPaginate<Member>(listMembers);
+    const agg = [
+      {
+        $project: {
+          numberOfRegions: { $size: "$members" },
+        },
+      },
+    ];
+
+    const collection = await this.collection();
+    const r = await collection.aggregate(agg).toArray();
+    let count = 0;
+    if (r.length > 0) {
+      count = r[0].numberOfRegions;
+    }
+
+    const skip = (criteria.offset - 1) * criteria.limit;
+    const hasNextPage: boolean = skip * criteria.limit < count;
+
+    return {
+      nextPag: !hasNextPage ? Number(skip) + 2 : null,
+      count: count,
+      results: listMembers as Member[],
+    };
   }
 }
