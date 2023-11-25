@@ -36,6 +36,10 @@ export class CostCenter extends AggregateRoot {
     return this.id;
   }
 
+  getChurchId(): string {
+    return this.churchId;
+  }
+
   toPrimitives(): any {
     return {
       active: this.active,

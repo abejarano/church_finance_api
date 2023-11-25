@@ -1,4 +1,4 @@
-import { MovementBankType } from "./enums/movement-bank-type.enum";
+import { MovementBankType } from "./enums/MovementBankType.enum";
 import { IdentifyEntity } from "../../shared";
 import { Bank } from "./Bank";
 
