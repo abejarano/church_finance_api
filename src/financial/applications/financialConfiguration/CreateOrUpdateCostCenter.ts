@@ -3,7 +3,7 @@ import {
   CostCenter,
   IFinancialConfigurationRepository,
 } from "../../domain";
-import { CostCenterRequest } from "../../infrastructure/http/requests/CostCenter.request";
+import { CostCenterRequest } from "../../domain/requests/CostCenter.request";
 
 export class CreateOrUpdateCostCenter {
   constructor(

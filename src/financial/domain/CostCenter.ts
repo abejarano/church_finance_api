@@ -23,11 +23,12 @@ export class CostCenter extends AggregateRoot {
 
   static fromPrimitives(plainData: any, bank: Bank): CostCenter {
     const costCenter: CostCenter = new CostCenter();
+    costCenter.id = plainData.id;
     costCenter.active = plainData.active;
     costCenter.costCenterId = plainData.costCenterId;
     costCenter.name = plainData.name;
     costCenter.churchId = plainData.churchId;
-    costCenter.bank = Bank.fromPrimitives(plainData.bank);
+    costCenter.bank = bank;
     costCenter.createdAt = plainData.createdAt;
     return costCenter;
   }

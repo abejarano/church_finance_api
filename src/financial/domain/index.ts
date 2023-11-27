@@ -6,3 +6,7 @@ export { FinanceConcept } from "./FinanceConcept";
 
 export { BankNotFound } from "./exceptions/BankNotFound.exception";
 export { CostCenterNotFound } from "./exceptions/CostCenterNotFound.exception";
+
+export { CostCenterRequest } from "./requests/CostCenter.request";
+
+export { BankInstructionBR } from "./dtos/BankInstructionBR.dto";
