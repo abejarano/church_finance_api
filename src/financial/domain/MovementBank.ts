@@ -1,13 +1,16 @@
 import { MovementBankType } from "./enums/MovementBankType.enum";
 import { IdentifyEntity } from "../../shared/adapter";
 import { Bank } from "./Bank";
+import { AggregateRoot } from "../../shared/domain";
 
-export class MovementBank {
+export class MovementBank extends AggregateRoot {
+  private id?: string;
   private movementBankId: string;
   private amount: number;
   private movementType: MovementBankType;
   private description: string;
-  private bank: Bank;
+  private bankId: string;
+  private churchId: string;
   private createdAt: Date;
 
   static create(
@@ -21,24 +24,35 @@ export class MovementBank {
     movementBank.movementType = movementType;
     movementBank.description = description;
     movementBank.movementBankId = IdentifyEntity.get();
-    movementBank.bank = bank;
+    movementBank.bankId = bank.getBankId();
+    movementBank.churchId = bank.getChurchId();
     movementBank.createdAt = new Date();
+
     return movementBank;
   }
 
-  static fromPrimitives(plainData: any, bank: Bank): MovementBank {
+  static fromPrimitives(plainData: any): MovementBank {
     const movementBank: MovementBank = new MovementBank();
     movementBank.amount = plainData.amount;
     movementBank.movementType = plainData.movementType;
     movementBank.description = plainData.description;
     movementBank.movementBankId = plainData.movementBankId;
-    movementBank.bank = bank;
+    movementBank.bankId = plainData.bankId;
+    movementBank.churchId = plainData.churchId;
     movementBank.createdAt = plainData.createdAt;
     return movementBank;
   }
 
-  getBank(): Bank {
-    return this.bank;
+  getId(): string {
+    return this.id;
+  }
+
+  getBankId(): string {
+    return this.bankId;
+  }
+
+  getChurchId(): string {
+    return this.churchId;
   }
 
   toPrimitives(): any {
@@ -47,7 +61,8 @@ export class MovementBank {
       amount: this.amount,
       movementType: this.movementType,
       description: this.description,
-      bankId: this.bank.getBankId(),
+      bankId: this.bankId,
+      churchId: this.churchId,
       createdAt: this.createdAt,
     };
   }

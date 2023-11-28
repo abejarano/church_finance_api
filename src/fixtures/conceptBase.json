@@ -2,175 +2,175 @@
   {
     "name": "Gastos de Pessoal",
     "description": "Salários e honorários para pastores, ministros, pessoal administrativo e outros funcionários da igreja",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Aluguel ou Arrendamento",
     "description": "Despesas relacionadas ao aluguel ou arrendamento de instalações para reuniões e atividades da igreja / alugel do salāo",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Suprimentos de Escritório",
     "description": "Compra de papel, tinta, equipamentos de escritório e outros suprimentos necessários para a administração da igreja",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Serviços Públicos",
     "description": "Pagamentos de eletricidade, água, gás e outros serviços públicos para manter as instalações da igreja",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Manutenção e Reparos",
     "description": "Despesas com a manutenção e reparo de edifícios, equipamentos e terrenos da igreja",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Despesas de Eventos / Conferências e Convenções",
     "description": "Custos associados a eventos especiais, conferências, retiros e atividades para a congregação",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Programas de Assistência",
     "description": "Despesas destinadas a programas de assistência e caridade, como doações a instituições de caridade e projetos comunitários",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Educação Religiosa",
     "description": "Despesas com programas educacionais, estudos bíblicos, aulas e materiais de ensino",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Publicidade e Promoção",
     "description": "Despesas relacionadas à publicidade, promoção de eventos e atividades da igreja",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Equipamento Tecnológico",
     "description": "Compra e manutenção de equipamentos tecnológicos, como projetores, sistemas de som e equipamentos audiovisuais",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Missões e Evangelismo",
     "description": "Despesas relacionadas a atividades missionárias, viagens de evangelização e apoio a missionários",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Despesas de Viagem",
     "description": "Custos de viagem para conferências, retiros e atividades pastorais",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Treinamento e Desenvolvimento",
     "description": "Despesas para a formação e capacitação de líderes e membros da igreja",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Benevolência",
     "description": "Ajuda financeira fornecida a membros necessitados ou famílias em dificuldades",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Despesas Legais e Contábeis",
     "description": "Honorários de advogados e serviços de contabilidade relacionados a questões legais e fiscais",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Dívidas e Empréstimos",
     "description": "Pagamentos de empréstimos ou dívidas pendentes, como hipotecas ou outros compromissos financeiros",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Despesas de Culto",
     "description": "Custos associados à organização de cultos, música, adoração e recursos litúrgicos",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Despesas de Decoração",
     "description": "Custos associados à decoração de eventos, celebrações e cultos especiais da igreja",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Assistência a Necessitados",
     "description": "Recursos destinados a ajudar membros em situações financeiras difíceis, como emergências ou crises",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Despesas de Alimentação",
     "description": "Gastos relacionados a refeições, lanches e eventos de alimentação da igreja e seus membros",
-    "type": "Entrada",
+    "type": "INCOME",
     "active": true
   },
   {
     "name": "Ofertas de Culto",
     "description": "Contribuições feitas pelos membros da igreja durante os cultos.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Dízimos de Membros",
     "description": "Dízimos regulares doados pelos membros da igreja para sustentar as atividades e ministérios.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Oferta mensal pro Terreno",
     "description": "Oferta messal destinadas para adquirir terreno pra igreja.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Vendas de comida ou mercadorias",
     "description": "Ingresos obtidos por vendas.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Ofertas para Missões",
     "description": "Contribuições destinadas a apoiar projetos missionários e atividades de alcance evangelístico da igreja.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Projeto de Grupos de Jovens",
     "description": "Ingreso geradas pelas atividades realizados pelo grupo de jovens da igreja em pro de um projeto especifico.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Projeto de Grupos de Crianças",
     "description": "Ingreso provenientes de atividades e reuniões organizadas pelos grupos de crianças da igreja em pro de um projeto especifico.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Projeto de Grupos de Mulheres",
     "description": "Ingreso provenientes de atividades organizadas pelos grupos de mulheres da igreja em pro de um projeto especifico.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   },
   {
     "name": "Projeto de Grupos de Homens",
     "description": "Projeto provenientes de atividades organizadas pelos grupos de homens da igreja em pro de um projeto especifico.",
-    "type": "Saida",
+    "type": "OUTGO",
     "active": true
   }
 ]

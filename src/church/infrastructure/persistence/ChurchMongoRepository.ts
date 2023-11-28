@@ -42,7 +42,10 @@ export class ChurchMongoRepository
   }
 
   async list(criteria: Criteria): Promise<Paginate<Church>> {
-    const result: Church[] = await this.searchByCriteria<Church>(criteria);
+    const result: Church[] = await this.searchByCriteria<Church>(criteria, [
+      "financialConcepts",
+      "members",
+    ]);
     return this.buildPaginate<Church>(result);
   }
 }

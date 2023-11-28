@@ -29,7 +29,14 @@ financialConfigurationRoute.post(
   },
 );
 
-financialConfigurationRoute.get("/bank/:bankId", async (req, res) => {
+financialConfigurationRoute.get("/bank/:churchId", async (req, res) => {
+  await FinancialConfigurationController.listBankByChurchId(
+    req.params.churchId,
+    res,
+  );
+});
+
+financialConfigurationRoute.get("/bank/data/:bankId", async (req, res) => {
   await FinancialConfigurationController.findBankByBankId(
     req.params.bankId,
     res,

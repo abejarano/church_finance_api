@@ -140,7 +140,7 @@ export class FinancialConfigurationMongoRepository
       { projection: { _id: 1, costCenters: 1 } },
     );
 
-    if (!result) {
+    if (!result || !result.costCenters) {
       return [];
     }
 

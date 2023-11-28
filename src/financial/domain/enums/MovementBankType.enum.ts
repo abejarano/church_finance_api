@@ -1,4 +1,4 @@
 export enum MovementBankType {
-  DEBIT = "Débito",
-  CREDIT = "Crédito",
+  DEBIT = "DEBIT",
+  CREDIT = "CREDIT",
 }
