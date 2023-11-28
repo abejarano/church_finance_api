@@ -5,9 +5,10 @@ import {
 import {
   Bank,
   CostCenter,
-  FinanceConcept,
+  FinancialConcept,
   IFinancialConfigurationRepository,
 } from "../../domain";
+import { ConceptType } from "../../domain/enums/ConcepType.enum";
 
 export class FinancialConfigurationMongoRepository
   extends MongoRepository<any>
@@ -69,7 +70,7 @@ export class FinancialConfigurationMongoRepository
     );
   }
 
-  async upsertFinancialConcept(concept: FinanceConcept): Promise<void> {
+  async upsertFinancialConcept(concept: FinancialConcept): Promise<void> {
     const collection = await this.collection();
     await collection.updateOne(
       { churchId: concept.getChurchId() },
@@ -139,7 +140,7 @@ export class FinancialConfigurationMongoRepository
       { projection: { _id: 1, costCenters: 1 } },
     );
 
-    if (result.length === 0) {
+    if (!result) {
       return [];
     }
 
@@ -155,5 +156,54 @@ export class FinancialConfigurationMongoRepository
       );
     }
     return listCostCenter;
+  }
+
+  async findFinancialConceptsByChurchIdAndTypeConcept(
+    churchId: string,
+    typeConcept: ConceptType,
+  ): Promise<FinancialConcept[]> {
+    const collection = await this.collection();
+
+    const aggregationPipeline = [
+      {
+        $match: {
+          churchId: churchId,
+          "financialConcepts.type": typeConcept,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          financialConcepts: {
+            $filter: {
+              input: "$financialConcepts",
+              as: "concept",
+              cond: { $eq: ["$$concept.type", typeConcept] },
+            },
+          },
+        },
+      },
+    ];
+
+    const result = await collection.aggregate(aggregationPipeline).toArray();
+
+    if (!result) {
+      return [];
+    }
+
+    const lisFinancialConcepts: FinancialConcept[] = [];
+    for (const financialConcept of result[0].financialConcepts) {
+      lisFinancialConcepts.push(
+        FinancialConcept.fromPrimitives(
+          {
+            id: result[0]._id.toString(),
+            ...financialConcept,
+          },
+          churchId,
+        ),
+      );
+    }
+
+    return lisFinancialConcepts;
   }
 }

@@ -9,6 +9,8 @@ import { BankRequest } from "../../../domain/requests/Bank.request";
 import { ChurchMongoRepository } from "../../../../church/infrastructure";
 import { CreateOrUpdateBank } from "../../../applications/financialConfiguration/CreateOrUpdateBank";
 import { FinBankByBankId } from "../../../applications/financialConfiguration/FinBankByBankId";
+import { FindFinancialConceptsByChurchIdAndTypeConcept } from "../../../applications/financialConfiguration/FindFinancialConceptsByChurchIdAndTypeConcept";
+import { ConceptType } from "../../../domain/enums/ConcepType.enum";
 
 export class FinancialConfigurationController {
   static async findCostCenterByChurchId(churchId: string, res: Response) {
@@ -69,6 +71,23 @@ export class FinancialConfigurationController {
       ).execute(bankId);
 
       res.status(HttpStatus.OK).json({ data: bank });
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async findFinancialConceptsByChurchIdAndTypeConcept(
+    churchId: string,
+    typeConcept: ConceptType,
+    res: Response,
+  ) {
+    try {
+      const financial = await new FindFinancialConceptsByChurchIdAndTypeConcept(
+        FinancialConfigurationMongoRepository.getInstance(),
+        ChurchMongoRepository.getInstance(),
+      ).execute(churchId, typeConcept);
+
+      res.status(HttpStatus.OK).json(financial);
     } catch (e) {
       domainResponse(e, res);
     }

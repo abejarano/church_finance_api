@@ -3,7 +3,7 @@ import { ConceptType } from "./enums/ConcepType.enum";
 import { Church } from "../../church/domain";
 import { IdentifyEntity } from "../../shared/adapter";
 
-export class FinanceConcept extends AggregateRoot {
+export class FinancialConcept extends AggregateRoot {
   private id?: string;
   private financeConceptId: string;
   private name: string;
@@ -19,8 +19,8 @@ export class FinanceConcept extends AggregateRoot {
     active: boolean,
     type: ConceptType,
     church: Church,
-  ): FinanceConcept {
-    const concept: FinanceConcept = new FinanceConcept();
+  ): FinancialConcept {
+    const concept: FinancialConcept = new FinancialConcept();
     concept.financeConceptId = IdentifyEntity.get();
     concept.name = name;
     concept.description = description;
@@ -31,8 +31,8 @@ export class FinanceConcept extends AggregateRoot {
     return concept;
   }
 
-  static fromPrimitives(plainData: any, churchId: string): FinanceConcept {
-    const concept: FinanceConcept = new FinanceConcept();
+  static fromPrimitives(plainData: any, churchId: string): FinancialConcept {
+    const concept: FinancialConcept = new FinancialConcept();
     concept.id = plainData.id;
     concept.financeConceptId = plainData.financeConceptId;
     concept.name = plainData.name;

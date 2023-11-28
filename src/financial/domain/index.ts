@@ -2,7 +2,7 @@ export { IFinancialConfigurationRepository } from "./interfaces/FinancialConfigu
 export { Bank } from "./Bank";
 export { CostCenter } from "./CostCenter";
 export { MovementBank } from "./MovementBank";
-export { FinanceConcept } from "./FinanceConcept";
+export { FinancialConcept } from "./FinancialConcept";
 
 export { BankNotFound } from "./exceptions/BankNotFound.exception";
 export { CostCenterNotFound } from "./exceptions/CostCenterNotFound.exception";

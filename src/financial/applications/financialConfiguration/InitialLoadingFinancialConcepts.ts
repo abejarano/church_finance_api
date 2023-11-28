@@ -1,5 +1,5 @@
 import {
-  FinanceConcept,
+  FinancialConcept,
   IFinancialConfigurationRepository,
 } from "../../domain";
 import {
@@ -25,7 +25,7 @@ export class InitialLoadingFinancialConcepts {
 
     for (const c of conceptBase) {
       await this.financialConfigurationRepository.upsertFinancialConcept(
-        FinanceConcept.create(
+        FinancialConcept.create(
           c.name,
           c.description,
           c.active,

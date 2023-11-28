@@ -1,17 +1,23 @@
 import { CostCenter } from "../CostCenter";
 import { Bank } from "../Bank";
-import { FinanceConcept } from "../FinanceConcept";
+import { FinancialConcept } from "../FinancialConcept";
+import { ConceptType } from "../enums/ConcepType.enum";
 
 export interface IFinancialConfigurationRepository {
-  findBankByBankId(bankId): Promise<Bank>;
+  findBankByBankId(bankId: string): Promise<Bank>;
 
   findCostCenterByCostCenterId(costCenterId: string): Promise<CostCenter>;
+
+  findFinancialConceptsByChurchIdAndTypeConcept(
+    churchId: string,
+    typeConcept: ConceptType,
+  ): Promise<FinancialConcept[]>;
 
   upsertBank(bank: Bank): Promise<void>;
 
   upsertCostCenter(costCenter: CostCenter): Promise<void>;
 
-  upsertFinancialConcept(concept: FinanceConcept): Promise<void>;
+  upsertFinancialConcept(concept: FinancialConcept): Promise<void>;
 
   searchBanksByChurchId(churchId: string): Promise<Bank[]>;
 
