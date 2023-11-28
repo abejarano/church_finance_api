@@ -3,7 +3,7 @@ import { CostCenterRequest } from "../../../domain";
 import { Response } from "express";
 import { CreateOrUpdateCostCenter } from "../../../applications/financialConfiguration/CreateOrUpdateCostCenter";
 import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
-import { HttpStatus } from "../../../../shared";
+import { HttpStatus } from "../../../../shared/domain";
 import { FindCostCenterByChurchId } from "../../../applications/financialConfiguration/FindCostCenterByChurchId";
 import { BankRequest } from "../../../domain/requests/Bank.request";
 import { ChurchMongoRepository } from "../../../../church/infrastructure";

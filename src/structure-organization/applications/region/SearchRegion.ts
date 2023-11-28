@@ -1,5 +1,5 @@
 import { IRegionRepository, Region } from "../../domain";
-import { Paginate } from "../../../shared";
+import { Paginate } from "../../../shared/domain";
 import { RegionPaginateRequest } from "../../infrastructure/http/requests/RegionPaginate.request";
 
 export class SearchRegion {

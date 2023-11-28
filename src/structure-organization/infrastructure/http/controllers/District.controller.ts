@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { RegisterOrUpdateDistrict } from "../../../applications/district/RegisterOrUpdateDistrict";
 import { DistrictMongoRepository } from "../../persistence/DistrictMongoRepository";
-import { HttpStatus } from "../../../../shared";
+import { HttpStatus } from "../../../../shared/domain";
 import { DistrictStructureType } from "../../../domain";
 import { WorldMongoRepository } from "../../../../world/infrastructure/persistence/world-mongo-repository";
 import { DistrictPaginateRequest } from "../requests/DistrictPaginate.request";

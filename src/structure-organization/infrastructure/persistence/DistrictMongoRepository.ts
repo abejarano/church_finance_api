@@ -5,7 +5,7 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from "../../../shared";
+} from "../../../shared/domain";
 import { District, IDistrictRepository } from "../../domain";
 import {
   MongoClientFactory,

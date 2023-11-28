@@ -1,4 +1,4 @@
-import { AggregateRoot } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
 
 export class States extends AggregateRoot {
   private id?: string;

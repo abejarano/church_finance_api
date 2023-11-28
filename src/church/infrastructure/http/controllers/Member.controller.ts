@@ -4,7 +4,7 @@ import domainResponse from "../../../../shared/helpers/domainResponse";
 import { CreateOrUpdateMember } from "../../../applications/members/CreateOrUpdateMember";
 import { MemberMongoRepository } from "../../persistence/MemberMongoRepository";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
-import { HttpStatus } from "../../../../shared";
+import { HttpStatus } from "../../../../shared/domain";
 import { MemberPaginateRequest } from "../requests/MemberPaginate.request";
 import { SearchMember } from "../../../applications/members/SearchMember";
 import { FindMemberById } from "../../../applications/members/FindMemberById";

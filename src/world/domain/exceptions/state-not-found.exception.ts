@@ -1,4 +1,4 @@
-import { DomainException } from "../../../shared";
+import { DomainException } from "../../../shared/domain";
 
 export class StateNotFound extends DomainException {
   message = "State not found";

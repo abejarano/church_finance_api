@@ -4,7 +4,7 @@ import { RegionMongoRepository } from "../../persistence/RegionMongoRepository";
 import { DistrictMongoRepository } from "../../persistence/DistrictMongoRepository";
 import { RegisterOrUpdateRegion } from "../../../applications/region/RegisterOrUpdateRegion";
 import { SearchRegion } from "../../../applications/region/SearchRegion";
-import { HttpStatus } from "../../../../shared";
+import { HttpStatus } from "../../../../shared/domain";
 import { RegionPaginateRequest } from "../requests/RegionPaginate.request";
 import { Response } from "express";
 

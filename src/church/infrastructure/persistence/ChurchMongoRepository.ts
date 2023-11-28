@@ -3,13 +3,14 @@ import {
   MongoRepository,
 } from "../../../shared/infrastructure";
 import { Church, IChurchRepository } from "../../domain";
-import { Criteria, Paginate } from "../../../shared";
+import { Criteria, Paginate } from "../../../shared/domain";
 
 export class ChurchMongoRepository
   extends MongoRepository<Church>
   implements IChurchRepository
 {
   private static instance: ChurchMongoRepository;
+
   constructor() {
     super(MongoClientFactory.createClient());
   }

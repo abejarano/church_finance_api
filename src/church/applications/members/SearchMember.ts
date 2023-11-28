@@ -6,7 +6,7 @@ import {
   Operator,
   Order,
   OrderTypes,
-} from "../../../shared";
+} from "../../../shared/domain";
 
 export class SearchMember {
   constructor(private readonly memberRepository: IMemberRepository) {}

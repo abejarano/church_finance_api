@@ -1,5 +1,5 @@
 import { MovementBankType } from "./enums/MovementBankType.enum";
-import { IdentifyEntity } from "../../shared";
+import { IdentifyEntity } from "../../shared/adapter";
 import { Bank } from "./Bank";
 
 export class MovementBank {

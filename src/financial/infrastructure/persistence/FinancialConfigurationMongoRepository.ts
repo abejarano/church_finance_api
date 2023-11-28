@@ -8,7 +8,6 @@ import {
   FinanceConcept,
   IFinancialConfigurationRepository,
 } from "../../domain";
-import * as console from "console";
 
 export class FinancialConfigurationMongoRepository
   extends MongoRepository<any>
@@ -70,8 +69,16 @@ export class FinancialConfigurationMongoRepository
     );
   }
 
+  async upsertFinancialConcept(concept: FinanceConcept): Promise<void> {
+    const collection = await this.collection();
+    await collection.updateOne(
+      { churchId: concept.getChurchId() },
+      { $push: { financialConcepts: concept.toPrimitives() } },
+      { upsert: true },
+    );
+  }
+
   async upsertCostCenter(costCenter: CostCenter): Promise<void> {
-    console.log(costCenter.getChurchId());
     const collection = await this.collection();
     await collection.updateOne(
       {
@@ -148,9 +155,5 @@ export class FinancialConfigurationMongoRepository
       );
     }
     return listCostCenter;
-  }
-
-  upsertFinanceConcept(concept: FinanceConcept): Promise<void> {
-    return Promise.resolve(undefined);
   }
 }

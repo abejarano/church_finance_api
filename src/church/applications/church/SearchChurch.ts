@@ -7,7 +7,7 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from "../../../shared";
+} from "../../../shared/domain";
 
 export class SearchChurch {
   constructor(private readonly churchRepository: IChurchRepository) {}

@@ -5,13 +5,12 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from "../../../shared";
+} from "../../../shared/domain";
 import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../shared/infrastructure";
 import { IRegionRepository, Region } from "../../domain";
-import * as console from "console";
 
 export class RegionMongoRepository
   extends MongoRepository<any>

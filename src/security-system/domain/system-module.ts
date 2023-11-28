@@ -1,6 +1,6 @@
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
 import { OptionModuleDTO } from "./types/option-module.type";
-import * as console from "console";
+import { IdentifyEntity } from "../../shared/adapter";
 
 export class SystemModule extends AggregateRoot {
   private id?: string;
@@ -31,6 +31,7 @@ export class SystemModule extends AggregateRoot {
   getName(): string {
     return this.name;
   }
+
   addOption(option: OptionModuleDTO): SystemModule {
     this.options.push(option);
     return this;

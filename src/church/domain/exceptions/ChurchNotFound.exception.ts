@@ -1,4 +1,4 @@
-import { DomainException } from "../../../shared";
+import { DomainException } from "../../../shared/domain";
 
 export class ChurchNotFound extends DomainException {
   code = "CHURCH_NOT_FOUND";

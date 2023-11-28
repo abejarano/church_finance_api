@@ -1,5 +1,5 @@
 import { District } from "./District";
-import { IdentifyEntity } from "../../shared";
+import { IdentifyEntity } from "../../shared/adapter";
 
 export class Region {
   private regionId: string;
@@ -33,6 +33,7 @@ export class Region {
 
     return r;
   }
+
   setName(name: string): void {
     this.name = name;
   }

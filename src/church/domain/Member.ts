@@ -1,5 +1,5 @@
 import { Church } from "./Church";
-import { IdentifyEntity } from "../../shared";
+import { IdentifyEntity } from "../../shared/adapter";
 
 export class Member {
   private id?: string;

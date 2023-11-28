@@ -1,5 +1,5 @@
-import { logger } from "../../index";
 import { NextFunction, Request, Response } from "express";
+import { logger } from "../index";
 
 export const PubSubMiddleware = async (
   req: Request,

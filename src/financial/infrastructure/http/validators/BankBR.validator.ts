@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { HttpStatus, logger } from "../../../../shared";
+import { HttpStatus } from "../../../../shared/domain";
+import { logger } from "../../../../shared/infrastructure";
 import { Validator } from "node-input-validator";
 
 export default async (req: Request, res: Response, next: NextFunction) => {

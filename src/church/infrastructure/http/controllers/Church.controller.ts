@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { RegionMongoRepository } from "../../../../structure-organization";
-import { HttpStatus } from "../../../../shared";
+import { HttpStatus } from "../../../../shared/domain";
 import domainResponse from "../../../../shared/helpers/domainResponse";
 import { ChurchRequest } from "../requests/Church.request";
 import { CreateOrUpdateChurch } from "../../../applications/church/CreateOrUpdateChurch";

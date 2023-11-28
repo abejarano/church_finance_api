@@ -7,7 +7,7 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from "../../../shared";
+} from "../../../shared/domain";
 
 export class SearchMinister {
   constructor(private readonly ministerRepository: IMinisterRepository) {}

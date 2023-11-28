@@ -1,4 +1,5 @@
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
+import { IdentifyEntity } from "../../shared/adapter";
 import { Minister, Region } from "../../structure-organization";
 
 export class Church extends AggregateRoot {

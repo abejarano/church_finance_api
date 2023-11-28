@@ -1,4 +1,5 @@
-import { encrypt, GenericException } from "../index";
+import { GenericException } from "../domain";
+import { encrypt } from "../helpers";
 
 export class PasswordValueObject {
   constructor(private readonly passwordPlain: string) {

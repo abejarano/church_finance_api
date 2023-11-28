@@ -1,4 +1,4 @@
-import { HttpStatus } from "../../../../shared";
+import { HttpStatus } from "../../../../shared/domain";
 import { RegisterOrUpdateMinister } from "../../../applications/minister/RegisterOrUpdateMinister";
 import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository";
 import { RegionMongoRepository } from "../../persistence/RegionMongoRepository";

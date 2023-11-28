@@ -11,7 +11,7 @@ export interface IFinancialConfigurationRepository {
 
   upsertCostCenter(costCenter: CostCenter): Promise<void>;
 
-  upsertFinanceConcept(concept: FinanceConcept): Promise<void>;
+  upsertFinancialConcept(concept: FinanceConcept): Promise<void>;
 
   searchBanksByChurchId(churchId: string): Promise<Bank[]>;
 

@@ -1,5 +1,6 @@
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
 import { States } from "../../world/domain";
+import { IdentifyEntity } from "../../shared/adapter";
 
 export class District extends AggregateRoot {
   private id?: string;
@@ -24,6 +25,7 @@ export class District extends AggregateRoot {
   getDistrictId(): string {
     return this.districtId;
   }
+
   setName(name: string): District {
     this.name = name;
     return this;

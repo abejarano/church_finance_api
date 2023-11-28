@@ -4,7 +4,7 @@ import {
 } from "../../../shared/infrastructure";
 import { IMinisterRepository, Minister } from "../../domain";
 import { Church } from "../../../church/domain";
-import { Criteria, Paginate } from "../../../shared";
+import { Criteria, Paginate } from "../../../shared/domain";
 
 export class MinisterMongoRepository
   extends MongoRepository<Minister>

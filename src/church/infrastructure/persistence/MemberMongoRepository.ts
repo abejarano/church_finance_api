@@ -3,9 +3,7 @@ import {
   MongoRepository,
 } from "../../../shared/infrastructure";
 import { IMemberRepository, Member } from "../../domain";
-import { Criteria, Paginate } from "../../../shared";
-import * as console from "console";
-import { Region } from "../../../structure-organization";
+import { Criteria, Paginate } from "../../../shared/domain";
 
 export class MemberMongoRepository
   extends MongoRepository<any>
@@ -43,6 +41,7 @@ export class MemberMongoRepository
       ...result.members[0],
     });
   }
+
   async upsert(member: Member): Promise<void> {
     const collection = await this.collection();
 

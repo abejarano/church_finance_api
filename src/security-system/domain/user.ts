@@ -1,6 +1,7 @@
 import { Profile } from "./profile";
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
 import { PermissionDTO } from "./types/permission.type";
+import { IdentifyEntity } from "../../shared/adapter";
 
 export class User extends AggregateRoot {
   private id?: string;

@@ -1,5 +1,5 @@
 import { Church, ChurchNotFound, IChurchRepository } from "../../domain";
-import { logger } from "../../../shared";
+import { logger } from "../../../shared/infrastructure";
 
 export class FindChurchById {
   constructor(private readonly churchRepository: IChurchRepository) {}

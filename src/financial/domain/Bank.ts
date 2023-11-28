@@ -1,6 +1,7 @@
 import { TypeBankAccount } from "./enums/TypeBankAccount";
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
 import { Church } from "../../church/domain";
+import { IdentifyEntity } from "../../shared/adapter";
 
 export class Bank extends AggregateRoot {
   private id?: string;

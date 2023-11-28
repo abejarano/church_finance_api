@@ -1,5 +1,6 @@
 import { Region } from "./Region";
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
+import { IdentifyEntity } from "../../shared/adapter";
 import { MinisterType } from "./enums/minister-type.enum";
 
 export class Minister extends AggregateRoot {

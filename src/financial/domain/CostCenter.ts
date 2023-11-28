@@ -1,5 +1,6 @@
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { AggregateRoot } from "../../shared/domain";
 import { Bank } from "./Bank";
+import { IdentifyEntity } from "../../shared/adapter";
 
 export class CostCenter extends AggregateRoot {
   private id?: string;

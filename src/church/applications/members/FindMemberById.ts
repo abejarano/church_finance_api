@@ -1,5 +1,5 @@
 import { IMemberRepository, Member, MemberNotFound } from "../../domain";
-import { logger } from "../../../shared";
+import { logger } from "../../../shared/infrastructure";
 
 export class FindMemberById {
   constructor(private readonly memberRepository: IMemberRepository) {}

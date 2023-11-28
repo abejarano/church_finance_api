@@ -1,6 +1,6 @@
 import { Member } from "../../church/domain";
-import { PasswordValueObject } from "../../shared/adapter/password-value-object";
-import { AggregateRoot, IdentifyEntity } from "../../shared";
+import { IdentifyEntity, PasswordValueObject } from "../../shared/adapter";
+import { AggregateRoot } from "../../shared/domain";
 
 export class UserApp extends AggregateRoot {
   private id?: string;
@@ -9,6 +9,7 @@ export class UserApp extends AggregateRoot {
   private password: string;
   private name: string;
   private memberId: string;
+
   static create(member: Member) {
     const u = new UserApp();
     u.email = member.getEmail();
