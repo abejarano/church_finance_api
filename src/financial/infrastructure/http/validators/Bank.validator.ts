@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../../../shared/domain";
 import { Validator } from "node-input-validator";
-import { logger } from "../../../../shared/infrastructure";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const payload = req.body;
 
-  logger.info(`Validando banco ${JSON.stringify(payload)}`);
+  console.log(`Validando banco ${JSON.stringify(payload)}`);
 
   const rule = {
     accountType: "required|in:Conta Corrente,Conta Poupança",

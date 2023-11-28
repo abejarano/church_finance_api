@@ -2,9 +2,9 @@ import {
   BankNotFound,
   CostCenter,
   CostCenterNotFound,
+  CostCenterRequest,
   IFinancialConfigurationRepository,
 } from "../../domain";
-import { CostCenterRequest } from "../../domain/requests/CostCenter.request";
 
 export class CreateOrUpdateCostCenter {
   constructor(

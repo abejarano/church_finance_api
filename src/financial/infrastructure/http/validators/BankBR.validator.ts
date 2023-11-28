@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../../../shared/domain";
-import { logger } from "../../../../shared/infrastructure";
 import { Validator } from "node-input-validator";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const payload = req.body;
 
-  logger.info(`Validando banco ${JSON.stringify(payload)}`);
+  console.log(`Validando banco ${JSON.stringify(payload)}`);
 
   const rule = {
     bankInstruction: "required|object",
