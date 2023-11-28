@@ -7,7 +7,7 @@ import {
   ChurchNotFound,
   IChurchRepository,
 } from "../../../church/domain";
-import * as conceptBase from "../../../fixtures/conceptBase.json";
+import * as conceptBase from "../../../fixtures/conceptBaseBR.json";
 import { ConceptType } from "../../domain/enums/ConcepType.enum";
 
 export class InitialLoadingFinancialConcepts {
