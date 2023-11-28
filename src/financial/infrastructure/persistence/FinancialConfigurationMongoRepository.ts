@@ -8,6 +8,7 @@ import {
   FinanceConcept,
   IFinancialConfigurationRepository,
 } from "../../domain";
+import * as console from "console";
 
 export class FinancialConfigurationMongoRepository
   extends MongoRepository<any>
@@ -63,17 +64,17 @@ export class FinancialConfigurationMongoRepository
   async upsertBank(bank: Bank): Promise<void> {
     const collection = await this.collection();
     await collection.updateOne(
-      { _id: new Object(bank.getId()), churchId: bank.getChurchId() },
+      { churchId: bank.getChurchId() },
       { $push: { banks: bank.toPrimitives() } },
       { upsert: true },
     );
   }
 
   async upsertCostCenter(costCenter: CostCenter): Promise<void> {
+    console.log(costCenter.getChurchId());
     const collection = await this.collection();
     await collection.updateOne(
       {
-        _id: new Object(costCenter.getId()),
         churchId: costCenter.getChurchId(),
       },
       { $push: { costCenters: costCenter.toPrimitives() } },

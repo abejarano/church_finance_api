@@ -1,6 +1,7 @@
 import {
   BankNotFound,
   CostCenter,
+  CostCenterNotFound,
   IFinancialConfigurationRepository,
 } from "../../domain";
 import { CostCenterRequest } from "../../domain/requests/CostCenter.request";
@@ -10,11 +11,33 @@ export class CreateOrUpdateCostCenter {
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
   ) {}
 
-  async execute(costCenter: CostCenterRequest) {
-    if (!costCenter.costCenterId) {
-      await this.create(costCenter);
+  async execute(costCenterRequest: CostCenterRequest) {
+    if (!costCenterRequest.costCenterId) {
+      await this.create(costCenterRequest);
       return;
     }
+
+    const costCenter =
+      await this.financialConfigurationRepository.findCostCenterByCostCenterId(
+        costCenterRequest.costCenterId,
+      );
+
+    if (!costCenter) {
+      throw new CostCenterNotFound();
+    }
+
+    if (costCenterRequest.active) {
+      costCenter.enable();
+    } else {
+      costCenter.disable();
+    }
+
+    const bank = await this.findBankById(costCenterRequest.bankId);
+
+    costCenter.setName(costCenterRequest.name);
+    costCenter.setBank(bank);
+
+    await this.financialConfigurationRepository.upsertCostCenter(costCenter);
   }
 
   private async findBankById(bankId: string) {
@@ -34,5 +57,7 @@ export class CreateOrUpdateCostCenter {
       costCenterRequest.name,
       bank,
     );
+
+    await this.financialConfigurationRepository.upsertCostCenter(costCenter);
   }
 }

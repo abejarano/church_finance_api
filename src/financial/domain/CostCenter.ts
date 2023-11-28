@@ -41,6 +41,22 @@ export class CostCenter extends AggregateRoot {
     return this.churchId;
   }
 
+  setName(name: string): void {
+    this.name = name;
+  }
+
+  setBank(bank: Bank): void {
+    this.bank = bank;
+  }
+
+  disable(): void {
+    this.active = false;
+  }
+
+  enable(): void {
+    this.active = true;
+  }
+
   toPrimitives(): any {
     return {
       active: this.active,
