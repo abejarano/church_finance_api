@@ -1,17 +1,19 @@
 import domainResponse from "../../../../shared/helpers/domainResponse";
 import { CostCenterRequest } from "../../../domain";
 import { Response } from "express";
-import { CreateOrUpdateCostCenter } from "../../../applications/financialConfiguration/CreateOrUpdateCostCenter";
+import {
+  CreateOrUpdateBank,
+  CreateOrUpdateCostCenter,
+  FinBankByBankId,
+  FindCostCenterByChurchId,
+  FindFinancialConceptsByChurchIdAndTypeConcept,
+  SearchBankByChurchId,
+} from "../../../applications";
 import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
 import { HttpStatus } from "../../../../shared/domain";
-import { FindCostCenterByChurchId } from "../../../applications/financialConfiguration/FindCostCenterByChurchId";
 import { BankRequest } from "../../../domain/requests/Bank.request";
 import { ChurchMongoRepository } from "../../../../church/infrastructure";
-import { CreateOrUpdateBank } from "../../../applications/financialConfiguration/CreateOrUpdateBank";
-import { FinBankByBankId } from "../../../applications/financialConfiguration/FinBankByBankId";
-import { FindFinancialConceptsByChurchIdAndTypeConcept } from "../../../applications/financialConfiguration/FindFinancialConceptsByChurchIdAndTypeConcept";
 import { ConceptType } from "../../../domain/enums/ConcepType.enum";
-import { SearchBankByChurchId } from "../../../applications/financialConfiguration/SearchBankByChurchId";
 
 export class FinancialConfigurationController {
   static async findCostCenterByChurchId(churchId: string, res: Response) {

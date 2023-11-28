@@ -1,4 +1,7 @@
-import { BankNotFound, IFinancialConfigurationRepository } from "../../domain";
+import {
+  BankNotFound,
+  IFinancialConfigurationRepository,
+} from "../../../domain";
 
 export class FinBankByBankId {
   constructor(

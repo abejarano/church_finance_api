@@ -1,4 +1,4 @@
-import { CostCenter, IFinancialConfigurationRepository } from "../../domain";
+import { CostCenter, IFinancialConfigurationRepository } from "../../../domain";
 
 export class FindCostCenterByChurchId {
   constructor(

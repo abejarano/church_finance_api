@@ -1,4 +1,4 @@
-import { Bank, IFinancialConfigurationRepository } from "../../domain";
+import { Bank, IFinancialConfigurationRepository } from "../../../domain";
 
 export class SearchBankByChurchId {
   constructor(

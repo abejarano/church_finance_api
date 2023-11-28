@@ -1,6 +1,6 @@
-import { IFinancialConfigurationRepository } from "../../domain";
-import { ChurchNotFound, IChurchRepository } from "../../../church/domain";
-import { ConceptType } from "../../domain/enums/ConcepType.enum";
+import { IFinancialConfigurationRepository } from "../../../domain";
+import { ChurchNotFound, IChurchRepository } from "../../../../church/domain";
+import { ConceptType } from "../../../domain/enums/ConcepType.enum";
 
 export class FindFinancialConceptsByChurchIdAndTypeConcept {
   constructor(
