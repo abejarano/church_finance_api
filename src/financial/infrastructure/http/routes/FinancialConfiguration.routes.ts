@@ -12,15 +12,12 @@ financialConfigurationRoute.post("/cost-center", async (req, res) => {
   );
 });
 
-financialConfigurationRoute.get(
-  "/cost-center/:costCenterId",
-  async (req, res) => {
-    await FinancialConfigurationController.findCostCenterByCostCenterId(
-      req.params.costCenterId,
-      res,
-    );
-  },
-);
+financialConfigurationRoute.get("/cost-center/:churchId", async (req, res) => {
+  await FinancialConfigurationController.findCostCenterByChurchId(
+    req.params.churchId,
+    res,
+  );
+});
 
 //TODO sera necesario crear endpoint por pais para el registro de banco?
 financialConfigurationRoute.post(

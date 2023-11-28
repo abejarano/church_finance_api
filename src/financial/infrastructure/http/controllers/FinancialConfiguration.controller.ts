@@ -4,21 +4,18 @@ import { Response } from "express";
 import { CreateOrUpdateCostCenter } from "../../../applications/financialConfiguration/CreateOrUpdateCostCenter";
 import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
 import { HttpStatus } from "../../../../shared";
-import { FindCostCenterByCostCenterId } from "../../../applications/financialConfiguration/FindCostCenterByCostCenterId";
+import { FindCostCenterByChurchId } from "../../../applications/financialConfiguration/FindCostCenterByChurchId";
 import { BankRequest } from "../../../domain/requests/Bank.request";
 import { ChurchMongoRepository } from "../../../../church/infrastructure";
 import { CreateOrUpdateBank } from "../../../applications/financialConfiguration/CreateOrUpdateBank";
 import { FinBankByBankId } from "../../../applications/financialConfiguration/FinBankByBankId";
 
 export class FinancialConfigurationController {
-  static async findCostCenterByCostCenterId(
-    costCenterId: string,
-    res: Response,
-  ) {
+  static async findCostCenterByChurchId(churchId: string, res: Response) {
     try {
-      const costCenter = await new FindCostCenterByCostCenterId(
+      const costCenter = await new FindCostCenterByChurchId(
         FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(costCenterId);
+      ).execute(churchId);
 
       res.status(HttpStatus.OK).json({ data: costCenter });
     } catch (e) {

@@ -127,24 +127,27 @@ export class FinancialConfigurationMongoRepository
 
   async searchCenterCostsByChurchId(churchId: string): Promise<CostCenter[]> {
     const collection = await this.collection();
-    const result = await collection
-      .find({ churchId })
-      .project({ "costCenters.$": 1 })
-      .toArray();
+    const result = await collection.findOne(
+      { churchId },
+      { projection: { _id: 1, costCenters: 1 } },
+    );
 
-    if (!result) {
+    if (result.length === 0) {
       return [];
     }
 
-    return await Promise.all(
-      result.map(async (costCenter) => {
-        const bank = await this.findBankByBankId(costCenter.bankId);
-        return CostCenter.fromPrimitives(
-          { id: costCenter._id.toString(), ...costCenter },
+    const listCostCenter: CostCenter[] = [];
+
+    for (const costCenter of result.costCenters) {
+      const bank = await this.findBankByBankId(costCenter.bankId);
+      listCostCenter.push(
+        CostCenter.fromPrimitives(
+          { id: result._id.toString(), ...costCenter },
           bank,
-        );
-      }),
-    );
+        ),
+      );
+    }
+    return listCostCenter;
   }
 
   upsertFinanceConcept(concept: FinanceConcept): Promise<void> {
