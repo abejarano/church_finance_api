@@ -17,6 +17,7 @@ export class InitialLoadingFinancialConcepts {
   ) {}
 
   async execute(churchId: string): Promise<void> {
+    console.log(`Crear conceptos financieros para la iglesia ${churchId}`);
     const church: Church = await this.churchRepository.findById(churchId);
     if (!church) {
       throw new ChurchNotFound();

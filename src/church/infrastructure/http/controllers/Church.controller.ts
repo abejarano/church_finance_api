@@ -9,6 +9,7 @@ import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
 import { SearchChurch } from "../../../applications/church/SearchChurch";
 import { FindChurchById } from "../../../applications/church/FindChurchById";
 import { Church } from "../../../domain";
+import { NativeEventBus } from "../../../../shared/infrastructure/eventBus/NativeEventBus";
 
 export class ChurchController {
   static async createOrUpdate(request: ChurchRequest, res: Response) {
@@ -16,6 +17,7 @@ export class ChurchController {
       await new CreateOrUpdateChurch(
         ChurchMongoRepository.getInstance(),
         RegionMongoRepository.getInstance(),
+        NativeEventBus.getInstance(),
       ).execute(request);
 
       res.status(HttpStatus.CREATED).json({ message: "Registered church" });

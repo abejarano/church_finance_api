@@ -2,12 +2,13 @@ import { Church, ChurchNotFound, IChurchRepository } from "../../domain";
 import { ChurchRequest } from "../../infrastructure/http/requests/Church.request";
 import { IRegionRepository, Region } from "../../../structure-organization";
 import { RegionNotFound } from "../../../structure-organization/domain";
-import * as console from "console";
+import { IMessageBus } from "../../../shared/domain";
 
 export class CreateOrUpdateChurch {
   constructor(
     private readonly churchRepository: IChurchRepository,
     private readonly regionRepository: IRegionRepository,
+    private readonly messageEvent: IMessageBus,
   ) {}
 
   async execute(churchRequest: ChurchRequest): Promise<void> {
@@ -17,6 +18,13 @@ export class CreateOrUpdateChurch {
       church = await this.create(churchRequest);
 
       await this.churchRepository.upsert(church);
+
+      await this.messageEvent.transmissionMessage(
+        JSON.stringify({
+          churchId: church.getChurchId(),
+        }),
+        process.env.TOPIC_CHURCH_CREATED,
+      );
       return;
     }
 
@@ -53,6 +61,7 @@ export class CreateOrUpdateChurch {
   }
 
   private async create(churchRequest: ChurchRequest): Promise<Church> {
+    console.log(`Registrar iglesia ${JSON.stringify(churchRequest)}`);
     const region: Region = await this.getRegion(churchRequest.regionId);
 
     return Church.create(

@@ -7,6 +7,8 @@ import churchRouters from "./church/infrastructure/http/routes/Church.routers";
 import memberRouters from "./church/infrastructure/http/routes/member.routers";
 import financialConfigurationRoute from "./financial/infrastructure/http/routes/FinancialConfiguration.routes";
 
+import "./events";
+
 const port = 8080;
 const server: Express = AppServer(port);
 

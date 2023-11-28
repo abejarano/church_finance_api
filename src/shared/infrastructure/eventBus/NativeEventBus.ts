@@ -18,7 +18,7 @@ export class NativeEventBus implements IMessageBus {
 
   subscribe(subscriptionName: string, callback: Function): void {
     this.messageEmitter.on(subscriptionName, (data: any) => {
-      callback(data);
+      callback(JSON.parse(data));
     });
   }
 

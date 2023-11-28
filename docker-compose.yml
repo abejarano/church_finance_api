@@ -19,6 +19,7 @@ services:
 
       TOPIC_ASSIGN_CHURCH: assign_church
       TOPIC_CREATE_USRE_APP: create_user_app
+      TOPIC_CHURCH_CREATED: church_created
 
     volumes:
       - ./:/app
