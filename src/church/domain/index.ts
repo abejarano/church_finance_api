@@ -6,3 +6,4 @@ export { IMemberRepository } from "./interfaces/MemberRepository.interface";
 
 export { ChurchNotFound } from "./exceptions/ChurchNotFound.exception";
 export { MemberNotFound } from "./exceptions/MemberNotFound.exception";
+export { MemberExist } from "./exceptions/MemberExist.exception";

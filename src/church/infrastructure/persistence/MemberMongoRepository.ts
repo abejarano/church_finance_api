@@ -27,7 +27,7 @@ export class MemberMongoRepository
     return "churches";
   }
 
-  async findById(memberId: string): Promise<Member> {
+  async findById(memberId: string): Promise<Member | undefined> {
     const collection = await this.collection();
     const result = await collection.findOne<any>(
       {
@@ -35,6 +35,10 @@ export class MemberMongoRepository
       },
       { projection: { "members.$": 1 } },
     );
+
+    if (result === null || result.members.length === 0) {
+      return undefined;
+    }
 
     return Member.fromPrimitives({
       id: result._id.toString(),
@@ -52,7 +56,7 @@ export class MemberMongoRepository
     );
   }
 
-  async list(criteria: Criteria): Promise<Paginate<Member>> {
+  async list(criteria: Criteria): Promise<Paginate<Member | undefined>> {
     const documents = await this.searchByCriteriaWithProjection<any>(
       criteria,
       "members",
@@ -93,5 +97,22 @@ export class MemberMongoRepository
       count: count,
       results: listMembers as Member[],
     };
+  }
+
+  async findByDni(dni: string): Promise<Member> {
+    const collection = await this.collection();
+    const result = await collection.findOne(
+      { "members.dni": dni },
+      { projection: { "members.$": 1 } },
+    );
+
+    if (result === null || result.members.length === 0) {
+      return undefined;
+    }
+
+    return Member.fromPrimitives({
+      id: result._id.toString(),
+      ...result.members[0],
+    });
   }
 }

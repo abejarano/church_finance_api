@@ -1,19 +1,19 @@
 import { GenericException } from "../domain";
 import { encrypt } from "../helpers";
 
-export class PasswordValueObject {
+export class PasswordAdapter {
   constructor(private readonly passwordPlain: string) {
-    if (passwordPlain.length < 8) {
+    if (passwordPlain.length < 6) {
       throw new GenericException("The min required len is 8 character");
     }
   }
 
   static instance(passwordPlain: string) {
-    return new PasswordValueObject(passwordPlain);
+    return new PasswordAdapter(passwordPlain);
   }
 
-  static fromPrimitive(passwordHash: string): PasswordValueObject {
-    return new PasswordValueObject(passwordHash);
+  static fromPrimitive(passwordHash: string): PasswordAdapter {
+    return new PasswordAdapter(passwordHash);
   }
 
   getValue(): string {

@@ -8,6 +8,7 @@ import { HttpStatus } from "../../../../shared/domain";
 import { MemberPaginateRequest } from "../requests/MemberPaginate.request";
 import { SearchMember } from "../../../applications/members/SearchMember";
 import { FindMemberById } from "../../../applications/members/FindMemberById";
+import { NativeEventBus } from "../../../../shared/infrastructure/eventBus/NativeEventBus";
 
 export class MemberController {
   static async createOrUpdate(memberRequest: MemberRequest, res: Response) {
@@ -15,6 +16,7 @@ export class MemberController {
       await new CreateOrUpdateMember(
         MemberMongoRepository.getInstance(),
         ChurchMongoRepository.getInstance(),
+        NativeEventBus.getInstance(),
       ).execute(memberRequest);
 
       res.status(HttpStatus.CREATED).json({ message: "Registered member" });

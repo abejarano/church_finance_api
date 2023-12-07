@@ -21,6 +21,7 @@ services:
       TOPIC_CREATE_USRE_APP: create_user_app
       TOPIC_CHURCH_CREATED: church_created
 
+
     volumes:
       - ./:/app
       #- ${GOOGLE_APPLICATION_CREDENTIALS_JASPESOFT}:/service-account.json

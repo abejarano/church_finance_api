@@ -6,6 +6,7 @@ export type MemberRequest = {
   dni: string;
   conversionDate: Date;
   baptismDate?: Date;
+  isTreasurer: boolean;
   churchId: string;
   birthdate: Date;
 };

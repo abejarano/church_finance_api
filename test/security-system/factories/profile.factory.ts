@@ -2,7 +2,7 @@ import {
   ActionInSystem,
   PermissionDTO,
   Profile,
-} from "../../../src/security-system/domain";
+} from "src/security-system/domain";
 import { generateFakeOptionModule } from "./system-module.factory";
 import { faker } from "@faker-js/faker";
 

@@ -1,5 +1,5 @@
 import { Member } from "../../church/domain";
-import { IdentifyEntity, PasswordValueObject } from "../../shared/adapter";
+import { IdentifyEntity } from "../../shared/adapter";
 import { AggregateRoot } from "../../shared/domain";
 
 export class UserApp extends AggregateRoot {
@@ -9,20 +9,38 @@ export class UserApp extends AggregateRoot {
   private password: string;
   private name: string;
   private memberId: string;
+  private isTreasurer: boolean;
+  private active: boolean;
 
-  static create(member: Member) {
+  static create(member: Member, password: string) {
     const u = new UserApp();
     u.email = member.getEmail();
-    u.password = new PasswordValueObject(member.getDni()).getValue();
+    u.password = password;
     u.name = member.getName();
     u.memberId = member.getMemberId();
     u.userId = IdentifyEntity.get();
+    u.isTreasurer = member.isTreasurer;
+    u.active = true;
 
     return u;
   }
 
   getId(): string {
     return this.id;
+  }
+
+  static fromPrimitives(plainData: any): UserApp {
+    const u = new UserApp();
+    u.id = plainData.id;
+    u.email = plainData.email;
+    u.password = plainData.password;
+    u.name = plainData.name;
+    u.memberId = plainData.memberId;
+    u.userId = plainData.userId;
+    u.isTreasurer = plainData.isTreasurer;
+    u.active = plainData.active;
+
+    return u;
   }
 
   toPrimitives(): any {
@@ -32,6 +50,8 @@ export class UserApp extends AggregateRoot {
       name: this.name,
       memberId: this.memberId,
       userId: this.userId,
+      isTreasurer: this.isTreasurer,
+      active: this.active,
     };
   }
 }

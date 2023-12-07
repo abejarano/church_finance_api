@@ -13,6 +13,8 @@ export class Member {
   private baptismDate?: Date;
   private church: Church;
   private birthdate: Date;
+  public isTreasurer: boolean;
+  public isMinister: boolean;
 
   static create(
     name: string,
@@ -22,6 +24,8 @@ export class Member {
     birthdate: Date,
     email: string,
     conversionDate: Date,
+    isTreasurer: boolean,
+    isMinister: boolean,
     baptismDate?: Date,
   ): Member {
     const m: Member = new Member();
@@ -35,6 +39,8 @@ export class Member {
     m.church = church;
     m.birthdate = birthdate;
     m.memberId = IdentifyEntity.get();
+    m.isTreasurer = isTreasurer;
+    m.isMinister = isMinister;
 
     return m;
   }
@@ -51,6 +57,8 @@ export class Member {
     m.baptismDate = plainData.baptismDate;
     m.birthdate = plainData.birthdate;
     m.id = plainData.id;
+    m.isMinister = plainData.isMinister;
+    m.isTreasurer = plainData.isTreasurer;
 
     return m;
   }
@@ -118,6 +126,8 @@ export class Member {
       conversionDate: this.conversionDate,
       baptismDate: this.baptismDate,
       birthdate: this.birthdate,
+      isMinister: this.isMinister,
+      isTreasurer: this.isTreasurer,
     };
   }
 }

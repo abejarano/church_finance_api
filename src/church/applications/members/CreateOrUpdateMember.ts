@@ -4,13 +4,16 @@ import {
   IChurchRepository,
   IMemberRepository,
   Member,
+  MemberExist,
 } from "../../domain";
 import { MemberRequest } from "../../infrastructure/http/requests/Member.request";
+import { IMessageBus } from "../../../shared/domain";
 
 export class CreateOrUpdateMember {
   constructor(
     private readonly memberRepository: IMemberRepository,
     private readonly churchRepository: IChurchRepository,
+    private readonly eventBus: IMessageBus,
   ) {}
 
   async execute(request: MemberRequest) {
@@ -41,9 +44,17 @@ export class CreateOrUpdateMember {
   }
 
   private async create(request: MemberRequest) {
-    const church = await this.getChurch(request.churchId);
+    console.log(`Registrar miembro ${JSON.stringify(request)}`);
 
-    const member = Member.create(
+    const memberExist: Member = await this.memberRepository.findByDni(
+      request.dni,
+    );
+    if (memberExist) {
+      throw new MemberExist();
+    }
+    const church: Church = await this.getChurch(request.churchId);
+
+    const member: Member = Member.create(
       request.name,
       request.phone,
       request.dni,
@@ -51,9 +62,16 @@ export class CreateOrUpdateMember {
       request.birthdate,
       request.email,
       request.conversionDate,
+      request.isTreasurer,
+      false,
       request.baptismDate,
     );
 
-    return await this.memberRepository.upsert(member);
+    await this.memberRepository.upsert(member);
+
+    await this.eventBus.transmissionMessage(
+      JSON.stringify(member.toPrimitives()),
+      process.env.TOPIC_CREATE_USRE_APP,
+    );
   }
 }
