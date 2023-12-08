@@ -1,3 +1,3 @@
-export { UserNotFound } from "./user-not-found";
+export { UserNotFound } from "./UserNotFound.exception";
 export { UserDisabled } from "./user-disabled";
-export { InvalidPassword } from "./invalid-password";
+export { InvalidPassword } from "./InvalidPassword.exception";

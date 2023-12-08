@@ -1,8 +1,8 @@
-import { PasswordAdapter } from "../../../src/shared/adapter";
+import { PasswordAdapter } from "../../../src/security-system/infrastructure";
 
 describe("PasswordAdapter", () => {
   it("should be defined", async () => {
-    const pass = await PasswordAdapter.instance("12345678").getValueEncrypt();
+    const pass = await new PasswordAdapter().encrypt("1qaz2wsxP@ssw0rd2020");
     console.log(pass);
   });
 });

@@ -9,8 +9,11 @@ export class UserApp extends AggregateRoot {
   private password: string;
   private name: string;
   private memberId: string;
-  private isTreasurer: boolean;
+  isTreasurer: boolean;
   private active: boolean;
+  private churchId: string;
+  private createdAt: Date;
+  isMinister: boolean;
 
   static create(member: Member, password: string) {
     const u = new UserApp();
@@ -20,7 +23,10 @@ export class UserApp extends AggregateRoot {
     u.memberId = member.getMemberId();
     u.userId = IdentifyEntity.get();
     u.isTreasurer = member.isTreasurer;
+    u.isMinister = member.isMinister;
     u.active = true;
+    u.churchId = member.getChurchId();
+    u.createdAt = new Date();
 
     return u;
   }
@@ -39,8 +45,15 @@ export class UserApp extends AggregateRoot {
     u.userId = plainData.userId;
     u.isTreasurer = plainData.isTreasurer;
     u.active = plainData.active;
+    u.churchId = plainData.churchId;
+    u.createdAt = plainData.createdAt;
+    u.isMinister = plainData.isMinister;
 
     return u;
+  }
+
+  getPassword(): string {
+    return this.password;
   }
 
   toPrimitives(): any {
@@ -52,6 +65,9 @@ export class UserApp extends AggregateRoot {
       userId: this.userId,
       isTreasurer: this.isTreasurer,
       active: this.active,
+      churchId: this.churchId,
+      createdAt: this.createdAt,
+      isMinister: this.isMinister,
     };
   }
 }

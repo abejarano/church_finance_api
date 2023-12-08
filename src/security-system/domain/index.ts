@@ -15,3 +15,4 @@ export { UserAuthDTO } from "./types/user-auth.type";
 
 export { SystemModule } from "./system-module";
 export { UserApp } from "./UserApp";
+export { IPasswordAdapter } from "./interfaces/PasswordAdapter.interface";

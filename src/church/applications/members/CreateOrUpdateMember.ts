@@ -70,7 +70,10 @@ export class CreateOrUpdateMember {
     await this.memberRepository.upsert(member);
 
     await this.eventBus.transmissionMessage(
-      JSON.stringify(member.toPrimitives()),
+      JSON.stringify({
+        ...member.toPrimitives(),
+        churchId: church.getChurchId(),
+      }),
       process.env.TOPIC_CREATE_USRE_APP,
     );
   }

@@ -3,7 +3,10 @@ import { FinancialConfigurationMongoRepository } from "./financial/infrastructur
 import { ChurchMongoRepository } from "./church/infrastructure";
 import { CreateUserApp } from "./security-system/applications/CreateUserApp";
 import { InitialLoadingFinancialConcepts } from "./financial/applications";
-import { UserAppMongoRepository } from "./security-system/infrastructure";
+import {
+  PasswordAdapter,
+  UserAppMongoRepository,
+} from "./security-system/infrastructure";
 import { Member } from "./church/domain";
 import * as console from "console";
 
@@ -21,10 +24,12 @@ NativeEventBus.getInstance().subscribe(
   process.env.TOPIC_CREATE_USRE_APP,
   async (data: any) => {
     try {
-      const member = Member.fromPrimitives({ ...data, id: data.memberId });
-      await new CreateUserApp(UserAppMongoRepository.getInstance()).execute(
-        member,
-      );
+      const member = Member.fromPrimitives({ ...data, id: data.id });
+
+      await new CreateUserApp(
+        UserAppMongoRepository.getInstance(),
+        new PasswordAdapter(),
+      ).execute(member);
     } catch (e) {
       console.error(e);
     }

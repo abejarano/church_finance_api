@@ -15,6 +15,7 @@ export class Member {
   private birthdate: Date;
   public isTreasurer: boolean;
   public isMinister: boolean;
+  private churchId: string;
 
   static create(
     name: string,
@@ -37,6 +38,7 @@ export class Member {
     m.conversionDate = conversionDate;
     m.baptismDate = baptismDate;
     m.church = church;
+    m.churchId = church.getChurchId();
     m.birthdate = birthdate;
     m.memberId = IdentifyEntity.get();
     m.isTreasurer = isTreasurer;
@@ -59,6 +61,7 @@ export class Member {
     m.id = plainData.id;
     m.isMinister = plainData.isMinister;
     m.isTreasurer = plainData.isTreasurer;
+    m.churchId = plainData.churchId;
 
     return m;
   }
@@ -68,7 +71,7 @@ export class Member {
   }
 
   getChurchId(): string {
-    return this.church.getChurchId();
+    return this.churchId;
   }
 
   getEmail(): string {

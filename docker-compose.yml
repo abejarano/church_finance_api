@@ -17,6 +17,8 @@ services:
       MONGO_DB: dbsionfinancial
       MONGO_SERVER: freesionfinancial.cmomlts.mongodb.net
 
+      JWT_SECRET: $2a$10$N7trhjhBwEYj9l7VGDT9ee7rWG3rfWXX/9bBfeqh.PCb3rNjYIdla
+
       TOPIC_ASSIGN_CHURCH: assign_church
       TOPIC_CREATE_USRE_APP: create_user_app
       TOPIC_CHURCH_CREATED: church_created
