@@ -17,7 +17,7 @@ services:
       MONGO_DB: dbsionfinancial
       MONGO_SERVER: freesionfinancial.cmomlts.mongodb.net
 
-      JWT_SECRET: $2a$10$N7trhjhBwEYj9l7VGDT9ee7rWG3rfWXX/9bBfeqh.PCb3rNjYIdla
+      JWT_SECRET: MG9hNm4xdTFlbGJ6c2a10N7trhjhBwEYj9l7VGDT9e5sc2s4WnEwY2I0dEROeS1uVC1Nd2Rhe7rWG3rfWXX
 
       TOPIC_ASSIGN_CHURCH: assign_church
       TOPIC_CREATE_USRE_APP: create_user_app
@@ -26,7 +26,7 @@ services:
 
     volumes:
       - ./:/app
-      #- ${GOOGLE_APPLICATION_CREDENTIALS_JASPESOFT}:/service-account.json
+      #- {GOOGLE_APPLICATION_CREDENTIALS_JASPESOFT}:/service-account.json
       - /home/node/app/node_modules
     ports:
       - "5200:8080"

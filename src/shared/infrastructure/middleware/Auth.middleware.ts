@@ -6,7 +6,7 @@ export const AuthMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.header("Authorization");
+  const token = req.header("Bearer");
 
   if (!token) {
     return res
