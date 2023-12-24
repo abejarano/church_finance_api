@@ -24,7 +24,7 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 
 # Expone el puerto en el que se ejecutará la aplicación (ajusta según tu aplicación)
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["node", "dist/index.js"]
 
