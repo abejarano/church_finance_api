@@ -3,24 +3,20 @@ import { OnlineContributionController } from "../controllers/OnlineContribution.
 import { ContributionRequest } from "../../../domain";
 import { FilterContributionsRequest } from "../../../domain/requests/FilterContributions.request";
 
-const memberOnlineContributionsRoutes: Router = Router();
+const memberContributionsRoutes: Router = Router();
 
-memberOnlineContributionsRoutes.post(
-  "/online-contributions",
-  async (req, res) => {
-    await OnlineContributionController.onlineContributions(
-      req.body as ContributionRequest,
-      res,
-    );
-  },
-);
+memberContributionsRoutes.post("/", async (req, res) => {
+  await OnlineContributionController.onlineContributions(
+    req.body as ContributionRequest,
+    res,
+  );
+});
 
-memberOnlineContributionsRoutes.get(
-  "/online-contributions",
-  async (req, res) => {
-    await OnlineContributionController.listOnlineContributions(
-      req.query as unknown as FilterContributionsRequest,
-      res,
-    );
-  },
-);
+memberContributionsRoutes.get("/", async (req, res) => {
+  await OnlineContributionController.listOnlineContributions(
+    req.query as unknown as FilterContributionsRequest,
+    res,
+  );
+});
+
+export default memberContributionsRoutes;

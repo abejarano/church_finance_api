@@ -1,5 +1,5 @@
 import domainResponse from "../../../../shared/helpers/domainResponse";
-import { CostCenterRequest } from "../../../domain";
+import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
 import { Response } from "express";
 import {
   CreateOrUpdateBank,
@@ -11,9 +11,7 @@ import {
 } from "../../../applications";
 import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
 import { HttpStatus } from "../../../../shared/domain";
-import { BankRequest } from "../../../domain/requests/Bank.request";
 import { ChurchMongoRepository } from "../../../../church/infrastructure";
-import { ConceptType } from "../../../domain/enums/ConcepType.enum";
 
 export class FinancialConfigurationController {
   static async findCostCenterByChurchId(churchId: string, res: Response) {
