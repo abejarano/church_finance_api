@@ -9,9 +9,14 @@ import financialConfigurationRoute from "./financial/infrastructure/http/routes/
 
 import "./events";
 import appRouters from "./security-system/infrastructure/http/App.routers";
+import { HttpStatus } from "./shared/domain";
 
-const port = 8080;
+const port = 80;
 const server: Express = AppServer(port);
+
+server.get("/live", (req, res) => {
+  res.status(HttpStatus.OK).json({ message: "I'm alive" });
+});
 
 server.use("/api/v1/structure-organization/district", districtRoute);
 server.use("/api/v1/structure-organization/minister", ministerRoute);
