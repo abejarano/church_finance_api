@@ -1,11 +1,11 @@
-import { TypeBankAccountEnum } from "./enums/TypeBankAccount.enum";
+import { TypeBankAccount } from "./enums/TypeBankAccount.enum";
 import { AggregateRoot } from "../../shared/domain";
 import { Church } from "../../church/domain";
 import { IdentifyEntity } from "../../shared/adapter";
 
 export class Bank extends AggregateRoot {
   private id?: string;
-  private accountType: TypeBankAccountEnum;
+  private accountType: TypeBankAccount;
   private bankId: string;
   private churchId: string;
   private active: boolean;
@@ -15,7 +15,7 @@ export class Bank extends AggregateRoot {
   private bankInstruction: any;
 
   static create(
-    accountType: TypeBankAccountEnum,
+    accountType: TypeBankAccount,
     active: boolean,
     name: string,
     tag: string,
@@ -73,7 +73,7 @@ export class Bank extends AggregateRoot {
     this.bankInstruction = instruction;
   }
 
-  setAccountType(accountType: TypeBankAccountEnum): void {
+  setAccountType(accountType: TypeBankAccount): void {
     this.accountType = accountType;
   }
 

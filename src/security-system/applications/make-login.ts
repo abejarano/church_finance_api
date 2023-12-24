@@ -1,8 +1,4 @@
-import {
-  InvalidPassword,
-  UserDisabled,
-  UserNotFoundException,
-} from "../exceptions";
+import { InvalidPassword, UserDisabled, UserNotFound } from "../exceptions";
 import { IAuthToken, IUserRepository, User } from "../domain";
 
 export class MakeLogin {
@@ -16,7 +12,7 @@ export class MakeLogin {
     const user: User = await this.userRepository.findByEmail(emailUser);
 
     if (!user) {
-      throw new UserNotFoundException(emailUser);
+      throw new UserNotFound(emailUser);
     }
 
     if (!user.isActive()) {
