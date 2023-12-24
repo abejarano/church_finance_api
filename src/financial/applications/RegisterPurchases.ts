@@ -1,3 +1,1 @@
-export class RegisterPurchases {
-
-}
+export class RegisterPurchases {}
