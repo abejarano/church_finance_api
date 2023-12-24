@@ -4,11 +4,11 @@ import {
 } from "../../../shared/infrastructure";
 import {
   Bank,
+  ConceptType,
   CostCenter,
   FinancialConcept,
   IFinancialConfigurationRepository,
 } from "../../domain";
-import { ConceptType } from "../../domain/enums/ConcepType.enum";
 
 export class FinancialConfigurationMongoRepository
   extends MongoRepository<any>

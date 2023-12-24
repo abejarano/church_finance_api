@@ -6,3 +6,6 @@ export { SearchBankByChurchId } from "./financialConfiguration/finders/SearchBan
 export { CreateOrUpdateBank } from "./financialConfiguration/CreateOrUpdateBank";
 export { CreateOrUpdateCostCenter } from "./financialConfiguration/CreateOrUpdateCostCenter";
 export { InitialLoadingFinancialConcepts } from "./financialConfiguration/InitialLoadingFinancialConcepts";
+
+export { RegisterContributionsOnline } from "./contribution/RegisterContributionsOnline";
+export { ListContributions } from "./contribution/ListContributions";
