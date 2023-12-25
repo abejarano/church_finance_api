@@ -15,7 +15,7 @@ export const PermissionMiddleware = async (
   const URL = req.header("x-origin");
 
   if (!user.isStaff) {
-    return res.status(HttpStatus.FORBIDDEN).json({
+    return res.status(HttpStatus.FORBIDDEN).send({
       message: "Acesso negado. Você não tem permissão para executar esta ação.",
     });
   }
@@ -34,7 +34,7 @@ export const PermissionMiddleware = async (
     return next();
   }
 
-  return res.status(HttpStatus.FORBIDDEN).json({
+  return res.status(HttpStatus.FORBIDDEN).send({
     message: "Acesso negado. Você não tem permissão para executar esta ação.",
   });
 };

@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { MemberRequest } from "../requests/Member.request";
 import domainResponse from "../../../../shared/helpers/domainResponse";
 import { CreateOrUpdateMember } from "../../../applications/members/CreateOrUpdateMember";
@@ -11,7 +10,7 @@ import { FindMemberById } from "../../../applications/members/FindMemberById";
 import { NativeEventBus } from "../../../../shared/infrastructure/eventBus/NativeEventBus";
 
 export class MemberController {
-  static async createOrUpdate(memberRequest: MemberRequest, res: Response) {
+  static async createOrUpdate(memberRequest: MemberRequest, res) {
     try {
       await new CreateOrUpdateMember(
         MemberMongoRepository.getInstance(),
@@ -19,13 +18,13 @@ export class MemberController {
         NativeEventBus.getInstance(),
       ).execute(memberRequest);
 
-      res.status(HttpStatus.CREATED).json({ message: "Registered member" });
+      res.status(HttpStatus.CREATED).send({ message: "Registered member" });
     } catch (e) {
       domainResponse(e, res);
     }
   }
 
-  static async list(memberRequest: MemberPaginateRequest, res: Response) {
+  static async list(memberRequest: MemberPaginateRequest, res) {
     try {
       const members = await new SearchMember(
         MemberMongoRepository.getInstance(),
@@ -37,13 +36,13 @@ export class MemberController {
     }
   }
 
-  static async findById(memberId: string, res: Response) {
+  static async findById(memberId: string, res) {
     try {
       const member = await new FindMemberById(
         MemberMongoRepository.getInstance(),
       ).execute(memberId);
 
-      res.status(HttpStatus.OK).json({ data: member });
+      res.status(HttpStatus.OK).send({ data: member });
     } catch (e) {
       domainResponse(e, res);
     }

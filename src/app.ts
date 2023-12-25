@@ -1,8 +1,7 @@
 // server.use("/api/v1/structure-organization/district", districtRoute);
 // server.use("/api/v1/structure-organization/minister", ministerRoute);
 // server.use("/api/v1/structure-organization/region", regionRoute);
-// server.use("/api/v1/church/", churchRouters);
-// server.use("/api/v1/church/member", memberRouters);
+
 // server.use("/api/v1/finance", financialRouter);
 
 import Fastify from "fastify";
@@ -10,6 +9,8 @@ import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
 
 import appRouters from "./security-system/infrastructure/http/App.routers";
+import churchRouters from "./church/infrastructure/http/routes/Church.routers";
+import memberRouters from "./church/infrastructure/http/routes/member.routers";
 
 const start = async () => {
   const fastify = Fastify({
@@ -28,6 +29,8 @@ const start = async () => {
   });
 
   fastify.register(appRouters, { prefix: "/api/v1/app" });
+  fastify.register(churchRouters, { prefix: "/api/v1/church/" });
+  fastify.register(memberRouters, { prefix: "/api/v1/church/member" });
 
   fastify.listen({ port: 80, host: "0.0.0.0" }, function (err, address) {
     if (err) {

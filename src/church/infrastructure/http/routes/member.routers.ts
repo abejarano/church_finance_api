@@ -1,20 +1,22 @@
-import { Router } from "express";
 import { MemberController } from "../controllers/Member.controller";
 import { MemberPaginateRequest } from "../requests/MemberPaginate.request";
+import { FastifyInstance } from "fastify";
+import { MemberRequest } from "../requests/Member.request";
 
-const memberRoute: Router = Router();
+const memberRoute = async (fastify: FastifyInstance) => {
+  fastify.post("/", async (req, res) => {
+    await MemberController.createOrUpdate(req.body as MemberRequest, res);
+  });
 
-memberRoute.post("/", async (req, res) => {
-  await MemberController.createOrUpdate(req.body, res);
-});
+  fastify.get("/list", async (req, res) => {
+    const params = req.query as unknown as MemberPaginateRequest;
+    await MemberController.list(params, res);
+  });
 
-memberRoute.get("/list", async (req, res) => {
-  const params = req.query as unknown as MemberPaginateRequest;
-  await MemberController.list(params, res);
-});
-
-memberRoute.get("/:memberId", async (req, res) => {
-  await MemberController.findById(req.params.memberId, res);
-});
+  fastify.get("/:memberId", async (req, res) => {
+    const { memberId } = req.params as any;
+    await MemberController.findById(memberId, res);
+  });
+};
 
 export default memberRoute;

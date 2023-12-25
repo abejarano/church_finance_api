@@ -31,7 +31,7 @@ export class OnlineContributionController {
 
       res
         .status(HttpStatus.CREATED)
-        .json({ message: "successful contribution registration" });
+        .send({ message: "successful contribution registration" });
     } catch (e) {
       domainResponse(e, res);
     }
@@ -46,7 +46,7 @@ export class OnlineContributionController {
         OnlineContributionsMongoRepository.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.OK).json({ data: MemberContributionsDTO(list) });
+      res.status(HttpStatus.OK).send({ data: MemberContributionsDTO(list) });
     } catch (e) {
       domainResponse(e, res);
     }

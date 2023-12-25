@@ -15,7 +15,7 @@ export class RegionController {
         RegionMongoRepository.getInstance(),
         DistrictMongoRepository.getInstance(),
       ).execute(request);
-      res.status(HttpStatus.CREATED).json({ message: "Registered region" });
+      res.status(HttpStatus.CREATED).send({ message: "Registered region" });
     } catch (e) {
       domainResponse(e, res);
     }

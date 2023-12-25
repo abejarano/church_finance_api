@@ -17,7 +17,7 @@ export class MinisterController {
         RegionMongoRepository.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.CREATED).json({ message: "Registered minister" });
+      res.status(HttpStatus.CREATED).send({ message: "Registered minister" });
     } catch (e) {
       domainResponse(e, res);
     }
@@ -29,7 +29,7 @@ export class MinisterController {
         MinisterMongoRepository.getInstance(),
       ).execute(ministerDni);
 
-      res.status(HttpStatus.CREATED).json({ data: minister });
+      res.status(HttpStatus.CREATED).send({ data: minister });
     } catch (e) {
       domainResponse(e, res);
     }

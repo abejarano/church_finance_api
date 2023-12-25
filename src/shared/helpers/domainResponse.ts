@@ -4,7 +4,7 @@ export default (e, res) => {
   if (e instanceof DomainException) {
     res
       .status(HttpStatus.BAD_REQUEST)
-      .json({ code: e.getErrorCode(), message: e.getMessage() });
+      .send({ code: e.getErrorCode(), message: e.getMessage() });
     return;
   }
 

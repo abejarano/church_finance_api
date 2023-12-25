@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { RegionMongoRepository } from "../../../../structure-organization";
 import { HttpStatus } from "../../../../shared/domain";
 import domainResponse from "../../../../shared/helpers/domainResponse";
@@ -12,7 +11,7 @@ import { Church } from "../../../domain";
 import { NativeEventBus } from "../../../../shared/infrastructure/eventBus/NativeEventBus";
 
 export class ChurchController {
-  static async createOrUpdate(request: ChurchRequest, res: Response) {
+  static async createOrUpdate(request: ChurchRequest, res) {
     try {
       await new CreateOrUpdateChurch(
         ChurchMongoRepository.getInstance(),
@@ -20,13 +19,13 @@ export class ChurchController {
         NativeEventBus.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.CREATED).json({ message: "Registered church" });
+      res.status(HttpStatus.CREATED).send({ message: "Registered church" });
     } catch (e) {
       domainResponse(e, res);
     }
   }
 
-  static async list(req: ChurchPaginateRequest, res: Response) {
+  static async list(req: ChurchPaginateRequest, res) {
     try {
       const churches = await new SearchChurch(
         ChurchMongoRepository.getInstance(),
@@ -38,7 +37,7 @@ export class ChurchController {
     }
   }
 
-  static async findByChurchId(churchId: string, res: Response) {
+  static async findByChurchId(churchId: string, res) {
     try {
       const church: Church = await new FindChurchById(
         ChurchMongoRepository.getInstance(),

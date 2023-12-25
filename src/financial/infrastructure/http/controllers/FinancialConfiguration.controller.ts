@@ -20,7 +20,7 @@ export class FinancialConfigurationController {
         FinancialConfigurationMongoRepository.getInstance(),
       ).execute(churchId);
 
-      res.status(HttpStatus.OK).json({ data: costCenter });
+      res.status(HttpStatus.OK).send({ data: costCenter });
     } catch (e) {
       domainResponse(e, res);
     }
@@ -38,11 +38,11 @@ export class FinancialConfigurationController {
       if (!costCenter.costCenterId) {
         res
           .status(HttpStatus.CREATED)
-          .json({ message: "Registered cost center" });
+          .send({ message: "Registered cost center" });
         return;
       }
 
-      res.status(HttpStatus.OK).json({ message: "Updated cost center" });
+      res.status(HttpStatus.OK).send({ message: "Updated cost center" });
     } catch (e) {
       domainResponse(e, res);
     }
@@ -56,9 +56,9 @@ export class FinancialConfigurationController {
       ).execute(request);
 
       if (!request.bankId) {
-        res.status(HttpStatus.CREATED).json({ message: "Registered bank" });
+        res.status(HttpStatus.CREATED).send({ message: "Registered bank" });
       } else {
-        res.status(HttpStatus.OK).json({ message: "Updated bank" });
+        res.status(HttpStatus.OK).send({ message: "Updated bank" });
       }
     } catch (e) {
       domainResponse(e, res);
@@ -71,7 +71,7 @@ export class FinancialConfigurationController {
         FinancialConfigurationMongoRepository.getInstance(),
       ).execute(bankId);
 
-      res.status(HttpStatus.OK).json({ data: bank });
+      res.status(HttpStatus.OK).send({ data: bank });
     } catch (e) {
       domainResponse(e, res);
     }

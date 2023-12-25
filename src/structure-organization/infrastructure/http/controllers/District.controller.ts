@@ -16,7 +16,7 @@ export class DistrictController {
         WorldMongoRepository.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.CREATED).json({ message: "Registered district" });
+      res.status(HttpStatus.CREATED).send({ message: "Registered district" });
     } catch (e) {
       domainResponse(e, res);
     }
