@@ -1,6 +1,6 @@
 import { CustomLogger } from "./custom-logger";
 
-export { AuthMiddleware } from "./middleware/Auth.middleware";
+export { AppAuthMiddleware } from "./middleware/AppAuth.middleware";
 export { AppServer } from "./server";
 export * from "./mongodb/index";
 

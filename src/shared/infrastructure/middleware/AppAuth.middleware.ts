@@ -1,12 +1,14 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt = require("jsonwebtoken");
 
-export const AuthMiddleware = (
+export const AppAuthMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const token = req.header("Bearer");
+  const authHeader = req.headers["authorization"];
+
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     return res
@@ -15,7 +17,7 @@ export const AuthMiddleware = (
   }
 
   try {
-    req["user"] = jwt.verify(token, process.env.JWT_SECRET);
+    req["member"] = jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch (error) {
     return res.status(401).json({ message: "Token não é válido." });

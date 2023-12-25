@@ -10,6 +10,7 @@ import {
 import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
 import { HttpStatus } from "../../../../shared/domain";
 import { FilterContributionsRequest } from "../../../domain/requests/FilterContributions.request";
+import { logger } from "../../../../shared/infrastructure";
 
 export class OnlineContributionController {
   static async onlineContributions(
@@ -17,6 +18,12 @@ export class OnlineContributionController {
     res: Response,
   ) {
     try {
+      logger.info(
+        `Solicitud de registro de contribucion en línea: ${JSON.stringify(
+          request,
+        )}`,
+      );
+
       const member = await new FindMemberById(
         MemberMongoRepository.getInstance(),
       ).execute(request.memberId);

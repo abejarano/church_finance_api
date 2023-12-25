@@ -14,7 +14,6 @@ export class RegisterContributionsOnline {
   async execute(contributionRequest: ContributionRequest, member: Member) {
     const contribution: OnlineContributions = OnlineContributions.create(
       contributionRequest.type,
-      contributionRequest.status,
       AmountValueObject.create(contributionRequest.amount),
       member,
       contributionRequest.bankTransferReceipt,

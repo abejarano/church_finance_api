@@ -1,6 +1,6 @@
 export enum TypeBankAccount {
-  CURRENT_ACCOUNT = "Current",
-  SAVINGS_ACCOUNT = "Saving",
-  PAYMENT_ACCOUNT = "Payment",
-  SALARY_ACCOUNT = "Salary",
+  CURRENT_ACCOUNT = "CURRENT",
+  SAVINGS_ACCOUNT = "SAVINGS",
+  PAYMENT_ACCOUNT = "PAYMENT",
+  SALARY_ACCOUNT = "SALARY",
 }

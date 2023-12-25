@@ -1,20 +1,17 @@
 import { NextFunction, Request, Response } from "express";
-import { HttpStatus } from "../../../../shared/domain";
 import { Validator } from "node-input-validator";
+import { HttpStatus } from "../../../../shared/domain";
+import { logger } from "../../../../shared/infrastructure";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const payload = req.body;
 
-  console.log(`Validando banco ${JSON.stringify(payload)}`);
+  logger.info(`Validando contribucion ${JSON.stringify(payload)}`);
 
   const rule = {
-    accountType: "required|in:CURRENT,SAVINGS,PAYMENT,SALARY",
-    active: "required|boolean",
-    churchId: "required",
-    name: "required|string",
-    tag: "required|string",
-    addressInstancePayment: "required|string",
-    bankInstruction: "required|object",
+    type: "required|in:OFFERING,TITHE",
+    amount: "required|numeric",
+    bankTransferReceipt: "required|string",
   };
 
   const v = new Validator(payload, rule);

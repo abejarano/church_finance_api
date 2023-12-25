@@ -1,5 +1,5 @@
 export enum OnlineContributionsStatus {
-  PROCESSED = "processed",
-  PENDING = "pending",
-  REJECTED = "rejected",
+  PROCESSED = "PROCESSED",
+  PENDING_VERIFICATION = "PENDING_VERIFICATION",
+  REJECTED = "REJECTED",
 }

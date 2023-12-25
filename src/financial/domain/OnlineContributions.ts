@@ -16,7 +16,6 @@ export class OnlineContributions extends AggregateRoot {
 
   static create(
     type: OnlineContributionsType,
-    status: OnlineContributionsStatus,
     amount: AmountValueObject,
     member: Member,
     bankTransferReceipt: string,
@@ -26,7 +25,7 @@ export class OnlineContributions extends AggregateRoot {
     contributions.OnlineContributionsId = IdentifyEntity.get();
     contributions.bankTransferReceipt = bankTransferReceipt;
     contributions.type = type;
-    contributions.status = status;
+    contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION;
     contributions.amount = amount.getValue();
     contributions.createdAt = new Date();
     return contributions;
