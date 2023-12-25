@@ -1,6 +1,5 @@
 import domainResponse from "../../../../shared/helpers/domainResponse";
 import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
-import { Response } from "express";
 import {
   CreateOrUpdateBank,
   CreateOrUpdateCostCenter,
@@ -14,7 +13,7 @@ import { HttpStatus } from "../../../../shared/domain";
 import { ChurchMongoRepository } from "../../../../church/infrastructure";
 
 export class FinancialConfigurationController {
-  static async findCostCenterByChurchId(churchId: string, res: Response) {
+  static async findCostCenterByChurchId(churchId: string, res) {
     try {
       const costCenter = await new FindCostCenterByChurchId(
         FinancialConfigurationMongoRepository.getInstance(),
@@ -26,10 +25,7 @@ export class FinancialConfigurationController {
     }
   }
 
-  static async createOrUpdateCostCenter(
-    costCenter: CostCenterRequest,
-    res: Response,
-  ) {
+  static async createOrUpdateCostCenter(costCenter: CostCenterRequest, res) {
     try {
       await new CreateOrUpdateCostCenter(
         FinancialConfigurationMongoRepository.getInstance(),
@@ -48,7 +44,7 @@ export class FinancialConfigurationController {
     }
   }
 
-  static async createOrUpdateBank(request: BankRequest, res: Response) {
+  static async createOrUpdateBank(request: BankRequest, res) {
     try {
       await new CreateOrUpdateBank(
         FinancialConfigurationMongoRepository.getInstance(),
@@ -65,7 +61,7 @@ export class FinancialConfigurationController {
     }
   }
 
-  static async findBankByBankId(bankId: string, res: Response) {
+  static async findBankByBankId(bankId: string, res) {
     try {
       const bank = await new FinBankByBankId(
         FinancialConfigurationMongoRepository.getInstance(),
@@ -80,7 +76,7 @@ export class FinancialConfigurationController {
   static async findFinancialConceptsByChurchIdAndTypeConcept(
     churchId: string,
     typeConcept: ConceptType,
-    res: Response,
+    res,
   ) {
     try {
       const financial = await new FindFinancialConceptsByChurchIdAndTypeConcept(
@@ -94,7 +90,7 @@ export class FinancialConfigurationController {
     }
   }
 
-  static async listBankByChurchId(churchId: string, res: Response) {
+  static async listBankByChurchId(churchId: string, res) {
     try {
       const bank = await new SearchBankByChurchId(
         FinancialConfigurationMongoRepository.getInstance(),

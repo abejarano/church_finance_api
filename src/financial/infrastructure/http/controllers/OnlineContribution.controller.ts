@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { ContributionRequest } from "../../../domain";
 import { FindMemberById } from "../../../../church/applications/members/FindMemberById";
 import { MemberMongoRepository } from "../../../../church/infrastructure";
@@ -14,10 +13,7 @@ import { logger } from "../../../../shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributionsDTO";
 
 export class OnlineContributionController {
-  static async onlineContributions(
-    request: ContributionRequest,
-    res: Response,
-  ) {
+  static async onlineContributions(request: ContributionRequest, res) {
     try {
       logger.info(`Solicitud de registro de contribucion en línea:`, request);
 
@@ -39,7 +35,7 @@ export class OnlineContributionController {
 
   static async listOnlineContributions(
     request: FilterContributionsRequest,
-    res: Response,
+    res,
   ) {
     try {
       const list = await new ListContributions(

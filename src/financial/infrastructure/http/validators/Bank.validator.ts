@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../../../shared/domain";
 import { Validator } from "node-input-validator";
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (req, res, next) => {
   const payload = req.body;
 
   console.log(`Validando banco ${JSON.stringify(payload)}`);
