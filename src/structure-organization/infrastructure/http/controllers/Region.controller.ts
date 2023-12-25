@@ -6,10 +6,9 @@ import { RegisterOrUpdateRegion } from "../../../applications/region/RegisterOrU
 import { SearchRegion } from "../../../applications/region/SearchRegion";
 import { HttpStatus } from "../../../../shared/domain";
 import { RegionPaginateRequest } from "../requests/RegionPaginate.request";
-import { Response } from "express";
 
 export class RegionController {
-  static async createOrUpdate(request: RegionStructureType, res: Response) {
+  static async createOrUpdate(request: RegionStructureType, res) {
     try {
       await new RegisterOrUpdateRegion(
         RegionMongoRepository.getInstance(),
@@ -21,7 +20,7 @@ export class RegionController {
     }
   }
 
-  static async search(request: RegionPaginateRequest, res: Response) {
+  static async search(request: RegionPaginateRequest, res) {
     try {
       const list = await new SearchRegion(
         RegionMongoRepository.getInstance(),

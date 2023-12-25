@@ -3,14 +3,13 @@ import { RegisterOrUpdateMinister } from "../../../applications/minister/Registe
 import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository";
 import { RegionMongoRepository } from "../../persistence/RegionMongoRepository";
 import { Minister, MinisterStructureType } from "../../../domain";
-import { Response } from "express";
 import domainResponse from "../../../../shared/helpers/domainResponse";
 import { FindMinisterByDNI } from "../../../applications/minister/FindMinisterByDNI";
 import { MinisterPaginateRequest } from "../requests/MinisterPaginate.request";
 import { SearchMinister } from "../../../applications/minister/SearchMinister";
 
 export class MinisterController {
-  static async createOrUpdate(request: MinisterStructureType, res: Response) {
+  static async createOrUpdate(request: MinisterStructureType, res) {
     try {
       await new RegisterOrUpdateMinister(
         MinisterMongoRepository.getInstance(),
@@ -23,7 +22,7 @@ export class MinisterController {
     }
   }
 
-  static async findByDNI(ministerDni: string, res: Response) {
+  static async findByDNI(ministerDni: string, res) {
     try {
       const minister: Minister = await new FindMinisterByDNI(
         MinisterMongoRepository.getInstance(),
@@ -35,7 +34,7 @@ export class MinisterController {
     }
   }
 
-  static async search(request: MinisterPaginateRequest, res: Response) {
+  static async search(request: MinisterPaginateRequest, res) {
     try {
       const ministers = await new SearchMinister(
         MinisterMongoRepository.getInstance(),

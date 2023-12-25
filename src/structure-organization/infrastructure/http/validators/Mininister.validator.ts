@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from "express";
 import { HttpStatus } from "../../../../shared/domain";
 import { Validator } from "node-input-validator";
 import { logger } from "../../../../shared/infrastructure";
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (req, res, next) => {
   const payload = req.body;
 
   logger.info(`Validando registro de ministros ${JSON.stringify(payload)}`);
