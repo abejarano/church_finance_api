@@ -61,7 +61,6 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     const collection = await this.collection();
 
     if (fieldsToExclude.length === 0) {
-      console.log(this.query.filter);
       return await collection
         .find<D>(this.query.filter, {})
         .sort(this.query.sort)
