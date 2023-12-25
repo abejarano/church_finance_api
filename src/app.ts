@@ -26,4 +26,4 @@ server.use("/api/v1/church/member", memberRouters);
 server.use("/api/v1/finance", financialRouter);
 server.use("/api/v1/app", appRouters);
 
-server.listen(port, () => console.log("server running on port 8080"));
+server.listen(port, () => console.log(`server running on port ${port}`));

@@ -27,7 +27,7 @@ export class ListContributions {
         new Map<string, string | Date>([
           ["field", "createdAt"],
           ["operator", Operator.GTE],
-          ["value", reqFilters.startDate],
+          ["value", new Date(reqFilters.startDate)],
         ]),
       );
     }
@@ -37,7 +37,7 @@ export class ListContributions {
         new Map<string, string | Date>([
           ["field", "createdAt"],
           ["operator", Operator.LTE],
-          ["value", reqFilters.endDate],
+          ["value", new Date(reqFilters.endDate)],
         ]),
       );
     }
@@ -64,6 +64,26 @@ export class ListContributions {
           ["field", "status"],
           ["operator", Operator.EQUAL],
           ["value", reqFilters.status],
+        ]),
+      );
+    }
+
+    if (reqFilters.type) {
+      filters.push(
+        new Map([
+          ["field", "type"],
+          ["operator", Operator.EQUAL],
+          ["value", reqFilters.type],
+        ]),
+      );
+    }
+
+    if (reqFilters.memberId) {
+      filters.push(
+        new Map([
+          ["field", "member.memberId"],
+          ["operator", Operator.EQUAL],
+          ["value", reqFilters.memberId],
         ]),
       );
     }

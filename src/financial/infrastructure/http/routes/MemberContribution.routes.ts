@@ -21,9 +21,12 @@ memberContributionsRoutes.post(
   },
 );
 
-memberContributionsRoutes.get("/", async (req, res) => {
+memberContributionsRoutes.get("/", AppAuthMiddleware, async (req, res) => {
   await OnlineContributionController.listOnlineContributions(
-    req.query as unknown as FilterContributionsRequest,
+    {
+      ...(req.query as unknown as FilterContributionsRequest),
+      memberId: req["member"].memberId,
+    },
     res,
   );
 });

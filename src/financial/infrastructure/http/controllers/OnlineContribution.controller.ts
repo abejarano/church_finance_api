@@ -11,6 +11,7 @@ import { OnlineContributionsMongoRepository } from "../../persistence/OnlineCont
 import { HttpStatus } from "../../../../shared/domain";
 import { FilterContributionsRequest } from "../../../domain/requests/FilterContributions.request";
 import { logger } from "../../../../shared/infrastructure";
+import MemberContributionsDTO from "../dto/MemberContributionsDTO";
 
 export class OnlineContributionController {
   static async onlineContributions(
@@ -45,7 +46,7 @@ export class OnlineContributionController {
         OnlineContributionsMongoRepository.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.OK).json({ data: list });
+      res.status(HttpStatus.OK).json({ data: MemberContributionsDTO(list) });
     } catch (e) {
       domainResponse(e, res);
     }

@@ -51,6 +51,18 @@ export class OnlineContributions extends AggregateRoot {
     return this.id;
   }
 
+  getAmount() {
+    return this.amount;
+  }
+
+  getStatus() {
+    return this.status;
+  }
+
+  getCreatedAt() {
+    return this.createdAt;
+  }
+
   toPrimitives() {
     return {
       contributionId: this.contributionId,

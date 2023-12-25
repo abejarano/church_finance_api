@@ -6,7 +6,7 @@ import { logger } from "../../../../shared/infrastructure";
 export default async (req: Request, res: Response, next: NextFunction) => {
   const payload = req.body;
 
-  logger.info(`Validando contribucion ${JSON.stringify(payload)}`);
+  logger.info(`Validando contribucion`, payload);
 
   const rule = {
     type: "required|in:OFFERING,TITHE",

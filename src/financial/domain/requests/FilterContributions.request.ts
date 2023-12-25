@@ -4,6 +4,7 @@ import { OnlineContributionsStatus } from "../enums/OnlineContributionsStatus.en
 export type FilterContributionsRequest = {
   type: OnlineContributionsType;
   status: OnlineContributionsStatus;
+  memberId: string;
   churchId: string;
   startDate: Date;
   endDate: Date;
