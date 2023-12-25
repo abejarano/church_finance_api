@@ -18,11 +18,7 @@ export class OnlineContributionController {
     res: Response,
   ) {
     try {
-      logger.info(
-        `Solicitud de registro de contribucion en línea: ${JSON.stringify(
-          request,
-        )}`,
-      );
+      logger.info(`Solicitud de registro de contribucion en línea:`, request);
 
       const member = await new FindMemberById(
         MemberMongoRepository.getInstance(),

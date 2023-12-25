@@ -33,7 +33,7 @@ export class MemberMongoRepository
       {
         "members.memberId": memberId,
       },
-      { projection: { "members.$": 1 } },
+      { projection: { "members.$": 1, churchId: 1 } },
     );
 
     if (result === null || result.members.length === 0) {
@@ -42,6 +42,7 @@ export class MemberMongoRepository
 
     return Member.fromPrimitives({
       id: result._id.toString(),
+      churchId: result.churchId,
       ...result.members[0],
     });
   }

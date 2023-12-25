@@ -30,15 +30,21 @@ export class OnlineContributionsMongoRepository
     return "contributions_sent";
   }
 
-  upsert(OnlineContributions: OnlineContributions): Promise<void> {
-    throw new Error("Method not implemented.");
+  async upsert(contribution: OnlineContributions): Promise<void> {
+    await this.persist(contribution.getId(), contribution);
   }
 
-  findByCriteria(criteria: Criteria): Promise<Paginate<OnlineContributions>> {
-    throw new Error("Method not implemented.");
+  async findByCriteria(
+    criteria: Criteria,
+  ): Promise<Paginate<OnlineContributions>> {
+    const documents =
+      await this.searchByCriteria<OnlineContributions>(criteria);
+    return this.buildPaginate<OnlineContributions>(documents);
   }
 
-  findByMemberId(memberId: string): Promise<Paginate<OnlineContributions>> {
+  async findByMemberId(
+    memberId: string,
+  ): Promise<Paginate<OnlineContributions>> {
     throw new Error("Method not implemented.");
   }
 }

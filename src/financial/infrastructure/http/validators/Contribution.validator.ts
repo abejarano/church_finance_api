@@ -14,7 +14,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     bankTransferReceipt: "required|string",
   };
 
-  const v = new Validator(payload, rule);
+  const customMessage = {
+    "type.in": "Invalid value, accepted values are: OFFERING, TITHE.",
+  };
+
+  const v = new Validator(payload, rule, customMessage);
 
   const matched = await v.check();
 

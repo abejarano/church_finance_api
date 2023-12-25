@@ -6,8 +6,9 @@ import { Member } from "../../church/domain";
 
 export class OnlineContributions extends AggregateRoot {
   private id?: string;
+  private churchId: string;
   private member: Member;
-  private OnlineContributionsId: string;
+  private contributionId: string;
   private type: OnlineContributionsType;
   private status: OnlineContributionsStatus;
   private amount: number;
@@ -22,7 +23,8 @@ export class OnlineContributions extends AggregateRoot {
   ): OnlineContributions {
     const contributions: OnlineContributions = new OnlineContributions();
     contributions.member = member;
-    contributions.OnlineContributionsId = IdentifyEntity.get();
+    contributions.churchId = member.getChurchId();
+    contributions.contributionId = IdentifyEntity.get();
     contributions.bankTransferReceipt = bankTransferReceipt;
     contributions.type = type;
     contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION;
@@ -35,12 +37,13 @@ export class OnlineContributions extends AggregateRoot {
     const contributions: OnlineContributions = new OnlineContributions();
     contributions.id = plainData.id;
     contributions.member = plainData.member;
-    contributions.OnlineContributionsId = plainData.OnlineContributionsId;
+    contributions.contributionId = plainData.contributionId;
     contributions.type = plainData.type;
     contributions.status = plainData.status;
     contributions.amount = plainData.amount;
     contributions.createdAt = plainData.createdAt;
     contributions.bankTransferReceipt = plainData.bankTransferReceipt;
+    contributions.churchId = plainData.churchId;
     return contributions;
   }
 
@@ -50,13 +53,14 @@ export class OnlineContributions extends AggregateRoot {
 
   toPrimitives() {
     return {
-      OnlineContributionsId: this.OnlineContributionsId,
+      contributionId: this.contributionId,
       member: this.member,
       type: this.type,
       status: this.status,
       amount: this.amount,
       createdAt: this.createdAt,
       bankTransferReceipt: this.bankTransferReceipt,
+      churchId: this.churchId,
     };
   }
 }
