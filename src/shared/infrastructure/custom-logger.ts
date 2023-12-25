@@ -15,7 +15,7 @@ export class CustomLogger {
           colorize: true,
         },
       },
-      logEvents: ["log"],
+      //logEvents: ["log"],
       serializers: {
         req: (req) => ({ raw: req }),
         res: (res) => ({ raw: res }),

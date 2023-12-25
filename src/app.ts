@@ -1,29 +1,23 @@
-import { Express } from "express";
-import { AppServer } from "./shared/infrastructure";
-import districtRoute from "./structure-organization/infrastructure/http/routes/District.routers";
-import ministerRoute from "./structure-organization/infrastructure/http/routes/Minister.routers";
-import regionRoute from "./structure-organization/infrastructure/http/routes/Region.routers";
-import churchRouters from "./church/infrastructure/http/routes/Church.routers";
-import memberRouters from "./church/infrastructure/http/routes/member.routers";
+// server.use("/api/v1/structure-organization/district", districtRoute);
+// server.use("/api/v1/structure-organization/minister", ministerRoute);
+// server.use("/api/v1/structure-organization/region", regionRoute);
+// server.use("/api/v1/church/", churchRouters);
+// server.use("/api/v1/church/member", memberRouters);
+// server.use("/api/v1/finance", financialRouter);
 
-import "./events";
+import Fastify from "fastify";
 import appRouters from "./security-system/infrastructure/http/App.routers";
-import { HttpStatus } from "./shared/domain";
-import financialRouter from "./financial/infrastructure/http/routes";
 
-const port = 80;
-const server: Express = AppServer(port);
-
-server.get("/live", (req, res) => {
-  res.status(HttpStatus.OK).json({ message: "I'm alive" });
+const fastify = Fastify({
+  logger: false,
 });
 
-server.use("/api/v1/structure-organization/district", districtRoute);
-server.use("/api/v1/structure-organization/minister", ministerRoute);
-server.use("/api/v1/structure-organization/region", regionRoute);
-server.use("/api/v1/church/", churchRouters);
-server.use("/api/v1/church/member", memberRouters);
-server.use("/api/v1/finance", financialRouter);
-server.use("/api/v1/app", appRouters);
+fastify.register(appRouters, { prefix: "/api/v1/app" });
 
-server.listen(port, () => console.log(`server running on port ${port}`));
+fastify.listen({ port: 80, host: "0.0.0.0" }, function (err, address) {
+  if (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+  console.log(address);
+});

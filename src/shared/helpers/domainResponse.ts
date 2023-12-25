@@ -1,5 +1,4 @@
-import { DomainException } from "../domain/exceptions/domain-exception";
-import { HttpStatus } from "../domain/enums/http-status.enum";
+import { DomainException, HttpStatus } from "../domain";
 
 export default (e, res) => {
   if (e instanceof DomainException) {
@@ -9,5 +8,5 @@ export default (e, res) => {
     return;
   }
 
-  res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: e.message });
+  res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ message: e.message });
 };

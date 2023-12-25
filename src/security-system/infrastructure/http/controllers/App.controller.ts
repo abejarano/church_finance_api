@@ -1,4 +1,3 @@
-import { Response } from "express";
 import domainResponse from "../../../../shared/helpers/domainResponse";
 import { LoginUserApp } from "../../../applications/LoginUserApp";
 import { UserAppMongoRepository } from "../../persistence/UserAppMongoRepository";
@@ -7,10 +6,7 @@ import { HttpStatus } from "../../../../shared/domain";
 import { AuthTokenAdapter } from "../../adapters/AuthToken.adapter";
 
 export class AppController {
-  static async loginApp(
-    data: { email: string; password: string },
-    res: Response,
-  ) {
+  static async loginApp(data: { email: string; password: string }, res) {
     try {
       const userData = await new LoginUserApp(
         UserAppMongoRepository.getInstance(),
@@ -19,7 +15,7 @@ export class AppController {
 
       const token = new AuthTokenAdapter().createToken(userData);
 
-      res.status(HttpStatus.CREATED).json({
+      res.status(HttpStatus.CREATED).send({
         data: {
           email: userData.email,
           name: userData.name,

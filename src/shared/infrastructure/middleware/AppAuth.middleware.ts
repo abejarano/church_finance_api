@@ -1,11 +1,6 @@
-import { NextFunction, Request, Response } from "express";
 import jwt = require("jsonwebtoken");
 
-export const AppAuthMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const AppAuthMiddleware = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
   const token = authHeader && authHeader.split(" ")[1];
@@ -13,13 +8,13 @@ export const AppAuthMiddleware = (
   if (!token) {
     return res
       .status(401)
-      .json({ message: "Acesso negado. Token não fornecido." });
+      .send({ message: "Access denied. Token not provided." });
   }
 
   try {
     req["member"] = jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Token não é válido." });
+    return res.status(401).send({ message: "Invalid token." });
   }
 };

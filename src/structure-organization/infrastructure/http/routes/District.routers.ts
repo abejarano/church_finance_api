@@ -1,28 +1,31 @@
-import { Request, Response, Router } from "express";
+import { FastifyInstance, RouteShorthandOptions } from "fastify";
 import { DistrictController } from "../controllers/District.controller";
 import districtValidator from "../validators/District.validator";
 import { DistrictPaginateRequest } from "../requests/DistrictPaginate.request";
+import { DistrictStructureType } from "../../../domain";
 
-const districtRoute: Router = Router();
+const districtRoute = async (fastify: FastifyInstance) => {
+  const createOrUpdateOptions: RouteShorthandOptions = {
+    preHandler: districtValidator,
+  };
 
-districtRoute.post(
-  "/",
-  districtValidator,
-  async (req: Request, res: Response): Promise<void> => {
-    await DistrictController.createOrUpdate(req.body, res);
-  },
-);
+  fastify.post("/", createOrUpdateOptions, async (request, reply) => {
+    await DistrictController.createOrUpdate(
+      request.body as DistrictStructureType,
+      reply,
+    );
+  });
 
-districtRoute.get("/", async (req: Request, res: Response): Promise<void> => {
-  const params = req.query as unknown as DistrictPaginateRequest;
-  await DistrictController.search(params, res);
-});
+  fastify.get("/", async (request, reply) => {
+    const params = request.query as DistrictPaginateRequest;
+    await DistrictController.search(params, reply);
+  });
 
-districtRoute.get(
-  "/:districtId",
-  async (req: Request, res: Response): Promise<void> => {
-    await DistrictController.findByDistrictId(req.params.districtId, res);
-  },
-);
+  fastify.get("/:districtId", async (request, reply) => {
+    const { districtId } = request.params as any;
+
+    await DistrictController.findByDistrictId(districtId, reply);
+  });
+};
 
 export default districtRoute;

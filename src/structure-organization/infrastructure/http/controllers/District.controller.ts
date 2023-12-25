@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { RegisterOrUpdateDistrict } from "../../../applications/district/RegisterOrUpdateDistrict";
 import { DistrictMongoRepository } from "../../persistence/DistrictMongoRepository";
 import { HttpStatus } from "../../../../shared/domain";
@@ -10,7 +9,7 @@ import { FindDistrictById } from "../../../applications/district/FindDistrictByI
 import domainResponse from "../../../../shared/helpers/domainResponse";
 
 export class DistrictController {
-  static async createOrUpdate(request: DistrictStructureType, res: Response) {
+  static async createOrUpdate(request: DistrictStructureType, res) {
     try {
       await new RegisterOrUpdateDistrict(
         DistrictMongoRepository.getInstance(),
@@ -23,24 +22,24 @@ export class DistrictController {
     }
   }
 
-  static async search(request: DistrictPaginateRequest, res: Response) {
+  static async search(request: DistrictPaginateRequest, res) {
     try {
       const data = await new SearchDistrict(
         DistrictMongoRepository.getInstance(),
       ).paginate(request);
-      res.status(HttpStatus.OK).json(data);
+      res.status(HttpStatus.OK).send(data);
     } catch (e) {
       domainResponse(e, res);
     }
   }
 
-  static async findByDistrictId(districtId: string, res: Response) {
+  static async findByDistrictId(districtId: string, res) {
     try {
       const district = await new FindDistrictById(
         DistrictMongoRepository.getInstance(),
       ).execute(districtId);
 
-      res.status(HttpStatus.CREATED).json({ data: district });
+      res.status(HttpStatus.CREATED).send({ data: district });
     } catch (e) {
       domainResponse(e, res);
     }
