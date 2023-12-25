@@ -6,18 +6,36 @@
 // server.use("/api/v1/finance", financialRouter);
 
 import Fastify from "fastify";
+import cors from "@fastify/cors";
+import rateLimit from "@fastify/rate-limit";
+
 import appRouters from "./security-system/infrastructure/http/App.routers";
 
-const fastify = Fastify({
-  logger: false,
-});
+const start = async () => {
+  const fastify = Fastify({
+    logger: false,
+  });
 
-fastify.register(appRouters, { prefix: "/api/v1/app" });
+  fastify.register(cors, {
+    origin: "*",
+    preflight: false,
+    optionsSuccessStatus: 204,
+  });
 
-fastify.listen({ port: 80, host: "0.0.0.0" }, function (err, address) {
-  if (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
-  console.log(address);
-});
+  await fastify.register(rateLimit, {
+    max: 100,
+    timeWindow: "1 minute",
+  });
+
+  fastify.register(appRouters, { prefix: "/api/v1/app" });
+
+  fastify.listen({ port: 80, host: "0.0.0.0" }, function (err, address) {
+    if (err) {
+      fastify.log.error(err);
+      process.exit(1);
+    }
+    console.log(address);
+  });
+};
+
+start();
