@@ -31,7 +31,7 @@ export class ChurchController {
         ChurchMongoRepository.getInstance(),
       ).execute(req);
 
-      res.status(HttpStatus.OK).json(churches);
+      res.status(HttpStatus.OK).send(churches);
     } catch (e) {
       domainResponse(e, res);
     }
@@ -43,7 +43,7 @@ export class ChurchController {
         ChurchMongoRepository.getInstance(),
       ).execute(churchId);
 
-      res.status(HttpStatus.OK).json(church);
+      res.status(HttpStatus.OK).send(church);
     } catch (e) {
       domainResponse(e, res);
     }

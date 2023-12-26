@@ -40,7 +40,7 @@ export class MinisterController {
         MinisterMongoRepository.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.OK).json(ministers);
+      res.status(HttpStatus.OK).send(ministers);
     } catch (e) {
       domainResponse(e, res);
     }

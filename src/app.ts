@@ -25,7 +25,7 @@ const start = async () => {
   });
 
   fastify.register(appRouters, { prefix: "/api/v1/app" });
-  fastify.register(churchRouters, { prefix: "/api/v1/church/" });
+  fastify.register(churchRouters, { prefix: "/api/v1/church" });
   fastify.register(memberRouters, { prefix: "/api/v1/church/member" });
   fastify.register(financialRouter, { prefix: "/api/v1/finance" });
   fastify.register(structureOrganizationRoute, {

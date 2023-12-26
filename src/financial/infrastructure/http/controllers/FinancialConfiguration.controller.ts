@@ -84,7 +84,7 @@ export class FinancialConfigurationController {
         ChurchMongoRepository.getInstance(),
       ).execute(churchId, typeConcept);
 
-      res.status(HttpStatus.OK).json(financial);
+      res.status(HttpStatus.OK).send(financial);
     } catch (e) {
       domainResponse(e, res);
     }
@@ -96,7 +96,7 @@ export class FinancialConfigurationController {
         FinancialConfigurationMongoRepository.getInstance(),
       ).execute(churchId);
 
-      res.status(HttpStatus.OK).json(bank);
+      res.status(HttpStatus.OK).send(bank);
     } catch (e) {
       domainResponse(e, res);
     }

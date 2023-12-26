@@ -1,11 +1,6 @@
-import { NextFunction, Request, Response } from "express";
 import { logger } from "../index";
 
-export const PubSubMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const PubSubMiddleware = async (req, res, next) => {
   if (!req.body) {
     const msg = "no Pub/Sub message received";
     logger.error(`ERROR: ${msg}`);

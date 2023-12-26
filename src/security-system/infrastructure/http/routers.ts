@@ -1,17 +1,16 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 
-const securitySystemRouter = Router();
+const securitySystemRouter = async (fastify: FastifyInstance) => {
+  fastify.get("/users", (req, res) => {
+    res.send({ message: "Hello World!" });
+  });
 
-securitySystemRouter.get("/users", (req, res) => {
-  res.send({ message: "Hello World!" });
-});
+  fastify.post("/users", (req, res) => {
+    res.send({ message: "Hello World!" });
+  });
 
-securitySystemRouter.post("/users", (req, res) => {
-  res.send({ message: "Hello World!" });
-});
-
-securitySystemRouter.post("/system-modules", (req, res) => {
-  res.send({ message: "Hello World!" });
-});
-
+  fastify.post("/system-modules", (req, res) => {
+    res.send({ message: "Hello World!" });
+  });
+};
 export default securitySystemRouter;
