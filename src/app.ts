@@ -7,6 +7,7 @@ import churchRouters from "./church/infrastructure/http/routes/Church.routers";
 import memberRouters from "./church/infrastructure/http/routes/member.routers";
 import financialRouter from "./financial/infrastructure/http/routes";
 import structureOrganizationRoute from "./structure-organization/infrastructure/http/routes";
+import { HttpStatus } from "./shared/domain";
 
 const start = async () => {
   const fastify = Fastify({
@@ -16,7 +17,7 @@ const start = async () => {
   fastify.register(cors, {
     origin: "*",
     preflight: false,
-    optionsSuccessStatus: 204,
+    optionsSuccessStatus: HttpStatus.ACCEPTED,
   });
 
   await fastify.register(rateLimit, {
