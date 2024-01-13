@@ -1,10 +1,17 @@
-import { InvalidPassword, UserDisabled, UserNotFound } from "../exceptions";
-import { IAuthToken, IUserRepository, User } from "../domain";
+import {
+  IAuthToken,
+  InvalidPassword,
+  IPasswordAdapter,
+  IUserRepository,
+  User,
+  UserDisabled,
+  UserNotFound,
+} from "../../domain";
 
 export class MakeLogin {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly validatePass: Function,
+    private readonly passwordAdapter: IPasswordAdapter,
     private readonly authToken: IAuthToken,
   ) {}
 
@@ -15,11 +22,11 @@ export class MakeLogin {
       throw new UserNotFound(emailUser);
     }
 
-    if (!user.isActive()) {
+    if (!user.isActive) {
       throw new UserDisabled(emailUser);
     }
 
-    if (!this.validatePass(passUser, user.getPassword())) {
+    if (!(await this.passwordAdapter.check(passUser, user.getPassword()))) {
       throw new InvalidPassword();
     }
 
@@ -28,7 +35,6 @@ export class MakeLogin {
       this.authToken.createToken({
         userId: user.getUserId(),
         email: user.getEmail(),
-        isStaff: user.staff(),
         isSuperuser: user.superUser(),
         profileId: user.getProfileId(),
       }),

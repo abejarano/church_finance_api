@@ -2,14 +2,15 @@ import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../shared/infrastructure";
-import { IUserRepository, PermissionDTO, User } from "../../domain";
-import { ProfileMongoRepository } from "./profile-mongo-repository";
+import { IUserRepository, User } from "../../domain";
+import { Criteria, Paginate } from "../../../shared/domain";
 
 export class UserMongoRepository
   extends MongoRepository<User>
   implements IUserRepository
 {
   private static instance: UserMongoRepository;
+
   static getInstance(): UserMongoRepository {
     if (!UserMongoRepository.instance) {
       UserMongoRepository.instance = new UserMongoRepository();
@@ -20,8 +21,9 @@ export class UserMongoRepository
   constructor() {
     super(MongoClientFactory.createClient());
   }
+
   collectionName(): string {
-    return "users";
+    return "bk_users";
   }
 
   async upsert(user: User): Promise<void> {
@@ -33,24 +35,19 @@ export class UserMongoRepository
     const result = await collection.findOne({ email });
     if (!result) return undefined;
 
-    const profile = await ProfileMongoRepository.getInstance().findByProfileId(
-      result.profileId,
-    );
-
-    return User.fromPrimitives(
-      { ...result, id: result._id.toString() },
-      profile,
-    );
+    return User.fromPrimitives({ ...result, id: result._id.toString() });
   }
 
-  async searchPermissionByURLModuleOptionAndUserId(
-    userId: string,
-    url: string,
-  ): Promise<PermissionDTO> {
+  async findByUserId(userId: string): Promise<User | undefined> {
     const collection = await this.collection();
-    return await collection.findOne<PermissionDTO>(
-      { userId, "permission.optionModule.URL": url },
-      { projection: { permission: 1 } },
-    );
+    const result = await collection.findOne({ userId });
+    if (!result) return undefined;
+
+    return User.fromPrimitives({ ...result, id: result._id.toString() });
+  }
+
+  async fetchCriteria(payload: Criteria): Promise<Paginate<User>> {
+    const documents = await this.searchByCriteria<User>(payload);
+    return this.buildPaginate<User>(documents);
   }
 }

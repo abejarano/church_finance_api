@@ -2,9 +2,9 @@ version: '3.3'
 
 services:
 
-  church_sion_financial:
-    container_name: church_sion_financial
-    image: church_sion_financial
+  church_finance_api:
+    container_name: church_finance_api
+    image: church_finance_api
     restart: always
     build: .
     command: npm run dev

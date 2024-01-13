@@ -1,4 +1,4 @@
-import { DomainException } from "../../shared/domain";
+import { DomainException } from "../../../shared/domain";
 
 export class InvalidPassword extends DomainException {
   name = "INVALID_PASSWORD";

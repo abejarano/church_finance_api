@@ -1,9 +1,11 @@
-export { ProfileMongoRepository } from "./persistence/profile-mongo-repository";
-export { UserMongoRepository } from "./persistence/user-mongo-repository";
-export { SystemModuleMongoRepository } from "./persistence/system-module-mongo-repository";
-
+export { ProfileMongoRepository } from "./persistence/ProfileMongoRepository";
+export { UserMongoRepository } from "./persistence/UserMongoRepository";
+export { SystemModuleMongoRepository } from "./persistence/SystemModuleMongoRepository";
 export { UserAppMongoRepository } from "./persistence/UserAppMongoRepository";
 
 export { PasswordAdapter } from "./adapters/Password.adapter";
-
 export { AuthTokenAdapter } from "./adapters/AuthToken.adapter";
+
+export { userRoutes } from "./http/routes/User.routes";
+export { profileRoutes } from "./http/routes/Profile.routes";
+export { modulesRoutes } from "./http/routes/Modules.routes";

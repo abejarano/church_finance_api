@@ -1,48 +1,52 @@
-import { PermissionDTO } from "./types/permission.type";
 import { AggregateRoot } from "../../shared/domain";
 import { IdentifyEntity } from "../../shared/adapter";
+import { OptionModuleDTO } from "./types/option-module.type";
 
 export class Profile extends AggregateRoot {
   private id?: string;
   private profileId: string;
   private name: string;
-  private permission: PermissionDTO[];
+  private permissions: OptionModuleDTO[];
 
-  static create(name: string, permission: PermissionDTO[]): Profile {
-    const p = new Profile();
+  static create(name: string, permissions: OptionModuleDTO[]): Profile {
+    const p: Profile = new Profile();
     p.name = name;
     p.profileId = IdentifyEntity.get();
-    p.permission = permission;
+    p.permissions = permissions;
 
     return p;
   }
 
   static fromPrimitives(plainData: any): Profile {
-    const p = new Profile();
+    const p: Profile = new Profile();
     p.id = plainData.id;
     p.name = plainData.name;
     p.profileId = plainData.profileId;
-    p.permission = plainData.permission;
+    p.permissions = plainData.permission;
     return p;
   }
 
-  addPermission(permission: PermissionDTO): void {
-    this.permission.push(permission);
+  addPermission(permissions: OptionModuleDTO): void {
+    this.permissions.push(permissions);
   }
 
-  getPermission(): PermissionDTO[] {
-    return this.permission;
+  getPermission(): OptionModuleDTO[] {
+    return this.permissions;
   }
 
   getProfileId(): string {
     return this.profileId;
   }
 
+  setPermission(permissions: OptionModuleDTO[]): void {
+    this.permissions = permissions;
+  }
+
   toPrimitives(): any {
     return {
       profileId: this.profileId,
       name: this.name,
-      permission: this.permission,
+      permission: this.permissions,
     };
   }
 

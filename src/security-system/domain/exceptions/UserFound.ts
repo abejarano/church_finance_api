@@ -1,4 +1,4 @@
-import { DomainException } from "../../shared/domain";
+import { DomainException } from "../../../shared/domain";
 
 export class UserFound extends DomainException {
   name = "user_exists";

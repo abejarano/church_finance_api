@@ -2,14 +2,18 @@ import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../shared/infrastructure";
-import { ISystemModuleRepository, SystemModule } from "../../domain";
-import { ObjectId } from "mongodb";
+import {
+  ISystemModuleRepository,
+  OptionModuleDTO,
+  SystemModule,
+} from "../../domain";
 
 export class SystemModuleMongoRepository
   extends MongoRepository<SystemModule>
   implements ISystemModuleRepository
 {
   private static instance: SystemModuleMongoRepository;
+
   static getInstance(): SystemModuleMongoRepository {
     if (!SystemModuleMongoRepository.instance) {
       SystemModuleMongoRepository.instance = new SystemModuleMongoRepository();
@@ -22,7 +26,7 @@ export class SystemModuleMongoRepository
   }
 
   collectionName(): string {
-    return "system_modules";
+    return "bk_system_modules";
   }
 
   async findModuleBySystemModuleId(
@@ -67,5 +71,57 @@ export class SystemModuleMongoRepository
   async delete(systemModuleId: string): Promise<void> {
     const collection = await this.collection();
     const result = await collection.deleteMany({ systemModuleId });
+  }
+
+  async upsertOptionModule(systemModule: SystemModule): Promise<void> {
+    const collection = await this.collection();
+    await collection.updateOne(
+      { churchId: systemModule.getSystemModuleId() },
+      { $push: { options: systemModule.getOptionModule() } },
+      { upsert: true },
+    );
+  }
+
+  async findByOptionModuleByOptionIds(
+    optionIds: string[],
+  ): Promise<OptionModuleDTO[]> {
+    const collection = await this.collection();
+
+    const result = await collection
+      .find(
+        {
+          "options.optionModuleId": {
+            $in: optionIds,
+          },
+        },
+        {
+          projection: {
+            _id: 0,
+            options: {
+              $filter: {
+                input: "$options",
+                as: "option",
+                cond: {
+                  $in: ["$$option.optionModuleId", optionIds],
+                },
+              },
+            },
+          },
+        },
+      )
+      .toArray();
+
+    if (result.length === 0) {
+      return [];
+    }
+
+    let options = [];
+    for (const item of result) {
+      for (const itemElement of item.options) {
+        options.push(itemElement);
+      }
+    }
+
+    return options;
   }
 }

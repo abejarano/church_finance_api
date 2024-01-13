@@ -1,53 +1,56 @@
-import { Profile } from "./profile";
+import { Profile } from "./Profile";
 import { AggregateRoot } from "../../shared/domain";
-import { PermissionDTO } from "./types/permission.type";
 import { IdentifyEntity } from "../../shared/adapter";
 
 export class User extends AggregateRoot {
   private id?: string;
   private userId: string;
   private email: string;
+  private name: string;
   private password: string;
   private createdAt: Date;
-  private active: boolean;
-  private profileId: string;
-  private permission: PermissionDTO[];
-  private isStaff: boolean;
+  isActive: boolean;
+  private profileId: string[];
   private isSuperuser: boolean;
 
   static create(
+    name: string,
     email: string,
     password: string,
-    isStaff: boolean,
     isSuperuser: boolean,
-    profile: Profile,
+    profiles: Profile[],
   ): User {
     const u = new User();
     u.email = email;
     u.password = password;
-    u.profileId = profile.getProfileId();
+
+    for (const profile of profiles) {
+      if (!u.profileId) u.profileId = [profile.getProfileId()];
+      else u.profileId.push(profile.getProfileId());
+    }
+
     u.userId = IdentifyEntity.get();
-    u.permission = profile.getPermission();
+
     u.createdAt = new Date();
-    u.active = true;
-    u.isStaff = isStaff;
+    u.isActive = true;
+    u.name = name;
     u.isSuperuser = isSuperuser;
 
     return u;
   }
 
-  static fromPrimitives(data: any, profile: Profile): User {
+  static fromPrimitives(data: any): User {
     const u: User = new User();
     u.email = data.email;
     u.createdAt = data.createdAt;
-    u.active = data.active;
+    u.isActive = data.isActive;
     u.id = data.id;
     u.password = data.password;
     u.userId = data.userId;
-    u.profileId = profile.getProfileId();
-    u.permission = profile.getPermission();
-    u.isStaff = data.isStaff;
+    u.profileId = data.profileId;
+
     u.isSuperuser = data.isSuperuser;
+    u.name = data.name;
 
     return u;
   }
@@ -56,11 +59,11 @@ export class User extends AggregateRoot {
     return this.id;
   }
 
-  getPermission(): PermissionDTO[] {
-    return this.permission;
+  getName(): string {
+    return this.name;
   }
 
-  getProfileId(): string {
+  getProfileId(): string[] {
     return this.profileId;
   }
 
@@ -76,12 +79,33 @@ export class User extends AggregateRoot {
     return this.userId;
   }
 
-  staff(): boolean {
-    return this.isStaff;
+  deleteAllProfile(): User {
+    this.profileId = [];
+    return this;
+  }
+
+  setProfile(profile: Profile): User {
+    this.profileId.push(profile.getProfileId());
+    return this;
+  }
+
+  setEmail(email: string): User {
+    this.email = email;
+    return this;
   }
 
   superUser(): boolean {
     return this.isSuperuser;
+  }
+
+  setSuperuser(): User {
+    this.isSuperuser = true;
+    return this;
+  }
+
+  unsetSuperuser(): User {
+    this.isSuperuser = false;
+    return this;
   }
 
   setUpdatePassword(newPass: string): User {
@@ -89,30 +113,25 @@ export class User extends AggregateRoot {
     return this;
   }
 
-  isActive(): boolean {
-    return this.active;
-  }
-
-  activateUser(): User {
-    this.active = true;
+  enable(): User {
+    this.isActive = true;
     return this;
   }
 
-  disableUser(): User {
-    this.active = false;
+  disable(): User {
+    this.isActive = false;
     return this;
   }
 
   toPrimitives(): any {
     return {
+      name: this.name,
       email: this.email,
       password: this.password,
       createdAt: this.createdAt,
-      active: this.active,
-      permission: this.permission,
+      isActive: this.isActive,
       profileId: this.profileId,
       userId: this.userId,
-      isStaff: this.isStaff,
       isSuperuser: this.isSuperuser,
     };
   }

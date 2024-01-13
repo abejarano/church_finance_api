@@ -9,32 +9,59 @@ export class SystemModule extends AggregateRoot {
   private description: string;
   isActive: boolean;
   private createdAt: Date;
-  private options: OptionModuleDTO[];
+  private options?: OptionModuleDTO[];
 
   static create(
-    name: string,
-    description: string,
-    isActive: boolean,
-    createdAt: Date,
-    options: OptionModuleDTO[],
+      name: string,
+      description: string,
+      isActive: boolean,
   ): SystemModule {
     const systemModule = new SystemModule();
     systemModule.name = name;
     systemModule.description = description;
     systemModule.isActive = isActive;
-    systemModule.createdAt = createdAt;
-    systemModule.options = options;
+    systemModule.createdAt = new Date();
+
     systemModule.systemModuleId = IdentifyEntity.get();
     return systemModule;
+  }
+
+  setDescription(description: string): SystemModule {
+    this.description = description;
+    return this;
+  }
+
+  setName(name: string): SystemModule {
+    this.name = name;
+    return this;
   }
 
   getName(): string {
     return this.name;
   }
 
-  addOption(option: OptionModuleDTO): SystemModule {
-    this.options.push(option);
-    return this;
+  addOrUpdateOption(option: OptionModuleDTO): OptionModuleDTO {
+    if (!this.options) {
+      const o = { ...option, optionModuleId: IdentifyEntity.get() };
+      this.options = [o];
+      return o;
+    }
+
+    const optionFound = this.options.find(
+        (optionModule) => optionModule.optionModuleId === option.optionModuleId,
+    );
+
+    if (optionFound) {
+      optionFound.description = option.description;
+      optionFound.isActive = option.isActive;
+      optionFound.name = option.name;
+      return optionFound;
+    }
+
+    const o = { ...option, optionModuleId: IdentifyEntity.get() };
+    this.options.push(o);
+
+    return o;
   }
 
   getId(): string {
@@ -80,6 +107,10 @@ export class SystemModule extends AggregateRoot {
     return this.options.find((option) => option.name === optionName);
   }
 
+  getOptionModule(): OptionModuleDTO[] {
+    return this.options;
+  }
+
   getSystemModuleId(): string {
     return this.systemModuleId;
   }
@@ -93,6 +124,7 @@ export class SystemModule extends AggregateRoot {
     systemModule.isActive = plainData.isActive;
     systemModule.createdAt = plainData.createdAt;
     systemModule.options = plainData.options;
+    systemModule.systemModuleId = plainData.systemModuleId;
 
     return systemModule;
   }

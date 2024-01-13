@@ -4,6 +4,11 @@ import memberRouters from "./church/infrastructure/http/routes/member.routers";
 import financialRouter from "./financial/infrastructure/http/routes";
 import structureOrganizationRoute from "./structure-organization/infrastructure/http/routes";
 import { HttpServer } from "./shared/infrastructure";
+import {
+  modulesRoutes,
+  profileRoutes,
+  userRoutes,
+} from "./security-system/infrastructure";
 
 const server = HttpServer.getInstance();
 
@@ -12,5 +17,9 @@ server.addRoute("/api/v1/church", churchRouters);
 server.addRoute("/api/v1/church/member", memberRouters);
 server.addRoute("/api/v1/finance", financialRouter);
 server.addRoute("/api/v1/structure-organization", structureOrganizationRoute);
+
+server.addRoute("/api/v1/admin/user", userRoutes);
+server.addRoute("/api/v1/admin/profile", profileRoutes);
+server.addRoute("/api/v1/admin/modules", modulesRoutes);
 
 server.start(80);

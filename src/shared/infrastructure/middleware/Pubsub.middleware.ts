@@ -1,6 +1,6 @@
 import { logger } from "../index";
 
-export const PubSubMiddleware = async (req, res, next) => {
+export const PubsubMiddleware = async (req, res, next) => {
   if (!req.body) {
     const msg = "no Pub/Sub message received";
     logger.error(`ERROR: ${msg}`);
