@@ -1,7 +1,11 @@
-import { FinancialConfigurationController } from "../controllers/FinancialConfiguration.controller";
-import bankValidator from "../validators/Bank.validator";
-import bankBRValidator from "../validators/BankBR.validator";
-import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
+import { FinancialConfigurationController } from "../../controllers/FinancialConfiguration.controller";
+import bankValidator from "../../validators/Bank.validator";
+import bankBRValidator from "../../validators/BankBR.validator";
+import {
+  BankRequest,
+  ConceptType,
+  CostCenterRequest,
+} from "../../../../domain";
 import { FastifyInstance } from "fastify";
 
 const financialConfigurationRoute = async (fastify: FastifyInstance) => {

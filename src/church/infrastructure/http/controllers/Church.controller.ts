@@ -5,7 +5,7 @@ import { ChurchRequest } from "../requests/Church.request";
 import { CreateOrUpdateChurch } from "../../../applications/church/CreateOrUpdateChurch";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
-import { SearchChurch } from "../../../applications/church/SearchChurch";
+import { SearchChurches } from "../../../applications/church/SearchChurches";
 import { FindChurchById } from "../../../applications/church/FindChurchById";
 import { Church } from "../../../domain";
 import { NativeEventBus } from "../../../../shared/infrastructure/eventBus/NativeEventBus";
@@ -27,7 +27,7 @@ export class ChurchController {
 
   static async list(req: ChurchPaginateRequest, res) {
     try {
-      const churches = await new SearchChurch(
+      const churches = await new SearchChurches(
         ChurchMongoRepository.getInstance(),
       ).execute(req);
 

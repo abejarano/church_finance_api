@@ -1,5 +1,6 @@
 import {
   ContributionRequest,
+  FinancialConcept,
   IOnlineContributionsRepository,
   OnlineContributions,
 } from "../../domain";
@@ -11,11 +12,16 @@ export class RegisterContributionsOnline {
     private readonly contributionRepository: IOnlineContributionsRepository,
   ) {}
 
-  async execute(contributionRequest: ContributionRequest, member: Member) {
+  async execute(
+    contributionRequest: ContributionRequest,
+    member: Member,
+    financialConcept: FinancialConcept,
+  ) {
     const contribution: OnlineContributions = OnlineContributions.create(
       contributionRequest.type,
       AmountValueObject.create(contributionRequest.amount),
       member,
+      financialConcept,
       contributionRequest.bankTransferReceipt,
     );
 

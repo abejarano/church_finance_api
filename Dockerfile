@@ -1,4 +1,4 @@
-FROM node:18.18.0-alpine as builder
+FROM node:20-alpine3.19 as builder
 
 # Directorio de trabajo dentro de la imagen
 WORKDIR /app
@@ -15,7 +15,7 @@ RUN npm install --production
 # Compila la aplicación TypeScript
 RUN npm run build
 
-FROM node:18.18.0-alpine
+FROM node:20-alpine3.19
 
 WORKDIR /app
 
@@ -26,5 +26,5 @@ COPY --from=builder /app/node_modules ./node_modules
 # Expone el puerto en el que se ejecutará la aplicación (ajusta según tu aplicación)
 EXPOSE 8080
 
-CMD ["node", "dist/app.js"]
+CMD ["npm", "run", "start:prod"]
 

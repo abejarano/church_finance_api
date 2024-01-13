@@ -1,6 +1,5 @@
 import jwt = require("jsonwebtoken");
 import { IAuthToken } from "../../domain";
-import * as process from "process";
 
 export class AuthTokenAdapter implements IAuthToken {
   createToken(user: any): string {

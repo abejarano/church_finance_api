@@ -8,7 +8,7 @@ import {
   OrderTypes,
 } from "../../../shared/domain";
 
-export class SearchMember {
+export class SearchMembers {
   constructor(private readonly memberRepository: IMemberRepository) {}
 
   async execute(request: MemberPaginateRequest) {

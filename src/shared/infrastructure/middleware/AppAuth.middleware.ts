@@ -1,6 +1,6 @@
 import jwt = require("jsonwebtoken");
 
-export const AppAuthMiddleware = async (req, res, next) => {
+export const AppAuthMiddleware = async (req, res) => {
   const authHeader = req.headers["authorization"];
 
   const token = authHeader && authHeader.split(" ")[1];
@@ -13,7 +13,6 @@ export const AppAuthMiddleware = async (req, res, next) => {
 
   try {
     req["member"] = jwt.verify(token, process.env.JWT_SECRET);
-    next();
   } catch (error) {
     return res.status(401).send({ message: "Invalid token." });
   }

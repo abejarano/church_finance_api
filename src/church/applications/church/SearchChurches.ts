@@ -9,7 +9,7 @@ import {
   Paginate,
 } from "../../../shared/domain";
 
-export class SearchChurch {
+export class SearchChurches {
   constructor(private readonly churchRepository: IChurchRepository) {}
 
   async execute(

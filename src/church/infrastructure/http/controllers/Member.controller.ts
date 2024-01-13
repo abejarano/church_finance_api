@@ -5,7 +5,7 @@ import { MemberMongoRepository } from "../../persistence/MemberMongoRepository";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { HttpStatus } from "../../../../shared/domain";
 import { MemberPaginateRequest } from "../requests/MemberPaginate.request";
-import { SearchMember } from "../../../applications/members/SearchMember";
+import { SearchMembers } from "../../../applications/members/SearchMembers";
 import { FindMemberById } from "../../../applications/members/FindMemberById";
 import { NativeEventBus } from "../../../../shared/infrastructure/eventBus/NativeEventBus";
 
@@ -26,7 +26,7 @@ export class MemberController {
 
   static async list(memberRequest: MemberPaginateRequest, res) {
     try {
-      const members = await new SearchMember(
+      const members = await new SearchMembers(
         MemberMongoRepository.getInstance(),
       ).execute(memberRequest);
 

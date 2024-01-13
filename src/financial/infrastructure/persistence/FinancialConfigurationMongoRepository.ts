@@ -206,4 +206,46 @@ export class FinancialConfigurationMongoRepository
 
     return lisFinancialConcepts;
   }
+
+  async findFinancialConceptByChurchIdAndFinancialConceptId(
+    churchId: string,
+    financialConceptId: string,
+  ): Promise<FinancialConcept | undefined> {
+    const collection = await this.collection();
+
+    const aggregationPipeline = [
+      {
+        $match: {
+          churchId: churchId,
+          "financialConcepts.financeConceptId": financialConceptId,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          financialConcept: {
+            $filter: {
+              input: "$financialConcepts",
+              as: "concept",
+              cond: { $eq: ["$concept.type", financialConceptId] },
+            },
+          },
+        },
+      },
+    ];
+
+    const result = await collection.aggregate(aggregationPipeline).toArray();
+
+    if (!result[0]) {
+      return undefined;
+    }
+
+    return FinancialConcept.fromPrimitives(
+      {
+        id: result[0]._id.toString(),
+        ...result[0].financialConcept,
+      },
+      churchId,
+    );
+  }
 }

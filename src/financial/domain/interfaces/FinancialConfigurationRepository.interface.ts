@@ -13,6 +13,11 @@ export interface IFinancialConfigurationRepository {
     typeConcept: ConceptType,
   ): Promise<FinancialConcept[]>;
 
+  findFinancialConceptByChurchIdAndFinancialConceptId(
+    churchId: string,
+    financialConceptId: string,
+  ): Promise<FinancialConcept | undefined>;
+
   upsertBank(bank: Bank): Promise<void>;
 
   upsertCostCenter(costCenter: CostCenter): Promise<void>;

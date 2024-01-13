@@ -1,5 +1,8 @@
-import { ContributionRequest } from "../../../domain";
-import { FindMemberById } from "../../../../church/applications/members/FindMemberById";
+import {
+  ContributionRequest,
+  FilterContributionsRequest,
+} from "../../../domain";
+import { FindMemberById } from "../../../../church/applications";
 import { MemberMongoRepository } from "../../../../church/infrastructure";
 import domainResponse from "../../../../shared/helpers/domainResponse";
 import {
@@ -8,43 +11,50 @@ import {
 } from "../../../applications";
 import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
 import { HttpStatus } from "../../../../shared/domain";
-import { FilterContributionsRequest } from "../../../domain/requests/FilterContributions.request";
 import { logger } from "../../../../shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributionsDTO";
+import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../../../applications/financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
+import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
 
-export class OnlineContributionController {
-  static async onlineContributions(request: ContributionRequest, res) {
-    try {
-      logger.info(`Solicitud de registro de contribucion en línea:`, request);
+export const onlineContributionsController = async (
+  request: ContributionRequest,
+  res,
+) => {
+  try {
+    logger.info(`Solicitud de registro de contribucion en línea:`);
 
-      const member = await new FindMemberById(
-        MemberMongoRepository.getInstance(),
-      ).execute(request.memberId);
+    const member = await new FindMemberById(
+      MemberMongoRepository.getInstance(),
+    ).execute(request.memberId);
 
-      await new RegisterContributionsOnline(
-        OnlineContributionsMongoRepository.getInstance(),
-      ).execute(request, member);
+    const financialConcept =
+      await new FindFinancialConceptByChurchIdAndFinancialConceptId(
+        FinancialConfigurationMongoRepository.getInstance(),
+      ).execute(request.financeConceptId, member.getChurchId());
 
-      res
-        .status(HttpStatus.CREATED)
-        .send({ message: "successful contribution registration" });
-    } catch (e) {
-      domainResponse(e, res);
-    }
+    await new RegisterContributionsOnline(
+      OnlineContributionsMongoRepository.getInstance(),
+    ).execute(request, member, financialConcept);
+
+    res
+      .status(HttpStatus.CREATED)
+      .send({ message: "successful contribution registration" });
+  } catch (e) {
+    return domainResponse(e, res);
   }
+};
 
-  static async listOnlineContributions(
-    request: FilterContributionsRequest,
-    res,
-  ) {
-    try {
-      const list = await new ListContributions(
-        OnlineContributionsMongoRepository.getInstance(),
-      ).execute(request);
+export const listOnlineContributionsController = async (
+  request: FilterContributionsRequest,
+  res,
+) => {
+  try {
+    const list = await new ListContributions(
+      OnlineContributionsMongoRepository.getInstance(),
+    ).execute(request);
 
-      res.status(HttpStatus.OK).send({ data: MemberContributionsDTO(list) });
-    } catch (e) {
-      domainResponse(e, res);
-    }
+    res.status(HttpStatus.OK).send({ data: MemberContributionsDTO(list) });
+  } catch (e) {
+    domainResponse(e, res);
   }
-}
+};

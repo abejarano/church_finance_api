@@ -3,6 +3,8 @@ import { OnlineContributionsType } from "./enums/OnlineContributionsType.enum";
 import { OnlineContributionsStatus } from "./enums/OnlineContributionsStatus.enum";
 import { IdentifyEntity } from "../../shared/adapter";
 import { Member } from "../../church/domain";
+import { FinancialConcept } from "./FinancialConcept";
+import { FinancialConceptDisable } from "./exceptions/FinancialConceptDisable.exception";
 
 export class OnlineContributions extends AggregateRoot {
   private id?: string;
@@ -11,6 +13,7 @@ export class OnlineContributions extends AggregateRoot {
   private contributionId: string;
   private type: OnlineContributionsType;
   private status: OnlineContributionsStatus;
+  private financialConcept: string;
   private amount: number;
   private bankTransferReceipt: string;
   private createdAt: Date;
@@ -19,6 +22,7 @@ export class OnlineContributions extends AggregateRoot {
     type: OnlineContributionsType,
     amount: AmountValueObject,
     member: Member,
+    financialConcept: FinancialConcept,
     bankTransferReceipt: string,
   ): OnlineContributions {
     const contributions: OnlineContributions = new OnlineContributions();
@@ -30,6 +34,12 @@ export class OnlineContributions extends AggregateRoot {
     contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION;
     contributions.amount = amount.getValue();
     contributions.createdAt = new Date();
+    contributions.financialConcept = financialConcept.getFinanceConceptId();
+
+    if (financialConcept.isDisable()) {
+      throw new FinancialConceptDisable();
+    }
+
     return contributions;
   }
 

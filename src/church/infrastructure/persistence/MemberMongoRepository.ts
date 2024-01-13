@@ -57,7 +57,7 @@ export class MemberMongoRepository
     );
   }
 
-  async list(criteria: Criteria): Promise<Paginate<Member | undefined>> {
+  async list(criteria: Criteria): Promise<Paginate<Member>> {
     const documents = await this.searchByCriteriaWithProjection<any>(
       criteria,
       "members",
@@ -90,8 +90,8 @@ export class MemberMongoRepository
       count = r[0].numberOfRegions;
     }
 
-    const skip = (criteria.offset - 1) * criteria.limit;
-    const hasNextPage: boolean = skip * criteria.limit < count;
+    const skip = (criteria.offset! - 1) * criteria.limit!;
+    const hasNextPage: boolean = skip * criteria.limit! < count;
 
     return {
       nextPag: !hasNextPage ? Number(skip) + 2 : null,
@@ -100,7 +100,7 @@ export class MemberMongoRepository
     };
   }
 
-  async findByDni(dni: string): Promise<Member> {
+  async findByDni(dni: string): Promise<Member | undefined> {
     const collection = await this.collection();
     const result = await collection.findOne(
       { "members.dni": dni },

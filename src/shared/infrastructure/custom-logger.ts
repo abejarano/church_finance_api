@@ -29,13 +29,13 @@ export class CustomLogger {
     );
   }
 
-  info(message: any, ...args: any[]): void {
-    const modifiedMessage = { requestId: this.codeHash, message };
-    this.logger.info(modifiedMessage, ...args);
+  info(message: any, args?: object): void {
+    args = { ...args, requestId: this.codeHash };
+    this.logger.info(args, message);
   }
 
-  error(message: any, ...args: any[]): void {
-    const modifiedMessage = { requestId: this.codeHash, message };
-    this.logger.error(modifiedMessage, ...args);
+  error(message: any, args?: object): void {
+    args = { ...args, requestId: this.codeHash };
+    this.logger.error(args, message);
   }
 }

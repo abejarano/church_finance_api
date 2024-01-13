@@ -1,5 +1,6 @@
 import { IPasswordAdapter, IUserAppRepository, UserApp } from "../domain";
 import { InvalidPassword, UserNotFound } from "../exceptions";
+import { logger } from "../../shared/infrastructure";
 
 export class LoginUserApp {
   constructor(
@@ -8,6 +9,8 @@ export class LoginUserApp {
   ) {}
 
   async execute(email: string, password: string): Promise<any> {
+    logger.info(`LoginUserApp.execute: ${email} ${password}`);
+
     const user: UserApp = await this.userAppRepository.findByEmail(email);
     if (!user) {
       throw new UserNotFound(email);
@@ -15,6 +18,8 @@ export class LoginUserApp {
     if (!(await this.passwordAdapter.check(password, user.getPassword()))) {
       throw new InvalidPassword();
     }
+
+    logger.info(`Usuario encontrado`);
 
     const jsonObj = user.toPrimitives();
 

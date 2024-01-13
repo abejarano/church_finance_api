@@ -15,14 +15,12 @@ export class AppController {
 
       const token = new AuthTokenAdapter().createToken(userData);
 
-      res.status(HttpStatus.CREATED).send({
-        data: {
-          email: userData.email,
-          name: userData.name,
-          isTreasurer: userData.isTreasurer,
-          isMinister: userData.isMinister,
-          token: token,
-        },
+      res.status(HttpStatus.OK).send({
+        email: userData.email,
+        name: userData.name,
+        isTreasurer: userData.isTreasurer,
+        isMinister: userData.isMinister,
+        token: token,
       });
     } catch (e) {
       domainResponse(e, res);

@@ -2,7 +2,7 @@ import { Validator } from "node-input-validator";
 import { HttpStatus } from "../../../../shared/domain";
 import { logger } from "../../../../shared/infrastructure";
 
-export default async (req, res, next) => {
+export default async (req, res) => {
   const payload = req.body;
 
   logger.info(`Validando contribucion`, payload);
@@ -11,6 +11,7 @@ export default async (req, res, next) => {
     type: "required|in:OFFERING,TITHE",
     amount: "required|numeric",
     bankTransferReceipt: "required|string",
+    financeConceptId: "required|string",
   };
 
   const customMessage = {
@@ -24,6 +25,4 @@ export default async (req, res, next) => {
   if (!matched) {
     return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(v.errors);
   }
-
-  next();
 };

@@ -44,8 +44,16 @@ export class FinancialConcept extends AggregateRoot {
     return concept;
   }
 
+  getFinanceConceptId(): string {
+    return this.financeConceptId;
+  }
+
   getId(): string {
     return this.id;
+  }
+
+  isDisable(): boolean {
+    return !this.active;
   }
 
   disable(): void {

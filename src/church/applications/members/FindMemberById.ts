@@ -9,8 +9,10 @@ export class FindMemberById {
     const member: Member = await this.memberRepository.findById(memberId);
 
     if (!member) {
+      logger.error(`Miembro no encontrado`);
       throw new MemberNotFound();
     }
+    logger.info(`Miembro encontrado: ${member.getName()}`);
 
     return member;
   }
