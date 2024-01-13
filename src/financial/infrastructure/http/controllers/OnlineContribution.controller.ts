@@ -30,7 +30,7 @@ export const onlineContributionsController = async (
     const financialConcept =
       await new FindFinancialConceptByChurchIdAndFinancialConceptId(
         FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(request.financeConceptId, member.getChurchId());
+      ).execute(member.getChurchId(), request.financeConceptId);
 
     await new RegisterContributionsOnline(
       OnlineContributionsMongoRepository.getInstance(),

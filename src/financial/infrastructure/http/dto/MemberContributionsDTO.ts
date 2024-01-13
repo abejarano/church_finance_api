@@ -10,5 +10,14 @@ export default (list: Paginate<OnlineContributions>) => ({
     createdAt: item.createdAt,
     bankTransferReceipt: item.bankTransferReceipt,
     type: item.type,
+    member: {
+      memberId: item.member.memberId,
+      name: item.member.name,
+      churchId: item.member.churchId,
+    },
+    financeConcept: {
+      financeConceptId: item.financialConcept.financeConceptId,
+      name: item.financialConcept.name,
+    },
   })),
 });

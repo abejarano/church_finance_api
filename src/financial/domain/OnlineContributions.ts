@@ -13,7 +13,7 @@ export class OnlineContributions extends AggregateRoot {
   private contributionId: string;
   private type: OnlineContributionsType;
   private status: OnlineContributionsStatus;
-  private financialConcept: string;
+  private financialConcept: FinancialConcept;
   private amount: number;
   private bankTransferReceipt: string;
   private createdAt: Date;
@@ -34,7 +34,7 @@ export class OnlineContributions extends AggregateRoot {
     contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION;
     contributions.amount = amount.getValue();
     contributions.createdAt = new Date();
-    contributions.financialConcept = financialConcept.getFinanceConceptId();
+    contributions.financialConcept = financialConcept;
 
     if (financialConcept.isDisable()) {
       throw new FinancialConceptDisable();
@@ -54,6 +54,10 @@ export class OnlineContributions extends AggregateRoot {
     contributions.createdAt = plainData.createdAt;
     contributions.bankTransferReceipt = plainData.bankTransferReceipt;
     contributions.churchId = plainData.churchId;
+    contributions.financialConcept = FinancialConcept.fromPrimitives(
+      plainData.financialConcept,
+      plainData.churchId,
+    );
     return contributions;
   }
 
@@ -83,6 +87,7 @@ export class OnlineContributions extends AggregateRoot {
       createdAt: this.createdAt,
       bankTransferReceipt: this.bankTransferReceipt,
       churchId: this.churchId,
+      financialConcept: this.financialConcept.toPrimitives(),
     };
   }
 }

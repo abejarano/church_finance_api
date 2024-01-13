@@ -12,19 +12,24 @@ import ContributionValidator from "../../validators/Contribution.validator";
 
 const memberContributionsRoutes = async (fastify: FastifyInstance) => {
   fastify
-    .post("/", async (req, res) => {
-      await onlineContributionsController(
-        {
-          ...(req.body as ContributionRequest),
-          memberId: req["member"].memberId,
-        },
-        res,
-      );
-    })
-    .addHook("preValidation", AppAuthMiddleware)
-    .addHook("preValidation", ContributionValidator);
+    .post(
+      "/",
+      {
+        preValidation: ContributionValidator,
+      },
+      async (req, res) => {
+        await onlineContributionsController(
+          {
+            ...(req.body as ContributionRequest),
+            memberId: req["member"].memberId,
+          },
+          res,
+        );
+      },
+    )
+    .addHook("preValidation", AppAuthMiddleware);
 
-  fastify.get("/", { preHandler: AppAuthMiddleware }, async (req, res) => {
+  fastify.get("/", async (req, res) => {
     await listOnlineContributionsController(
       {
         ...(req.query as unknown as FilterContributionsRequest),

@@ -223,11 +223,11 @@ export class FinancialConfigurationMongoRepository
       {
         $project: {
           _id: 1,
-          financialConcept: {
+          financialConcepts: {
             $filter: {
               input: "$financialConcepts",
               as: "concept",
-              cond: { $eq: ["$concept.type", financialConceptId] },
+              cond: { $eq: ["$$concept.financeConceptId", financialConceptId] },
             },
           },
         },
@@ -243,7 +243,7 @@ export class FinancialConfigurationMongoRepository
     return FinancialConcept.fromPrimitives(
       {
         id: result[0]._id.toString(),
-        ...result[0].financialConcept,
+        ...result[0].financialConcepts[0],
       },
       churchId,
     );
