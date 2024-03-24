@@ -16,7 +16,7 @@ export class HttpServer {
 
     httpServer.instance.register(cors, {
       origin: "*",
-      preflight: false,
+      preflight: true,
       optionsSuccessStatus: HttpStatus.ACCEPTED,
     });
 
