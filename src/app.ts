@@ -22,4 +22,4 @@ server.addRoute("/api/v1/admin/user", userRoutes);
 server.addRoute("/api/v1/admin/profile", profileRoutes);
 server.addRoute("/api/v1/admin/modules", modulesRoutes);
 
-server.start(80);
+server.start(8080);

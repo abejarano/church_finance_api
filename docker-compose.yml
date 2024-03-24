@@ -10,7 +10,6 @@ services:
     command: npm run dev
     environment:
       NODE_ENV: local
-      #GOOGLE_APPLICATION_CREDENTIALS: /service-account.json
 
       MONGO_PASS: Ljm5aB8h7vOTeDeA
       MONGO_USER: user_sion
@@ -29,7 +28,7 @@ services:
       #- {GOOGLE_APPLICATION_CREDENTIALS_JASPESOFT}:/service-account.json
       - /home/node/app/node_modules
     ports:
-      - "5200:80"
+      - "5200:8080"
     networks:
       - church_sion
 
