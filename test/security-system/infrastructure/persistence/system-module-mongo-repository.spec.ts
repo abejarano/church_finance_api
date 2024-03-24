@@ -1,9 +1,10 @@
 import { SystemModuleMongoRepository } from "../../../../src/SecuritySystem/infrastructure";
-import { SystemModule } from "../../../../src/SecuritySystem/domain";
 import {
-  generateFakeSystemModule,
-  generateFakeOptionModule,
-} from "../../factories/system-module.factory";
+  OptionModuleDTO,
+  SystemModule,
+} from "../../../../src/SecuritySystem/domain";
+import { generateFakeSystemModule } from "../../factories/system-module.factory";
+import { createMock } from "ts-auto-mock";
 //
 // describe("SystemModuleMongoRepository", () => {
 //   describe("collectionName", () => {
@@ -73,8 +74,8 @@ describe("upsert", () => {
         systemModule.getSystemModuleId(),
       );
 
-    const option = generateFakeOptionModule();
-    moduleRecoverDB.addOption(option);
+    const option = createMock<OptionModuleDTO>();
+    moduleRecoverDB.addOrUpdateOption(option);
     await systemModuleMongoRepository.upsert(moduleRecoverDB);
 
     const opt = moduleRecoverDB.findOption(option.name);
