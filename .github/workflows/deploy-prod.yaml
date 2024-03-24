@@ -53,9 +53,9 @@ jobs:
       - name: Build Docker image
         id: build-image
         run: |
-          docker build -t church_financial_apí:${{ github.sha }} . -f DockerfileProd
-          docker tag church_financial_apí:${{ github.sha }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}
-          echo "::set-output name=image::${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}"
+          docker build -t church_financial_api:${{ github.sha }} . -f DockerfileProd
+          docker tag church_financial_api:${{ github.sha }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_api:${{ github.sha }}
+          echo "::set-output name=image::${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_api:${{ github.sha }}"
 
       - name: Authenticate with AWS container registry
         run: |
@@ -63,7 +63,7 @@ jobs:
 
       - name: Push container image to AWS ECR
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_api:${{ github.sha }}
 
       - name: Deploy to EC2
         run: |
@@ -72,16 +72,16 @@ jobs:
           
           aws ecr get-login-password --region ${{ secrets.AWS_REGION_PROD }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com
           
-          # Detener y eliminar todos los contenedores con el nombre church_financial_apí
-          docker ps -a --filter "name=church_financial_apí" -q | xargs -r docker stop
-          docker ps -a --filter "name=church_financial_apí" -q | xargs -r docker rm
+          # Detener y eliminar todos los contenedores con el nombre church_financial_api
+          docker ps -a --filter "name=church_financial_api" -q | xargs -r docker stop
+          docker ps -a --filter "name=church_financial_api" -q | xargs -r docker rm
 
-          # Eliminar todas las imágenes con el nombre church_financial_apí
-          docker images -q --filter "reference=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí*" | xargs -r docker rmi
+          # Eliminar todas las imágenes con el nombre church_financial_api
+          docker images -q --filter "reference=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_api*" | xargs -r docker rmi
           
           
-          docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }} && 
-          docker run --restart=on-failure --env-file ~/env_variables.txt -d --name church_financial_apí -p 5750:8080 --log-driver=awslogs --log-opt awslogs-region=${{ secrets.AWS_REGION_PROD }} --log-opt awslogs-group=/ec2/church-api --log-opt awslogs-create-group=true ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}
+          docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_api:${{ github.sha }} && 
+          docker run --restart=on-failure --env-file ~/env_variables.txt -d --name church_financial_api -p 5750:8080 --log-driver=awslogs --log-opt awslogs-region=${{ secrets.AWS_REGION_PROD }} --log-opt awslogs-group=/ec2/church-api --log-opt awslogs-create-group=true ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_api:${{ github.sha }}
           
           sudo systemctl restart nginx
           '
