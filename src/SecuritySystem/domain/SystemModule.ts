@@ -12,9 +12,9 @@ export class SystemModule extends AggregateRoot {
   private options?: OptionModuleDTO[];
 
   static create(
-      name: string,
-      description: string,
-      isActive: boolean,
+    name: string,
+    description: string,
+    isActive: boolean,
   ): SystemModule {
     const systemModule = new SystemModule();
     systemModule.name = name;
@@ -48,7 +48,7 @@ export class SystemModule extends AggregateRoot {
     }
 
     const optionFound = this.options.find(
-        (optionModule) => optionModule.optionModuleId === option.optionModuleId,
+      (optionModule) => optionModule.optionModuleId === option.optionModuleId,
     );
 
     if (optionFound) {
