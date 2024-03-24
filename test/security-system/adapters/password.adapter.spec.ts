@@ -1,4 +1,4 @@
-import { PasswordAdapter } from "../../../src/security-system/infrastructure";
+import { PasswordAdapter } from "../../../src/SecuritySystem/infrastructure";
 
 describe("PasswordAdapter", () => {
   it("should be defined", async () => {

@@ -1,0 +1,92 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check code using Node.js 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code formatting
+        run: npm run format:check
+
+      - name: Build code
+        run: npm run build
+
+  build-and-deploy:
+    needs: verify-code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION_PROD }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: build-app
+        run: npm ci && npm run build
+
+      - name: Clean npm cache
+        run: npm cache clean --force
+
+      - name: Clean Docker containers
+        run: docker container prune -f
+
+      - name: Build Docker image
+        id: build-image
+        run: |
+          docker build -t church_financial_apí:${{ github.sha }} . -f DockerfileProd
+          docker tag church_financial_apí:${{ github.sha }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}
+          echo "::set-output name=image::${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}"
+
+      - name: Authenticate with AWS container registry
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION_PROD }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com
+
+      - name: Push container image to AWS ECR
+        run: |
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}
+
+      - name: Deploy to EC2
+        run: |
+          echo "$EC2_SSH_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{ secrets.EC2_PUBLIC_IP_PROD }} '
+          
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION_PROD }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com
+          
+          # Detener y eliminar todos los contenedores con el nombre church_financial_apí
+          docker ps -a --filter "name=church_financial_apí" -q | xargs -r docker stop
+          docker ps -a --filter "name=church_financial_apí" -q | xargs -r docker rm
+
+          # Eliminar todas las imágenes con el nombre church_financial_apí
+          docker images -q --filter "reference=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí*" | xargs -r docker rmi
+          
+          
+          docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }} && 
+          docker run --restart=on-failure --env-file ~/env_variables.txt -d --name church_financial_apí -p 5750:8080 --log-driver=awslogs --log-opt awslogs-region=${{ secrets.AWS_REGION_PROD }} --log-opt awslogs-group=/ec2/church-api --log-opt awslogs-create-group=true ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_PROD }}.amazonaws.com/church_financial_apí:${{ github.sha }}
+          
+          sudo systemctl restart nginx
+          '
+
+    env:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_REGION: ${{ secrets.AWS_REGION_PROD }}
+      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY_PROD }}

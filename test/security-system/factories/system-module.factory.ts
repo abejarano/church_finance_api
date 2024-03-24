@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { SystemModule } from "../../../src/security-system/domain";
+import { SystemModule } from "../../../src/SecuritySystem/domain";
 
 export const generateFakeSystemModule = (): SystemModule => {
   const fakeSystemModule = {

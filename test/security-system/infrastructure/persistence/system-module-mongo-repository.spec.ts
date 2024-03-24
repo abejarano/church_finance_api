@@ -1,5 +1,5 @@
-import { SystemModuleMongoRepository } from "../../../../src/security-system/infrastructure";
-import { SystemModule } from "../../../../src/security-system/domain";
+import { SystemModuleMongoRepository } from "../../../../src/SecuritySystem/infrastructure";
+import { SystemModule } from "../../../../src/SecuritySystem/domain";
 import {
   generateFakeSystemModule,
   generateFakeOptionModule,

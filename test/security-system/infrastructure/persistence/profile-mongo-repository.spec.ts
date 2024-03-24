@@ -1,5 +1,5 @@
 import { generateFakeProfile } from "../../factories/profile.factory";
-import { ProfileMongoRepository } from "../../../../src/security-system/infrastructure";
+import { ProfileMongoRepository } from "../../../../src/SecuritySystem/infrastructure";
 
 describe("ProfileMongoRepository", () => {
   it("should be defined", async () => {

@@ -1,0 +1,28 @@
+import { Validator } from "node-input-validator";
+import { HttpStatus } from "../../../../Shared/domain";
+import { logger } from "../../../../Shared/infrastructure";
+
+export default async (req, res) => {
+  const payload = req.body;
+
+  logger.info(`Validando contribucion`, payload);
+
+  const rule = {
+    type: "required|in:OFFERING,TITHE",
+    amount: "required|numeric",
+    bankTransferReceipt: "required|string",
+    financeConceptId: "required|string",
+  };
+
+  const customMessage = {
+    "type.in": "Invalid value, accepted values are: OFFERING, TITHE.",
+  };
+
+  const v = new Validator(payload, rule, customMessage);
+
+  const matched = await v.check();
+
+  if (!matched) {
+    return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(v.errors);
+  }
+};
