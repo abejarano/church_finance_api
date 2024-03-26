@@ -131,14 +131,14 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     if (documents.length === 0) {
       return {
         nextPag: null,
-        count: 0,
+        totalRecord: 0,
         results: [],
       };
     }
 
     return {
       nextPag: hasNextPage ? Number(this.criteria.currentPage) + 1 : null,
-      count: count,
+      totalRecord: count,
       results: documents,
     };
   }

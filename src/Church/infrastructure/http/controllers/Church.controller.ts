@@ -2,11 +2,13 @@ import { RegionMongoRepository } from "../../../../OrganizacionalStructure";
 import { HttpStatus } from "../../../../Shared/domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
 import { ChurchRequest } from "../requests/Church.request";
-import { CreateOrUpdateChurch } from "../../../applications/church/CreateOrUpdateChurch";
+import {
+  CreateOrUpdateChurch,
+  FindChurchById,
+  SearchChurches,
+} from "../../../applications";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
-import { SearchChurches } from "../../../applications/church/SearchChurches";
-import { FindChurchById } from "../../../applications/church/FindChurchById";
 import { Church } from "../../../domain";
 import { NativeEventBus } from "../../../../Shared/infrastructure/eventBus/NativeEventBus";
 

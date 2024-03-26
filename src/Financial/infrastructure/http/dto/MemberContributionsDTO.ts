@@ -2,7 +2,7 @@ import { Paginate } from "../../../../Shared/domain";
 import { OnlineContributions } from "../../../domain";
 
 export default (list: Paginate<OnlineContributions>) => ({
-  count: list.count,
+  count: list.totalRecord,
   nextPag: list.nextPag,
   results: list.results.map((item: any) => ({
     amount: item.amount,

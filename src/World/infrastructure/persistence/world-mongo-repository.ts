@@ -9,15 +9,18 @@ export class WorldMongoRepository
   implements IWorldRepository
 {
   private static instance: WorldMongoRepository;
+
   static getInstance(): WorldMongoRepository {
     if (!WorldMongoRepository.instance) {
       WorldMongoRepository.instance = new WorldMongoRepository();
     }
     return WorldMongoRepository.instance;
   }
+
   constructor() {
     super(MongoClientFactory.createClient());
   }
+
   private collectName: string = "states";
 
   collectionName(): string {
@@ -32,5 +35,13 @@ export class WorldMongoRepository
     }
 
     return States.fromPrimitives({ ...result, id: result._id });
+  }
+
+  async findByCountryId(countryId: string): Promise<States[]> {
+    const collection = await this.collection();
+    const result = await collection.find({ countryId: countryId }).toArray();
+    return result.map((state) =>
+      States.fromPrimitives({ ...state, id: state._id }),
+    );
   }
 }

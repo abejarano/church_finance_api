@@ -99,7 +99,7 @@ export class RegionMongoRepository
       if (document.length === 0) {
         return {
           nextPag: null,
-          count: 0,
+          totalRecord: 0,
           results: [],
         };
       }
@@ -129,7 +129,7 @@ export class RegionMongoRepository
     if (!result) {
       return {
         nextPag: null,
-        count: 0,
+        totalRecord: 0,
         results: [],
       };
     }
@@ -152,7 +152,7 @@ export class RegionMongoRepository
     const hasNextPage: boolean = skip * perPage < count;
     return {
       nextPag: !hasNextPage ? Number(skip) + 2 : null,
-      count: count,
+      totalRecord: count,
       results: result[0].regions as Region[],
     };
   }

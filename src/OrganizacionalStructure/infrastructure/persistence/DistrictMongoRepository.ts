@@ -89,7 +89,7 @@ export class DistrictMongoRepository
     if (!result) {
       return {
         nextPag: null,
-        count: 0,
+        totalRecord: 0,
         results: [],
       };
     }
@@ -99,7 +99,7 @@ export class DistrictMongoRepository
     const hasNextPage: boolean = skip * perPage < count;
     return {
       nextPag: !hasNextPage ? Number(skip) + 2 : null,
-      count: count,
+      totalRecord: count,
       results: result as District[],
     };
   }
