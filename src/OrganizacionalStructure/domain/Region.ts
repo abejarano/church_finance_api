@@ -5,12 +5,14 @@ export class Region {
   private regionId: string;
   private name: string;
   private district: District;
+  private createdAt: Date;
 
   static create(name: string, district: District): Region {
     const r: Region = new Region();
     r.name = name;
     r.district = district;
     r.regionId = IdentifyEntity.get();
+    r.createdAt = new Date();
 
     return r;
   }
@@ -27,6 +29,7 @@ export class Region {
     const r: Region = new Region();
     r.name = plainData.name;
     r.regionId = plainData.regionId;
+    r.createdAt = plainData.createdAt;
 
     if (plainData.district)
       r.district = District.fromPrimitives(plainData.district);
@@ -43,6 +46,7 @@ export class Region {
       regionId: this.regionId,
       name: this.name,
       district: this.district.toPrimitives(),
+      createdAt: this.createdAt,
     };
   }
 }
