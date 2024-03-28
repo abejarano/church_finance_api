@@ -1,11 +1,4 @@
-import {
-  Criteria,
-  Filters,
-  Operator,
-  Order,
-  OrderTypes,
-  Paginate,
-} from "../../../Shared/domain";
+import { Paginate } from "../../../Shared/domain";
 import {
   MongoClientFactory,
   MongoRepository,
@@ -77,34 +70,9 @@ export class RegionMongoRepository
     page: number,
     perPage: number,
   ): Promise<Paginate<Region>> {
+    let filter = {};
     if (districtId) {
-      const filterDistrictId: Map<string, string> = new Map([
-        ["field", "districtId"],
-        ["operator", Operator.EQUAL],
-        ["value", districtId],
-      ]);
-
-      const criteria: Criteria = new Criteria(
-        Filters.fromValues([filterDistrictId]),
-        Order.fromValues("createdAt", OrderTypes.DESC),
-        perPage,
-        page,
-      );
-
-      let document = await this.searchByCriteriaWithProjection<any>(
-        criteria,
-        "regions",
-      );
-
-      if (document.length === 0) {
-        return {
-          nextPag: null,
-          count: 0,
-          results: [],
-        };
-      }
-
-      return this.buildPaginate<Region>(document[0].regions);
+      filter = { districtId };
     }
 
     const skip = (page - 1) * perPage;
@@ -112,14 +80,8 @@ export class RegionMongoRepository
     const collection = await this.collection();
 
     const result = await collection
-      .find({})
+      .find(filter)
       .project({
-        _id: 0,
-        district: 0,
-        name: 0,
-        stateId: 0,
-        districtId: 0,
-        createdAt: 0,
         regions: {
           $slice: [Number(skip), Number(perPage)],
         },
@@ -129,7 +91,7 @@ export class RegionMongoRepository
     if (!result) {
       return {
         nextPag: null,
-        count: 0,
+        totalRecord: 0,
         results: [],
       };
     }
@@ -152,8 +114,10 @@ export class RegionMongoRepository
     const hasNextPage: boolean = skip * perPage < count;
     return {
       nextPag: !hasNextPage ? Number(skip) + 2 : null,
-      count: count,
-      results: result[0].regions as Region[],
+      totalRecord: count,
+      results: result[0].regions.map((region) =>
+        Region.fromPrimitives({ ...region, district: { ...result[0] } }),
+      ),
     };
   }
 }

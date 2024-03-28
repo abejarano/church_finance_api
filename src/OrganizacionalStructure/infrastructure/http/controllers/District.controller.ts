@@ -27,7 +27,7 @@ export class DistrictController {
       const data = await new SearchDistrict(
         DistrictMongoRepository.getInstance(),
       ).paginate(request);
-      res.status(HttpStatus.OK).send(data);
+      res.status(HttpStatus.OK).send({ data });
     } catch (e) {
       domainResponse(e, res);
     }

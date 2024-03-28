@@ -9,6 +9,7 @@ import {
   profileRoutes,
   userRoutes,
 } from "./SecuritySystem/infrastructure";
+import worldRoute from "./World/infrastructure/http/routes/World.route";
 
 const server = HttpServer.getInstance();
 
@@ -21,5 +22,7 @@ server.addRoute("/api/v1/structure-organization", structureOrganizationRoute);
 server.addRoute("/api/v1/admin/user", userRoutes);
 server.addRoute("/api/v1/admin/profile", profileRoutes);
 server.addRoute("/api/v1/admin/modules", modulesRoutes);
+
+server.addRoute("/api/v1/world", worldRoute);
 
 server.start(8080);
