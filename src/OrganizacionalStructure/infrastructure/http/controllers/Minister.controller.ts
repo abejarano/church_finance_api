@@ -1,12 +1,14 @@
 import { HttpStatus } from "../../../../Shared/domain";
-import { RegisterOrUpdateMinister } from "../../../applications/minister/RegisterOrUpdateMinister";
+import {
+  FindMinisterByDNI,
+  RegisterOrUpdateMinister,
+  SearchMinister,
+} from "../../../applications";
 import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository";
 import { RegionMongoRepository } from "../../persistence/RegionMongoRepository";
 import { Minister, MinisterStructureType } from "../../../domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { FindMinisterByDNI } from "../../../applications/minister/FindMinisterByDNI";
 import { MinisterPaginateRequest } from "../requests/MinisterPaginate.request";
-import { SearchMinister } from "../../../applications/minister/SearchMinister";
 
 export class MinisterController {
   static async createOrUpdate(request: MinisterStructureType, res) {

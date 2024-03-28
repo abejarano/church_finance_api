@@ -120,4 +120,12 @@ export class RegionMongoRepository
       ),
     };
   }
+
+  async findAll(): Promise<Region[]> {
+    const collection = await this.collection();
+    const result = await collection.find().toArray();
+    return result.map((item) =>
+      Region.fromPrimitives({ id: item._id.toString(), ...item }),
+    );
+  }
 }

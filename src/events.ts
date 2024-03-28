@@ -1,7 +1,7 @@
 import { NativeEventBus } from "./Shared/infrastructure/eventBus/NativeEventBus";
-import { FinancialConfigurationMongoRepository } from "./Financial/infrastructure/persistence/FinancialConfigurationMongoRepository";
+import { FinancialConfigurationMongoRepository } from "./Financial/infrastructure";
 import { ChurchMongoRepository } from "./Church/infrastructure";
-import { CreateUserApp } from "./SecuritySystem/applications/CreateUserApp";
+import { CreateUserApp } from "./SecuritySystem/applications";
 import { InitialLoadingFinancialConcepts } from "./Financial/applications";
 import {
   PasswordAdapter,

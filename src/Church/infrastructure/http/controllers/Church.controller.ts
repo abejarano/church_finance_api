@@ -1,4 +1,3 @@
-import { RegionMongoRepository } from "../../../../OrganizacionalStructure";
 import { HttpStatus } from "../../../../Shared/domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
 import { ChurchRequest } from "../requests/Church.request";
@@ -11,6 +10,7 @@ import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
 import { Church } from "../../../domain";
 import { NativeEventBus } from "../../../../Shared/infrastructure/eventBus/NativeEventBus";
+import { RegionMongoRepository } from "../../../../OrganizacionalStructure/infrastructure";
 
 export class ChurchController {
   static async createOrUpdate(request: ChurchRequest, res) {

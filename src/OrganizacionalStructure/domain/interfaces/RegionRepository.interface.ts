@@ -11,4 +11,6 @@ export interface IRegionRepository {
     page: number,
     perPage: number,
   ): Promise<Paginate<Region>>;
+
+  findAll(): Promise<Region[]>;
 }

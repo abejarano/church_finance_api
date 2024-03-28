@@ -107,4 +107,13 @@ export class DistrictMongoRepository
   async upsert(district: District): Promise<void> {
     await this.persist(district.getId(), district);
   }
+
+  async findAll(): Promise<District[]> {
+    const collection = await this.collection();
+    const result = await collection.find().toArray();
+
+    return result.map((item) =>
+      District.fromPrimitives({ id: item._id.toString(), ...item }),
+    );
+  }
 }

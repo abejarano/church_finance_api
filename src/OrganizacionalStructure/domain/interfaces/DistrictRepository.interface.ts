@@ -10,5 +10,7 @@ export interface IDistrictRepository {
     perPage: number,
   ): Promise<Paginate<District>>;
 
+  findAll(): Promise<District[]>;
+
   upsert(district: District): Promise<void>;
 }

@@ -1,7 +1,11 @@
 import { Church, ChurchNotFound, IChurchRepository } from "../../domain";
 import { ChurchRequest } from "../../infrastructure/http/requests/Church.request";
-import { IRegionRepository, Region } from "../../../OrganizacionalStructure";
-import { RegionNotFound } from "../../../OrganizacionalStructure/domain";
+
+import {
+  IRegionRepository,
+  Region,
+  RegionNotFound,
+} from "../../../OrganizacionalStructure/domain";
 import { IMessageBus } from "../../../Shared/domain";
 
 export class CreateOrUpdateChurch {
