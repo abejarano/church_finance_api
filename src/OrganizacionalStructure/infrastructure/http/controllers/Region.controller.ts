@@ -25,7 +25,7 @@ export class RegionController {
       const list = await new SearchRegion(
         RegionMongoRepository.getInstance(),
       ).paginate(request);
-      res.status(HttpStatus.OK).send(list);
+      res.status(HttpStatus.OK).send({ data: list });
     } catch (e) {
       domainResponse(e, res);
     }
