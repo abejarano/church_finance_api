@@ -37,6 +37,16 @@ const churchRoute = async (fastify: FastifyInstance) => {
     },
   );
 
+  fastify.post(
+    "/remove-minister/:churchId",
+    {
+      preHandler: PermissionMiddleware,
+    },
+    async (req, res) => {
+      await ChurchController.removeMinister(req.params["churchId"], res);
+    },
+  );
+
   fastify.get(
     "/:churchId",
     {

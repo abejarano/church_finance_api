@@ -89,6 +89,10 @@ export class Minister extends AggregateRoot {
     this.churchId = church.getChurchId();
   }
 
+  removeChurch() {
+    this.churchId = undefined;
+  }
+
   toPrimitives(): any {
     return {
       ministerId: this.ministerId,
@@ -99,7 +103,7 @@ export class Minister extends AggregateRoot {
       dni: this.dni,
       ministerType: this.ministerType,
       region: this.region,
-      churchId: this.churchId,
+      churchId: this.churchId ?? null,
     };
   }
 }

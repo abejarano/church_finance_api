@@ -75,7 +75,7 @@ export class MinisterMongoRepository
     const collection = await this.collection();
     const result = await collection.findOne({
       ministerId,
-      churchId: { $exists: false },
+      churchId: null,
     });
 
     if (!result) {

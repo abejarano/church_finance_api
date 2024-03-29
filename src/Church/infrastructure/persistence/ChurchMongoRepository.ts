@@ -55,7 +55,7 @@ export class ChurchMongoRepository
     const collection = await this.collection();
     const result = await collection.findOne({
       churchId,
-      ministerId: { $exists: false },
+      ministerId: null,
     });
 
     if (!result) {
@@ -69,9 +69,7 @@ export class ChurchMongoRepository
 
   async withoutAssignedMinister(): Promise<Church[]> {
     const collection = await this.collection();
-    const result = await collection
-      .find({ ministerId: { $exists: false } })
-      .toArray();
+    const result = await collection.find({ ministerId: null }).toArray();
 
     return result.map((church) =>
       Church.fromPrimitives({ id: church._id.toString(), ...church }),

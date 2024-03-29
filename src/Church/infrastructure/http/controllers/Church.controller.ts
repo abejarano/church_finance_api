@@ -16,6 +16,7 @@ import {
   RegionMongoRepository,
 } from "../../../../OrganizacionalStructure/infrastructure";
 import PaginateChurchDto from "../DTO/paginateChurch.dto";
+import { RemoveMinister } from "../../../applications/church/RemoveMinister";
 
 export class ChurchController {
   static async createOrUpdate(request: ChurchRequest, res) {
@@ -70,6 +71,19 @@ export class ChurchController {
       res.status(HttpStatus.OK).send({
         data: churches,
       });
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async removeMinister(churchId: string, res) {
+    try {
+      await new RemoveMinister(
+        MinisterMongoRepository.getInstance(),
+        ChurchMongoRepository.getInstance(),
+      ).execute(churchId);
+
+      res.status(HttpStatus.OK).send({ message: "Minister removed" });
     } catch (e) {
       domainResponse(e, res);
     }

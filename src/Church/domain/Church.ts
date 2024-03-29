@@ -116,6 +116,10 @@ export class Church extends AggregateRoot {
     return this.ministerId;
   }
 
+  removeMinister() {
+    this.ministerId = undefined;
+  }
+
   getRegion(): Region {
     return this.region;
   }
@@ -134,7 +138,7 @@ export class Church extends AggregateRoot {
       openingDate: this.openingDate,
       region: this.region.toPrimitives(),
       createdAt: this.createdAt,
-      ministerId: this.ministerId,
+      ministerId: this.ministerId ?? null,
     };
   }
 }
