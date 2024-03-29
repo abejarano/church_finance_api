@@ -2,6 +2,7 @@ import { Region } from "./Region";
 import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { MinisterType } from "./enums/minister-type.enum";
+import { Church } from "../../Church/domain";
 
 export class Minister extends AggregateRoot {
   private id?: string;
@@ -13,6 +14,7 @@ export class Minister extends AggregateRoot {
   private dni: string;
   private ministerType: MinisterType;
   private region: Region;
+  private church?: Church;
 
   static create(
     name: string,
@@ -46,6 +48,7 @@ export class Minister extends AggregateRoot {
     m.ministerType = plainData.ministerType;
     m.region = Region.fromPrimitives(plainData.region);
     m.ministerId = plainData.ministerId;
+    if (plainData.church) m.church = Church.fromPrimitives(plainData.church);
 
     return m;
   }
@@ -74,6 +77,14 @@ export class Minister extends AggregateRoot {
     this.region = region;
   }
 
+  getMinisterId(): string {
+    return this.ministerId;
+  }
+
+  getChurch(): Church | undefined {
+    return this.church;
+  }
+
   toPrimitives(): any {
     return {
       ministerId: this.ministerId,
@@ -84,6 +95,7 @@ export class Minister extends AggregateRoot {
       dni: this.dni,
       ministerType: this.ministerType,
       region: this.region,
+      church: this.church,
     };
   }
 }

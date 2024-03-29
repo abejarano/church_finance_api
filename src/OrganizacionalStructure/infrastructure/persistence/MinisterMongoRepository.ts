@@ -60,4 +60,13 @@ export class MinisterMongoRepository
 
     return Minister.fromPrimitives({ id: result._id.toString(), ...result });
   }
+
+  public async allActive() {
+    const collection = await this.collection();
+    const result = await collection.find().toArray();
+    console.log(result);
+    return result.map((minister) =>
+      Minister.fromPrimitives({ id: minister._id.toString(), ...minister }),
+    );
+  }
 }

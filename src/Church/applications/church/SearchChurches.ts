@@ -1,4 +1,4 @@
-import { Church, IChurchRepository } from "../../domain";
+import { ChurchDTO, IChurchRepository } from "../../domain";
 import { ChurchPaginateRequest } from "../../infrastructure/http/requests/ChurchPaginate.request";
 import {
   Criteria,
@@ -14,7 +14,7 @@ export class SearchChurches {
 
   async execute(
     requestChurch: ChurchPaginateRequest,
-  ): Promise<Paginate<Church>> {
+  ): Promise<Paginate<ChurchDTO>> {
     return await this.churchRepository.list(
       this.prepareCriteria(requestChurch),
     );

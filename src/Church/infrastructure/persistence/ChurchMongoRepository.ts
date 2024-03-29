@@ -2,7 +2,7 @@ import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../Shared/infrastructure";
-import { Church, IChurchRepository } from "../../domain";
+import { Church, ChurchDTO, IChurchRepository } from "../../domain";
 import { Criteria, Paginate } from "../../../Shared/domain";
 
 export class ChurchMongoRepository
@@ -41,11 +41,11 @@ export class ChurchMongoRepository
     await this.persist(church.getId(), church);
   }
 
-  async list(criteria: Criteria): Promise<Paginate<Church>> {
-    const result: Church[] = await this.searchByCriteria<Church>(criteria, [
-      "financialConcepts",
-      "members",
-    ]);
-    return this.buildPaginate<Church>(result);
+  async list(criteria: Criteria): Promise<Paginate<ChurchDTO>> {
+    const result: ChurchDTO[] = await this.searchByCriteria<ChurchDTO>(
+      criteria,
+      ["financialConcepts", "members"],
+    );
+    return this.buildPaginate<ChurchDTO>(result);
   }
 }

@@ -10,7 +10,11 @@ import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
 import { Church } from "../../../domain";
 import { NativeEventBus } from "../../../../Shared/infrastructure/eventBus/NativeEventBus";
-import { RegionMongoRepository } from "../../../../OrganizacionalStructure/infrastructure";
+import {
+  MinisterMongoRepository,
+  RegionMongoRepository,
+} from "../../../../OrganizacionalStructure/infrastructure";
+import PaginateChurchDto from "../DTO/paginateChurch.dto";
 
 export class ChurchController {
   static async createOrUpdate(request: ChurchRequest, res) {
@@ -33,7 +37,12 @@ export class ChurchController {
         ChurchMongoRepository.getInstance(),
       ).execute(req);
 
-      res.status(HttpStatus.OK).send(churches);
+      res.status(HttpStatus.OK).send({
+        data: PaginateChurchDto(
+          churches,
+          await MinisterMongoRepository.getInstance().allActive(),
+        ),
+      });
     } catch (e) {
       domainResponse(e, res);
     }
