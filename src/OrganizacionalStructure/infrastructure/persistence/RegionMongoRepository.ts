@@ -60,7 +60,7 @@ export class RegionMongoRepository
 
     await collection.updateOne(
       { districtId: region.getDistrict().getDistrictId() },
-      { $push: { regions: region.toPrimitives() } },
+      { $set: { regions: region.toPrimitives() } },
       { upsert: true },
     );
   }

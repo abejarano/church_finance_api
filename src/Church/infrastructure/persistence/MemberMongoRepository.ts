@@ -52,7 +52,7 @@ export class MemberMongoRepository
 
     await collection.updateOne(
       { churchId: member.getChurchId() },
-      { $push: { members: member.toPrimitives() } },
+      { $set: { members: member.toPrimitives() } },
       { upsert: true },
     );
   }

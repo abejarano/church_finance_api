@@ -8,4 +8,10 @@ export interface IChurchRepository {
   upsert(church: Church): Promise<void>;
 
   list(criteria: Criteria): Promise<Paginate<ChurchDTO>>;
+
+  hasAnAssignedMinister(
+    churchId: string,
+  ): Promise<[boolean, Church | undefined]>;
+
+  withoutAssignedMinister(): Promise<Church[]>;
 }

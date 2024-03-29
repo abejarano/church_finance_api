@@ -2,7 +2,6 @@ import { HttpStatus } from "../../domain";
 import { ProfileMongoRepository } from "../../../SecuritySystem/infrastructure";
 import { UserAuthDTO } from "../../../SecuritySystem/domain";
 import { ValidateActionInSystem } from "../../../SecuritySystem/applications";
-import { logger } from "../index";
 import jwt = require("jsonwebtoken");
 
 export const PermissionMiddleware = async (req, res) => {
@@ -30,11 +29,11 @@ export const PermissionMiddleware = async (req, res) => {
     URL = URL.replace(`/${req.params[urlKey]}`, "");
   }
 
-  logger.info(`Usuario: ${user.email} - perfil:`, user.profileId);
-  logger.info(`URL: ${URL} - METHOD: ${req.method.toUpperCase()}`);
+  console.log(`Usuario: ${user.email} - perfil:`, user.profileId);
+  console.log(`URL: ${URL} - METHOD: ${req.method.toUpperCase()}`);
 
   if (user.isSuperuser) {
-    logger.info(`Usuario: ${user.email} es superusuario`);
+    console.log(`Usuario: ${user.email} es superusuario`);
     return;
   }
 

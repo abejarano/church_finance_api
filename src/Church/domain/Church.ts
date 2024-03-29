@@ -14,7 +14,7 @@ export class Church extends AggregateRoot {
   private registerNumber: string;
   private email: string;
   private openingDate: Date;
-  private minister?: Minister;
+  private ministerId: string;
   private region: Region;
   private createdAt: Date;
 
@@ -65,7 +65,7 @@ export class Church extends AggregateRoot {
   }
 
   setMinister(minister: Minister) {
-    this.minister = minister;
+    this.ministerId = minister.getMinisterId();
   }
 
   setEmail(email: string) {
@@ -104,19 +104,16 @@ export class Church extends AggregateRoot {
     c.registerNumber = plainData.registerNumber;
     c.email = plainData.email;
     c.openingDate = plainData.openingDate;
-
-    if (plainData.minister) {
-      c.minister = Minister.fromPrimitives(plainData.minister);
-    }
-
+    c.ministerId = plainData.ministerId;
     c.region = Region.fromPrimitives(plainData.region);
+
     c.createdAt = plainData.createdAt;
 
     return c;
   }
 
-  getMinister() {
-    return this.minister;
+  getMinisterId() {
+    return this.ministerId;
   }
 
   getRegion(): Region {
@@ -124,7 +121,7 @@ export class Church extends AggregateRoot {
   }
 
   toPrimitives(): any {
-    const baseJson = {
+    return {
       churchId: this.churchId,
       name: this.name,
       city: this.city,
@@ -135,14 +132,9 @@ export class Church extends AggregateRoot {
       registerNumber: this.registerNumber,
       email: this.email,
       openingDate: this.openingDate,
-      region: { ...this.region.toPrimitives() },
+      region: this.region.toPrimitives(),
       createdAt: this.createdAt,
+      ministerId: this.ministerId,
     };
-
-    if (this.minister) {
-      baseJson["minister"] = { ...this.minister.toPrimitives() };
-    }
-
-    return baseJson;
   }
 }

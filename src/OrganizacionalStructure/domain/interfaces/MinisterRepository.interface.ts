@@ -1,6 +1,5 @@
 import { Minister } from "../Minister";
 import { Criteria, Paginate } from "../../../Shared/domain";
-import { Church } from "../../../Church/domain";
 
 export interface IMinisterRepository {
   upsert(minister: Minister): Promise<void>;
@@ -11,5 +10,7 @@ export interface IMinisterRepository {
 
   findByDni(dni: string): Promise<Minister | undefined>;
 
-  assignChurch(church: Church): Promise<void>;
+  withoutAssignedChurch(): Promise<Minister[]>;
+
+  hasAnAssignedChurch(ministerId: string): Promise<[boolean, Minister]>;
 }

@@ -48,4 +48,33 @@ export class ChurchMongoRepository
     );
     return this.buildPaginate<ChurchDTO>(result);
   }
+
+  async hasAnAssignedMinister(
+    churchId: string,
+  ): Promise<[boolean, Church | undefined]> {
+    const collection = await this.collection();
+    const result = await collection.findOne({
+      churchId,
+      ministerId: { $exists: false },
+    });
+
+    if (!result) {
+      return [true, undefined];
+    }
+    return [
+      false,
+      Church.fromPrimitives({ id: result._id.toString(), ...result }),
+    ];
+  }
+
+  async withoutAssignedMinister(): Promise<Church[]> {
+    const collection = await this.collection();
+    const result = await collection
+      .find({ ministerId: { $exists: false } })
+      .toArray();
+
+    return result.map((church) =>
+      Church.fromPrimitives({ id: church._id.toString(), ...church }),
+    );
+  }
 }

@@ -1,6 +1,8 @@
 import { HttpStatus } from "../../../../Shared/domain";
 import {
+  AssignChurch,
   FindMinisterByDNI,
+  MinisterWithoutAssignedChurch,
   RegisterOrUpdateMinister,
   SearchMinister,
 } from "../../../applications";
@@ -9,6 +11,7 @@ import { RegionMongoRepository } from "../../persistence/RegionMongoRepository";
 import { Minister, MinisterStructureType } from "../../../domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
 import { MinisterPaginateRequest } from "../requests/MinisterPaginate.request";
+import { ChurchMongoRepository } from "../../../../Church/infrastructure";
 
 export class MinisterController {
   static async createOrUpdate(request: MinisterStructureType, res) {
@@ -42,7 +45,34 @@ export class MinisterController {
         MinisterMongoRepository.getInstance(),
       ).execute(request);
 
-      res.status(HttpStatus.OK).send(ministers);
+      res.status(HttpStatus.OK).send({ data: ministers });
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async withoutAssignedChurch(res) {
+    try {
+      const ministers: Minister[] = await new MinisterWithoutAssignedChurch(
+        MinisterMongoRepository.getInstance(),
+      ).execute();
+      res.status(HttpStatus.OK).send({ data: ministers });
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async assignChurch(
+    payload: { churchId: string; ministerId: string },
+    res,
+  ) {
+    try {
+      await new AssignChurch(
+        MinisterMongoRepository.getInstance(),
+        ChurchMongoRepository.getInstance(),
+      ).execute(payload.ministerId, payload.churchId);
+
+      res.status(HttpStatus.OK).send({ message: "Assigned church" });
     } catch (e) {
       domainResponse(e, res);
     }

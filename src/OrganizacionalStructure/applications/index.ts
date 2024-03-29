@@ -6,6 +6,7 @@ export { SearchMinister } from "./minister/SearchMinister";
 export { AssignChurch } from "./minister/AssignChurch";
 export { FindMinisterByDNI } from "./minister/FindMinisterByDNI";
 export { RegisterOrUpdateMinister } from "./minister/RegisterOrUpdateMinister";
+export { MinisterWithoutAssignedChurch } from "./minister/MinisterWithoutAssignedChurch";
 
 export { RegisterOrUpdateRegion } from "./region/RegisterOrUpdateRegion";
 export { SearchAllRegions } from "./region/SearchAllRegions";

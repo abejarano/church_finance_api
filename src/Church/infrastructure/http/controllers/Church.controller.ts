@@ -5,6 +5,7 @@ import {
   CreateOrUpdateChurch,
   FindChurchById,
   SearchChurches,
+  WithoutAssignedMinister,
 } from "../../../applications";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
@@ -55,6 +56,20 @@ export class ChurchController {
       ).execute(churchId);
 
       res.status(HttpStatus.OK).send(church);
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async listWithoutAssignedMinister(res) {
+    try {
+      const churches = await new WithoutAssignedMinister(
+        ChurchMongoRepository.getInstance(),
+      ).execute();
+
+      res.status(HttpStatus.OK).send({
+        data: churches,
+      });
     } catch (e) {
       domainResponse(e, res);
     }

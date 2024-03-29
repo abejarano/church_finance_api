@@ -77,7 +77,7 @@ export class SystemModuleMongoRepository
     const collection = await this.collection();
     await collection.updateOne(
       { churchId: systemModule.getSystemModuleId() },
-      { $push: { options: systemModule.getOptionModule() } },
+      { $set: { options: systemModule.getOptionModule() } },
       { upsert: true },
     );
   }

@@ -4,9 +4,7 @@ import { Minister } from "../../../../OrganizacionalStructure/domain";
 
 export default (paginate: Paginate<ChurchDTO>, minister: Minister[]) => {
   const searchMinister = (churchId: string) => {
-    return minister.find(
-      (m: Minister) => m.getChurch()?.getChurchId() === churchId,
-    );
+    return minister.find((m: Minister) => m.getChurchId() === churchId);
   };
 
   const results = paginate.results.map((church: ChurchDTO) => {

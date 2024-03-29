@@ -2,7 +2,7 @@ import { HttpStatus } from "../../../../Shared/domain";
 import { Validator } from "node-input-validator";
 import { logger } from "../../../../Shared/infrastructure";
 
-export default async (req, res, next) => {
+export default async (req, res) => {
   const payload = req.body;
 
   logger.info(`Validando registro de ministros ${JSON.stringify(payload)}`);
@@ -23,6 +23,4 @@ export default async (req, res, next) => {
   if (!matched) {
     return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(v.errors);
   }
-
-  next();
 };

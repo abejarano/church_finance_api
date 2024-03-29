@@ -14,7 +14,7 @@ export class Minister extends AggregateRoot {
   private dni: string;
   private ministerType: MinisterType;
   private region: Region;
-  private church?: Church;
+  private churchId: string;
 
   static create(
     name: string,
@@ -48,7 +48,7 @@ export class Minister extends AggregateRoot {
     m.ministerType = plainData.ministerType;
     m.region = Region.fromPrimitives(plainData.region);
     m.ministerId = plainData.ministerId;
-    if (plainData.church) m.church = Church.fromPrimitives(plainData.church);
+    m.churchId = plainData.churchId;
 
     return m;
   }
@@ -81,8 +81,12 @@ export class Minister extends AggregateRoot {
     return this.ministerId;
   }
 
-  getChurch(): Church | undefined {
-    return this.church;
+  getChurchId() {
+    return this.churchId;
+  }
+
+  setChurch(church: Church) {
+    this.churchId = church.getChurchId();
   }
 
   toPrimitives(): any {
@@ -95,7 +99,7 @@ export class Minister extends AggregateRoot {
       dni: this.dni,
       ministerType: this.ministerType,
       region: this.region,
-      church: this.church,
+      churchId: this.churchId,
     };
   }
 }

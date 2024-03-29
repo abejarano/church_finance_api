@@ -4,7 +4,7 @@ import { IdentifyEntity } from "../../Shared/adapter";
 export class Region {
   private regionId: string;
   private name: string;
-  private district: District;
+  private district?: District;
   private createdAt: Date;
 
   static create(name: string, district: District): Region {
@@ -45,7 +45,8 @@ export class Region {
     return {
       regionId: this.regionId,
       name: this.name,
-      district: this.district.toPrimitives(),
+      district:
+        this.district !== undefined ? this.district.toPrimitives() : undefined,
       createdAt: this.createdAt,
     };
   }

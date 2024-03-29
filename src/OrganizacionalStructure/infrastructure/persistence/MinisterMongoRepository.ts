@@ -3,7 +3,6 @@ import {
   MongoRepository,
 } from "../../../Shared/infrastructure";
 import { IMinisterRepository, Minister } from "../../domain";
-import { Church } from "../../../Church/domain";
 import { Criteria, Paginate } from "../../../Shared/domain";
 
 export class MinisterMongoRepository
@@ -25,14 +24,6 @@ export class MinisterMongoRepository
 
   collectionName(): string {
     return "ministers";
-  }
-
-  async assignChurch(church: Church): Promise<void> {
-    const collection = await this.collection();
-    await collection.updateOne(
-      { _id: church.getMinister().getId },
-      { $set: { churchId: church.getChurchId() } },
-    );
   }
 
   async findByDni(dni: string): Promise<Minister | undefined> {
@@ -64,9 +55,35 @@ export class MinisterMongoRepository
   public async allActive() {
     const collection = await this.collection();
     const result = await collection.find().toArray();
-    console.log(result);
+
     return result.map((minister) =>
       Minister.fromPrimitives({ id: minister._id.toString(), ...minister }),
     );
+  }
+
+  public async withoutAssignedChurch(): Promise<Minister[]> {
+    const collection = await this.collection();
+    const result = await collection
+      .find({ church: { $exists: false } })
+      .toArray();
+    return result.map((minister) =>
+      Minister.fromPrimitives({ id: minister._id.toString(), ...minister }),
+    );
+  }
+
+  async hasAnAssignedChurch(ministerId: string): Promise<[boolean, Minister]> {
+    const collection = await this.collection();
+    const result = await collection.findOne({
+      ministerId,
+      churchId: { $exists: false },
+    });
+
+    if (!result) {
+      return [true, undefined];
+    }
+    return [
+      false,
+      Minister.fromPrimitives({ id: result._id.toString(), ...result }),
+    ];
   }
 }

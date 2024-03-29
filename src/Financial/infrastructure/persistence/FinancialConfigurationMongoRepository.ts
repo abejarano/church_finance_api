@@ -65,7 +65,7 @@ export class FinancialConfigurationMongoRepository
     const collection = await this.collection();
     await collection.updateOne(
       { churchId: bank.getChurchId() },
-      { $push: { banks: bank.toPrimitives() } },
+      { $set: { banks: bank.toPrimitives() } },
       { upsert: true },
     );
   }
@@ -74,7 +74,7 @@ export class FinancialConfigurationMongoRepository
     const collection = await this.collection();
     await collection.updateOne(
       { churchId: concept.getChurchId() },
-      { $push: { financialConcepts: concept.toPrimitives() } },
+      { $set: { financialConcepts: concept.toPrimitives() } },
       { upsert: true },
     );
   }
@@ -85,7 +85,7 @@ export class FinancialConfigurationMongoRepository
       {
         churchId: costCenter.getChurchId(),
       },
-      { $push: { costCenters: costCenter.toPrimitives() } },
+      { $set: { costCenters: costCenter.toPrimitives() } },
       { upsert: true },
     );
   }
