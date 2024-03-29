@@ -14,8 +14,8 @@ import worldRoute from "./World/infrastructure/http/routes/World.route";
 const server = HttpServer.getInstance();
 
 server.addRoute("/api/v1/app", appRouters);
-server.addRoute("/api/v1/Church", churchRouters);
-server.addRoute("/api/v1/Church/member", memberRouters);
+server.addRoute("/api/v1/church", churchRouters);
+server.addRoute("/api/v1/church/member", memberRouters);
 server.addRoute("/api/v1/finance", financialRouter);
 server.addRoute("/api/v1/structure-organization", structureOrganizationRoute);
 
