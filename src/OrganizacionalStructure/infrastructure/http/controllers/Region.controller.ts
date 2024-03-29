@@ -13,11 +13,13 @@ import { RegionPaginateRequest } from "../requests/RegionPaginate.request";
 export class RegionController {
   static async createOrUpdate(request: RegionStructureType, res) {
     try {
-      await new RegisterOrUpdateRegion(
+      const region = await new RegisterOrUpdateRegion(
         RegionMongoRepository.getInstance(),
         DistrictMongoRepository.getInstance(),
       ).execute(request);
-      res.status(HttpStatus.CREATED).send({ message: "Registered region" });
+      res
+        .status(HttpStatus.CREATED)
+        .send({ message: "Registered region", data: region });
     } catch (e) {
       domainResponse(e, res);
     }

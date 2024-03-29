@@ -14,10 +14,9 @@ export class RegisterOrUpdateRegion {
     private readonly districtRepository: IDistrictRepository,
   ) {}
 
-  async execute(request: RegionStructureType): Promise<void> {
+  async execute(request: RegionStructureType): Promise<Region> {
     if (request.regionId) {
-      await this.update(request);
-      return;
+      return await this.update(request);
     }
 
     const district: District = await this.districtRepository.findById(
@@ -29,9 +28,11 @@ export class RegisterOrUpdateRegion {
 
     const region: Region = Region.create(request.name, district);
     await this.regionRepository.upsert(region);
+
+    return region;
   }
 
-  private async update(request: RegionStructureType) {
+  private async update(request: RegionStructureType): Promise<Region> {
     const region: Region = await this.regionRepository.findById(
       request.regionId,
     );
@@ -42,5 +43,6 @@ export class RegisterOrUpdateRegion {
 
     region.setName(request.name);
     await this.regionRepository.upsert(region);
+    return region;
   }
 }

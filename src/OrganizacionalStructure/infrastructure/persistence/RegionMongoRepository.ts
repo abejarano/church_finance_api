@@ -88,7 +88,7 @@ export class RegionMongoRepository
       })
       .toArray();
 
-    if (!result) {
+    if (result.length === 0) {
       return {
         nextPag: null,
         totalRecord: 0,
