@@ -121,11 +121,17 @@ export class RegionMongoRepository
     };
   }
 
-  async findAll(): Promise<Region[]> {
+  async findAllByDistrictId(districtId: string): Promise<Region[]> {
     const collection = await this.collection();
-    const result = await collection.find().toArray();
-    return result.map((item) =>
-      Region.fromPrimitives({ id: item._id.toString(), ...item }),
-    );
+    const result = await collection
+      .find({ districtId })
+      .project({ regions: 1 })
+      .toArray();
+
+    if (result.length === 0) {
+      return [];
+    }
+
+    return result[0].regions.map((item) => Region.fromPrimitives(item));
   }
 }

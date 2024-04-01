@@ -4,7 +4,7 @@ import { RegionMongoRepository } from "../../persistence/RegionMongoRepository";
 import { DistrictMongoRepository } from "../../persistence/DistrictMongoRepository";
 import {
   RegisterOrUpdateRegion,
-  SearchAllRegions,
+  SearchAllRegionsByDistrictId,
   SearchRegion,
 } from "../../../applications";
 import { HttpStatus } from "../../../../Shared/domain";
@@ -36,11 +36,11 @@ export class RegionController {
     }
   }
 
-  static searchAll = async (res) => {
+  static searchAllByDistrictId = async (districtId: string, res) => {
     try {
-      const list = await new SearchAllRegions(
+      const list = await new SearchAllRegionsByDistrictId(
         RegionMongoRepository.getInstance(),
-      ).execute();
+      ).execute(districtId);
 
       res.status(HttpStatus.OK).send({ data: list });
     } catch (e) {
