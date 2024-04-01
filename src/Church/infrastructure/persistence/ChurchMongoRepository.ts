@@ -75,4 +75,13 @@ export class ChurchMongoRepository
       Church.fromPrimitives({ id: church._id.toString(), ...church }),
     );
   }
+
+  async listByDistrictId(districtId: string): Promise<Church[]> {
+    const collection = await this.collection();
+    const result = await collection.find({ districtId }).toArray();
+
+    return result.map((church) =>
+      Church.fromPrimitives({ id: church._id.toString(), ...church }),
+    );
+  }
 }

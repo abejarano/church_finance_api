@@ -9,6 +9,8 @@ export interface IChurchRepository {
 
   list(criteria: Criteria): Promise<Paginate<ChurchDTO>>;
 
+  listByDistrictId(districtId: string): Promise<Church[]>;
+
   hasAnAssignedMinister(
     churchId: string,
   ): Promise<[boolean, Church | undefined]>;

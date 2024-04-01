@@ -5,6 +5,7 @@ import {
   CreateOrUpdateChurch,
   FindChurchById,
   SearchChurches,
+  SearchChurchesByDistrictId,
   WithoutAssignedMinister,
 } from "../../../applications";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
@@ -44,6 +45,20 @@ export class ChurchController {
           churches,
           await MinisterMongoRepository.getInstance().allActive(),
         ),
+      });
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async listByDistrictId(districtId: string, res) {
+    try {
+      const churches = await new SearchChurchesByDistrictId(
+        ChurchMongoRepository.getInstance(),
+      ).execute(districtId);
+
+      res.status(HttpStatus.OK).send({
+        data: churches,
       });
     } catch (e) {
       domainResponse(e, res);

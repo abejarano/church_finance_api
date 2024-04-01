@@ -27,6 +27,16 @@ const churchRoute = async (fastify: FastifyInstance) => {
   );
 
   fastify.get(
+    "/list/by-district-id",
+    {
+      preHandler: PermissionMiddleware,
+    },
+    async (req, res) => {
+      await ChurchController.listByDistrictId(req.query["districtId"], res);
+    },
+  );
+
+  fastify.get(
     "/without-assigned-minister",
     {
       preHandler: PermissionMiddleware,

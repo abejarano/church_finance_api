@@ -2,6 +2,7 @@ export { CreateOrUpdateChurch } from "./church/CreateOrUpdateChurch";
 export { FindChurchById } from "./church/FindChurchById";
 export { SearchChurches } from "./church/SearchChurches";
 export { WithoutAssignedMinister } from "./church/WithoutAssignedMinister";
+export { SearchChurchesByDistrictId } from "./church/SearchChurchesByDistrictId";
 
 export { CreateOrUpdateMember } from "./members/CreateOrUpdateMember";
 export { FindMemberById } from "./members/FindMemberById";
