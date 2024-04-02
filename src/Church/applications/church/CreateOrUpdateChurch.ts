@@ -50,6 +50,7 @@ export class CreateOrUpdateChurch {
     church.setEmail(churchRequest.email);
     church.setOpeningDate(churchRequest.openingDate);
     church.setRegisterNumber(churchRequest.registerNumber);
+    church.setStatus(churchRequest.status);
 
     await this.churchRepository.upsert(church);
   }

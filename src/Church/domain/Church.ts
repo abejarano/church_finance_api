@@ -1,6 +1,7 @@
 import { AggregateRoot } from "../../Shared/domain";
 import { Minister, Region } from "../../OrganizacionalStructure/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
+import { ChurchStatus } from "./enums/ChurchStatus.enum";
 
 export class Church extends AggregateRoot {
   private id?: string;
@@ -16,6 +17,7 @@ export class Church extends AggregateRoot {
   private openingDate: Date;
   private ministerId: string;
   private region: Region;
+  private status: ChurchStatus;
   private createdAt: Date;
 
   static create(
@@ -44,8 +46,13 @@ export class Church extends AggregateRoot {
     c.region = region;
     c.createdAt = new Date();
     c.churchId = IdentifyEntity.get();
+    c.status = ChurchStatus.ACTIVE;
 
     return c;
+  }
+
+  setStatus(status: ChurchStatus) {
+    this.status = status;
   }
 
   getId(): string {
@@ -106,6 +113,7 @@ export class Church extends AggregateRoot {
     c.openingDate = plainData.openingDate;
     c.ministerId = plainData.ministerId;
     c.region = Region.fromPrimitives(plainData.region);
+    c.status = plainData.status;
 
     c.createdAt = plainData.createdAt;
 
@@ -139,6 +147,7 @@ export class Church extends AggregateRoot {
       region: this.region.toPrimitives(),
       createdAt: this.createdAt,
       ministerId: this.ministerId ?? null,
+      status: this.status,
     };
   }
 }

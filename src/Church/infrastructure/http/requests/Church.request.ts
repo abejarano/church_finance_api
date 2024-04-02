@@ -1,3 +1,5 @@
+import { ChurchStatus } from "../../../domain";
+
 export type ChurchRequest = {
   churchId?: string;
   name: string;
@@ -10,4 +12,5 @@ export type ChurchRequest = {
   email: string;
   openingDate: Date;
   regionId: string;
+  status: ChurchStatus;
 };

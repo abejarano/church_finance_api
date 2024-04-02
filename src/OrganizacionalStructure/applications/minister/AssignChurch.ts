@@ -1,5 +1,5 @@
 import { IMinisterRepository } from "../../domain";
-import { IChurchRepository } from "../../../Church/domain";
+import { ChurchStatus, IChurchRepository } from "../../../Church/domain";
 import { GenericException } from "../../../Shared/domain";
 
 export class AssignChurch {
@@ -28,6 +28,7 @@ export class AssignChurch {
     }
 
     church.setMinister(minister);
+    church.setStatus(ChurchStatus.ACTIVE);
 
     await this.churchRepository.upsert(church);
 

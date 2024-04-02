@@ -1,5 +1,5 @@
 import { IMinisterRepository } from "../../../OrganizacionalStructure/domain";
-import { IChurchRepository } from "../../domain";
+import { ChurchStatus, IChurchRepository } from "../../domain";
 import { GenericException } from "../../../Shared/domain";
 
 export class RemoveMinister {
@@ -24,6 +24,7 @@ export class RemoveMinister {
     minister.removeChurch();
 
     church.removeMinister();
+    church.setStatus(ChurchStatus.NO_MINISTER);
 
     await this.ministerRepository.upsert(minister);
     await this.churchRepository.upsert(church);

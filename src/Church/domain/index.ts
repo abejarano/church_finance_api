@@ -9,3 +9,5 @@ export { MemberNotFound } from "./exceptions/MemberNotFound.exception";
 export { MemberExist } from "./exceptions/MemberExist.exception";
 
 export { ChurchDTO } from "./type/Church.dto.type";
+
+export { ChurchStatus } from "./enums/ChurchStatus.enum";
