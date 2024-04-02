@@ -33,6 +33,16 @@ export class SearchChurches {
       );
     }
 
+    if (requestChurch.status) {
+      filters.push(
+        new Map([
+          ["field", "status"],
+          ["operator", Operator.EQUAL],
+          ["value", requestChurch.status],
+        ]),
+      );
+    }
+
     return new Criteria(
       Filters.fromValues(filters),
       Order.fromValues("createdAt", OrderTypes.DESC),
