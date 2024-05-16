@@ -28,7 +28,9 @@ export class RegionMongoRepository
   }
 
   async findById(regionId: string): Promise<Region> {
-    const collection = await this.collection();
+    const collection = await this.collection<{
+      regions: Region[];
+    }>();
     const result = await collection.findOne(
       {
         "regions.regionId": regionId,

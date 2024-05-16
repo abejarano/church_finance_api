@@ -33,7 +33,10 @@ export class FinancialConfigurationMongoRepository
   }
 
   async searchBanksByChurchId(churchId: string): Promise<Bank[]> {
-    const collection = await this.collection();
+    const collection = await this.collection<{
+      banks: Bank[];
+      churchId;
+    }>();
 
     const result = await collection.findOne(
       {
@@ -93,7 +96,11 @@ export class FinancialConfigurationMongoRepository
   async findCostCenterByCostCenterId(
     costCenterId: string,
   ): Promise<CostCenter> {
-    const collection = await this.collection();
+    const collection = await this.collection<{
+      costCenters: CostCenter[];
+      churchId: string;
+      bankId;
+    }>();
     const result = await collection.findOne(
       { "costCenters.costCenterId": costCenterId },
       { projection: { _id: 1, churchId: 1, "costCenters.$": 1 } },
@@ -116,7 +123,10 @@ export class FinancialConfigurationMongoRepository
   }
 
   async findBankByBankId(bankId: string): Promise<Bank> {
-    const collection = await this.collection();
+    const collection = await this.collection<{
+      banks: Bank[];
+      churchId: string;
+    }>();
     const result = await collection.findOne(
       { "banks.bankId": bankId },
       { projection: { _id: 1, churchId: 1, "banks.$": 1 } },
@@ -134,7 +144,9 @@ export class FinancialConfigurationMongoRepository
   }
 
   async searchCenterCostsByChurchId(churchId: string): Promise<CostCenter[]> {
-    const collection = await this.collection();
+    const collection = await this.collection<{
+      costCenters: { bankId }[];
+    }>();
     const result = await collection.findOne(
       { churchId },
       { projection: { _id: 1, costCenters: 1 } },

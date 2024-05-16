@@ -85,7 +85,9 @@ export class SystemModuleMongoRepository
   async findByOptionModuleByOptionIds(
     optionIds: string[],
   ): Promise<OptionModuleDTO[]> {
-    const collection = await this.collection();
+    const collection = await this.collection<{
+      options: OptionModuleDTO[];
+    }>();
 
     const result = await collection
       .find(

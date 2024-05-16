@@ -17,8 +17,8 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     return this._client;
   }
 
-  protected async collection(): Promise<Collection> {
-    return (await this._client).db().collection(this.collectionName());
+  protected async collection<T>(): Promise<Collection<T>> {
+    return (await this._client).db().collection<T>(this.collectionName());
   }
 
   // todo return types

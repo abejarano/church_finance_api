@@ -4,6 +4,7 @@ import {
 } from "../../../Shared/infrastructure";
 import { IMemberRepository, Member } from "../../domain";
 import { Criteria, Paginate } from "../../../Shared/domain";
+import { ObjectId } from "mongodb";
 
 export class MemberMongoRepository
   extends MongoRepository<any>
@@ -49,10 +50,16 @@ export class MemberMongoRepository
 
   async upsert(member: Member): Promise<void> {
     const collection = await this.collection();
-
+    // Paso 1: Elimina el objeto existente del array (si existe)
     await collection.updateOne(
       { churchId: member.getChurchId() },
-      { $set: { members: member.toPrimitives() } },
+      { $pull: { members: { memberId: member.getMemberId() } } },
+    );
+
+    // Paso 2: Añade el nuevo objeto al array
+    await collection.updateOne(
+      { churchId: member.getChurchId() },
+      { $push: { members: member.toPrimitives() } },
       { upsert: true },
     );
   }
@@ -101,7 +108,10 @@ export class MemberMongoRepository
   }
 
   async findByDni(dni: string): Promise<Member | undefined> {
-    const collection = await this.collection();
+    const collection = await this.collection<{
+      members: Member[];
+    }>();
+
     const result = await collection.findOne(
       { "members.dni": dni },
       { projection: { "members.$": 1 } },
