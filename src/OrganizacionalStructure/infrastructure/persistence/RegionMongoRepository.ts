@@ -61,8 +61,17 @@ export class RegionMongoRepository
     const collection = await this.collection();
 
     await collection.updateOne(
-      { districtId: region.getDistrict().getDistrictId() },
-      { $set: { regions: region.toPrimitives() } },
+      {
+        districtId: region.getDistrict().getDistrictId(),
+      },
+      { $pull: { regions: { regionId: region.getRegionId() } } },
+    );
+
+    await collection.updateOne(
+      {
+        districtId: region.getDistrict().getDistrictId(),
+      },
+      { $push: { regions: region.toPrimitives() } },
       { upsert: true },
     );
   }
@@ -90,7 +99,7 @@ export class RegionMongoRepository
       })
       .toArray();
 
-    if (result.length === 0) {
+    if (!("regions" in result[0]) || result[0].regions.length === 0) {
       return {
         nextPag: null,
         totalRecord: 0,

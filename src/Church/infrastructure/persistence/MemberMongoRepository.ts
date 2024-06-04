@@ -4,7 +4,6 @@ import {
 } from "../../../Shared/infrastructure";
 import { IMemberRepository, Member } from "../../domain";
 import { Criteria, Paginate } from "../../../Shared/domain";
-import { ObjectId } from "mongodb";
 
 export class MemberMongoRepository
   extends MongoRepository<any>
