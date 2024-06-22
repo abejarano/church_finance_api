@@ -52,6 +52,10 @@ export class UserApp extends AggregateRoot {
     return u;
   }
 
+  getMemberId(): string {
+    return this.memberId;
+  }
+
   getPassword(): string {
     return this.password;
   }

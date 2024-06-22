@@ -2,8 +2,10 @@ import jwt = require("jsonwebtoken");
 import { IAuthToken } from "../../domain";
 
 type dataForToken = {
+  memberId: string;
   email: string;
   name: string;
+  phone: string;
   isTreasurer: boolean;
   isMinister: boolean;
   church: {

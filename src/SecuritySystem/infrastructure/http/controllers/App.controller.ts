@@ -4,8 +4,14 @@ import { UserAppMongoRepository } from "../../persistence/UserAppMongoRepository
 import { PasswordAdapter } from "../../adapters/Password.adapter";
 import { HttpStatus } from "../../../../Shared/domain";
 import { AuthTokenAdapter } from "../../adapters/AuthToken.adapter";
-import { FindChurchById } from "../../../../Church/applications";
-import { ChurchMongoRepository } from "../../../../Church/infrastructure";
+import {
+  FindChurchById,
+  FindMemberById,
+} from "../../../../Church/applications";
+import {
+  ChurchMongoRepository,
+  MemberMongoRepository,
+} from "../../../../Church/infrastructure";
 import { Church } from "../../../../Church/domain";
 
 export class AppController {
@@ -20,9 +26,15 @@ export class AppController {
         ChurchMongoRepository.getInstance(),
       ).execute(userData.getChurchId());
 
+      const member = await new FindMemberById(
+        MemberMongoRepository.getInstance(),
+      ).execute(userData.getMemberId());
+
       const structureReponse = {
-        email: userData.getEmail(),
-        name: userData.getName(),
+        email: member.getEmail(),
+        name: member.getName(),
+        memberId: member.getMemberId(),
+        phone: member.getPhone(),
         isTreasurer: userData.isTreasurer,
         isMinister: userData.isMinister,
         church: {

@@ -70,6 +70,10 @@ export class Member {
     return this.id;
   }
 
+  getPhone() {
+    return this.phone;
+  }
+
   getChurchId(): string {
     return this.churchId;
   }
