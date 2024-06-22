@@ -4,6 +4,9 @@ import { UserAppMongoRepository } from "../../persistence/UserAppMongoRepository
 import { PasswordAdapter } from "../../adapters/Password.adapter";
 import { HttpStatus } from "../../../../Shared/domain";
 import { AuthTokenAdapter } from "../../adapters/AuthToken.adapter";
+import { FindChurchById } from "../../../../Church/applications";
+import { ChurchMongoRepository } from "../../../../Church/infrastructure";
+import { Church } from "../../../../Church/domain";
 
 export class AppController {
   static async loginApp(data: { email: string; password: string }, res) {
@@ -13,13 +16,25 @@ export class AppController {
         new PasswordAdapter(),
       ).execute(data.email, data.password);
 
-      const token = new AuthTokenAdapter().createToken(userData);
+      const church: Church = await new FindChurchById(
+        ChurchMongoRepository.getInstance(),
+      ).execute(userData.getChurchId());
 
-      res.status(HttpStatus.OK).send({
-        email: userData.email,
-        name: userData.name,
+      const structureReponse = {
+        email: userData.getEmail(),
+        name: userData.getName(),
         isTreasurer: userData.isTreasurer,
         isMinister: userData.isMinister,
+        church: {
+          churchId: church.getChurchId(),
+          churchName: church.getName(),
+        },
+      };
+
+      const token = new AuthTokenAdapter().createToken(structureReponse);
+
+      res.status(HttpStatus.OK).send({
+        ...structureReponse,
         token: token,
       });
     } catch (e) {

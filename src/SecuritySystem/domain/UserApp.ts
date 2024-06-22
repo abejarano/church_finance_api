@@ -56,6 +56,18 @@ export class UserApp extends AggregateRoot {
     return this.password;
   }
 
+  getEmail(): string {
+    return this.email;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getChurchId() {
+    return this.churchId;
+  }
+
   toPrimitives(): any {
     return {
       email: this.email,

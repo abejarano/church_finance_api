@@ -13,7 +13,7 @@ export class LoginUserApp {
     private readonly passwordAdapter: IPasswordAdapter,
   ) {}
 
-  async execute(email: string, password: string): Promise<any> {
+  async execute(email: string, password: string): Promise<UserApp> {
     logger.info(`LoginUserApp.execute: ${email} ${password}`);
 
     const user: UserApp = await this.userAppRepository.findByEmail(email);
@@ -26,10 +26,6 @@ export class LoginUserApp {
 
     logger.info(`Usuario encontrado`);
 
-    const jsonObj = user.toPrimitives();
-
-    delete jsonObj.password;
-
-    return jsonObj;
+    return user;
   }
 }
