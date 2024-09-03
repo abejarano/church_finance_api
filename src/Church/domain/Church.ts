@@ -97,6 +97,10 @@ export class Church extends AggregateRoot {
     this.openingDate = openingDate;
   }
 
+  getName(): string {
+    return this.name;
+  }
+
   static fromPrimitives(plainData: any): Church {
     const c: Church = new Church();
 
