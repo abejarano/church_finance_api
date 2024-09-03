@@ -84,7 +84,7 @@ export class MemberMongoRepository
     const agg = [
       {
         $project: {
-          numberOfRegions: { $size: "$members" },
+          numberOfMembers: { $size: "$members" },
         },
       },
     ];
@@ -93,7 +93,7 @@ export class MemberMongoRepository
     const r = await collection.aggregate(agg).toArray();
     let count = 0;
     if (r.length > 0) {
-      count = r[0].numberOfRegions;
+      count = r[0].numberOfMembers;
     }
 
     const skip = (criteria.offset! - 1) * criteria.limit!;
