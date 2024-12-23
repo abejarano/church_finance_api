@@ -6,7 +6,7 @@ import {
   Member,
   MemberExist,
 } from "../../domain";
-import { MemberRequest } from "../../infrastructure/http/requests/Member.request";
+import { MemberRequest } from "../../domain/requests/Member.request";
 import { IMessageBus } from "../../../Shared/domain";
 
 export class CreateOrUpdateMember {

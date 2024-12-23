@@ -1,8 +1,7 @@
 import { ChurchController } from "../controllers/Church.controller";
-import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
+import { ChurchPaginateRequest, ChurchRequest } from "../../../domain";
 import { FastifyInstance } from "fastify";
-import { ChurchRequest } from "../requests/Church.request";
-import { PermissionMiddleware } from "../../../../Shared/infrastructure/middleware/Permission.middleware";
+import { PermissionMiddleware } from "../../../../Shared/infrastructure";
 
 const churchRoute = async (fastify: FastifyInstance) => {
   fastify.post(

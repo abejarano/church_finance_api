@@ -1,4 +1,4 @@
-import { ChurchStatus } from "../../../domain";
+import { ChurchStatus } from "../index";
 
 export type ChurchRequest = {
   churchId?: string;

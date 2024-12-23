@@ -1,5 +1,5 @@
 import { IMemberRepository } from "../../domain";
-import { MemberPaginateRequest } from "../../infrastructure/http/requests/MemberPaginate.request";
+import { MemberPaginateRequest } from "../../domain/requests/MemberPaginate.request";
 import {
   Criteria,
   Filters,

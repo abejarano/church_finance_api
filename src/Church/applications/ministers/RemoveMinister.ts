@@ -1,5 +1,8 @@
-import { IMinisterRepository } from "../../../OrganizacionalStructure/domain";
-import { ChurchStatus, IChurchRepository } from "../../domain";
+import {
+  ChurchStatus,
+  IChurchRepository,
+  IMinisterRepository,
+} from "../../domain";
 import { GenericException } from "../../../Shared/domain";
 
 export class RemoveMinister {
@@ -13,7 +16,7 @@ export class RemoveMinister {
 
     if (!church.getMinisterId()) {
       throw new GenericException(
-        "This church does not have an assigned minister",
+        "This church does not have an assigned ministers",
       );
     }
 

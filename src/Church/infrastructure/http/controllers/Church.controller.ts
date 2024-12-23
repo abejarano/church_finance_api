@@ -1,30 +1,28 @@
 import { HttpStatus } from "../../../../Shared/domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { ChurchRequest } from "../requests/Church.request";
+import { Church, ChurchPaginateRequest, ChurchRequest } from "../../../domain";
 import {
   CreateOrUpdateChurch,
   FindChurchById,
+  RemoveMinister,
   SearchChurches,
   SearchChurchesByDistrictId,
   WithoutAssignedMinister,
 } from "../../../applications";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
-import { ChurchPaginateRequest } from "../requests/ChurchPaginate.request";
-import { Church } from "../../../domain";
 import { NativeEventBus } from "../../../../Shared/infrastructure/eventBus/NativeEventBus";
-import {
-  MinisterMongoRepository,
-  RegionMongoRepository,
-} from "../../../../OrganizacionalStructure/infrastructure";
-import PaginateChurchDto from "../DTO/paginateChurch.dto";
-import { RemoveMinister } from "../../../applications/church/RemoveMinister";
+import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository";
+// import {
+//   MinisterMongoRepository,
+//   RegionMongoRepository,
+// } from "../../../../OrganizacionalStructure/infrastructure";
 
 export class ChurchController {
   static async createOrUpdate(request: ChurchRequest, res) {
     try {
       await new CreateOrUpdateChurch(
         ChurchMongoRepository.getInstance(),
-        RegionMongoRepository.getInstance(),
+        //RegionMongoRepository.getInstance(),
         NativeEventBus.getInstance(),
       ).execute(request);
 
@@ -41,10 +39,10 @@ export class ChurchController {
       ).execute(req);
 
       res.status(HttpStatus.OK).send({
-        data: PaginateChurchDto(
-          churches,
-          await MinisterMongoRepository.getInstance().allActive(),
-        ),
+        // data: PaginateChurchDto(
+        //   churches,
+        //   await MinisterMongoRepository.getInstance().allActive(),
+        // ),
       });
     } catch (e) {
       domainResponse(e, res);

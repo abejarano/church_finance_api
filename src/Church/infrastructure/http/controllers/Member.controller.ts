@@ -1,12 +1,13 @@
-import { MemberRequest } from "../requests/Member.request";
+import { MemberPaginateRequest, MemberRequest } from "../../../domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { CreateOrUpdateMember } from "../../../applications/members/CreateOrUpdateMember";
+import {
+  CreateOrUpdateMember,
+  FindMemberById,
+  SearchMembers,
+} from "../../../applications";
 import { MemberMongoRepository } from "../../persistence/MemberMongoRepository";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { HttpStatus } from "../../../../Shared/domain";
-import { MemberPaginateRequest } from "../requests/MemberPaginate.request";
-import { SearchMembers } from "../../../applications/members/SearchMembers";
-import { FindMemberById } from "../../../applications/members/FindMemberById";
 import { NativeEventBus } from "../../../../Shared/infrastructure/eventBus/NativeEventBus";
 
 export class MemberController {

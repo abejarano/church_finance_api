@@ -1,7 +1,7 @@
 import { MemberController } from "../controllers/Member.controller";
-import { MemberPaginateRequest } from "../requests/MemberPaginate.request";
+import { MemberPaginateRequest } from "../../../domain/requests/MemberPaginate.request";
 import { FastifyInstance } from "fastify";
-import { MemberRequest } from "../requests/Member.request";
+import { MemberRequest } from "../../../domain/requests/Member.request";
 import { PermissionMiddleware } from "../../../../Shared/infrastructure/middleware/Permission.middleware";
 
 const memberRoute = async (fastify: FastifyInstance) => {
