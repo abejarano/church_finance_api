@@ -44,13 +44,14 @@ financialConfigurationRoute.get("/bank/data/:bankId", async (req, res) => {
 });
 
 financialConfigurationRoute.get(
-  "/financial-concepts/:churchId/:typeConcept",
+  "/financial-concepts/:churchId/:typeConcept?",
   async (req, res) => {
     const { churchId, typeConcept } = req.params as any;
+    const typeConcepts = typeConcept ? typeConcept : undefined;
     await FinancialConfigurationController.findFinancialConceptsByChurchIdAndTypeConcept(
       churchId,
-      typeConcept as ConceptType,
       res,
+      typeConcept as ConceptType,
     );
   },
 );

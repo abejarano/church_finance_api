@@ -55,7 +55,7 @@ export const listOnlineContributionsController = async (
       OnlineContributionsMongoRepository.getInstance(),
     ).execute(request);
 
-    res.status(HttpStatus.OK).send({ data: MemberContributionsDTO(list) });
+    res.status(HttpStatus.OK).send(MemberContributionsDTO(list));
   } catch (e) {
     domainResponse(e, res);
   }

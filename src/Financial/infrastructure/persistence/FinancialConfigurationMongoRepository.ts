@@ -203,20 +203,35 @@ export class FinancialConfigurationMongoRepository
       return [];
     }
 
-    const lisFinancialConcepts: FinancialConcept[] = [];
-    for (const financialConcept of result[0].financialConcepts) {
-      lisFinancialConcepts.push(
-        FinancialConcept.fromPrimitives(
-          {
-            id: result[0]._id.toString(),
-            ...financialConcept,
-          },
-          churchId,
-        ),
-      );
+    return this.buildFinancialConcept(result, churchId);
+  }
+
+  async findFinancialConceptsByChurchId(
+    churchId: string,
+  ): Promise<FinancialConcept[]> {
+    const collection = await this.collection();
+
+    const aggregationPipeline = [
+      {
+        $match: {
+          churchId: churchId,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          financialConcepts: 1,
+        },
+      },
+    ];
+
+    const result = await collection.aggregate(aggregationPipeline).toArray();
+
+    if (!result) {
+      return [];
     }
 
-    return lisFinancialConcepts;
+    return this.buildFinancialConcept(result, churchId);
   }
 
   async findFinancialConceptByChurchIdAndFinancialConceptId(
@@ -259,5 +274,23 @@ export class FinancialConfigurationMongoRepository
       },
       churchId,
     );
+  }
+
+  private buildFinancialConcept(result, churchId) {
+    const lisFinancialConcepts: FinancialConcept[] = [];
+
+    for (const financialConcept of result[0].financialConcepts) {
+      lisFinancialConcepts.push(
+        FinancialConcept.fromPrimitives(
+          {
+            id: result[0]._id.toString(),
+            ...financialConcept,
+          },
+          churchId,
+        ),
+      );
+    }
+
+    return lisFinancialConcepts;
   }
 }

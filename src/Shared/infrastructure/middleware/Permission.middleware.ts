@@ -4,7 +4,7 @@ import { UserAuthDTO } from "../../../SecuritySystem/domain";
 import { ValidateActionInSystem } from "../../../SecuritySystem/applications";
 import jwt = require("jsonwebtoken");
 
-export const PermissionMiddleware = async (req, res) => {
+export const PermissionMiddleware = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
   const token = authHeader && authHeader.split(" ")[1];
@@ -34,6 +34,7 @@ export const PermissionMiddleware = async (req, res) => {
 
   if (user.isSuperuser) {
     console.log(`Usuario: ${user.email} es superusuario`);
+    next();
     return;
   }
 
@@ -41,7 +42,7 @@ export const PermissionMiddleware = async (req, res) => {
     await new ValidateActionInSystem(
       ProfileMongoRepository.getInstance(),
     ).execute(user.profileId, URL, req.method.toUpperCase());
-    return;
+    next();
   } catch (e) {}
 
   return res.status(HttpStatus.FORBIDDEN).send({

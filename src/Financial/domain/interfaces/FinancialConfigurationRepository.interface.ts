@@ -13,6 +13,10 @@ export interface IFinancialConfigurationRepository {
     typeConcept: ConceptType,
   ): Promise<FinancialConcept[]>;
 
+  findFinancialConceptsByChurchId(
+    churchId: string,
+  ): Promise<FinancialConcept[]>;
+
   findFinancialConceptByChurchIdAndFinancialConceptId(
     churchId: string,
     financialConceptId: string,

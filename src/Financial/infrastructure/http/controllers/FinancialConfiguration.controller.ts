@@ -75,8 +75,8 @@ export class FinancialConfigurationController {
 
   static async findFinancialConceptsByChurchIdAndTypeConcept(
     churchId: string,
-    typeConcept: ConceptType,
     res,
+    typeConcept?: ConceptType,
   ) {
     try {
       const financial = await new FindFinancialConceptsByChurchIdAndTypeConcept(

@@ -10,15 +10,20 @@ export class FindFinancialConceptsByChurchIdAndTypeConcept {
     private readonly churchRepository: IChurchRepository,
   ) {}
 
-  async execute(churchId: string, typeConcept: ConceptType) {
+  async execute(churchId: string, typeConcept?: ConceptType) {
     const church = await this.churchRepository.findById(churchId);
     if (!church) {
       throw new ChurchNotFound();
     }
 
-    return await this.financialConfigurationRepository.findFinancialConceptsByChurchIdAndTypeConcept(
+    if (typeConcept) {
+      return await this.financialConfigurationRepository.findFinancialConceptsByChurchIdAndTypeConcept(
+        churchId,
+        typeConcept,
+      );
+    }
+    return await this.financialConfigurationRepository.findFinancialConceptsByChurchId(
       churchId,
-      typeConcept,
     );
   }
 }
