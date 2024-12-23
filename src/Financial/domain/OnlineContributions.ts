@@ -16,6 +16,7 @@ export class OnlineContributions extends AggregateRoot {
   private financialConcept: FinancialConcept;
   private amount: number;
   private bankTransferReceipt: string;
+  private observation: string;
   private createdAt: Date;
 
   static create(
@@ -24,6 +25,7 @@ export class OnlineContributions extends AggregateRoot {
     member: Member,
     financialConcept: FinancialConcept,
     bankTransferReceipt: string,
+    observation: string,
   ): OnlineContributions {
     const contributions: OnlineContributions = new OnlineContributions();
     contributions.member = member;
@@ -39,6 +41,8 @@ export class OnlineContributions extends AggregateRoot {
     if (financialConcept.isDisable()) {
       throw new FinancialConceptDisable();
     }
+
+    contributions.observation = observation;
 
     return contributions;
   }
@@ -58,6 +62,7 @@ export class OnlineContributions extends AggregateRoot {
       plainData.financialConcept,
       plainData.churchId,
     );
+    contributions.observation = plainData.observation;
     return contributions;
   }
 
@@ -87,6 +92,7 @@ export class OnlineContributions extends AggregateRoot {
       createdAt: this.createdAt,
       bankTransferReceipt: this.bankTransferReceipt,
       churchId: this.churchId,
+      observation: this.observation,
       financialConcept: this.financialConcept.toPrimitives(),
     };
   }

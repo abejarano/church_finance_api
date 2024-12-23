@@ -4,12 +4,13 @@ import {
   IOnlineContributionsRepository,
   OnlineContributions,
 } from "../../domain";
-import { AmountValueObject } from "../../../Shared/domain";
+import { AmountValueObject, IStorageService } from "../../../Shared/domain";
 import { Member } from "../../../Church/domain";
 
 export class RegisterContributionsOnline {
   constructor(
     private readonly contributionRepository: IOnlineContributionsRepository,
+    private readonly storageService: IStorageService,
   ) {}
 
   async execute(
@@ -22,7 +23,10 @@ export class RegisterContributionsOnline {
       AmountValueObject.create(contributionRequest.amount),
       member,
       financialConcept,
-      contributionRequest.bankTransferReceipt,
+      await this.storageService.uploadFile(
+        contributionRequest.bankTransferReceipt,
+      ),
+      contributionRequest.observation,
     );
 
     await this.contributionRepository.upsert(contribution);

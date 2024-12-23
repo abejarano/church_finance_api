@@ -6,6 +6,7 @@ const financialRouter = async (fastify: FastifyInstance) => {
   fastify.register(memberContributionsRoutes, {
     prefix: "/member-contributions",
   });
+
   fastify.register(financialConfigurationRoute, { prefix: "/configuration" });
 };
 export default financialRouter;

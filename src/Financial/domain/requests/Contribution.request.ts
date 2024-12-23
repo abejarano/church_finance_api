@@ -4,6 +4,8 @@ export type ContributionRequest = {
   memberId: string;
   type: OnlineContributionsType;
   amount: number;
-  bankTransferReceipt: string;
+  bankTransferReceipt: any;
   financeConceptId: string;
+  month: string;
+  observation: string;
 };

@@ -9,8 +9,11 @@ import {
 import { AppAuthMiddleware } from "../../../../../Shared/infrastructure";
 import { FastifyInstance } from "fastify";
 import ContributionValidator from "../../validators/Contribution.validator";
+import fastifyMultipart from "fastify-multipart";
 
 const memberContributionsRoutes = async (fastify: FastifyInstance) => {
+  fastify.register(fastifyMultipart);
+
   fastify
     .post(
       "/",
@@ -21,6 +24,7 @@ const memberContributionsRoutes = async (fastify: FastifyInstance) => {
         await onlineContributionsController(
           {
             ...(req.body as ContributionRequest),
+            bankTransferReceipt: req.files["file"],
             memberId: req["member"].memberId,
           },
           res,

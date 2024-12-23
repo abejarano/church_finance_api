@@ -14,3 +14,4 @@ export { AmountValueObject } from "./value-object/amount-value-object";
 export { HttpStatus } from "./enums/http-status.enum";
 
 export { IMessageBus } from "./interfaces/MessageBus.interface";
+export { IStorageService } from "./interfaces/StorageService.interface";

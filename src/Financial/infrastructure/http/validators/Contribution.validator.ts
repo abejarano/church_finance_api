@@ -10,7 +10,6 @@ export default async (req, res) => {
   const rule = {
     type: "required|in:OFFERING,TITHE",
     amount: "required|numeric",
-    bankTransferReceipt: "required|string",
     financeConceptId: "required|string",
   };
 
