@@ -1,71 +1,48 @@
 import { ChurchController } from "../controllers/Church.controller";
 import { ChurchPaginateRequest, ChurchRequest } from "../../../domain";
-import { FastifyInstance } from "fastify";
+import { Router } from "express";
 import { PermissionMiddleware } from "../../../../Shared/infrastructure";
 
-const churchRoute = async (fastify: FastifyInstance) => {
-  fastify.post(
-    "/",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      await ChurchController.createOrUpdate(req.body as ChurchRequest, res);
-    },
-  );
+const churchRoute = Router();
 
-  fastify.get(
-    "/",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      const params = req.query as unknown as ChurchPaginateRequest;
-      await ChurchController.list(params, res);
-    },
-  );
+churchRoute.post("/", PermissionMiddleware, async (req, res) => {
+  await ChurchController.createOrUpdate(req.body as ChurchRequest, res);
+});
 
-  fastify.get(
-    "/list/by-district-id",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      await ChurchController.listByDistrictId(req.query["districtId"], res);
-    },
-  );
+churchRoute.get("/", PermissionMiddleware, async (req, res) => {
+  const params = req.query as unknown as ChurchPaginateRequest;
+  await ChurchController.list(params, res);
+});
 
-  fastify.get(
-    "/without-assigned-minister",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      const params = req.query as unknown as ChurchPaginateRequest;
-      await ChurchController.listWithoutAssignedMinister(res);
-    },
-  );
+churchRoute.get(
+  "/list/by-district-id",
+  PermissionMiddleware,
+  async (req, res) => {
+    const { districtId } = req.params as any;
+    await ChurchController.listByDistrictId(districtId, res);
+  },
+);
 
-  fastify.post(
-    "/remove-minister/:churchId",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      await ChurchController.removeMinister(req.params["churchId"], res);
-    },
-  );
+churchRoute.get(
+  "/without-assigned-minister",
+  PermissionMiddleware,
+  async (req, res) => {
+    const params = req.query as unknown as ChurchPaginateRequest;
+    await ChurchController.listWithoutAssignedMinister(res);
+  },
+);
 
-  fastify.get(
-    "/:churchId",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      const { churchId } = req.params as any;
-      await ChurchController.findByChurchId(churchId, res);
-    },
-  );
-};
+churchRoute.post(
+  "/remove-minister/:churchId",
+  PermissionMiddleware,
+  async (req, res) => {
+    await ChurchController.removeMinister(req.params["churchId"], res);
+  },
+);
+
+churchRoute.get("/:churchId", PermissionMiddleware, async (req, res) => {
+  const { churchId } = req.params as any;
+  await ChurchController.findByChurchId(churchId, res);
+});
 
 export default churchRoute;

@@ -1,48 +1,43 @@
-import Fastify, { FastifyInstance } from "fastify";
-import cors from "@fastify/cors";
-import rateLimit from "@fastify/rate-limit";
-import { logger } from "../index";
-import { HttpStatus } from "../../domain";
+import cors = require("cors");
+import express = require("express");
+import fileUpload = require("express-fileupload");
+import bodyParser = require("body-parser");
+import rateLimit from "express-rate-limit";
 
-export class HttpServer {
-  private instance: FastifyInstance;
+export function server(port = 8080) {
+  const app = express();
+  app.use(express.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.disable("x-powered-by");
 
-  static getInstance(): HttpServer {
-    const httpServer = new HttpServer();
+  const corsOptions = {
+    origin: "*",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  };
 
-    httpServer.instance = Fastify({
-      logger: false,
-    });
+  app.use(cors(corsOptions));
 
-    httpServer.instance.register(cors, {
-      origin: "*",
-      preflight: true,
-      optionsSuccessStatus: HttpStatus.ACCEPTED,
-    });
+  app.options("*", cors(corsOptions));
 
-    httpServer.instance.register(rateLimit, {
-      max: 100,
-      timeWindow: "1 minute",
-    });
+  const limiter = rateLimit({
+    windowMs: 8 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  });
 
-    httpServer.instance.get("/live", async (req, res) => {
-      res.status(200).send({ message: "I live" });
-    });
+  app.use(limiter);
 
-    return httpServer;
-  }
+  app.use(
+    fileUpload({
+      limits: { fileSize: 50 * 1024 * 1024 },
+      useTempFiles: true,
+      tempFileDir: "/tmp/",
+    }),
+  );
 
-  addRoute(prefix: string, routes: any) {
-    this.instance.register(routes, { prefix: prefix });
-  }
+  app.set("port", port);
 
-  start(port: number) {
-    this.instance.listen({ port: port, host: "0.0.0.0" }, (err, address) => {
-      if (err) {
-        process.exit(1);
-      }
-
-      logger.info(`server listening on ${address}`);
-    });
-  }
+  return app;
 }

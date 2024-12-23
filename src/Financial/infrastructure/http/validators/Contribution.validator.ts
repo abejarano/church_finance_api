@@ -2,7 +2,7 @@ import { Validator } from "node-input-validator";
 import { HttpStatus } from "../../../../Shared/domain";
 import { logger } from "../../../../Shared/infrastructure";
 
-export default async (req, res) => {
+export default async (req, res, next) => {
   const payload = req.body;
 
   logger.info(`Validando contribucion`, payload);
@@ -24,4 +24,6 @@ export default async (req, res) => {
   if (!matched) {
     return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send(v.errors);
   }
+
+  next();
 };

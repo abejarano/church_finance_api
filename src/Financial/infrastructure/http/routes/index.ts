@@ -1,12 +1,10 @@
-import memberContributionsRoutes from "./mobileApp/MemberContribution.routes";
+import { Router } from "express";
 import financialConfigurationRoute from "./FinancialConfiguration.routes";
-import { FastifyInstance } from "fastify";
+import memberContributionsRoutes from "./MemberContribution.routes";
 
-const financialRouter = async (fastify: FastifyInstance) => {
-  fastify.register(memberContributionsRoutes, {
-    prefix: "/member-contributions",
-  });
+const financialRouter = Router();
 
-  fastify.register(financialConfigurationRoute, { prefix: "/configuration" });
-};
+financialRouter.use("/member-contributions", memberContributionsRoutes);
+financialRouter.use("/configuration", financialConfigurationRoute);
+
 export default financialRouter;

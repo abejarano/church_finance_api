@@ -1,41 +1,22 @@
 import { MemberController } from "../controllers/Member.controller";
-import { MemberPaginateRequest } from "../../../domain/requests/MemberPaginate.request";
-import { FastifyInstance } from "fastify";
-import { MemberRequest } from "../../../domain/requests/Member.request";
-import { PermissionMiddleware } from "../../../../Shared/infrastructure/middleware/Permission.middleware";
+import { MemberPaginateRequest, MemberRequest } from "../../../domain";
+import { Router } from "express";
+import { PermissionMiddleware } from "../../../../Shared/infrastructure";
 
-const memberRoute = async (fastify: FastifyInstance) => {
-  fastify.post(
-    "/",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      await MemberController.createOrUpdate(req.body as MemberRequest, res);
-    },
-  );
+const memberRoute = Router();
 
-  fastify.get(
-    "/list",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      const params = req.query as unknown as MemberPaginateRequest;
-      await MemberController.list(params, res);
-    },
-  );
+memberRoute.post("/", PermissionMiddleware, async (req, res) => {
+  await MemberController.createOrUpdate(req.body as MemberRequest, res);
+});
 
-  fastify.get(
-    "/:memberId",
-    {
-      preHandler: PermissionMiddleware,
-    },
-    async (req, res) => {
-      const { memberId } = req.params as any;
-      await MemberController.findById(memberId, res);
-    },
-  );
-};
+memberRoute.get("/list", PermissionMiddleware, async (req, res) => {
+  const params = req.query as unknown as MemberPaginateRequest;
+  await MemberController.list(params, res);
+});
+
+memberRoute.get("/:memberId", PermissionMiddleware, async (req, res) => {
+  const { memberId } = req.params as any;
+  await MemberController.findById(memberId, res);
+});
 
 export default memberRoute;

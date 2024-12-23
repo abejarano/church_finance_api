@@ -5,7 +5,3 @@ export { UserAppMongoRepository } from "./persistence/UserAppMongoRepository";
 
 export { PasswordAdapter } from "./adapters/Password.adapter";
 export { AuthTokenAdapter } from "./adapters/AuthToken.adapter";
-
-export { userRoutes } from "./http/routes/User.routes";
-export { profileRoutes } from "./http/routes/Profile.routes";
-export { modulesRoutes } from "./http/routes/Modules.routes";

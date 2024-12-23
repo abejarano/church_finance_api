@@ -52,7 +52,7 @@ export class StorageAWS implements IStorageService {
     const params = {
       Bucket: this.bucketName,
       Key: key,
-      Body: fs.createReadStream(file.tempFilePath),
+      Body: file.data,
     };
     try {
       //const data = await this.s3.upload(params).promise();
