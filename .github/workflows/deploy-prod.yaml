@@ -81,8 +81,17 @@ jobs:
           
           
           docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.sa-east-1.amazonaws.com/church_financial_api:${{ github.sha }} && 
-          docker run --restart=on-failure --env-file ~/env_variables.txt --name church_financial_api -p 5750:8080 -e AWS_ACCESS_KEY_ID=AKIA4F3QRMUKMAKSD3M5 -e AWS_SECRET_ACCESS_KEY=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 -e AWS_REGION=sa-east-1 --log-driver=awslogs --log-opt awslogs-region=sa-east-1 --log-opt awslogs-group=/ec2/church-api --log-opt awslogs-create-group=true ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.sa-east-1.amazonaws.com/church_financial_api:${{ github.sha }}
-          
+          docker run -d --restart=on-failure --env-file ~/env_variables.txt --name church_financial_api -p 5750:8080 \
+          -e AWS_ACCESS_KEY_ID=AKIA4F3QRMUKMAKSD3M5 \
+          -e AWS_SECRET_ACCESS_KEY=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 \
+          -e AWS_REGION=sa-east-1 \
+          --log-driver=awslogs \
+          --log-opt awslogs-region=sa-east-1 \
+          --log-opt awslogs-group=/ec2/church-api \
+          --log-opt awslogs-create-group=true \
+          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.sa-east-1.amazonaws.com/church_financial_api:${{ github.sha }}
+  
+  
           sudo systemctl restart nginx
           '
 
