@@ -26,12 +26,13 @@ export class UserController {
         new AuthTokenAdapter(),
       ).execute(payload.email, payload.password);
 
+      const responseUser = user.toPrimitives();
+
+      delete responseUser.password;
+
       res.status(HttpStatus.OK).send({
-        message: "Bienvenido al admin",
-        data: {
-          user,
-          dataToken,
-        },
+        ...responseUser,
+        token: dataToken,
       });
     } catch (e) {
       logger.error(`login error`, e);
