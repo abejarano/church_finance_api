@@ -6,4 +6,5 @@ export type CreateUserRequest = {
   isSuperuser: boolean;
   isActive: boolean;
   profileId: string[];
+  churchId: string;
 };

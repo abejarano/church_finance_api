@@ -3,15 +3,16 @@ import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 
 export class User extends AggregateRoot {
+  isActive: boolean;
   private id?: string;
   private userId: string;
   private email: string;
   private name: string;
   private password: string;
   private createdAt: Date;
-  isActive: boolean;
   private profileId: string[];
   private isSuperuser: boolean;
+  private churchId: string;
 
   static create(
     name: string,
@@ -19,6 +20,7 @@ export class User extends AggregateRoot {
     password: string,
     isSuperuser: boolean,
     profiles: Profile[],
+    churchId: string,
   ): User {
     const u = new User();
     u.email = email;
@@ -28,6 +30,8 @@ export class User extends AggregateRoot {
       if (!u.profileId) u.profileId = [profile.getProfileId()];
       else u.profileId.push(profile.getProfileId());
     }
+
+    u.churchId = churchId;
 
     u.userId = IdentifyEntity.get();
 
@@ -53,6 +57,10 @@ export class User extends AggregateRoot {
     u.name = data.name;
 
     return u;
+  }
+
+  getChurchId(): string {
+    return this.churchId;
   }
 
   getId(): string {
@@ -133,6 +141,7 @@ export class User extends AggregateRoot {
       profileId: this.profileId,
       userId: this.userId,
       isSuperuser: this.isSuperuser,
+      churchId: this.churchId,
     };
   }
 }

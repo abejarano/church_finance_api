@@ -88,6 +88,16 @@ export class ListContributions {
       );
     }
 
+    if (reqFilters.churchId) {
+      filters.push(
+        new Map([
+          ["field", "churchId"],
+          ["operator", Operator.EQUAL],
+          ["value", reqFilters.churchId],
+        ]),
+      );
+    }
+
     return new Criteria(
       Filters.fromValues(filters),
       Order.fromValues("createdAt", OrderTypes.DESC),
