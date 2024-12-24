@@ -33,6 +33,7 @@ export class MakeLogin {
     return [
       user,
       this.authToken.createToken({
+        churchId: user.getChurchId(),
         userId: user.getUserId(),
         email: user.getEmail(),
         isSuperuser: user.superUser(),

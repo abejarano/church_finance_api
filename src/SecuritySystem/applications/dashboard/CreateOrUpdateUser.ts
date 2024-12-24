@@ -24,6 +24,7 @@ export class CreateOrUpdateUser {
       await this.passwordAdapter.encrypt(userRequest.password),
       userRequest.isSuperuser,
       await this.profileRepository.findByProfileIds(userRequest.profileId),
+      userRequest.churchId,
     );
 
     await this.userRepository.upsert(user);

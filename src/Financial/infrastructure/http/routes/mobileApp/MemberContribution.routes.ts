@@ -1,14 +1,14 @@
 import { Router } from "express";
-import ContributionValidator from "../validators/Contribution.validator";
+import ContributionValidator from "../../validators/Contribution.validator";
 import {
   listOnlineContributionsController,
   onlineContributionsController,
-} from "../controllers/OnlineContribution.controller";
+} from "../../controllers/OnlineContribution.controller";
 import {
   ContributionRequest,
   FilterContributionsRequest,
-} from "../../../domain";
-import { AppAuthMiddleware } from "../../../../Shared/infrastructure";
+} from "../../../../domain";
+import { AppAuthMiddleware } from "../../../../../Shared/infrastructure";
 
 const memberContributionsRoutes = Router();
 
