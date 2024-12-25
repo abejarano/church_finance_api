@@ -5,15 +5,18 @@ import { FilterContributionsRequest } from "../../../domain";
 
 const financeRoute = Router();
 
-financeRoute.get("/", PermissionMiddleware, async (req, res) => {
+financeRoute.get("/contributions", PermissionMiddleware, async (req, res) => {
   let filter = {
     ...(req.query as unknown as FilterContributionsRequest),
-    churchId: req["churchId"].churchId,
   };
 
-  if (req["user"].isSuperuser) {
+  if (req["user"].isSuperuser && filter.churchId === undefined) {
     delete filter.churchId;
+  } else {
+    filter.churchId = req["user"].churchId;
   }
+
+  console.log(`Filtering contributions with: ${JSON.stringify(filter)}`);
 
   await listOnlineContributionsController(filter, res);
 });

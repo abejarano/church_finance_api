@@ -7,6 +7,6 @@ const financialRouter = Router();
 
 financialRouter.use("/member-contributions", memberContributionsRoutes);
 financialRouter.use("/configuration", financialConfigurationRoute);
-financialRouter.use("/admin", financeRoute);
+financialRouter.use("/", financeRoute);
 
 export default financialRouter;

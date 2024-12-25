@@ -1,5 +1,7 @@
-import { IOnlineContributionsRepository } from "../../domain";
-import { FilterContributionsRequest } from "../../domain/requests/FilterContributions.request";
+import {
+  FilterContributionsRequest,
+  IOnlineContributionsRepository,
+} from "../../domain";
 import {
   Criteria,
   Filters,
