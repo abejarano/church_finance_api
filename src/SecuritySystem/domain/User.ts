@@ -52,7 +52,7 @@ export class User extends AggregateRoot {
     u.password = data.password;
     u.userId = data.userId;
     u.profileId = data.profileId;
-
+    u.churchId = data.churchId;
     u.isSuperuser = data.isSuperuser;
     u.name = data.name;
 
