@@ -14,7 +14,7 @@ export const AppAuthMiddleware = async (req, res, next) => {
   try {
     req["member"] = jwt.verify(token, process.env.JWT_SECRET);
   } catch (error) {
-    return res.status(401).send({ message: "Invalid token." });
+    return res.status(401).send({ message: "Unauthorized." });
   }
 
   next();

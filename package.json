@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.717.0",
+    "@aws-sdk/s3-request-presigner": "^3.717.0",
     "@google-cloud/pubsub": "^4.3.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",

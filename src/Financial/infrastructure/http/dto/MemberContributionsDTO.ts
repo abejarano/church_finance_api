@@ -1,16 +1,17 @@
 import { Paginate } from "../../../../Shared/domain";
-import { OnlineContributions } from "../../../domain";
+import { StorageAWS } from "../../../../Shared/infrastructure/storage-aws";
 
-export default (list: Paginate<OnlineContributions>) => ({
-  count: list.totalRecord,
-  nextPag: list.nextPag,
-  results: list.results.map((item: any) => {
-    return {
+export default async (list: Paginate<any>) => {
+  const awsS3: StorageAWS = new StorageAWS(process.env.BUCKET_FILES);
+  let results = [];
+
+  for (const item of list.results) {
+    results.push({
       contributionId: item.contributionId,
       amount: item.amount,
       status: item.status,
       createdAt: item.createdAt,
-      bankTransferReceipt: item.bankTransferReceipt,
+      bankTransferReceipt: await awsS3.downloadFile(item.bankTransferReceipt),
       type: item.type,
       member: {
         memberId: item.member.memberId,
@@ -21,6 +22,12 @@ export default (list: Paginate<OnlineContributions>) => ({
         financeConceptId: item.financialConcept.financeConceptId,
         name: item.financialConcept.name,
       },
-    };
-  }),
-});
+    });
+  }
+
+  return {
+    count: list.totalRecord,
+    nextPag: list.nextPag,
+    results,
+  };
+};

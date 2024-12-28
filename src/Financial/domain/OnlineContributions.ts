@@ -66,6 +66,10 @@ export class OnlineContributions extends AggregateRoot {
     return contributions;
   }
 
+  getContributionsId(): string {
+    return this.contributionId;
+  }
+
   getId(): string {
     return this.id;
   }
@@ -80,6 +84,14 @@ export class OnlineContributions extends AggregateRoot {
 
   getCreatedAt() {
     return this.createdAt;
+  }
+
+  getType() {
+    return this.type;
+  }
+
+  getMember(): Member {
+    return this.member;
   }
 
   toPrimitives() {

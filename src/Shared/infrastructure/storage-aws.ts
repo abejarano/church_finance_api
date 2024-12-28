@@ -1,8 +1,9 @@
-import { PutObjectCommand, S3 } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, S3 } from "@aws-sdk/client-s3";
 import * as fs from "fs";
 import { v4 } from "uuid";
 import { GenericException, IStorageService } from "../domain";
 import { logger } from ".";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export class StorageAWS implements IStorageService {
   private static _instance: StorageAWS;
@@ -34,42 +35,50 @@ export class StorageAWS implements IStorageService {
   }
 
   async downloadFile(fileName: string): Promise<string> {
+    console.log("fileName", fileName);
     const params = {
       Bucket: this.bucketName,
       Key: fileName,
-      Expires: 3600, // Tiempo en segundos que el enlace será válido (1 hora en este ejemplo)
     };
 
-    //return this.s3.getSignedUrl("getObject", params);
-    const b = await this.s3.getObject(params);
+    // Genera un comando para obtener el objeto
+    const command = new GetObjectCommand(params);
 
-    return b.Body.transformToString();
+    // Genera la URL firmada con un tiempo de expiración (por ejemplo, 1 hora)
+    const signedUrl = await getSignedUrl(this.s3, command, {
+      expiresIn: 3600,
+    });
+
+    return signedUrl;
   }
 
   async uploadFile(file: any): Promise<string> {
-    const key: string = this.generateNameFIle(file);
+    const key: string = this.generateNameFile(file); // Genera un nombre único para el archivo
 
     const params = {
       Bucket: this.bucketName,
       Key: key,
-      Body: file.data,
+      Body: fs.createReadStream(file.tempFilePath), // Lee el archivo desde su ubicación temporal
+      ContentType: file.mimetype, // Agrega el tipo de contenido para mayor precisión
     };
-    try {
-      //const data = await this.s3.upload(params).promise();
 
+    try {
+      // Subir el archivo a S3 usando PutObjectCommand
       await this.s3.send(new PutObjectCommand(params));
 
+      // Eliminar el archivo temporal después de la subida
       fs.unlink(file.tempFilePath, (unlinkErr) => {
         if (unlinkErr) {
-          logger.info("Error al eliminar el archivo temporal:", unlinkErr);
+          logger.error("Error al eliminar el archivo temporal:", unlinkErr);
         } else {
-          logger.info("Archivo temporal eliminado");
+          logger.info("Archivo temporal eliminado correctamente.");
         }
       });
-      return key;
-    } catch (e) {
-      console.error("Error al subir el archivo a S3:", e);
-      throw new GenericException("Error al subir el archivo a S3:");
+
+      return key; // Devuelve el nombre del archivo en S3
+    } catch (error) {
+      logger.error("Error al subir el archivo a S3:", error);
+      throw new GenericException("Error al subir el archivo a S3.");
     }
   }
 
@@ -86,7 +95,7 @@ export class StorageAWS implements IStorageService {
     }
   }
 
-  private generateNameFIle(file: any): string {
+  private generateNameFile(file: any): string {
     const currencyDate: Date = new Date();
     const year: number = currencyDate.getFullYear();
     const month: number = currencyDate.getMonth() + 1;

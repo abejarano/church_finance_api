@@ -18,7 +18,7 @@ export const PermissionMiddleware = async (req, res, next) => {
   try {
     req["user"] = jwt.verify(token, process.env.JWT_SECRET);
   } catch (error) {
-    return res.status(401).send({ message: "Invalid token." });
+    return res.status(401).send({ message: "Unauthorized." });
   }
 
   const user: UserAuthDTO = req["user"] as UserAuthDTO;

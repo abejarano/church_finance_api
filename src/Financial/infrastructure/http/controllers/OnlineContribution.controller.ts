@@ -1,6 +1,7 @@
 import {
   ContributionRequest,
   FilterContributionsRequest,
+  OnlineContributions,
 } from "../../../domain";
 import { FindMemberById } from "../../../../Church/applications";
 import { MemberMongoRepository } from "../../../../Church/infrastructure";
@@ -10,7 +11,7 @@ import {
   RegisterContributionsOnline,
 } from "../../../applications";
 import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
-import { HttpStatus } from "../../../../Shared/domain";
+import { HttpStatus, Paginate } from "../../../../Shared/domain";
 import { logger } from "../../../../Shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributionsDTO";
 import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../../../applications/financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
@@ -51,11 +52,11 @@ export const listOnlineContributionsController = async (
   res,
 ) => {
   try {
-    const list = await new ListContributions(
+    const list: Paginate<OnlineContributions> = await new ListContributions(
       OnlineContributionsMongoRepository.getInstance(),
     ).execute(request);
 
-    res.status(HttpStatus.OK).send(MemberContributionsDTO(list));
+    res.status(HttpStatus.OK).send(await MemberContributionsDTO(list));
   } catch (e) {
     domainResponse(e, res);
   }
