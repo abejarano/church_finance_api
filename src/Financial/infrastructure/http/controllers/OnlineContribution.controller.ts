@@ -2,6 +2,7 @@ import {
   ContributionRequest,
   FilterContributionsRequest,
   OnlineContributions,
+  OnlineContributionsStatus,
 } from "../../../domain";
 import { FindMemberById } from "../../../../Church/applications";
 import { MemberMongoRepository } from "../../../../Church/infrastructure";
@@ -9,6 +10,7 @@ import domainResponse from "../../../../Shared/helpers/domainResponse";
 import {
   ListContributions,
   RegisterContributionsOnline,
+  UpdateContributionStatus,
 } from "../../../applications";
 import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
 import { HttpStatus, Paginate } from "../../../../Shared/domain";
@@ -57,6 +59,22 @@ export const listOnlineContributionsController = async (
     ).execute(request);
 
     res.status(HttpStatus.OK).send(await MemberContributionsDTO(list));
+  } catch (e) {
+    domainResponse(e, res);
+  }
+};
+
+export const UpdateContributionStatusController = async (
+  contributionId: string,
+  status: OnlineContributionsStatus,
+  res,
+) => {
+  try {
+    await new UpdateContributionStatus(
+      OnlineContributionsMongoRepository.getInstance(),
+    ).execute(contributionId, status);
+
+    res.status(HttpStatus.OK).send({ message: "Contribution updated" });
   } catch (e) {
     domainResponse(e, res);
   }

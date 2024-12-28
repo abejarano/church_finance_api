@@ -9,3 +9,5 @@ export { InitialLoadingFinancialConcepts } from "./financialConfiguration/Initia
 
 export { RegisterContributionsOnline } from "./contribution/RegisterContributionsOnline";
 export { ListContributions } from "./contribution/ListContributions";
+
+export { UpdateContributionStatus } from "./UpdateContributionStatus";

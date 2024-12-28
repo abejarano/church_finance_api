@@ -66,6 +66,10 @@ export class OnlineContributions extends AggregateRoot {
     return contributions;
   }
 
+  updateStatus(status: OnlineContributionsStatus) {
+    this.status = status;
+  }
+
   getContributionsId(): string {
     return this.contributionId;
   }
