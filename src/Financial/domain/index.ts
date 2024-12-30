@@ -1,6 +1,8 @@
 export { IFinancialConfigurationRepository } from "./interfaces/FinancialConfigurationRepository.interface";
 export { IOnlineContributionsRepository } from "./interfaces/ContributionRepository.interface";
 
+export { ContributionNotFound } from "./exceptions/ContributionNotFound.exception";
+
 export { Bank } from "./Bank";
 export { CostCenter } from "./CostCenter";
 export { MovementBank } from "./MovementBank";

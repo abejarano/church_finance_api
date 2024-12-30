@@ -47,4 +47,20 @@ export class OnlineContributionsMongoRepository
   ): Promise<Paginate<OnlineContributions>> {
     throw new Error("Method not implemented.");
   }
+
+  async findById(
+    contributionId: string,
+  ): Promise<OnlineContributions | undefined> {
+    const collection = await this.collection();
+    const result = await collection.findOne({ contributionId });
+
+    if (!result) {
+      return undefined;
+    }
+
+    return OnlineContributions.fromPrimitives({
+      id: result._id.toString(),
+      ...result,
+    });
+  }
 }

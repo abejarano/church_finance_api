@@ -1,7 +1,13 @@
 import { Router } from "express";
 import { PermissionMiddleware } from "../../../../Shared/infrastructure";
-import { listOnlineContributionsController } from "../controllers/OnlineContribution.controller";
-import { FilterContributionsRequest } from "../../../domain";
+import {
+  listOnlineContributionsController,
+  UpdateContributionStatusController,
+} from "../controllers/OnlineContribution.controller";
+import {
+  FilterContributionsRequest,
+  OnlineContributionsStatus,
+} from "../../../domain";
 
 const financeRoute = Router();
 
@@ -20,5 +26,19 @@ financeRoute.get("/contributions", PermissionMiddleware, async (req, res) => {
 
   await listOnlineContributionsController(filter, res);
 });
+
+financeRoute.patch(
+  "/contributions/:contributionId/status/:status",
+  PermissionMiddleware,
+  async (req, res) => {
+    const { contributionId, status } = req.params;
+
+    await UpdateContributionStatusController(
+      contributionId,
+      status as OnlineContributionsStatus,
+      res,
+    );
+  },
+);
 
 export default financeRoute;
