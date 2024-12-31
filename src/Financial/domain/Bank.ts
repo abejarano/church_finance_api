@@ -69,6 +69,10 @@ export class Bank extends AggregateRoot {
     this.addressInstancePayment = address;
   }
 
+  setTag(tag: string): void {
+    this.tag = tag;
+  }
+
   setBankInstruction(instruction: string): void {
     this.bankInstruction = instruction;
   }

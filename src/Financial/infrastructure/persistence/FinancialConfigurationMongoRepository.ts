@@ -51,7 +51,7 @@ export class FinancialConfigurationMongoRepository
       },
     );
 
-    if (!result) {
+    if (!("banks" in result)) {
       return [];
     }
 
@@ -66,15 +66,32 @@ export class FinancialConfigurationMongoRepository
 
   async upsertBank(bank: Bank): Promise<void> {
     const collection = await this.collection();
+
     await collection.updateOne(
       { churchId: bank.getChurchId() },
-      { $set: { banks: bank.toPrimitives() } },
+      { $pull: { banks: { bankId: bank.getBankId() } } },
+    );
+
+    await collection.updateOne(
+      { churchId: bank.getChurchId() },
+      { $push: { banks: bank.toPrimitives() } },
       { upsert: true },
     );
   }
 
   async upsertFinancialConcept(concept: FinancialConcept): Promise<void> {
     const collection = await this.collection();
+    await collection.updateOne(
+      { churchId: concept.getChurchId() },
+      {
+        $pull: {
+          financialConcepts: {
+            financialConceptId: concept.getFinanceConceptId(),
+          },
+        },
+      },
+    );
+
     await collection.updateOne(
       { churchId: concept.getChurchId() },
       { $set: { financialConcepts: concept.toPrimitives() } },
@@ -84,6 +101,16 @@ export class FinancialConfigurationMongoRepository
 
   async upsertCostCenter(costCenter: CostCenter): Promise<void> {
     const collection = await this.collection();
+
+    await collection.updateOne(
+      {
+        churchId: costCenter.getChurchId(),
+      },
+      {
+        $pull: { costCenters: { costCenterId: costCenter.getCostCenterId() } },
+      },
+    );
+
     await collection.updateOne(
       {
         churchId: costCenter.getChurchId(),

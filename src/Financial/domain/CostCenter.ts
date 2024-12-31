@@ -34,6 +34,10 @@ export class CostCenter extends AggregateRoot {
     return costCenter;
   }
 
+  getCostCenterId() {
+    return this.costCenterId;
+  }
+
   getId(): string {
     return this.id;
   }

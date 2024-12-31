@@ -26,6 +26,7 @@ export class CreateOrUpdateBank {
     bank.setBankInstruction(requestBank.bankInstruction);
     bank.setAccountType(requestBank.accountType);
     bank.setInstancePaymentAddress(requestBank.addressInstancePayment);
+    bank.setTag(requestBank.tag);
     await this.financialConfigurationRepository.upsertBank(bank);
   }
 
