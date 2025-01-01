@@ -1,10 +1,10 @@
-import { Bank, IFinancialConfigurationRepository } from "../../domain";
-import { BankRequest } from "../../domain/requests/Bank.request";
+import { Bank, BankRequest } from "../../domain";
 import {
   Church,
   ChurchNotFound,
   IChurchRepository,
 } from "../../../Church/domain";
+import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 
 export class CreateOrUpdateBank {
   constructor(

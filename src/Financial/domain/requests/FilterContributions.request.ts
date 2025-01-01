@@ -1,8 +1,7 @@
-import { OnlineContributionsType } from "../enums/OnlineContributionsType.enum";
 import { OnlineContributionsStatus } from "../enums/OnlineContributionsStatus.enum";
 
 export type FilterContributionsRequest = {
-  type: OnlineContributionsType;
+  financeConceptId: string;
   status: OnlineContributionsStatus;
   memberId: string;
   churchId: string;

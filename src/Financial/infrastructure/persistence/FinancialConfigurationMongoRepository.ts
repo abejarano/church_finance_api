@@ -2,13 +2,8 @@ import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../Shared/infrastructure";
-import {
-  Bank,
-  ConceptType,
-  CostCenter,
-  FinancialConcept,
-  IFinancialConfigurationRepository,
-} from "../../domain";
+import { Bank, ConceptType, CostCenter, FinancialConcept } from "../../domain";
+import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 
 export class FinancialConfigurationMongoRepository
   extends MongoRepository<any>

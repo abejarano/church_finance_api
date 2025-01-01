@@ -1,4 +1,4 @@
-import { CustomLogger } from "./custom-logger";
+import { CustomLogger } from "./CustomLogger";
 
 export { AppAuthMiddleware } from "./middleware/AppAuth.middleware";
 export { server } from "./http/server";

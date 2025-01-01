@@ -3,8 +3,8 @@ import {
   CostCenter,
   CostCenterNotFound,
   CostCenterRequest,
-  IFinancialConfigurationRepository,
 } from "../../domain";
+import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 
 export class CreateOrUpdateCostCenter {
   constructor(

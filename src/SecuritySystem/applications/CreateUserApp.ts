@@ -8,14 +8,14 @@ export class CreateUserApp implements IQueue {
     private readonly passwordAdapter: IPasswordAdapter,
   ) {}
 
-  async handle(payload: object): Promise<void> {
-    const member = Member.fromPrimitives(payload);
-
+  async handle(args: any): Promise<void> {
     console.log(
       `Solicitud de creación de usuario para el miembro: ${JSON.stringify(
-        member,
+        args,
       )}`,
     );
+    const member = Member.fromPrimitives(args);
+
     const userExist: UserApp = await this.userRepository.findByEmail(
       member.getEmail(),
     );

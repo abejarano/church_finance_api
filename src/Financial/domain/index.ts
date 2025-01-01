@@ -1,6 +1,3 @@
-export { IFinancialConfigurationRepository } from "./interfaces/FinancialConfigurationRepository.interface";
-export { IOnlineContributionsRepository } from "./interfaces/ContributionRepository.interface";
-
 export { ContributionNotFound } from "./exceptions/ContributionNotFound.exception";
 
 export { Bank } from "./Bank";
@@ -14,8 +11,8 @@ export { CostCenterNotFound } from "./exceptions/CostCenterNotFound.exception";
 export { FinancialConceptDisable } from "./exceptions/FinancialConceptDisable.exception";
 
 export { OnlineContributionsStatus } from "./enums/OnlineContributionsStatus.enum";
-export { OnlineContributionsType } from "./enums/OnlineContributionsType.enum";
 export { ConceptType } from "./enums/ConcepType.enum";
+export { MoneyLocation } from "./enums/MoneyLocation.enum";
 
 export { TypeBankAccount } from "./enums/TypeBankAccount.enum";
 

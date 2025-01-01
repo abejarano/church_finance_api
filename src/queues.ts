@@ -7,13 +7,27 @@ import {
 import { MovementBankMongoRepository } from "./MovementBank/infraestructura/persistence";
 import { MovementBankRecord } from "./MovementBank/applications";
 import { InitialLoadingFinancialConcepts } from "./Financial/applications";
-import { FinancialConfigurationMongoRepository } from "./Financial/infrastructure";
+import {
+  FinancialConfigurationMongoRepository,
+  FinancialRecordMongoRepository,
+} from "./Financial/infrastructure";
 import { ChurchMongoRepository } from "./Church/infrastructure";
+import { RegisterFinancialRecord } from "./Financial/applications/RegisterFinancialRecord";
 
 export const Queues: IDefinitionQueue[] = [
   {
     useClass: MovementBankRecord,
-    inject: [MovementBankMongoRepository.getInstance()],
+    inject: [
+      MovementBankMongoRepository.getInstance(),
+      FinancialConfigurationMongoRepository.getInstance(),
+    ],
+  },
+  {
+    useClass: RegisterFinancialRecord,
+    inject: [
+      FinancialConfigurationMongoRepository.getInstance(),
+      FinancialRecordMongoRepository.getInstance(),
+    ],
   },
   {
     useClass: CreateUserApp,

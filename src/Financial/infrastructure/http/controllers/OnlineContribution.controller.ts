@@ -14,11 +14,12 @@ import {
 } from "../../../applications";
 import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
 import { HttpStatus, Paginate } from "../../../../Shared/domain";
-import { logger } from "../../../../Shared/infrastructure";
+import { logger, QueueBullService } from "../../../../Shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributionsDTO";
 import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../../../applications/financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
 import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
-import { StorageAWS } from "../../../../Shared/infrastructure/storage-aws";
+import { StorageAWS } from "../../../../Shared/infrastructure/StorageAWS";
+import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";
 
 export const onlineContributionsController = async (
   request: ContributionRequest,
@@ -39,6 +40,8 @@ export const onlineContributionsController = async (
     await new RegisterContributionsOnline(
       OnlineContributionsMongoRepository.getInstance(),
       StorageAWS.getInstance(process.env.BUCKET_FILES),
+      QueueBullService.getInstance(),
+      FinancialYearMongoRepository.getInstance(),
     ).execute(request, member, financialConcept);
 
     res

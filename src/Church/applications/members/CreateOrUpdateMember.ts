@@ -13,7 +13,7 @@ export class CreateOrUpdateMember {
   constructor(
     private readonly memberRepository: IMemberRepository,
     private readonly churchRepository: IChurchRepository,
-    private readonly queue: IQueueService,
+    private readonly queueService: IQueueService,
   ) {}
 
   async execute(request: MemberRequest) {
@@ -69,6 +69,6 @@ export class CreateOrUpdateMember {
 
     await this.memberRepository.upsert(member);
 
-    this.queue.dispatch<Member>(QueueName.CreateUserApp, member);
+    this.queueService.dispatch(QueueName.CreateUserApp, member);
   }
 }

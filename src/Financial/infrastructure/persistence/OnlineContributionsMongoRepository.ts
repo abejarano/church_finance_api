@@ -1,12 +1,10 @@
 import { Criteria, Paginate } from "src/Shared/domain";
-import {
-  IOnlineContributionsRepository,
-  OnlineContributions,
-} from "../../domain";
+import { OnlineContributions } from "../../domain";
 import {
   MongoClientFactory,
   MongoRepository,
 } from "../../../Shared/infrastructure";
+import { IOnlineContributionsRepository } from "../../domain/interfaces";
 
 export class OnlineContributionsMongoRepository
   extends MongoRepository<OnlineContributions>

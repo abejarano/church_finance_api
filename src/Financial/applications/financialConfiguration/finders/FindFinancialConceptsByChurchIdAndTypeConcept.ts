@@ -1,8 +1,6 @@
-import {
-  ConceptType,
-  IFinancialConfigurationRepository,
-} from "../../../domain";
+import { ConceptType } from "../../../domain";
 import { ChurchNotFound, IChurchRepository } from "../../../../Church/domain";
+import { IFinancialConfigurationRepository } from "../../../domain/interfaces";
 
 export class FindFinancialConceptsByChurchIdAndTypeConcept {
   constructor(

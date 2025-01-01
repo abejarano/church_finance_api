@@ -1,7 +1,4 @@
-import {
-  FilterContributionsRequest,
-  IOnlineContributionsRepository,
-} from "../../domain";
+import { FilterContributionsRequest } from "../../domain";
 import {
   Criteria,
   Filters,
@@ -9,6 +6,7 @@ import {
   Order,
   OrderTypes,
 } from "../../../Shared/domain";
+import { IOnlineContributionsRepository } from "../../domain/interfaces";
 
 export class ListContributions {
   constructor(
@@ -70,16 +68,6 @@ export class ListContributions {
       );
     }
 
-    if (reqFilters.type) {
-      filters.push(
-        new Map([
-          ["field", "type"],
-          ["operator", Operator.EQUAL],
-          ["value", reqFilters.type],
-        ]),
-      );
-    }
-
     if (reqFilters.memberId) {
       filters.push(
         new Map([
@@ -96,6 +84,16 @@ export class ListContributions {
           ["field", "churchId"],
           ["operator", Operator.EQUAL],
           ["value", reqFilters.churchId],
+        ]),
+      );
+    }
+
+    if (reqFilters.financeConceptId) {
+      filters.push(
+        new Map([
+          ["field", "financialConcept.financeConceptId"],
+          ["operator", Operator.EQUAL],
+          ["value", reqFilters.financeConceptId],
         ]),
       );
     }

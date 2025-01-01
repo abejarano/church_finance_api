@@ -1,19 +1,29 @@
-import { IMovementBankRepository, MovementBank } from "../domain";
+import {
+  IMovementBankRepository,
+  MovementBank,
+  MovementBankRequest,
+} from "../domain";
 import { IQueue } from "../../Shared/domain";
+import { IFinancialConfigurationRepository } from "../../Financial/domain/interfaces";
+import { logger } from "../../Shared/infrastructure";
 
 export class MovementBankRecord implements IQueue {
-  name: string = "MovementBankRecord";
-
   constructor(
     private readonly movementBankRepository: IMovementBankRepository,
+    private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
   ) {}
 
-  async handle(content: any): Promise<void> {
+  async handle(args: MovementBankRequest): Promise<void> {
+    logger.info(`MovementBankRecord`, args);
+    const bank = await this.financialConfigurationRepository.findBankByBankId(
+      args.bankId,
+    );
+
     const movementBank = MovementBank.create(
-      content.amount,
-      content.movementType,
-      content.description,
-      content.bank,
+      args.amount,
+      args.bankingOperation,
+      args.concept,
+      bank,
     );
 
     await this.movementBankRepository.upsert(movementBank);

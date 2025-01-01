@@ -1,4 +1,7 @@
-export { MovementBankType } from "./enums/MovementBankType.enum";
+export {
+  OperationImpactType,
+  TypeBankingOperation,
+} from "./enums/TypeBankingOperation.enum";
 
 export { MovementBank } from "./MovementBank";
 

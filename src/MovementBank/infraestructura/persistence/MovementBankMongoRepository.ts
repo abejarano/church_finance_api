@@ -21,8 +21,8 @@ export class MovementBankMongoRepository
     return MovementBankMongoRepository.instance;
   }
 
-  upsert(movementBank: MovementBank): Promise<void> {
-    throw new Error("Method not implemented.");
+  async upsert(movementBank: MovementBank): Promise<void> {
+    await this.persist(movementBank.getId(), movementBank);
   }
 
   collectionName(): string {

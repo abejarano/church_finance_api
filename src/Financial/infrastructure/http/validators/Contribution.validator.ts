@@ -8,7 +8,6 @@ export default async (req, res, next) => {
   logger.info(`Validando contribucion`, payload);
 
   const rule = {
-    type: "required|in:OFFERING,TITHE",
     amount: "required|numeric",
     financeConceptId: "required|string",
     bankId: "required|string",

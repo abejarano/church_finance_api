@@ -1,4 +1,5 @@
-import { CostCenter, IFinancialConfigurationRepository } from "../../../domain";
+import { CostCenter } from "../../../domain";
+import { IFinancialConfigurationRepository } from "../../../domain/interfaces";
 
 export class FindCostCenterByChurchId {
   constructor(

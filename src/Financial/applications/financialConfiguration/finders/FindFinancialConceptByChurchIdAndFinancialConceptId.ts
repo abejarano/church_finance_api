@@ -1,5 +1,5 @@
-import { IFinancialConfigurationRepository } from "../../../domain";
 import { logger } from "../../../../Shared/infrastructure";
+import { IFinancialConfigurationRepository } from "../../../domain/interfaces";
 
 export class FindFinancialConceptByChurchIdAndFinancialConceptId {
   constructor(

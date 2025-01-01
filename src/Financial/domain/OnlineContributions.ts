@@ -1,5 +1,4 @@
 import { AggregateRoot, AmountValueObject } from "../../Shared/domain";
-import { OnlineContributionsType } from "./enums/OnlineContributionsType.enum";
 import { OnlineContributionsStatus } from "./enums/OnlineContributionsStatus.enum";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { Member } from "../../Church/domain";
@@ -11,7 +10,6 @@ export class OnlineContributions extends AggregateRoot {
   private churchId: string;
   private member: Member;
   private contributionId: string;
-  private type: OnlineContributionsType;
   private status: OnlineContributionsStatus;
   private financialConcept: FinancialConcept;
   private amount: number;
@@ -21,7 +19,6 @@ export class OnlineContributions extends AggregateRoot {
   private bankId: string;
 
   static create(
-    type: OnlineContributionsType,
     amount: AmountValueObject,
     member: Member,
     financialConcept: FinancialConcept,
@@ -34,7 +31,7 @@ export class OnlineContributions extends AggregateRoot {
     contributions.churchId = member.getChurchId();
     contributions.contributionId = IdentifyEntity.get();
     contributions.bankTransferReceipt = bankTransferReceipt;
-    contributions.type = type;
+
     contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION;
     contributions.amount = amount.getValue();
     contributions.createdAt = new Date();
@@ -55,7 +52,6 @@ export class OnlineContributions extends AggregateRoot {
     contributions.id = plainData.id;
     contributions.member = plainData.member;
     contributions.contributionId = plainData.contributionId;
-    contributions.type = plainData.type;
     contributions.status = plainData.status;
     contributions.amount = plainData.amount;
     contributions.createdAt = plainData.createdAt;
@@ -94,10 +90,6 @@ export class OnlineContributions extends AggregateRoot {
     return this.createdAt;
   }
 
-  getType() {
-    return this.type;
-  }
-
   getMember(): Member {
     return this.member;
   }
@@ -110,7 +102,6 @@ export class OnlineContributions extends AggregateRoot {
     return {
       contributionId: this.contributionId,
       member: this.member,
-      type: this.type,
       status: this.status,
       amount: this.amount,
       createdAt: this.createdAt,

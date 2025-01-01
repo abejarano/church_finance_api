@@ -1,8 +1,4 @@
-import {
-  ConceptType,
-  FinancialConcept,
-  IFinancialConfigurationRepository,
-} from "../../domain";
+import { ConceptType, FinancialConcept } from "../../domain";
 import {
   Church,
   ChurchNotFound,
@@ -10,6 +6,7 @@ import {
 } from "../../../Church/domain";
 import * as conceptBase from "../../../fixtures/conceptBaseBR.json";
 import { IQueue } from "../../../Shared/domain";
+import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 
 export class InitialLoadingFinancialConcepts implements IQueue {
   constructor(

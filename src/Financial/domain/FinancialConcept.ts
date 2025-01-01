@@ -64,8 +64,16 @@ export class FinancialConcept extends AggregateRoot {
     this.active = true;
   }
 
+  getType(): ConceptType {
+    return this.type;
+  }
+
   getChurchId(): string {
     return this.churchId;
+  }
+
+  getName(): string {
+    return this.name;
   }
 
   toPrimitives(): any {

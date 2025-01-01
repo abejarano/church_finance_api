@@ -39,13 +39,13 @@ export class QueueBullService implements IQueueService {
         ...definitionQueue.inject,
       );
 
-      worker.process((job) => instanceWorker.handle(job.data));
+      worker.process(async (job) => await instanceWorker.handle(job.data));
 
       this.addWorkerListeners(worker);
     }
   }
 
-  dispatch<T>(jobName: QueueName, content: T) {
+  dispatch(jobName: QueueName, args: any) {
     const queue = this.instanceQueuesBull.find((q) => q.name === jobName);
 
     if (!queue) {
@@ -53,7 +53,7 @@ export class QueueBullService implements IQueueService {
       return;
     }
 
-    queue.add(content).catch((err) => {
+    queue.add(args).catch((err) => {
       console.error(`Failed to add job to queue: ${jobName}`, err);
     });
   }
@@ -98,15 +98,6 @@ export class QueueBullService implements IQueueService {
   }
 
   private addWorkerListeners(worker: Queue.Queue) {
-    // worker.on("active", (job) =>
-    //   console.log(`Job active in queue: ${worker.name}`, job.id),
-    // );
-    // worker.on("stalled", (job) =>
-    //   console.warn(`Job stalled in queue: ${worker.name}`, job.id),
-    // );
-    // worker.on("completed", (job) =>
-    //   console.log(`Job completed in queue: ${worker.name}`, job.id),
-    // );
     worker.on("failed", (job, err) =>
       console.error(`Job failed in queue: ${worker.name}`, err),
     );
