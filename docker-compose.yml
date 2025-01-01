@@ -1,5 +1,14 @@
 services:
 
+  church_finance_redis:
+    image: redis:latest
+    container_name: church_finance_redis
+    ports:
+      - "6377:6379"
+    command: [ "redis-server" ]
+    networks:
+      - church_sion
+
   church_finance_api:
     container_name: church_finance_api
     image: church_finance_api
@@ -16,15 +25,14 @@ services:
 
       JWT_SECRET: MG9hNm4xdTFlbGJ6c2a10N7trhjhBwEYj9l7VGDT9e5sc2s4WnEwY2I0dEROeS1uVC1Nd2Rhe7rWG3rfWXX
 
-      TOPIC_ASSIGN_CHURCH: assign_church
-      TOPIC_CREATE_USRE_APP: create_user_app
-      TOPIC_CHURCH_CREATED: church_created
-
       AWS_ACCESS_KEY_ID: AKIA4F3QRMUKMAKSD3M5
       AWS_SECRET_ACCESS_KEY: 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
       AWS_REGION: sa-east-1
 
       BUCKET_FILES: churchs3
+
+      REDIS_HOST: church_finance_redis
+      REDIS_PORT: 6379
 
 
     volumes:
@@ -35,6 +43,9 @@ services:
       - "5200:8080"
     networks:
       - church_sion
+    depends_on:
+      - church_finance_redis
 
 networks:
   church_sion:
+    driver: bridge

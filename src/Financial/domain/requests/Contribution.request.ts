@@ -8,4 +8,5 @@ export type ContributionRequest = {
   financeConceptId: string;
   month: string;
   observation: string;
+  bankId: string;
 };

@@ -5,15 +5,15 @@ import {
   IMemberRepository,
   Member,
   MemberExist,
+  MemberRequest,
 } from "../../domain";
-import { MemberRequest } from "../../domain/requests/Member.request";
-import { IMessageBus } from "../../../Shared/domain";
+import { IQueueService, QueueName } from "../../../Shared/domain";
 
 export class CreateOrUpdateMember {
   constructor(
     private readonly memberRepository: IMemberRepository,
     private readonly churchRepository: IChurchRepository,
-    private readonly eventBus: IMessageBus,
+    private readonly queue: IQueueService,
   ) {}
 
   async execute(request: MemberRequest) {
@@ -69,12 +69,6 @@ export class CreateOrUpdateMember {
 
     await this.memberRepository.upsert(member);
 
-    await this.eventBus.transmissionMessage(
-      JSON.stringify({
-        ...member.toPrimitives(),
-        churchId: church.getChurchId(),
-      }),
-      process.env.TOPIC_CREATE_USRE_APP,
-    );
+    this.queue.dispatch<Member>(QueueName.CreateUserApp, member);
   }
 }

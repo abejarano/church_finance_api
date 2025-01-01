@@ -1,6 +1,6 @@
 import { MovementBankType } from "./enums/MovementBankType.enum";
 import { IdentifyEntity } from "../../Shared/adapter";
-import { Bank } from "./Bank";
+import { Bank } from "../../Financial/domain";
 import { AggregateRoot } from "../../Shared/domain";
 
 export class MovementBank extends AggregateRoot {

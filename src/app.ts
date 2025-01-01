@@ -10,9 +10,13 @@ import { server } from "./Shared/infrastructure";
 import userRoutes from "./SecuritySystem/infrastructure/http/routes/User.routes";
 import profileRoutes from "./SecuritySystem/infrastructure/http/routes/Profile.routes";
 import modulesRoutes from "./SecuritySystem/infrastructure/http/routes/Modules.routes";
+import { Queues } from "./queues";
+import { bullBoard } from "./Shared/infrastructure/bull/bullBoard";
 
 const port = 8080;
 const app: Express = server(port);
+
+bullBoard(app, Queues);
 
 app.use("/api/v1/app", appRouters);
 app.use("/api/v1/church", churchRouters);

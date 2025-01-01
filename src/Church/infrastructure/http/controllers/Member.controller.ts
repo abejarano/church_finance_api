@@ -8,7 +8,7 @@ import {
 import { MemberMongoRepository } from "../../persistence/MemberMongoRepository";
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
 import { HttpStatus } from "../../../../Shared/domain";
-import { NativeEventBus } from "../../../../Shared/infrastructure/eventBus/NativeEventBus";
+import { QueueBullService } from "../../../../Shared/infrastructure";
 
 export class MemberController {
   static async createOrUpdate(memberRequest: MemberRequest, res) {
@@ -16,7 +16,7 @@ export class MemberController {
       await new CreateOrUpdateMember(
         MemberMongoRepository.getInstance(),
         ChurchMongoRepository.getInstance(),
-        NativeEventBus.getInstance(),
+        QueueBullService.getInstance(),
       ).execute(memberRequest);
 
       res.status(HttpStatus.CREATED).send({ message: "Registered member" });

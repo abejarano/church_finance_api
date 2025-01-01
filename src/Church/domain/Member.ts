@@ -2,7 +2,8 @@ import { IdentifyEntity } from "../../Shared/adapter";
 import { Church } from "./Church";
 
 export class Member {
-  private id?: string;
+  public isTreasurer: boolean;
+  public isMinister: boolean;
   private memberId: string;
   private name: string;
   private email: string;
@@ -13,8 +14,6 @@ export class Member {
   private baptismDate?: Date;
   private church: Church;
   private birthdate: Date;
-  public isTreasurer: boolean;
-  public isMinister: boolean;
   private churchId: string;
 
   static create(
@@ -58,16 +57,11 @@ export class Member {
     m.conversionDate = plainData.conversionDate;
     m.baptismDate = plainData.baptismDate;
     m.birthdate = plainData.birthdate;
-    m.id = plainData.id;
     m.isMinister = plainData.isMinister;
     m.isTreasurer = plainData.isTreasurer;
     m.churchId = plainData.churchId;
 
     return m;
-  }
-
-  getId() {
-    return this.id;
   }
 
   getPhone() {

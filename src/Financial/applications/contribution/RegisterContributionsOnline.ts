@@ -27,6 +27,7 @@ export class RegisterContributionsOnline {
         contributionRequest.bankTransferReceipt,
       ),
       contributionRequest.observation,
+      contributionRequest.bankId,
     );
 
     await this.contributionRepository.upsert(contribution);

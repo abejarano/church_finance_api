@@ -1,0 +1,1 @@
+export { MovementBankRecord } from "./MovementBankRecord";

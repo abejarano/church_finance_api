@@ -5,7 +5,7 @@ export { ContributionNotFound } from "./exceptions/ContributionNotFound.exceptio
 
 export { Bank } from "./Bank";
 export { CostCenter } from "./CostCenter";
-export { MovementBank } from "./MovementBank";
+
 export { FinancialConcept } from "./FinancialConcept";
 export { OnlineContributions } from "./OnlineContributions";
 
@@ -16,7 +16,7 @@ export { FinancialConceptDisable } from "./exceptions/FinancialConceptDisable.ex
 export { OnlineContributionsStatus } from "./enums/OnlineContributionsStatus.enum";
 export { OnlineContributionsType } from "./enums/OnlineContributionsType.enum";
 export { ConceptType } from "./enums/ConcepType.enum";
-export { MovementBankType } from "./enums/MovementBankType.enum";
+
 export { TypeBankAccount } from "./enums/TypeBankAccount.enum";
 
 export { ContributionRequest } from "./requests/Contribution.request";

@@ -6,4 +6,6 @@ export * from "./mongodb/index";
 
 export { PermissionMiddleware } from "./middleware/Permission.middleware";
 
+export { QueueBullService } from "./bull/QueueBull.service";
+
 export const logger = new CustomLogger();

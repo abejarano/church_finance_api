@@ -1,13 +1,16 @@
 import { Member } from "../../Church/domain";
 import { IPasswordAdapter, IUserAppRepository, UserApp } from "../domain";
+import { IQueue } from "../../Shared/domain";
 
-export class CreateUserApp {
+export class CreateUserApp implements IQueue {
   constructor(
     private readonly userRepository: IUserAppRepository,
     private readonly passwordAdapter: IPasswordAdapter,
   ) {}
 
-  async execute(member: Member): Promise<void> {
+  async handle(payload: object): Promise<void> {
+    const member = Member.fromPrimitives(payload);
+
     console.log(
       `Solicitud de creación de usuario para el miembro: ${JSON.stringify(
         member,
@@ -24,7 +27,7 @@ export class CreateUserApp {
         member,
         await this.passwordAdapter.encrypt(member.getDni()),
       );
-      console.log(user);
+
       await this.userRepository.upsert(user);
     }
   }

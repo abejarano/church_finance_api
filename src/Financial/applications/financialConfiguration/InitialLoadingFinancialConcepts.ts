@@ -1,4 +1,5 @@
 import {
+  ConceptType,
   FinancialConcept,
   IFinancialConfigurationRepository,
 } from "../../domain";
@@ -8,15 +9,15 @@ import {
   IChurchRepository,
 } from "../../../Church/domain";
 import * as conceptBase from "../../../fixtures/conceptBaseBR.json";
-import { ConceptType } from "../../domain/enums/ConcepType.enum";
+import { IQueue } from "../../../Shared/domain";
 
-export class InitialLoadingFinancialConcepts {
+export class InitialLoadingFinancialConcepts implements IQueue {
   constructor(
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
     private readonly churchRepository: IChurchRepository,
   ) {}
 
-  async execute(churchId: string): Promise<void> {
+  async handle(churchId: string): Promise<void> {
     console.log(`Crear conceptos financieros para la iglesia ${churchId}`);
     const church: Church = await this.churchRepository.findById(churchId);
     if (!church) {

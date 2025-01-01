@@ -24,6 +24,7 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "src/Shared/domain/enums/QueueName.enum.ts"
   ]
 }
