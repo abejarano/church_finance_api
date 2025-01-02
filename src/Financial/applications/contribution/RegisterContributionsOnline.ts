@@ -1,6 +1,7 @@
 import {
   ContributionRequest,
   FinancialConcept,
+  FinancialRecordQueueRequest,
   MoneyLocation,
   OnlineContributions,
 } from "../../domain";
@@ -18,8 +19,8 @@ import {
 } from "../../../MovementBank/domain";
 import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator";
 import { IOnlineContributionsRepository } from "../../domain/interfaces";
-import { FinancialRecordRequest } from "../../domain/requests/FinancialRecord.request";
 import { logger } from "../../../Shared/infrastructure";
+import { DateBR } from "../../../Shared/helpers";
 
 export class RegisterContributionsOnline {
   constructor(
@@ -63,11 +64,11 @@ export class RegisterContributionsOnline {
 
     this.queueService.dispatch(QueueName.MovementBankRecord, movementBank);
 
-    const financialRecord: FinancialRecordRequest = {
-      financialConcept: financialConcept.toPrimitives(),
+    const financialRecord: FinancialRecordQueueRequest = {
+      financialConceptId: financialConcept.getFinanceConceptId(),
       amount: contributionRequest.amount,
       churchId: member.getChurchId(),
-      date: new Date(),
+      date: DateBR(),
       moneyLocation: MoneyLocation.BANK,
       voucher,
     };

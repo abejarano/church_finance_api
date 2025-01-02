@@ -12,9 +12,15 @@
     "active": true
   },
   {
+    "name": "Produtos de Limpeza",
+    "description": "Compra de utensílios e produtos de limpeza necessários para a manutenção e higiene das instalações da igreja.",
+    "type": "PURCHASE",
+    "active": true
+  },
+  {
     "name": "Suprimentos de Escritório",
     "description": "Compra de papel, tinta, equipamentos de escritório e outros suprimentos necessários para a administração da igreja",
-    "type": "OUTGO",
+    "type": "PURCHASE",
     "active": true
   },
   {
@@ -54,9 +60,9 @@
     "active": true
   },
   {
-    "name": "Equipamento Tecnológico",
-    "description": "Compra e manutenção de equipamentos tecnológicos, como projetores, sistemas de som e equipamentos audiovisuais",
-    "type": "OUTGO",
+    "name": "Compra de equipamento Tecnológico",
+    "description": "Compra equipamentos tecnológicos, como projetores, sistemas de som e equipamentos audiovisuais",
+    "type": "PURCHASE",
     "active": true
   },
   {
@@ -81,6 +87,12 @@
     "name": "Benevolência",
     "description": "Ajuda financeira fornecida a membros necessitados ou famílias em dificuldades",
     "type": "OUTGO",
+    "active": true
+  },
+  {
+    "name": "Oferta de benevolência",
+    "description": "Ajuda financeira fornecida a membros necessitados ou famílias em dificuldades",
+    "type": "INCOME",
     "active": true
   },
   {

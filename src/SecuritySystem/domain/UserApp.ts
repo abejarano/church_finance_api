@@ -1,19 +1,20 @@
 import { Member } from "../../Church/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { AggregateRoot } from "../../Shared/domain";
+import { DateBR } from "../../Shared/helpers";
 
 export class UserApp extends AggregateRoot {
+  isTreasurer: boolean;
+  isMinister: boolean;
   private id?: string;
   private userId: string;
   private email: string;
   private password: string;
   private name: string;
   private memberId: string;
-  isTreasurer: boolean;
   private active: boolean;
   private churchId: string;
   private createdAt: Date;
-  isMinister: boolean;
 
   static create(member: Member, password: string) {
     const u = new UserApp();
@@ -26,13 +27,9 @@ export class UserApp extends AggregateRoot {
     u.isMinister = member.isMinister;
     u.active = true;
     u.churchId = member.getChurchId();
-    u.createdAt = new Date();
+    u.createdAt = DateBR();
 
     return u;
-  }
-
-  getId(): string {
-    return this.id;
   }
 
   static fromPrimitives(plainData: any): UserApp {
@@ -50,6 +47,10 @@ export class UserApp extends AggregateRoot {
     u.isMinister = plainData.isMinister;
 
     return u;
+  }
+
+  getId(): string {
+    return this.id;
   }
 
   getMemberId(): string {

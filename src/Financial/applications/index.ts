@@ -11,3 +11,5 @@ export { RegisterContributionsOnline } from "./contribution/RegisterContribution
 export { ListContributions } from "./contribution/ListContributions";
 
 export { UpdateContributionStatus } from "./UpdateContributionStatus";
+
+export { FindFinancialConceptByChurchIdAndFinancialConceptId } from "./financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";

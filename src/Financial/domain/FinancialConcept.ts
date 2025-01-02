@@ -2,6 +2,7 @@ import { AggregateRoot } from "../../Shared/domain";
 import { ConceptType } from "./enums/ConcepType.enum";
 import { Church } from "../../Church/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
+import { DateBR } from "../../Shared/helpers";
 
 export class FinancialConcept extends AggregateRoot {
   private id?: string;
@@ -27,7 +28,7 @@ export class FinancialConcept extends AggregateRoot {
     concept.active = active;
     concept.type = type;
     concept.churchId = church.getChurchId();
-    concept.createdAt = new Date();
+    concept.createdAt = DateBR();
     return concept;
   }
 

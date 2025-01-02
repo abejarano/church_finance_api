@@ -20,3 +20,7 @@ export { ContributionRequest } from "./requests/Contribution.request";
 export { BankRequest } from "./requests/Bank.request";
 export { FilterContributionsRequest } from "./requests/FilterContributions.request";
 export { CostCenterRequest } from "./requests/CostCenter.request";
+export {
+  FinancialRecordQueueRequest,
+  FinancialRecordRequest,
+} from "./requests/FinancialRecordRequest";

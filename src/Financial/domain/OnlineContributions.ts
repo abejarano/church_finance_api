@@ -4,6 +4,7 @@ import { IdentifyEntity } from "../../Shared/adapter";
 import { Member } from "../../Church/domain";
 import { FinancialConcept } from "./FinancialConcept";
 import { FinancialConceptDisable } from "./exceptions/FinancialConceptDisable.exception";
+import { DateBR } from "../../Shared/helpers";
 
 export class OnlineContributions extends AggregateRoot {
   private id?: string;
@@ -34,7 +35,7 @@ export class OnlineContributions extends AggregateRoot {
 
     contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION;
     contributions.amount = amount.getValue();
-    contributions.createdAt = new Date();
+    contributions.createdAt = DateBR();
     contributions.financialConcept = financialConcept;
     contributions.bankId = bankId;
 

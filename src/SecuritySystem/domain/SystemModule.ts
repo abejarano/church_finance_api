@@ -1,13 +1,14 @@
 import { AggregateRoot } from "../../Shared/domain";
 import { OptionModuleDTO } from "./types/option-module.type";
 import { IdentifyEntity } from "../../Shared/adapter";
+import { DateBR } from "../../Shared/helpers";
 
 export class SystemModule extends AggregateRoot {
+  isActive: boolean;
   private id?: string;
   private systemModuleId: string;
   private name: string;
   private description: string;
-  isActive: boolean;
   private createdAt: Date;
   private options?: OptionModuleDTO[];
 
@@ -20,9 +21,23 @@ export class SystemModule extends AggregateRoot {
     systemModule.name = name;
     systemModule.description = description;
     systemModule.isActive = isActive;
-    systemModule.createdAt = new Date();
+    systemModule.createdAt = DateBR();
 
     systemModule.systemModuleId = IdentifyEntity.get();
+    return systemModule;
+  }
+
+  static fromPrimitives(plainData: any): SystemModule {
+    const systemModule = new SystemModule();
+
+    systemModule.id = plainData.id;
+    systemModule.name = plainData.name;
+    systemModule.description = plainData.description;
+    systemModule.isActive = plainData.isActive;
+    systemModule.createdAt = plainData.createdAt;
+    systemModule.options = plainData.options;
+    systemModule.systemModuleId = plainData.systemModuleId;
+
     return systemModule;
   }
 
@@ -113,20 +128,6 @@ export class SystemModule extends AggregateRoot {
 
   getSystemModuleId(): string {
     return this.systemModuleId;
-  }
-
-  static fromPrimitives(plainData: any): SystemModule {
-    const systemModule = new SystemModule();
-
-    systemModule.id = plainData.id;
-    systemModule.name = plainData.name;
-    systemModule.description = plainData.description;
-    systemModule.isActive = plainData.isActive;
-    systemModule.createdAt = plainData.createdAt;
-    systemModule.options = plainData.options;
-    systemModule.systemModuleId = plainData.systemModuleId;
-
-    return systemModule;
   }
 
   toPrimitives(): any {

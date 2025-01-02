@@ -13,7 +13,8 @@ export class FinancialRecord extends AggregateRoot {
   private date: Date;
   private type: ConceptType;
   private moneyLocation: MoneyLocation;
-  private voucher: string; // Comprobante del movimiento fianciero.
+  private voucher?: string;
+  private description?: string;
 
   static create(
     financialConcept: FinancialConcept,
@@ -21,7 +22,8 @@ export class FinancialRecord extends AggregateRoot {
     amount: number,
     date: Date,
     moneyLocation: MoneyLocation,
-    voucher: string,
+    description?: string,
+    voucher?: string,
   ): FinancialRecord {
     const financialRecord: FinancialRecord = new FinancialRecord();
     financialRecord.financialRecordId = IdentifyEntity.get();
@@ -32,6 +34,7 @@ export class FinancialRecord extends AggregateRoot {
     financialRecord.type = financialConcept.getType();
     financialRecord.moneyLocation = moneyLocation;
     financialRecord.voucher = voucher;
+    financialRecord.description = description;
 
     return financialRecord;
   }
@@ -50,6 +53,8 @@ export class FinancialRecord extends AggregateRoot {
     financialRecord.type = plainData.type;
     financialRecord.moneyLocation = plainData.moneyLocation;
     financialRecord.voucher = plainData.voucher;
+    financialRecord.description = plainData.description;
+
     return financialRecord;
   }
 
@@ -67,6 +72,7 @@ export class FinancialRecord extends AggregateRoot {
       type: this.type,
       moneyLocation: this.moneyLocation,
       voucher: this.voucher,
+      description: this.description,
     };
   }
 }

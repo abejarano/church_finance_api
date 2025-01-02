@@ -1,6 +1,7 @@
 import { Profile } from "./Profile";
 import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
+import { DateBR } from "../../Shared/helpers";
 
 export class User extends AggregateRoot {
   isActive: boolean;
@@ -35,7 +36,7 @@ export class User extends AggregateRoot {
 
     u.userId = IdentifyEntity.get();
 
-    u.createdAt = new Date();
+    u.createdAt = DateBR();
     u.isActive = true;
     u.name = name;
     u.isSuperuser = isSuperuser;

@@ -8,6 +8,8 @@ import {
   FilterContributionsRequest,
   OnlineContributionsStatus,
 } from "../../../domain";
+import FinancialRecordValidator from "../validators/FinancialRecord.validator";
+import { FinancialRecordController } from "../controllers/FinancialRecord.controller";
 
 const financeRoute = Router();
 
@@ -36,6 +38,17 @@ financeRoute.patch(
     await UpdateContributionStatusController(
       contributionId,
       status as OnlineContributionsStatus,
+      res,
+    );
+  },
+);
+
+financeRoute.post(
+  "/financial-record",
+  [PermissionMiddleware, FinancialRecordValidator],
+  async (req, res) => {
+    await FinancialRecordController(
+      { ...req.body, churchId: req["user"].churchId, file: req?.files?.file },
       res,
     );
   },
