@@ -3,6 +3,7 @@ import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { ChurchStatus } from "./enums/ChurchStatus.enum";
 import { Minister } from "./Minister";
+import { DateBR } from "../../Shared/helpers";
 
 export class Church extends AggregateRoot {
   private id?: string;
@@ -45,7 +46,7 @@ export class Church extends AggregateRoot {
     c.email = email;
     c.openingDate = openingDate;
     //c.region = region;
-    c.createdAt = new Date();
+    c.createdAt = DateBR();
     c.churchId = IdentifyEntity.get();
     c.status = ChurchStatus.ACTIVE;
 

@@ -2,6 +2,7 @@ import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { Church } from "./Church";
 import { MinisterType } from "./enums/MinisterType.enum";
+import { DateBR } from "../../Shared/helpers";
 
 export class Minister extends AggregateRoot {
   private id?: string;
@@ -25,7 +26,7 @@ export class Minister extends AggregateRoot {
     m.name = name;
     m.email = email;
     m.phone = phone;
-    m.createdAt = new Date();
+    m.createdAt = DateBR();
     m.dni = dni;
     m.ministerType = ministerType;
     m.ministerId = IdentifyEntity.get();

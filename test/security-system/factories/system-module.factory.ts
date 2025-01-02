@@ -4,7 +4,7 @@ import { SystemModule } from "../../../src/SecuritySystem/domain";
 
 export const generateFakeSystemModule = (): SystemModule => {
   const fakeSystemModule = {
-    createdAt: new Date(),
+    createdAt: DateBR(),
     description: faker.lorem.sentence(),
     isActive: true,
     name: faker.lorem.word(),

@@ -27,6 +27,7 @@ export const Queues: IDefinitionQueue[] = [
     inject: [
       FinancialConfigurationMongoRepository.getInstance(),
       FinancialRecordMongoRepository.getInstance(),
+      FinancialConfigurationMongoRepository.getInstance(),
     ],
   },
   {

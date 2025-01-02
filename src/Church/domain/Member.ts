@@ -1,5 +1,6 @@
 import { IdentifyEntity } from "../../Shared/adapter";
 import { Church } from "./Church";
+import { DateBR } from "../../Shared/helpers";
 
 export class Member {
   public isTreasurer: boolean;
@@ -32,7 +33,7 @@ export class Member {
     m.name = name;
     m.email = email;
     m.phone = phone;
-    m.createdAt = new Date();
+    m.createdAt = DateBR();
     m.dni = dni;
     m.conversionDate = conversionDate;
     m.baptismDate = baptismDate;

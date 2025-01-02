@@ -1,6 +1,7 @@
 import { AggregateRoot } from "../../Shared/domain";
 import { Bank } from "./Bank";
 import { IdentifyEntity } from "../../Shared/adapter";
+import { DateBR } from "../../Shared/helpers";
 
 export class CostCenter extends AggregateRoot {
   private id?: string;
@@ -18,7 +19,7 @@ export class CostCenter extends AggregateRoot {
     costCenter.name = name;
     costCenter.churchId = bank.getChurchId();
     costCenter.bank = bank;
-    costCenter.createdAt = new Date();
+    costCenter.createdAt = DateBR();
     return costCenter;
   }
 

@@ -5,6 +5,7 @@ import {
   OperationImpactType,
   TypeBankingOperation,
 } from "./enums/TypeBankingOperation.enum";
+import { DateBR } from "../../Shared/helpers";
 
 export class MovementBank extends AggregateRoot {
   private id?: string;
@@ -31,7 +32,7 @@ export class MovementBank extends AggregateRoot {
     movementBank.movementBankId = IdentifyEntity.get();
     movementBank.bankId = bank.getBankId();
     movementBank.churchId = bank.getChurchId();
-    movementBank.createdAt = new Date();
+    movementBank.createdAt = DateBR();
 
     return movementBank;
   }

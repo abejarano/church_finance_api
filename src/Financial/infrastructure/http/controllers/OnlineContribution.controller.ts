@@ -8,6 +8,7 @@ import { FindMemberById } from "../../../../Church/applications";
 import { MemberMongoRepository } from "../../../../Church/infrastructure";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
 import {
+  FindFinancialConceptByChurchIdAndFinancialConceptId,
   ListContributions,
   RegisterContributionsOnline,
   UpdateContributionStatus,
@@ -16,7 +17,6 @@ import { OnlineContributionsMongoRepository } from "../../persistence/OnlineCont
 import { HttpStatus, Paginate } from "../../../../Shared/domain";
 import { logger, QueueBullService } from "../../../../Shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributionsDTO";
-import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../../../applications/financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
 import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
 import { StorageAWS } from "../../../../Shared/infrastructure/StorageAWS";
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";
