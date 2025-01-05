@@ -19,7 +19,7 @@ export default async (list: Paginate<any>) => {
         churchId: item.member.churchId,
       },
       financeConcept: {
-        financeConceptId: item.financialConcept.financeConceptId,
+        financialConceptId: item.financialConcept.financialConceptId,
         name: item.financialConcept.name,
       },
     });

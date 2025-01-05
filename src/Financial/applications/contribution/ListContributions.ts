@@ -88,12 +88,12 @@ export class ListContributions {
       );
     }
 
-    if (reqFilters.financeConceptId) {
+    if (reqFilters.financialConceptId) {
       filters.push(
         new Map([
-          ["field", "financialConcept.financeConceptId"],
+          ["field", "financialConcept.financialConceptId"],
           ["operator", Operator.EQUAL],
-          ["value", reqFilters.financeConceptId],
+          ["value", reqFilters.financialConceptId],
         ]),
       );
     }

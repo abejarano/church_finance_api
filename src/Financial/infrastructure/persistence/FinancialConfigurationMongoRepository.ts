@@ -81,7 +81,7 @@ export class FinancialConfigurationMongoRepository
       {
         $pull: {
           financialConcepts: {
-            financialConceptId: concept.getFinanceConceptId(),
+            financialConceptId: concept.getfinancialConceptId(),
           },
         },
       },
@@ -266,7 +266,7 @@ export class FinancialConfigurationMongoRepository
       {
         $match: {
           churchId: churchId,
-          "financialConcepts.financeConceptId": financialConceptId,
+          "financialConcepts.financialConceptId": financialConceptId,
         },
       },
       {
@@ -276,7 +276,9 @@ export class FinancialConfigurationMongoRepository
             $filter: {
               input: "$financialConcepts",
               as: "concept",
-              cond: { $eq: ["$$concept.financeConceptId", financialConceptId] },
+              cond: {
+                $eq: ["$$concept.financialConceptId", financialConceptId],
+              },
             },
           },
         },

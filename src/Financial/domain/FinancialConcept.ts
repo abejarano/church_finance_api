@@ -6,7 +6,7 @@ import { DateBR } from "../../Shared/helpers";
 
 export class FinancialConcept extends AggregateRoot {
   private id?: string;
-  private financeConceptId: string;
+  private financialConceptId: string;
   private name: string;
   private description: string;
   private active: boolean;
@@ -22,7 +22,7 @@ export class FinancialConcept extends AggregateRoot {
     church: Church,
   ): FinancialConcept {
     const concept: FinancialConcept = new FinancialConcept();
-    concept.financeConceptId = IdentifyEntity.get();
+    concept.financialConceptId = IdentifyEntity.get();
     concept.name = name;
     concept.description = description;
     concept.active = active;
@@ -35,7 +35,7 @@ export class FinancialConcept extends AggregateRoot {
   static fromPrimitives(plainData: any, churchId: string): FinancialConcept {
     const concept: FinancialConcept = new FinancialConcept();
     concept.id = plainData.id;
-    concept.financeConceptId = plainData.financeConceptId;
+    concept.financialConceptId = plainData.financialConceptId;
     concept.name = plainData.name;
     concept.description = plainData.description;
     concept.active = plainData.active;
@@ -45,8 +45,8 @@ export class FinancialConcept extends AggregateRoot {
     return concept;
   }
 
-  getFinanceConceptId(): string {
-    return this.financeConceptId;
+  getfinancialConceptId(): string {
+    return this.financialConceptId;
   }
 
   getId(): string {
@@ -79,7 +79,7 @@ export class FinancialConcept extends AggregateRoot {
 
   toPrimitives(): any {
     return {
-      financeConceptId: this.financeConceptId,
+      financialConceptId: this.financialConceptId,
       name: this.name,
       description: this.description,
       active: this.active,

@@ -65,7 +65,7 @@ export class RegisterContributionsOnline {
     this.queueService.dispatch(QueueName.MovementBankRecord, movementBank);
 
     const financialRecord: FinancialRecordQueueRequest = {
-      financialConceptId: financialConcept.getFinanceConceptId(),
+      financialConceptId: financialConcept.getfinancialConceptId(),
       amount: contributionRequest.amount,
       churchId: member.getChurchId(),
       date: DateBR(),

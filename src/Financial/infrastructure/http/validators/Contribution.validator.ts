@@ -9,7 +9,7 @@ export default async (req, res, next) => {
 
   const rule = {
     amount: "required|numeric",
-    financeConceptId: "required|string",
+    financialConceptId: "required|string",
     bankId: "required|string",
   };
 
