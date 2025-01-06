@@ -1,4 +1,4 @@
-import { FilterFinanceRecordRequest, IFinanceRecordDTO } from "../../domain";
+import { FilterFinanceRecordRequest } from "../../domain";
 import {
   Criteria,
   Filters,
@@ -8,6 +8,7 @@ import {
   Paginate,
 } from "../../../Shared/domain";
 import { IFinancialRecordRepository } from "../../domain/interfaces";
+import { FinanceRecord } from "../../domain/FinanceRecord";
 
 export class SearchFinanceRecord {
   constructor(
@@ -16,7 +17,7 @@ export class SearchFinanceRecord {
 
   async execute(
     request: FilterFinanceRecordRequest,
-  ): Promise<Paginate<IFinanceRecordDTO>> {
+  ): Promise<Paginate<FinanceRecord>> {
     return await this.financialRecordRepository.list(
       this.prepareCriteria(request),
     );
