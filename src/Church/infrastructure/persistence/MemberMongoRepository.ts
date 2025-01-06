@@ -101,7 +101,7 @@ export class MemberMongoRepository
 
     return {
       nextPag: !hasNextPage ? Number(skip) + 2 : null,
-      totalRecord: count,
+      count,
       results: listMembers as Member[],
     };
   }

@@ -1,5 +1,5 @@
 export type Paginate<T> = {
   nextPag: string | number | null;
-  totalRecord: number;
+  count: number;
   results: Array<T>;
 };

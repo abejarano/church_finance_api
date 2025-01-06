@@ -26,7 +26,7 @@ export default async (list: Paginate<any>) => {
   }
 
   return {
-    count: list.totalRecord,
+    count: list.count,
     nextPag: list.nextPag,
     results,
   };

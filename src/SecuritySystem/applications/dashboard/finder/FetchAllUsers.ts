@@ -17,7 +17,7 @@ export class FetchAllUsers {
 
     return {
       nextPag: data.nextPag,
-      totalRecord: data.totalRecord,
+      count: data.count,
       results: data.results.map((user: any) => {
         const u = user;
         delete u.password;
