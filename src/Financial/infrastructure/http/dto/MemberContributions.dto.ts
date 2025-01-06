@@ -1,5 +1,5 @@
 import { Paginate } from "../../../../Shared/domain";
-import { StorageAWS } from "../../../../Shared/infrastructure/StorageAWS";
+import { StorageAWS } from "../../../../Shared/infrastructure";
 
 export default async (list: Paginate<any>) => {
   const awsS3: StorageAWS = new StorageAWS(process.env.BUCKET_FILES);

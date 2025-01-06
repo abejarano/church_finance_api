@@ -16,7 +16,7 @@ import {
 import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
 import { HttpStatus, Paginate } from "../../../../Shared/domain";
 import { logger, QueueBullService } from "../../../../Shared/infrastructure";
-import MemberContributionsDTO from "../dto/MemberContributionsDTO";
+import MemberContributionsDTO from "../dto/MemberContributions.dto";
 import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
 import { StorageAWS } from "../../../../Shared/infrastructure/StorageAWS";
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";

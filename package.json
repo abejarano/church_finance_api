@@ -25,6 +25,8 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "bull": "^4.16.5",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-fileupload": "^1.5.1",
@@ -35,6 +37,7 @@
     "node-input-validator": "^4.5.1",
     "pino": "^8.19.0",
     "pino-pretty": "^11.0.0",
+    "reflect-metadata": "^0.2.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

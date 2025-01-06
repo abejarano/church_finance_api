@@ -1,15 +1,15 @@
 import { HttpStatus, QueueName } from "../../../../Shared/domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
 import { FinancialRecordRequest } from "../../../domain";
-import { RegisterFinancialRecord } from "../../../applications/RegisterFinancialRecord";
+import { RegisterFinancialRecord } from "../../../applications/financeRecord/RegisterFinancialRecord";
 import {
   QueueBullService,
   StorageAWS,
 } from "../../../../Shared/infrastructure";
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";
 import {
+  FinanceRecordMongoRepository,
   FinancialConfigurationMongoRepository,
-  FinancialRecordMongoRepository,
 } from "../../persistence";
 import {
   MovementBankRequest,
@@ -35,7 +35,7 @@ export const FinancialRecordController = async (
 
     await new RegisterFinancialRecord(
       FinancialYearMongoRepository.getInstance(),
-      FinancialRecordMongoRepository.getInstance(),
+      FinanceRecordMongoRepository.getInstance(),
       FinancialConfigurationMongoRepository.getInstance(),
     ).handle(request, financialConcept);
 

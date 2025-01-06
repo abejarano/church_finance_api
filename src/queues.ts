@@ -8,11 +8,11 @@ import { MovementBankMongoRepository } from "./MovementBank/infraestructura/pers
 import { MovementBankRecord } from "./MovementBank/applications";
 import { InitialLoadingFinancialConcepts } from "./Financial/applications";
 import {
+  FinanceRecordMongoRepository,
   FinancialConfigurationMongoRepository,
-  FinancialRecordMongoRepository,
 } from "./Financial/infrastructure";
 import { ChurchMongoRepository } from "./Church/infrastructure";
-import { RegisterFinancialRecord } from "./Financial/applications/RegisterFinancialRecord";
+import { RegisterFinancialRecord } from "./Financial/applications/financeRecord/RegisterFinancialRecord";
 
 export const Queues: IDefinitionQueue[] = [
   {
@@ -26,7 +26,7 @@ export const Queues: IDefinitionQueue[] = [
     useClass: RegisterFinancialRecord,
     inject: [
       FinancialConfigurationMongoRepository.getInstance(),
-      FinancialRecordMongoRepository.getInstance(),
+      FinanceRecordMongoRepository.getInstance(),
       FinancialConfigurationMongoRepository.getInstance(),
     ],
   },

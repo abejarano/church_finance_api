@@ -13,3 +13,5 @@ export { ListContributions } from "./contribution/ListContributions";
 export { UpdateContributionStatus } from "./UpdateContributionStatus";
 
 export { FindFinancialConceptByChurchIdAndFinancialConceptId } from "./financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
+
+export { SearchFinanceRecord } from "./financeRecord/SearchFinanceRecord";

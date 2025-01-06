@@ -6,10 +6,12 @@ import {
 } from "../controllers/OnlineContribution.controller";
 import {
   FilterContributionsRequest,
+  FilterFinanceRecordRequest,
   OnlineContributionsStatus,
 } from "../../../domain";
 import FinancialRecordValidator from "../validators/FinancialRecord.validator";
 import { FinancialRecordController } from "../controllers/FinancialRecord.controller";
+import { FinanceRecordListController } from "../controllers/FinanceRecordList.controller";
 
 const financeRoute = Router();
 
@@ -51,6 +53,15 @@ financeRoute.post(
       { ...req.body, churchId: req["user"].churchId, file: req?.files?.file },
       res,
     );
+  },
+);
+
+financeRoute.get(
+  "/financial-record",
+  PermissionMiddleware,
+  async (req, res) => {
+    const params = req.query as unknown as FilterFinanceRecordRequest;
+    await FinanceRecordListController(params, res);
   },
 );
 

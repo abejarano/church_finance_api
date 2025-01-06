@@ -1,14 +1,14 @@
-import { IFinancialYearRepository } from "../../ConsolidatedFinancial/domain";
-import { IQueue } from "../../Shared/domain";
-import { FinancialRecord } from "../domain/FinancialRecord";
-import { FinancialMonthValidator } from "../../ConsolidatedFinancial/FinancialMonthValidator";
+import { IFinancialYearRepository } from "../../../ConsolidatedFinancial/domain";
+import { IQueue } from "../../../Shared/domain";
+import { FinanceRecord } from "../../domain/FinanceRecord";
+import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator";
 import {
   IFinancialConfigurationRepository,
   IFinancialRecordRepository,
-} from "../domain/interfaces";
-import { FinancialConcept, FinancialRecordQueueRequest } from "../domain";
-import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "./financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
-import { logger } from "../../Shared/infrastructure";
+} from "../../domain/interfaces";
+import { FinancialConcept, FinancialRecordQueueRequest } from "../../domain";
+import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
+import { logger } from "../../../Shared/infrastructure";
 
 export class RegisterFinancialRecord implements IQueue {
   constructor(
@@ -34,7 +34,7 @@ export class RegisterFinancialRecord implements IQueue {
         ).execute(args.churchId, args.financialConceptId);
     }
 
-    const financialRecord = FinancialRecord.create(
+    const financialRecord = FinanceRecord.create(
       FinancialConcept.fromPrimitives(financialConcept, args.churchId),
       args.churchId,
       args.amount,

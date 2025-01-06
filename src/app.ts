@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import appRouters from "./SecuritySystem/infrastructure/http/App.routers";
 import churchRouters from "./Church/infrastructure/http/routes/Church.routers";
 import memberRouters from "./Church/infrastructure/http/routes/Member.routers";

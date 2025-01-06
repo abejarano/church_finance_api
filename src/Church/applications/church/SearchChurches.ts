@@ -1,5 +1,8 @@
-import { ChurchDTO, IChurchRepository } from "../../domain";
-import { ChurchPaginateRequest } from "../../domain/requests/ChurchPaginate.request";
+import {
+  ChurchDTO,
+  ChurchPaginateRequest,
+  IChurchRepository,
+} from "../../domain";
 import {
   Criteria,
   Filters,

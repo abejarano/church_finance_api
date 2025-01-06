@@ -13,6 +13,42 @@ export abstract class MongoRepository<T extends AggregateRoot> {
 
   abstract collectionName(): string;
 
+  transformationToUpsertInSubDocuments(
+    subDocumentField: string,
+    primitiveData: any,
+  ): {} {
+    const response = {};
+
+    for (const key in primitiveData) {
+      response[`${subDocumentField}.$.${key}`] = primitiveData[key];
+    }
+
+    return response;
+  }
+
+  public async buildPaginate<T>(documents: T[]): Promise<Paginate<T>> {
+    const collection = await this.collection();
+
+    const count = await collection.countDocuments(this.query.filter);
+
+    const hasNextPage: boolean =
+      this.criteria.currentPage * this.criteria.limit < count;
+
+    if (documents.length === 0) {
+      return {
+        nextPag: null,
+        totalRecord: 0,
+        results: [],
+      };
+    }
+
+    return {
+      nextPag: hasNextPage ? Number(this.criteria.currentPage) + 1 : null,
+      totalRecord: count,
+      results: documents,
+    };
+  }
+
   protected client(): Promise<MongoClient> {
     return this._client;
   }
@@ -103,41 +139,5 @@ export abstract class MongoRepository<T extends AggregateRoot> {
       .find<D>(this.query.filter, { projection })
       .sort(this.query.sort)
       .toArray();
-  }
-
-  transformationToUpsertInSubDocuments(
-    subDocumentField: string,
-    primitiveData: any,
-  ): {} {
-    const response = {};
-
-    for (const key in primitiveData) {
-      response[`${subDocumentField}.$.${key}`] = primitiveData[key];
-    }
-
-    return response;
-  }
-
-  public async buildPaginate<T>(documents: T[]): Promise<Paginate<T>> {
-    const collection = await this.collection();
-
-    const count = await collection.countDocuments(this.query.filter);
-
-    const hasNextPage: boolean =
-      this.criteria.currentPage * this.criteria.limit < count;
-
-    if (documents.length === 0) {
-      return {
-        nextPag: null,
-        totalRecord: 0,
-        results: [],
-      };
-    }
-
-    return {
-      nextPag: hasNextPage ? Number(this.criteria.currentPage) + 1 : null,
-      totalRecord: count,
-      results: documents,
-    };
   }
 }

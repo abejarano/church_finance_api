@@ -4,7 +4,7 @@ import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { ConceptType } from "./enums/ConcepType.enum";
 
-export class FinancialRecord extends AggregateRoot {
+export class FinanceRecord extends AggregateRoot {
   private id?: string;
   private financialRecordId: string;
   private financialConcept: FinancialConcept;
@@ -24,8 +24,8 @@ export class FinancialRecord extends AggregateRoot {
     moneyLocation: MoneyLocation,
     description?: string,
     voucher?: string,
-  ): FinancialRecord {
-    const financialRecord: FinancialRecord = new FinancialRecord();
+  ): FinanceRecord {
+    const financialRecord: FinanceRecord = new FinanceRecord();
     financialRecord.financialRecordId = IdentifyEntity.get();
     financialRecord.financialConcept = financialConcept;
     financialRecord.churchId = churchId;
@@ -39,8 +39,8 @@ export class FinancialRecord extends AggregateRoot {
     return financialRecord;
   }
 
-  static fromPrimitives(plainData: any): FinancialRecord {
-    const financialRecord: FinancialRecord = new FinancialRecord();
+  static fromPrimitives(plainData: any): FinanceRecord {
+    const financialRecord: FinanceRecord = new FinanceRecord();
     financialRecord.id = plainData?.id;
     financialRecord.financialRecordId = plainData.financialRecordId;
     financialRecord.financialConcept = FinancialConcept.fromPrimitives(

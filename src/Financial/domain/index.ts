@@ -23,4 +23,7 @@ export { CostCenterRequest } from "./requests/CostCenter.request";
 export {
   FinancialRecordQueueRequest,
   FinancialRecordRequest,
-} from "./requests/FinancialRecordRequest";
+} from "./requests/FinancialRecord.request";
+export { FilterFinanceRecordRequest } from "./requests/FilterFinanceRecord.request";
+
+export { IFinanceRecordDTO } from "./interfaces/FinanceRecordDTO.interface";
