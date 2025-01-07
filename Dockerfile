@@ -1,30 +1,32 @@
+# Etapa de construcción (builder)
 FROM node:20-alpine3.19 as builder
 
 # Directorio de trabajo dentro de la imagen
 WORKDIR /app
 
-# Copia los archivos de configuración y los archivos necesarios
+# Copia solo los archivos necesarios para instalar dependencias
 COPY package.json package-lock.json ./
-COPY tsconfig.json tsconfig.build.json ./
-COPY src/ ./src/
 
-RUN npm install -g typescript
+# Instala las dependencias de producción
+RUN npm ci --only=production
 
-RUN npm install --production
+# Copia el resto de los archivos necesarios para la construcción
+COPY dist ./dist
 
-# Compila la aplicación TypeScript
-RUN npm run build
-
+# Etapa final (imagen ligera para producción)
 FROM node:20-alpine3.19
 
+# Directorio de trabajo dentro de la imagen
 WORKDIR /app
 
-# Copia los archivos necesarios de la etapa anterior
-COPY --from=builder /app/dist ./dist
+# Copia las dependencias de producción desde la etapa de construcción
 COPY --from=builder /app/node_modules ./node_modules
+
+# Copia solo los archivos necesarios para la ejecución
+COPY --from=builder /app/dist ./dist
 
 # Expone el puerto en el que se ejecutará la aplicación (ajusta según tu aplicación)
 EXPOSE 8080
 
-CMD ["npm", "run", "start:prod"]
-
+# Comando para ejecutar la aplicación
+CMD ["node", "dist/app.js"]

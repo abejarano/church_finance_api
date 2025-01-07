@@ -34,11 +34,15 @@ export class StorageAWS implements IStorageService {
     return this;
   }
 
-  async downloadFile(fileName: string): Promise<string> {
-    console.log("fileName", fileName);
+  /**
+   * Return link authenticated to download file
+   * @param pathInFileStorage
+   */
+  async downloadFile(pathInFileStorage: string): Promise<string> {
+    console.log("fileName", pathInFileStorage);
     const params = {
       Bucket: this.bucketName,
-      Key: fileName,
+      Key: pathInFileStorage,
     };
 
     // Genera un comando para obtener el objeto
@@ -52,6 +56,10 @@ export class StorageAWS implements IStorageService {
     return signedUrl;
   }
 
+  /**
+   * Upload file
+   * @param file File to upload
+   */
   async uploadFile(file: any): Promise<string> {
     const key: string = this.generateNameFile(file); // Genera un nombre único para el archivo
 
