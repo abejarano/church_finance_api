@@ -36,17 +36,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Test SSH Connection
-        run: |
-          echo "$SSH_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key $GCE_USERNAME@$PUBLIC_IP "echo 'Connection successful!'"
-
-
       - name: Deploy
         run: |
           echo "$SSH_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key abejarano@34.51.21.106 '          
-          cd /home/abejarano/church_financial_api
+          ssh -o StrictHostKeyChecking=no -i private_key $GCE_USERNAME@$PUBLIC_IP "          
+          cd church_finance_api
           git pull
           npm ci
           npm run build
@@ -61,7 +55,7 @@ jobs:
           docker run --network church_sion -d --restart=on-failure --env-file ~/env_variables.txt --name church_financial_api -p 5750:8080 church_financial_api
           
           sudo systemctl restart nginx
-          '
+          "
 
     env:
       SSH_KEY: ${{ secrets.GCP_SSH_KEY }}
