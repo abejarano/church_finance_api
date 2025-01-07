@@ -13,8 +13,9 @@ services:
     container_name: church_finance_api
     image: church_finance_api
     restart: always
-    build: .
-    command: npm run dev
+    build:
+      context: .
+    command: node dist/app.js
     environment:
       NODE_ENV: local
 
@@ -33,12 +34,13 @@ services:
 
       REDIS_HOST: church_finance_redis
       REDIS_PORT: 6379
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
 
 
     volumes:
       - ./:/app
-      #- {GOOGLE_APPLICATION_CREDENTIALS_JASPESOFT}:/service-account.json
-      - /home/node/app/node_modules
+      - /app/node_modules
+      - ${GOOGLE_APPLICATION_CREDENTIALS}:/credentials.json
     ports:
       - "5200:8080"
     networks:
