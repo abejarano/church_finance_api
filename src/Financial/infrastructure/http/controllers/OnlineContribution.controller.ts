@@ -15,10 +15,13 @@ import {
 } from "../../../applications";
 import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
 import { HttpStatus, Paginate } from "../../../../Shared/domain";
-import { logger, QueueBullService } from "../../../../Shared/infrastructure";
+import {
+  logger,
+  QueueBullService,
+  StorageGCP,
+} from "../../../../Shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributions.dto";
-import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
-import { StorageAWS } from "../../../../Shared/infrastructure/StorageAWS";
+import { FinancialConfigurationMongoRepository } from "../../persistence";
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";
 
 export const onlineContributionsController = async (
@@ -39,7 +42,7 @@ export const onlineContributionsController = async (
 
     await new RegisterContributionsOnline(
       OnlineContributionsMongoRepository.getInstance(),
-      StorageAWS.getInstance(process.env.BUCKET_FILES),
+      StorageGCP.getInstance(process.env.BUCKET_FILES),
       QueueBullService.getInstance(),
       FinancialYearMongoRepository.getInstance(),
     ).execute(request, member, financialConcept);

@@ -7,6 +7,6 @@ export * from "./mongodb/index";
 export { PermissionMiddleware } from "./middleware/Permission.middleware";
 
 export { QueueBullService } from "./bull/QueueBull.service";
-export { StorageAWS } from "./StorageAWS";
+export { StorageGCP } from "./StorageGCP";
 
 export const logger = new CustomLogger();

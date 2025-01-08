@@ -1,8 +1,8 @@
 import { Paginate } from "../../../../Shared/domain";
-import { StorageAWS } from "../../../../Shared/infrastructure";
+import { StorageGCP } from "../../../../Shared/infrastructure";
 
 export default async (list: Paginate<any>) => {
-  const awsS3: StorageAWS = new StorageAWS(process.env.BUCKET_FILES);
+  const storage: StorageGCP = new StorageGCP(process.env.BUCKET_FILES);
   let results = [];
 
   for (const item of list.results) {
@@ -11,7 +11,7 @@ export default async (list: Paginate<any>) => {
       amount: item.amount,
       status: item.status,
       createdAt: item.createdAt,
-      bankTransferReceipt: await awsS3.downloadFile(item.bankTransferReceipt),
+      bankTransferReceipt: await storage.downloadFile(item.bankTransferReceipt),
       type: item.type,
       member: {
         memberId: item.member.memberId,

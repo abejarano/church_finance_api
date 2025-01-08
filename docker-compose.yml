@@ -15,7 +15,7 @@ services:
     restart: always
     build:
       context: .
-    command: node dist/app.js
+    command: npm run dev
     environment:
       NODE_ENV: local
 
