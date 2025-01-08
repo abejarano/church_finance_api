@@ -16,7 +16,7 @@ export class StorageGCP implements IStorageService {
       this.bucketName = bucketName;
     }
 
-    this.configureBucketCors(bucketName).catch(console.error);
+    //this.configureBucketCors(bucketName).catch(console.error);
   }
 
   static getInstance(bucketName: string): StorageGCP {
@@ -26,20 +26,16 @@ export class StorageGCP implements IStorageService {
     return StorageGCP._instance;
   }
 
-  async configureBucketCors(bucketName: string) {
-    await this.storage.bucket(bucketName).setCorsConfiguration([
-      {
-        origin: ["*"], // O "http://localhost:61364" para pruebas locales
-        responseHeader: ["Content-Type"],
-        method: ["GET"],
-        maxAgeSeconds: 3600,
-      },
-    ]);
-
-    // console.log(`Bucket ${bucketName} was updated with a CORS config
-    //   to allow ${method} requests from ${origin} sharing
-    //   ${responseHeader} responses across origins`);
-  }
+  // async configureBucketCors(bucketName: string) {
+  //   await this.storage.bucket(bucketName).setCorsConfiguration([
+  //     {
+  //       origin: ["*"],
+  //       responseHeader: ["Content-Type"],
+  //       method: ["GET"],
+  //       maxAgeSeconds: 3600,
+  //     },
+  //   ]);
+  // }
 
   setBucketName(bucketName: string): IStorageService {
     this.bucketName = bucketName;
