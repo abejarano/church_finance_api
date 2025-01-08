@@ -1,5 +1,6 @@
 import { logger } from "../../../../Shared/infrastructure";
 import { IFinancialConfigurationRepository } from "../../../domain/interfaces";
+import { GenericException } from "../../../../Shared/domain";
 
 export class FindFinancialConceptByChurchIdAndFinancialConceptId {
   constructor(
@@ -15,7 +16,7 @@ export class FindFinancialConceptByChurchIdAndFinancialConceptId {
 
     if (!financialConcept) {
       logger.error(`Financial concept not found`);
-      throw new Error("Financial concept not found");
+      throw new GenericException("Financial concept not found");
     }
 
     logger.info(`Financial concept found`);

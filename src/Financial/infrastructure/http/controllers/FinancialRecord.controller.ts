@@ -4,7 +4,7 @@ import { FinancialRecordRequest } from "../../../domain";
 import { RegisterFinancialRecord } from "../../../applications/financeRecord/RegisterFinancialRecord";
 import {
   QueueBullService,
-  StorageAWS,
+  StorageGCP,
 } from "../../../../Shared/infrastructure";
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";
 import {
@@ -23,7 +23,7 @@ export const FinancialRecordController = async (
 ) => {
   try {
     if (request.file) {
-      request.voucher = await StorageAWS.getInstance(
+      request.voucher = await StorageGCP.getInstance(
         process.env.BUCKET_FILES,
       ).uploadFile(request.file);
     }
