@@ -9,7 +9,7 @@ export class StorageGCP implements IStorageService {
   private storage: Storage;
   private bucketName: string;
 
-  private constructor(bucketName?: string) {
+  constructor(bucketName?: string) {
     this.storage = new Storage();
 
     if (bucketName) {

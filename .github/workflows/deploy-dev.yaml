@@ -88,6 +88,8 @@ jobs:
           -e AWS_ACCESS_KEY_ID=AKIA4F3QRMUKMAKSD3M5 \
           -e AWS_SECRET_ACCESS_KEY=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 \
           -e AWS_REGION=sa-east-1 \
+          -e GOOGLE_APPLICATION_CREDENTIALS=/google_credentials.json \
+          -v ~/google_credentials.json:/google_credentials.json \
           --log-driver=awslogs \
           --log-opt awslogs-region=sa-east-1 \
           --log-opt awslogs-group=/ec2/church-api \
