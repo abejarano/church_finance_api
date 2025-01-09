@@ -4,6 +4,7 @@ import { SearchFinanceRecord } from "../../../applications";
 import { FinanceRecordMongoRepository } from "../../persistence";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
 import { HttpStatus } from "../../../../Shared/domain";
+import FinanceRecordPaginateDTO from "../dto/FinanceRecordPaginate.dto";
 
 export const FinanceRecordListController = async (
   filter: FilterFinanceRecordRequest,
@@ -15,7 +16,7 @@ export const FinanceRecordListController = async (
       FinanceRecordMongoRepository.getInstance(),
     ).execute(filter);
 
-    res.status(HttpStatus.OK).send(list);
+    res.status(HttpStatus.OK).send(await FinanceRecordPaginateDTO(list));
   } catch (e) {
     return domainResponse(e, res);
   }
