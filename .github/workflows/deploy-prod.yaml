@@ -43,9 +43,10 @@ jobs:
           cd church_finance_api
           git pull
           rm -rf dist
-          rm -rf node_modules
-          npm ci
-          npm run build
+          rm -rf node_modules          
+          
+          /home/abejarano/.nvm/versions/node/v20.18.1/bin/npm ci
+          /home/abejarano/.nvm/versions/node/v20.18.1/bin/npm run build
           
           docker ps -a --filter "name=church_financial_api" -q | xargs -r docker stop
           docker ps -a --filter "name=church_financial_api" -q | xargs -r docker rm
