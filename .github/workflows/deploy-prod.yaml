@@ -57,7 +57,10 @@ jobs:
           
           docker build -t church_financial_api . -f Dockerfile
           
-          docker run --network church_sion -d --restart=on-failure --env-file ~/env_variables.txt --name church_financial_api -p 5750:8080 church_financial_api
+          docker run --network church_sion -d --restart=on-failure --env-file ~/env_variables.txt \
+          -e GOOGLE_APPLICATION_CREDENTIALS=/google_credentials.json \
+          -v ~/google_credentials.json:/google_credentials.json \
+          --name church_financial_api -p 5750:8080 church_financial_api
           
           sudo systemctl restart nginx
           "
