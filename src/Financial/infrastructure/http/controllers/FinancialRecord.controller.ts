@@ -55,6 +55,12 @@ export const FinancialRecordController = async (
       .status(HttpStatus.CREATED)
       .send({ message: "successful financial record registration" });
   } catch (e) {
+    if (request.voucher) {
+      await StorageGCP.getInstance(process.env.BUCKET_FILES).deleteFile(
+        request.voucher,
+      );
+    }
+
     return domainResponse(e, res);
   }
 };
