@@ -1,7 +1,4 @@
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../Shared/infrastructure";
+import { MongoRepository } from "../../../Shared/infrastructure";
 import { IUserRepository, User } from "../../domain";
 import { Criteria, Paginate } from "../../../Shared/domain";
 
@@ -11,15 +8,15 @@ export class UserMongoRepository
 {
   private static instance: UserMongoRepository;
 
+  constructor() {
+    super();
+  }
+
   static getInstance(): UserMongoRepository {
     if (!UserMongoRepository.instance) {
       UserMongoRepository.instance = new UserMongoRepository();
     }
     return UserMongoRepository.instance;
-  }
-
-  constructor() {
-    super(MongoClientFactory.createClient());
   }
 
   collectionName(): string {

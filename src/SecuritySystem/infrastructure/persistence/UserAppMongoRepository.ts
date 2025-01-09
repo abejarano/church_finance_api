@@ -1,7 +1,4 @@
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../Shared/infrastructure";
+import { MongoRepository } from "../../../Shared/infrastructure";
 import { IUserAppRepository, UserApp } from "../../domain";
 
 export class UserAppMongoRepository
@@ -10,15 +7,15 @@ export class UserAppMongoRepository
 {
   private static instance: UserAppMongoRepository;
 
+  constructor() {
+    super();
+  }
+
   static getInstance(): UserAppMongoRepository {
     if (!UserAppMongoRepository.instance) {
       UserAppMongoRepository.instance = new UserAppMongoRepository();
     }
     return UserAppMongoRepository.instance;
-  }
-
-  constructor() {
-    super(MongoClientFactory.createClient());
   }
 
   collectionName(): string {

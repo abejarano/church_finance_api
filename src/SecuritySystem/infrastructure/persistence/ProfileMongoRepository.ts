@@ -1,7 +1,4 @@
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../Shared/infrastructure";
+import { MongoRepository } from "../../../Shared/infrastructure";
 import { IProfileRepository, OptionModuleDTO, Profile } from "../../domain";
 
 export class ProfileMongoRepository
@@ -10,15 +7,15 @@ export class ProfileMongoRepository
 {
   private static instance: ProfileMongoRepository;
 
+  constructor() {
+    super();
+  }
+
   static getInstance(): ProfileMongoRepository {
     if (!ProfileMongoRepository.instance) {
       ProfileMongoRepository.instance = new ProfileMongoRepository();
     }
     return ProfileMongoRepository.instance;
-  }
-
-  constructor() {
-    super(MongoClientFactory.createClient());
   }
 
   collectionName(): string {

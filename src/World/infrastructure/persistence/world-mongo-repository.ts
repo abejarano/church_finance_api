@@ -1,14 +1,16 @@
 import { IWorldRepository, States } from "../../domain";
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../Shared/infrastructure";
+import { MongoRepository } from "../../../Shared/infrastructure";
 
 export class WorldMongoRepository
   extends MongoRepository<any>
   implements IWorldRepository
 {
   private static instance: WorldMongoRepository;
+  private collectName: string = "states";
+
+  constructor() {
+    super();
+  }
 
   static getInstance(): WorldMongoRepository {
     if (!WorldMongoRepository.instance) {
@@ -16,12 +18,6 @@ export class WorldMongoRepository
     }
     return WorldMongoRepository.instance;
   }
-
-  constructor() {
-    super(MongoClientFactory.createClient());
-  }
-
-  private collectName: string = "states";
 
   collectionName(): string {
     return this.collectName;

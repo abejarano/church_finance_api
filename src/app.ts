@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import "dotenv/config";
+
 import appRouters from "./SecuritySystem/infrastructure/http/App.routers";
 import churchRouters from "./Church/infrastructure/http/routes/Church.routers";
 import memberRouters from "./Church/infrastructure/http/routes/Member.routers";
@@ -33,4 +35,23 @@ app.use("/api/v1/world", worldRoute);
 
 StorageGCP.getInstance(process.env.BUCKET_FILES);
 
-app.listen(port, (): string => "server running on port 8080");
+const serverInstance = app.listen(
+  port,
+  (): string => `server running on port ${port}`,
+);
+
+process.on("SIGINT", () => {
+  console.log("Recibida señal SIGINT. Cerrando servidor...");
+  serverInstance.close(() => {
+    console.log("Servidor cerrado.");
+    process.exit(0);
+  });
+});
+
+process.on("SIGTERM", () => {
+  console.log("Recibida señal SIGTERM. Cerrando servidor...");
+  serverInstance.close(() => {
+    console.log("Servidor cerrado.");
+    process.exit(0);
+  });
+});
