@@ -41,12 +41,18 @@ jobs:
           echo "$SSH_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key $GCE_USERNAME@$PUBLIC_IP "          
           cd church_finance_api
-          git pull
-          rm -rf dist
-          rm -rf node_modules          
+          export NVM_DIR=\"$HOME/.nvm\"
+          [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"
+          [ -s \"$NVM_DIR/bash_completion\" ] && . \"$NVM_DIR/bash_completion\"
           
-          /home/abejarano/.nvm/versions/node/v20.18.1/bin/npm ci
-          /home/abejarano/.nvm/versions/node/v20.18.1/bin/npm run build
+          cd church_finance_api
+          git reset --hard HEAD
+          git clean -fd
+          git pull
+          rm -rf dist node_modules
+          
+          npm ci
+          npm run build
           
           docker ps -a --filter "name=church_financial_api" -q | xargs -r docker stop
           docker ps -a --filter "name=church_financial_api" -q | xargs -r docker rm
