@@ -42,6 +42,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key $GCE_USERNAME@$PUBLIC_IP "          
           cd church_finance_api
           git pull
+          rm -rf dist
+          rm -rf node_modules
           npm ci
           npm run build
           
