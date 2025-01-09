@@ -1,5 +1,5 @@
 # Etapa de construcción (builder)
-FROM node:20-alpine3.19 as builder
+FROM node:20-alpine3.19 AS builder
 
 # Directorio de trabajo dentro de la imagen
 WORKDIR /app
