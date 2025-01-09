@@ -4,7 +4,7 @@ import fileUpload = require("express-fileupload");
 import bodyParser = require("body-parser");
 import rateLimit from "express-rate-limit";
 
-export function server(port = 8080) {
+export function server(port: number) {
   const app = express();
   app.use(express.json());
   app.use(bodyParser.urlencoded({ extended: true }));

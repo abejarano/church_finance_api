@@ -9,14 +9,14 @@ import financialRouter from "./Financial/infrastructure/http/routes";
 import worldRoute from "./World/infrastructure/http/routes/World.route";
 import ministerRoute from "./Church/infrastructure/http/routes/Minsiter.routers";
 import { Express } from "express";
-import { server, StorageGCP } from "./Shared/infrastructure";
+import { server } from "./Shared/infrastructure";
 import userRoutes from "./SecuritySystem/infrastructure/http/routes/User.routes";
 import profileRoutes from "./SecuritySystem/infrastructure/http/routes/Profile.routes";
 import modulesRoutes from "./SecuritySystem/infrastructure/http/routes/Modules.routes";
 import { Queues } from "./queues";
 import { bullBoard } from "./Shared/infrastructure/bull/bullBoard";
 
-const port = 8080;
+const port = Number(process.env.APP_PORT) || 8080;
 const app: Express = server(port);
 
 bullBoard(app, Queues);
@@ -33,7 +33,7 @@ app.use("/api/v1/admin/modules", modulesRoutes);
 
 app.use("/api/v1/world", worldRoute);
 
-StorageGCP.getInstance(process.env.BUCKET_FILES);
+//StorageGCP.getInstance(process.env.BUCKET_FILES);
 
 const serverInstance = app.listen(
   port,
