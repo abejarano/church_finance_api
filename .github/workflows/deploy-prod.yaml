@@ -40,12 +40,8 @@ jobs:
         run: |
           echo "$SSH_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key $GCE_USERNAME@$PUBLIC_IP "          
-          cd church_finance_api
-          export NVM_DIR=\"$HOME/.nvm\"
-          [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"
-          [ -s \"$NVM_DIR/bash_completion\" ] && . \"$NVM_DIR/bash_completion\"
+          cd church_finance_api          
           
-          cd church_finance_api
           git reset --hard HEAD
           git clean -fd
           git pull
