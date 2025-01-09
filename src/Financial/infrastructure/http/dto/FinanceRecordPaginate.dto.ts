@@ -6,22 +6,20 @@ export default async (list: Paginate<any>) => {
   let results = [];
 
   for (const item of list.results) {
+    if (item.voucher) {
+      item.voucher = await storage.downloadFile(item.voucher);
+    }
+
     results.push({
-      contributionId: item.contributionId,
+      financialConcept: item.financialConcept,
+      financialRecordId: item.financialRecordId,
+      churchId: item.churchId,
       amount: item.amount,
-      status: item.status,
-      createdAt: item.createdAt,
-      bankTransferReceipt: await storage.downloadFile(item.bankTransferReceipt),
+      date: item.date,
       type: item.type,
-      member: {
-        memberId: item.member.memberId,
-        name: item.member.name,
-        churchId: item.member.churchId,
-      },
-      financeConcept: {
-        financialConceptId: item.financialConcept.financialConceptId,
-        name: item.financialConcept.name,
-      },
+      moneyLocation: item.moneyLocation,
+      voucher: item.voucher,
+      description: item.description,
     });
   }
 
