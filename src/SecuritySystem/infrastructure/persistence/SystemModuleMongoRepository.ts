@@ -1,7 +1,4 @@
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../Shared/infrastructure";
+import { MongoRepository } from "../../../Shared/infrastructure";
 import {
   ISystemModuleRepository,
   OptionModuleDTO,
@@ -14,15 +11,15 @@ export class SystemModuleMongoRepository
 {
   private static instance: SystemModuleMongoRepository;
 
+  constructor() {
+    super();
+  }
+
   static getInstance(): SystemModuleMongoRepository {
     if (!SystemModuleMongoRepository.instance) {
       SystemModuleMongoRepository.instance = new SystemModuleMongoRepository();
     }
     return SystemModuleMongoRepository.instance;
-  }
-
-  constructor() {
-    super(MongoClientFactory.createClient());
   }
 
   collectionName(): string {
@@ -53,15 +50,6 @@ export class SystemModuleMongoRepository
 
   async list(): Promise<SystemModule[]> {
     return await this.buildList({});
-  }
-
-  private async buildList(filter: {}) {
-    const collection = await this.collection();
-    const result = await collection.find(filter).toArray();
-
-    return result.map((item) =>
-      SystemModule.fromPrimitives({ ...item, id: item._id }),
-    );
   }
 
   async upsert(systemModule: SystemModule): Promise<void> {
@@ -125,5 +113,14 @@ export class SystemModuleMongoRepository
     }
 
     return options;
+  }
+
+  private async buildList(filter: {}) {
+    const collection = await this.collection();
+    const result = await collection.find(filter).toArray();
+
+    return result.map((item) =>
+      SystemModule.fromPrimitives({ ...item, id: item._id }),
+    );
   }
 }

@@ -4,7 +4,7 @@ import fileUpload = require("express-fileupload");
 import bodyParser = require("body-parser");
 import rateLimit from "express-rate-limit";
 
-export function server(port = 8080) {
+export function server(port: number) {
   const app = express();
   app.use(express.json());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,7 +22,7 @@ export function server(port = 8080) {
 
   const limiter = rateLimit({
     windowMs: 8 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   });

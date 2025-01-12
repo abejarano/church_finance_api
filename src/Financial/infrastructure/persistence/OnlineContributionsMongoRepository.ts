@@ -1,9 +1,6 @@
 import { Criteria, Paginate } from "src/Shared/domain";
 import { OnlineContributions } from "../../domain";
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../Shared/infrastructure";
+import { MongoRepository } from "../../../Shared/infrastructure";
 import { IOnlineContributionsRepository } from "../../domain/interfaces";
 
 export class OnlineContributionsMongoRepository
@@ -13,7 +10,7 @@ export class OnlineContributionsMongoRepository
   private static instance: OnlineContributionsMongoRepository;
 
   constructor() {
-    super(MongoClientFactory.createClient());
+    super();
   }
 
   static getInstance(): OnlineContributionsMongoRepository {
