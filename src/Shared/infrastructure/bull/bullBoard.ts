@@ -7,7 +7,7 @@ import { IDefinitionQueue } from "../../domain";
 
 export const bullBoard = (app: Express, Queues: IDefinitionQueue[]) => {
   const serverAdapter = new ExpressAdapter();
-  serverAdapter.setBasePath("/ui");
+  serverAdapter.setBasePath("/admin/queues");
 
   const queueServer = QueueBullService.getInstance();
   queueServer.addQueues(Queues);
@@ -24,5 +24,5 @@ export const bullBoard = (app: Express, Queues: IDefinitionQueue[]) => {
 
   queueServer.listen();
 
-  app.use("/ui", serverAdapter.getRouter());
+  app.use("/admin/queues", serverAdapter.getRouter());
 };
