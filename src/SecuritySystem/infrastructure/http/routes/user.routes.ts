@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   UserController,
   userLoginPayload,
-} from "../controllers/dashboard/user.controller";
+} from "../controllers/user.controller";
 import { CreateUserRequest, FilterUserRequest } from "../../../domain";
 import { PermissionMiddleware } from "../../../../Shared/infrastructure";
 

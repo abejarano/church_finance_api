@@ -1,6 +1,6 @@
 export enum QueueName {
   MovementBankRecord = "MovementBankRecord",
   RegisterFinancialRecord = "RegisterFinancialRecord",
-  CreateUserApp = "CreateUserApp",
+  CreateUserForMember = "CreateUserForMember",
   InitialLoadingFinancialConcepts = "InitialLoadingFinancialConcepts",
 }

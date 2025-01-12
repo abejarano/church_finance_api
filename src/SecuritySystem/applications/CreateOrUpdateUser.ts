@@ -1,16 +1,14 @@
 import {
   CreateUserRequest,
   IPasswordAdapter,
-  IProfileRepository,
   IUserRepository,
   User,
   UserNotFound,
-} from "../../domain";
+} from "../domain";
 
 export class CreateOrUpdateUser {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly profileRepository: IProfileRepository,
     private readonly passwordAdapter: IPasswordAdapter,
   ) {}
 
@@ -22,8 +20,7 @@ export class CreateOrUpdateUser {
       userRequest.name,
       userRequest.email,
       await this.passwordAdapter.encrypt(userRequest.password),
-      userRequest.isSuperuser,
-      await this.profileRepository.findByProfileIds(userRequest.profileId),
+      userRequest.profiles,
       userRequest.churchId,
     );
 
@@ -42,18 +39,11 @@ export class CreateOrUpdateUser {
     }
 
     userRequest.isActive ? user.enable() : user.disable();
-    userRequest.isSuperuser ? user.setSuperuser() : user.unsetSuperuser();
 
     user.setEmail(userRequest.email);
 
-    const profiles = await this.profileRepository.findByProfileIds(
-      userRequest.profileId,
-    );
-
     user.deleteAllProfile();
-    for (const profile of profiles) {
-      user.setProfile(profile);
-    }
+    user.setProfile(userRequest.profiles);
 
     await this.userRepository.upsert(user);
 
