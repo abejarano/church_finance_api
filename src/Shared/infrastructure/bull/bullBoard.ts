@@ -24,5 +24,5 @@ export const bullBoard = (app: Express, Queues: IDefinitionQueue[]) => {
 
   queueServer.listen();
 
-  app.use("/ui", serverAdapter.getRouter());
+  app.use("/admin/queues", serverAdapter.getRouter());
 };
