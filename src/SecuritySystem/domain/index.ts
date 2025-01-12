@@ -8,7 +8,6 @@ export { IAuthToken } from "./interfaces/auth-token.interface";
 
 export { UserAuthDTO } from "./types/user-auth.type";
 
-export { UserApp } from "./UserApp";
 export { IPasswordAdapter } from "./interfaces/PasswordAdapter.interface";
 
 export { CreateUserRequest } from "./requests/CreateUser.request";
