@@ -1,13 +1,14 @@
-import { Collection, MongoClient, ObjectId } from "mongodb";
+import { Collection, ObjectId } from "mongodb";
 import { AggregateRoot, Criteria, Paginate } from "../../domain";
 import { MongoCriteriaConverter, MongoQuery } from "./MongoCriteriaConverter";
+import { MongoClientFactory } from "./MongoClientFactory";
 
 export abstract class MongoRepository<T extends AggregateRoot> {
   private criteriaConverter: MongoCriteriaConverter;
   private query: MongoQuery;
   private criteria: Criteria;
 
-  constructor(private _client: Promise<MongoClient>) {
+  constructor() {
     this.criteriaConverter = new MongoCriteriaConverter();
   }
 
@@ -49,12 +50,10 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     };
   }
 
-  protected client(): Promise<MongoClient> {
-    return this._client;
-  }
-
   protected async collection<T>(): Promise<Collection<T>> {
-    return (await this._client).db().collection<T>(this.collectionName());
+    return (await MongoClientFactory.createClient())
+      .db()
+      .collection<T>(this.collectionName());
   }
 
   // todo return types

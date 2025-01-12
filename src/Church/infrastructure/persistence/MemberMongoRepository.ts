@@ -1,7 +1,4 @@
-import {
-  MongoClientFactory,
-  MongoRepository,
-} from "../../../Shared/infrastructure";
+import { MongoRepository } from "../../../Shared/infrastructure";
 import { IMemberRepository, Member } from "../../domain";
 import { Criteria, Paginate } from "../../../Shared/domain";
 
@@ -12,7 +9,7 @@ export class MemberMongoRepository
   private static instance: MemberMongoRepository;
 
   constructor() {
-    super(MongoClientFactory.createClient());
+    super();
   }
 
   public static getInstance(): MemberMongoRepository {
