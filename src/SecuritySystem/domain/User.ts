@@ -1,7 +1,7 @@
-import { Profile } from "./Profile";
 import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { DateBR } from "../../Shared/helpers";
+import { Profile } from "./types/profile.type";
 
 export class User extends AggregateRoot {
   isActive: boolean;
@@ -11,15 +11,13 @@ export class User extends AggregateRoot {
   private name: string;
   private password: string;
   private createdAt: Date;
-  private profileId: string[];
-  private isSuperuser: boolean;
+  private profiles: Profile[];
   private churchId: string;
 
   static create(
     name: string,
     email: string,
     password: string,
-    isSuperuser: boolean,
     profiles: Profile[],
     churchId: string,
   ): User {
@@ -27,19 +25,15 @@ export class User extends AggregateRoot {
     u.email = email;
     u.password = password;
 
-    for (const profile of profiles) {
-      if (!u.profileId) u.profileId = [profile.getProfileId()];
-      else u.profileId.push(profile.getProfileId());
-    }
-
     u.churchId = churchId;
 
     u.userId = IdentifyEntity.get();
 
+    u.profiles = profiles;
+
     u.createdAt = DateBR();
     u.isActive = true;
     u.name = name;
-    u.isSuperuser = isSuperuser;
 
     return u;
   }
@@ -52,12 +46,15 @@ export class User extends AggregateRoot {
     u.id = data.id;
     u.password = data.password;
     u.userId = data.userId;
-    u.profileId = data.profileId;
     u.churchId = data.churchId;
-    u.isSuperuser = data.isSuperuser;
     u.name = data.name;
+    u.profiles = data.profiles;
 
     return u;
+  }
+
+  getProfiles() {
+    return this.profiles;
   }
 
   getChurchId(): string {
@@ -72,9 +69,9 @@ export class User extends AggregateRoot {
     return this.name;
   }
 
-  getProfileId(): string[] {
-    return this.profileId;
-  }
+  // getProfileId(): string[] {
+  //   return this.profileId;
+  // }
 
   getPassword(): string {
     return this.password;
@@ -89,12 +86,14 @@ export class User extends AggregateRoot {
   }
 
   deleteAllProfile(): User {
-    this.profileId = [];
+    this.profiles = [];
     return this;
   }
 
-  setProfile(profile: Profile): User {
-    this.profileId.push(profile.getProfileId());
+  setProfile(profile: Profile[]): User {
+    profile.forEach((p) => {
+      this.profiles.push(p);
+    });
     return this;
   }
 
@@ -103,19 +102,19 @@ export class User extends AggregateRoot {
     return this;
   }
 
-  superUser(): boolean {
-    return this.isSuperuser;
-  }
+  // superUser(): boolean {
+  //   return this.isSuperuser;
+  // }
 
-  setSuperuser(): User {
-    this.isSuperuser = true;
-    return this;
-  }
+  // setSuperuser(): User {
+  //   this.isSuperuser = true;
+  //   return this;
+  // }
 
-  unsetSuperuser(): User {
-    this.isSuperuser = false;
-    return this;
-  }
+  // unsetSuperuser(): User {
+  //   this.isSuperuser = false;
+  //   return this;
+  // }
 
   setUpdatePassword(newPass: string): User {
     this.password = newPass;
@@ -139,9 +138,8 @@ export class User extends AggregateRoot {
       password: this.password,
       createdAt: this.createdAt,
       isActive: this.isActive,
-      profileId: this.profileId,
+      profiles: this.profiles,
       userId: this.userId,
-      isSuperuser: this.isSuperuser,
       churchId: this.churchId,
     };
   }

@@ -1,0 +1,6 @@
+export enum ProfileType {
+  SUPERUSER = "SUPERUSER",
+  ADMINISTRATOR = "ADMINISTRATOR",
+  MEMBER = "MEMBER",
+  TREASURER = "TREASURER",
+}
