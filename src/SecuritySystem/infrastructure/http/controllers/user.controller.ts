@@ -1,16 +1,12 @@
-import {
-  CreateOrUpdateUser,
-  FetchAllUsers,
-  MakeLogin,
-} from "../../../../applications";
-import { UserMongoRepository } from "../../../persistence/UserMongoRepository";
-import { PasswordAdapter } from "../../../adapters/Password.adapter";
-import { AuthTokenAdapter } from "../../../adapters/AuthToken.adapter";
-import { HttpStatus } from "../../../../../Shared/domain";
-import { logger } from "../../../../../Shared/infrastructure";
-import domainResponse from "../../../../../Shared/helpers/domainResponse";
-import { CreateUserRequest, FilterUserRequest } from "../../../../domain";
-import { ProfileMongoRepository } from "../../../persistence/ProfileMongoRepository";
+import { CreateOrUpdateUser, MakeLogin } from "../../../applications";
+import { UserMongoRepository } from "../../persistence/UserMongoRepository";
+import { PasswordAdapter } from "../../adapters/Password.adapter";
+import { AuthTokenAdapter } from "../../adapters/AuthToken.adapter";
+import { HttpStatus } from "../../../../Shared/domain";
+import { logger } from "../../../../Shared/infrastructure";
+import domainResponse from "../../../../Shared/helpers/domainResponse";
+import { CreateUserRequest, FilterUserRequest } from "../../../domain";
+import { FetchAllUsers } from "../../../applications/finder/FetchAllUsers";
 
 export type userLoginPayload = {
   email: string;
@@ -44,7 +40,6 @@ export class UserController {
     try {
       const user = await new CreateOrUpdateUser(
         UserMongoRepository.getInstance(),
-        ProfileMongoRepository.getInstance(),
         new PasswordAdapter(),
       ).execute(payload);
 

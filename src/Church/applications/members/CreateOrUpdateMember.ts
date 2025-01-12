@@ -69,6 +69,6 @@ export class CreateOrUpdateMember {
 
     await this.memberRepository.upsert(member);
 
-    this.queueService.dispatch(QueueName.CreateUserApp, member);
+    this.queueService.dispatch(QueueName.CreateUserForMember, member);
   }
 }
