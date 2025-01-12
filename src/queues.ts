@@ -1,8 +1,8 @@
 import { IDefinitionQueue } from "./Shared/domain";
-import { CreateUserApp } from "./SecuritySystem/applications";
+import { CreateUserForMember } from "./SecuritySystem/applications";
 import {
   PasswordAdapter,
-  UserAppMongoRepository,
+  UserMongoRepository,
 } from "./SecuritySystem/infrastructure";
 import { MovementBankMongoRepository } from "./MovementBank/infraestructura/persistence";
 import { MovementBankRecord } from "./MovementBank/applications";
@@ -31,8 +31,8 @@ export const Queues: IDefinitionQueue[] = [
     ],
   },
   {
-    useClass: CreateUserApp,
-    inject: [UserAppMongoRepository.getInstance(), new PasswordAdapter()],
+    useClass: CreateUserForMember,
+    inject: [UserMongoRepository.getInstance(), new PasswordAdapter()],
   },
   {
     useClass: InitialLoadingFinancialConcepts,

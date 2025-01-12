@@ -1,4 +1,4 @@
-import { FilterUserRequest, IUserRepository, User } from "../../../domain";
+import { FilterUserRequest, IUserRepository, User } from "../../domain";
 import {
   Criteria,
   Filters,
@@ -6,7 +6,7 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from "../../../../Shared/domain";
+} from "../../../Shared/domain";
 
 export class FetchAllUsers {
   constructor(private readonly userRepository: IUserRepository) {}

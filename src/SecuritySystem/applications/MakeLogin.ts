@@ -6,7 +6,7 @@ import {
   User,
   UserDisabled,
   UserNotFound,
-} from "../../domain";
+} from "../domain";
 
 export class MakeLogin {
   constructor(
@@ -36,8 +36,7 @@ export class MakeLogin {
         churchId: user.getChurchId(),
         userId: user.getUserId(),
         email: user.getEmail(),
-        isSuperuser: user.superUser(),
-        profileId: user.getProfileId(),
+        profiles: user.getProfiles(),
       }),
     ];
   }

@@ -1,10 +1,12 @@
+import { Profile } from "../types/profile.type";
+
 export type CreateUserRequest = {
-  userId: string;
+  userId?: string;
   name: string;
   email: string;
   password: string;
-  isSuperuser: boolean;
   isActive: boolean;
-  profileId: string[];
+  profiles: Profile[];
   churchId: string;
+  memberId?: string;
 };
