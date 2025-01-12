@@ -13,6 +13,7 @@ export class User extends AggregateRoot {
   private createdAt: Date;
   private profiles: Profile[];
   private churchId: string;
+  private memberId?: string;
 
   static create(
     name: string,
@@ -49,8 +50,14 @@ export class User extends AggregateRoot {
     u.churchId = data.churchId;
     u.name = data.name;
     u.profiles = data.profiles;
+    u.memberId = data.merberId;
 
     return u;
+  }
+
+  setMemberId(memberId: string): User {
+    this.memberId = memberId;
+    return this;
   }
 
   getProfiles() {
@@ -141,6 +148,7 @@ export class User extends AggregateRoot {
       profiles: this.profiles,
       userId: this.userId,
       churchId: this.churchId,
+      memberId: this.memberId,
     };
   }
 }

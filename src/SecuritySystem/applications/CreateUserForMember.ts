@@ -36,6 +36,7 @@ export class CreateUserForMember implements IQueue {
       this.passwordAdapter,
     ).execute({
       name: member.getName(),
+      memberId: member.getMemberId(),
       email: member.getEmail(),
       password: member.getDni().replace(".", "").replace("-", ""),
       isActive: true,

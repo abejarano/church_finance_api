@@ -24,6 +24,10 @@ export class CreateOrUpdateUser {
       userRequest.churchId,
     );
 
+    if (userRequest.memberId) {
+      user.setMemberId(userRequest.memberId);
+    }
+
     await this.userRepository.upsert(user);
 
     return user;

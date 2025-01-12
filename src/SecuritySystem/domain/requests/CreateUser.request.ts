@@ -8,4 +8,5 @@ export type CreateUserRequest = {
   isActive: boolean;
   profiles: Profile[];
   churchId: string;
+  memberId?: string;
 };
