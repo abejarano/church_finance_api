@@ -2,9 +2,11 @@ import { Router } from "express";
 import { PermissionMiddleware } from "../../../../Shared/infrastructure";
 import {
   listOnlineContributionsController,
+  onlineContributionsController,
   UpdateContributionStatusController,
 } from "../controllers/OnlineContribution.controller";
 import {
+  ContributionRequest,
   FilterContributionsRequest,
   FilterFinanceRecordRequest,
   OnlineContributionsStatus,
@@ -12,8 +14,23 @@ import {
 import FinancialRecordValidator from "../validators/FinancialRecord.validator";
 import { FinancialRecordController } from "../controllers/FinancialRecord.controller";
 import { FinanceRecordListController } from "../controllers/FinanceRecordList.controller";
+import ContributionValidator from "../validators/Contribution.validator";
 
 const financeRoute = Router();
+
+financeRoute.post(
+  "/contributions",
+  [PermissionMiddleware, ContributionValidator],
+  async (req, res) => {
+    await onlineContributionsController(
+      {
+        ...(req.body as ContributionRequest),
+        bankTransferReceipt: req.files.file,
+      },
+      res,
+    );
+  },
+);
 
 financeRoute.get("/contributions", PermissionMiddleware, async (req, res) => {
   let filter = {
