@@ -50,7 +50,7 @@ export class User extends AggregateRoot {
     u.churchId = data.churchId;
     u.name = data.name;
     u.profiles = data.profiles;
-    u.memberId = data.merberId;
+    u.memberId = data.memberId;
 
     return u;
   }
