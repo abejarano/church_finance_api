@@ -13,7 +13,6 @@ import {
   RegisterContributionsOnline,
   UpdateContributionStatus,
 } from "../../../applications";
-import { OnlineContributionsMongoRepository } from "../../persistence/OnlineContributionsMongoRepository";
 import { HttpStatus, Paginate } from "../../../../Shared/domain";
 import {
   logger,
@@ -21,7 +20,10 @@ import {
   StorageGCP,
 } from "../../../../Shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributions.dto";
-import { FinancialConfigurationMongoRepository } from "../../persistence";
+import {
+  FinancialConfigurationMongoRepository,
+  OnlineContributionsMongoRepository,
+} from "../../persistence";
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";
 
 export const onlineContributionsController = async (

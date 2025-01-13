@@ -8,6 +8,7 @@ export default async (req, res, next) => {
   logger.info(`Validando contribucion`, payload);
 
   const rule = {
+    memberId: "required|string",
     amount: "required|numeric",
     financialConceptId: "required|string",
     bankId: "required|string",
