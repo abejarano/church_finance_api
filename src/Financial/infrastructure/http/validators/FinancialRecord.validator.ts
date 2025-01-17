@@ -13,6 +13,7 @@ export default async (req, res, next) => {
     financialConceptId: "required|string",
     date: "required|dateFormat:YYYY-MM-DD",
     availabilityAccountId: "required|string",
+    description: "required|string",
   }
 
   const v = new Validator(payload, rule)

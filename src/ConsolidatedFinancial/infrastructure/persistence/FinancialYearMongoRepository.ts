@@ -23,40 +23,15 @@ export class FinancialYearMongoRepository
     return "financial_months"
   }
 
-  async upsertFinancialMonth(financialYear: FinancialMonth): Promise<void> {
+  async upsert(financialYear: FinancialMonth): Promise<void> {
     await this.persist(financialYear.getId(), financialYear)
   }
 
-  async findById(
-    financialMonthId: string
-  ): Promise<FinancialMonth | undefined> {
+  async one(filter: Object): Promise<FinancialMonth | undefined> {
     const collection = await this.collection()
-    const result = await collection.findOne({ financialMonthId })
+    const result = await collection.findOne(filter)
 
-    if (result === null) {
-      return undefined
-    }
-
-    return FinancialMonth.fromPrimitives({
-      id: result._id.toString(),
-      ...result,
-    })
-  }
-
-  async findByMonthAndYear(
-    month: number,
-    year: number,
-    churchId: string
-  ): Promise<FinancialMonth | undefined> {
-    const collection = await this.collection()
-
-    const result = await collection.findOne({
-      month,
-      year,
-      churchId,
-    })
-
-    if (result === null) {
+    if (!result) {
       return undefined
     }
 

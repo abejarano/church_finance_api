@@ -1,5 +1,17 @@
 [
   {
+    "name": "Saldo inicial em contas de disponibilidade",
+    "description": "Saldo inicial em contas de disponibilidade / Abertura de exercício.",
+    "type": "INCOME",
+    "active": true
+  },
+  {
+    "name": "Dízmos de Dízmos",
+    "description": "Pagameto de Dízmos de dízmos ao distrito",
+    "type": "OUTGO",
+    "active": true
+  },
+  {
     "name": "Gastos de Pessoal",
     "description": "Salários e honorários para pastores, ministros, pessoal administrativo e outros funcionários da igreja",
     "type": "OUTGO",

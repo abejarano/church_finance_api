@@ -13,15 +13,14 @@ import {
 } from "../../../Shared/domain"
 import { Member } from "../../../Church/domain"
 import { IFinancialYearRepository } from "../../../ConsolidatedFinancial/domain"
+import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/applications"
+import { IOnlineContributionsRepository } from "../../domain/interfaces"
+import { Logger } from "../../../Shared/adapter"
 import {
   MovementBankRequest,
   TypeBankingOperation,
 } from "../../../MovementBank/domain"
-import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator"
-import { IOnlineContributionsRepository } from "../../domain/interfaces"
-
 import { DateBR } from "../../../Shared/helpers"
-import { Logger } from "../../../Shared/adapter"
 
 export class RegisterContributionsOnline {
   private logger = Logger("RegisterContributionsOnline")
@@ -39,7 +38,10 @@ export class RegisterContributionsOnline {
     member: Member,
     financialConcept: FinancialConcept
   ) {
-    this.logger.info(`RegisterContributionsOnline`)
+    this.logger.info(
+      `RegisterContributionsOnline contributionRequest: ${JSON.stringify(contributionRequest)} member: ${member.getName()} financialConcept: ${financialConcept.getName()}`
+    )
+
     await new FinancialMonthValidator(this.financialYearRepository).validate(
       member.getChurchId()
     )
