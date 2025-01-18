@@ -12,6 +12,7 @@ export default async (list: Paginate<any>) => {
       status: item.status,
       createdAt: item.createdAt,
       bankTransferReceipt: await storage.downloadFile(item.bankTransferReceipt),
+      bankId: item.bankId,
       type: item.type,
       member: {
         memberId: item.member.memberId,
