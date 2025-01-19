@@ -1,0 +1,65 @@
+[
+  {
+    "costCenterId": "CC-001",
+    "active": true,
+    "name": "Administração",
+    "category": "OPERATIONS",
+    "description": "Gestão geral da igreja, incluindo salários administrativos e papelaria.",
+    "responsibleMemberId": "{{memberId}}",
+    "churchId": "{{churchId}}"
+  },
+  {
+    "costCenterId": "CC-002",
+    "active": true,
+    "name": "Ministério Infantil",
+    "category": "MINISTRIES",
+    "description": "Atividades e recursos para ensinar e cuidar de crianças.",
+    "responsibleMemberId": "{{memberId}}",
+    "churchId": "{{churchId}}"
+  },
+  {
+    "costCenterId": "CC-003",
+    "active": true,
+    "name": "Ministério de Louvor",
+    "category": "MINISTRIES",
+    "description": "Gestão de música, equipamento de som e ensaios.",
+    "responsibleMemberId": "{{memberId}}",
+    "churchId": "{{churchId}}"
+  },
+  {
+    "costCenterId": "CC-004",
+    "active": true,
+    "name": "Logística",
+    "category": "OPERATIONS",
+    "description": "Organização de eventos e atividades em geral.",
+    "responsibleMemberId": "{{memberId}}",
+    "churchId": "{{churchId}}"
+  },
+  {
+    "costCenterId": "CC-005",
+    "active": true,
+    "name": "Manutenção e Limpeza",
+    "category": "OPERATIONS",
+    "description": "Cuidados com as instalações, incluindo reparos e limpeza.",
+    "responsibleMemberId": "{{memberId}}",
+    "churchId": "{{churchId}}"
+  },
+  {
+    "costCenterId": "CC-006",
+    "active": true,
+    "name": "Evangelismo",
+    "category": "MINISTRIES",
+    "description": "Atividades de extensão e disseminação do evangelho na comunidade.",
+    "responsibleMemberId": "{{memberId}}",
+    "churchId": "{{churchId}}"
+  },
+  {
+    "costCenterId": "CC-007",
+    "active": true,
+    "name": "Serviço Social",
+    "category": "MINISTRIES",
+    "description": "Ajude a comunidade através de programas de assistência social.",
+    "responsibleMemberId": "{{memberId}}",
+    "churchId": "{{churchId}}"
+  }
+]

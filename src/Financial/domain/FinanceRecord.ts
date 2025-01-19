@@ -13,6 +13,10 @@ export class FinanceRecord extends AggregateRoot {
   private date: Date;
   private type: ConceptType;
   private moneyLocation: MoneyLocation;
+  private availabilityAccount: {
+    availabilityAccountId: string;
+    accountName: string;
+  };
   private voucher?: string;
   private description?: string;
 

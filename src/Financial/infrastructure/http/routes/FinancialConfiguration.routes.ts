@@ -2,8 +2,14 @@ import { Router } from "express";
 import { FinancialConfigurationController } from "../controllers/FinancialConfiguration.controller";
 import bankValidator from "../validators/Bank.validator";
 import bankBRValidator from "../validators/BankBR.validator";
-import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
+import {
+  AvailabilityAccountRequest,
+  BankRequest,
+  ConceptType,
+  CostCenterRequest,
+} from "../../../domain";
 import { PermissionMiddleware } from "../../../../Shared/infrastructure";
+import AvailabilityAccountValidator from "../validators/AvailabilityAccount.validator";
 
 const financialConfigurationRoute = Router();
 
@@ -11,7 +17,18 @@ financialConfigurationRoute.post(
   "/cost-center",
   PermissionMiddleware,
   async (req, res) => {
-    await FinancialConfigurationController.createOrUpdateCostCenter(
+    await FinancialConfigurationController.createCostCenter(
+      req.body as CostCenterRequest,
+      res,
+    );
+  },
+);
+
+financialConfigurationRoute.put(
+  "/cost-center",
+  PermissionMiddleware,
+  async (req, res) => {
+    await FinancialConfigurationController.updateCostCenter(
       req.body as CostCenterRequest,
       res,
     );
@@ -38,10 +55,14 @@ financialConfigurationRoute.post(
   },
 );
 
-financialConfigurationRoute.get("/bank/:churchId", async (req, res) => {
-  const { churchId } = req.params as any;
-  await FinancialConfigurationController.listBankByChurchId(churchId, res);
-});
+financialConfigurationRoute.get(
+  "/bank/:churchId",
+  PermissionMiddleware,
+  async (req, res) => {
+    const { churchId } = req.params as any;
+    await FinancialConfigurationController.listBankByChurchId(churchId, res);
+  },
+);
 
 financialConfigurationRoute.get("/bank/data/:bankId", async (req, res) => {
   const { bankId } = req.params as any;
@@ -50,13 +71,37 @@ financialConfigurationRoute.get("/bank/data/:bankId", async (req, res) => {
 
 financialConfigurationRoute.get(
   "/financial-concepts/:churchId/:typeConcept?",
+  PermissionMiddleware,
   async (req, res) => {
     const { churchId, typeConcept } = req.params as any;
-    const typeConcepts = typeConcept ? typeConcept : undefined;
+
     await FinancialConfigurationController.findFinancialConceptsByChurchIdAndTypeConcept(
       churchId,
       res,
       typeConcept as ConceptType,
+    );
+  },
+);
+
+financialConfigurationRoute.post(
+  "/availability-account/",
+  [PermissionMiddleware, AvailabilityAccountValidator],
+  async (req, res) => {
+    await FinancialConfigurationController.createOrUpdateAvailabilityAccount(
+      req.body as AvailabilityAccountRequest,
+      res,
+    );
+  },
+);
+
+financialConfigurationRoute.get(
+  "/availability-account/:churchId",
+  PermissionMiddleware,
+  async (req, res) => {
+    const { churchId } = req.params as any;
+    await FinancialConfigurationController.listAvailabilityAccountByChurchId(
+      churchId,
+      res,
     );
   },
 );

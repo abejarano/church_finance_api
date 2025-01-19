@@ -1,16 +1,29 @@
 import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
 import {
+  AvailabilityAccountRequest,
+  BankRequest,
+  ConceptType,
+  CostCenterRequest,
+} from "../../../domain";
+import {
+  CreateOrUpdateAvailabilityAccount,
   CreateOrUpdateBank,
-  CreateOrUpdateCostCenter,
   FinBankByBankId,
   FindCostCenterByChurchId,
   FindFinancialConceptsByChurchIdAndTypeConcept,
+  SearchAvailabilityAccountByChurchId,
   SearchBankByChurchId,
 } from "../../../applications";
-import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
+import { FinancialConfigurationMongoRepository } from "../../persistence";
 import { HttpStatus } from "../../../../Shared/domain";
-import { ChurchMongoRepository } from "../../../../Church/infrastructure";
+import {
+  ChurchMongoRepository,
+  MemberMongoRepository,
+} from "../../../../Church/infrastructure";
+import {
+  CreateCostCenter,
+  UpdateCostCenter,
+} from "../../../applications/financialConfiguration";
 
 export class FinancialConfigurationController {
   static async findCostCenterByChurchId(churchId: string, res) {
@@ -25,20 +38,33 @@ export class FinancialConfigurationController {
     }
   }
 
-  static async createOrUpdateCostCenter(costCenter: CostCenterRequest, res) {
+  static async createCostCenter(costCenter: CostCenterRequest, res) {
     try {
-      await new CreateOrUpdateCostCenter(
+      await new CreateCostCenter(
         FinancialConfigurationMongoRepository.getInstance(),
+        MemberMongoRepository.getInstance(),
       ).execute(costCenter);
 
-      if (!costCenter.costCenterId) {
-        res
-          .status(HttpStatus.CREATED)
-          .send({ message: "Registered cost center" });
-        return;
-      }
+      res
+        .status(HttpStatus.CREATED)
+        .send({ message: "Registered cost center" });
+      return;
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
 
-      res.status(HttpStatus.OK).send({ message: "Updated cost center" });
+  static async updateCostCenter(costCenter: CostCenterRequest, res) {
+    try {
+      await new UpdateCostCenter(
+        FinancialConfigurationMongoRepository.getInstance(),
+        MemberMongoRepository.getInstance(),
+      ).execute(costCenter);
+
+      res
+        .status(HttpStatus.CREATED)
+        .send({ message: "Registered cost center" });
+      return;
     } catch (e) {
       domainResponse(e, res);
     }
@@ -97,6 +123,43 @@ export class FinancialConfigurationController {
       ).execute(churchId);
 
       res.status(HttpStatus.OK).send(bank);
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async listAvailabilityAccountByChurchId(churchId: string, res) {
+    try {
+      const availabilityAccount = await new SearchAvailabilityAccountByChurchId(
+        FinancialConfigurationMongoRepository.getInstance(),
+      ).execute(churchId);
+
+      res.status(HttpStatus.OK).send(availabilityAccount);
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
+
+  static async createOrUpdateAvailabilityAccount(
+    request: AvailabilityAccountRequest,
+    res,
+  ) {
+    try {
+      await new CreateOrUpdateAvailabilityAccount(
+        FinancialConfigurationMongoRepository.getInstance(),
+        ChurchMongoRepository.getInstance(),
+      ).execute(request);
+
+      if (!request.availabilityAccountId) {
+        res
+          .status(HttpStatus.CREATED)
+          .send({ message: "Registered availability account" });
+        return;
+      }
+
+      res
+        .status(HttpStatus.OK)
+        .send({ message: "Updated availability account" });
     } catch (e) {
       domainResponse(e, res);
     }
