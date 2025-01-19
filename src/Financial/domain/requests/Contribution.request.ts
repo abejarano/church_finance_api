@@ -3,6 +3,7 @@ export type ContributionRequest = {
   amount: number;
   bankTransferReceipt: any;
   financialConceptId: string;
+  availabilityAccountId: string;
   month: string;
   observation?: string;
   bankId: string;

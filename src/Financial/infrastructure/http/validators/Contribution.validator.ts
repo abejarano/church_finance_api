@@ -10,6 +10,7 @@ export default async (req, res, next) => {
   const rule = {
     memberId: "required|string",
     amount: "required|numeric",
+    availabilityAccountId: "required|string",
     financialConceptId: "required|string",
     bankId: "required|string",
   };
