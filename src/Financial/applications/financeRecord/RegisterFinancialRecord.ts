@@ -6,7 +6,11 @@ import {
   IFinancialConfigurationRepository,
   IFinancialRecordRepository,
 } from "../../domain/interfaces";
-import { FinancialConcept, FinancialRecordQueueRequest } from "../../domain";
+import {
+  AvailabilityAccountNotFound,
+  FinancialConcept,
+  FinancialRecordQueueRequest,
+} from "../../domain";
 import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
 import { logger } from "../../../Shared/infrastructure";
 
@@ -27,6 +31,15 @@ export class RegisterFinancialRecord implements IQueue {
       args.churchId,
     );
 
+    const availabilityAccount =
+      await this.financialConfigurationRepository.findAvailabilityAccountByAvailabilityAccountId(
+        args.availabilityAccountId,
+      );
+
+    if (!availabilityAccount) {
+      throw new AvailabilityAccountNotFound();
+    }
+
     if (!financialConcept) {
       financialConcept =
         await new FindFinancialConceptByChurchIdAndFinancialConceptId(
@@ -39,7 +52,7 @@ export class RegisterFinancialRecord implements IQueue {
       args.churchId,
       args.amount,
       new Date(args.date),
-      args.moneyLocation,
+      availabilityAccount,
       args.description,
       args.voucher,
     );

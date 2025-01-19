@@ -1,4 +1,5 @@
 import {
+  AvailabilityAccountNotFound,
   ContributionRequest,
   FilterContributionsRequest,
   OnlineContributions,
@@ -42,12 +43,21 @@ export const onlineContributionsController = async (
         FinancialConfigurationMongoRepository.getInstance(),
       ).execute(member.getChurchId(), request.financialConceptId);
 
+    const availabilityAccount =
+      await FinancialConfigurationMongoRepository.getInstance().findAvailabilityAccountByAvailabilityAccountId(
+        request.availabilityAccountId,
+      );
+
+    if (!availabilityAccount) {
+      throw new AvailabilityAccountNotFound();
+    }
+
     await new RegisterContributionsOnline(
       OnlineContributionsMongoRepository.getInstance(),
       StorageGCP.getInstance(process.env.BUCKET_FILES),
       QueueBullService.getInstance(),
       FinancialYearMongoRepository.getInstance(),
-    ).execute(request, member, financialConcept);
+    ).execute(request, availabilityAccount, member, financialConcept);
 
     res
       .status(HttpStatus.CREATED)

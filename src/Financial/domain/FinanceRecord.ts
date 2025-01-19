@@ -1,8 +1,8 @@
-import { MoneyLocation } from "./enums/MoneyLocation.enum";
 import { FinancialConcept } from "./FinancialConcept";
 import { AggregateRoot } from "../../Shared/domain";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { ConceptType } from "./enums/ConcepType.enum";
+import { AvailabilityAccount } from "./AvailabilityAccount";
 
 export class FinanceRecord extends AggregateRoot {
   private id?: string;
@@ -12,7 +12,6 @@ export class FinanceRecord extends AggregateRoot {
   private amount: number;
   private date: Date;
   private type: ConceptType;
-  private moneyLocation: MoneyLocation;
   private availabilityAccount: {
     availabilityAccountId: string;
     accountName: string;
@@ -25,7 +24,7 @@ export class FinanceRecord extends AggregateRoot {
     churchId: string,
     amount: number,
     date: Date,
-    moneyLocation: MoneyLocation,
+    availabilityAccount: AvailabilityAccount,
     description?: string,
     voucher?: string,
   ): FinanceRecord {
@@ -36,7 +35,10 @@ export class FinanceRecord extends AggregateRoot {
     financialRecord.amount = Number(amount);
     financialRecord.date = date;
     financialRecord.type = financialConcept.getType();
-    financialRecord.moneyLocation = moneyLocation;
+    financialRecord.availabilityAccount = {
+      availabilityAccountId: availabilityAccount.getAvailabilityAccountId(),
+      accountName: availabilityAccount.getAccountName(),
+    };
     financialRecord.voucher = voucher;
     financialRecord.description = description;
 
@@ -55,7 +57,7 @@ export class FinanceRecord extends AggregateRoot {
     financialRecord.amount = plainData.amount;
     financialRecord.date = plainData.date;
     financialRecord.type = plainData.type;
-    financialRecord.moneyLocation = plainData.moneyLocation;
+    financialRecord.availabilityAccount = plainData.availabilityAccount;
     financialRecord.voucher = plainData.voucher;
     financialRecord.description = plainData.description;
 
@@ -74,7 +76,7 @@ export class FinanceRecord extends AggregateRoot {
       amount: this.amount,
       date: this.date,
       type: this.type,
-      moneyLocation: this.moneyLocation,
+      availabilityAccount: this.availabilityAccount,
       voucher: this.voucher,
       description: this.description,
     };

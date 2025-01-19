@@ -44,6 +44,10 @@ export class AvailabilityAccount {
     return this.churchId;
   }
 
+  getAccountName() {
+    return this.accountName;
+  }
+
   getAvailabilityAccountId() {
     return this.availabilityAccountId;
   }

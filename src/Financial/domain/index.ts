@@ -1,4 +1,5 @@
 export { ContributionNotFound } from "./exceptions/ContributionNotFound.exception";
+export { AvailabilityAccountNotFound } from "./exceptions/AvailabilityAccountNotFound.exception";
 
 export { Bank } from "./Bank";
 export { CostCenter } from "./CostCenter";
