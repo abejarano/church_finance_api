@@ -1,6 +1,11 @@
+import { CostCenterCategory } from "../enums/CostCenterCategory.enum";
+
 export type CostCenterRequest = {
-  costCenterId?: string;
+  costCenterId: string;
   active: boolean;
   name: string;
-  bankId: string;
+  churchId: string;
+  responsibleMemberId: string;
+  category: CostCenterCategory;
+  description?: string;
 };

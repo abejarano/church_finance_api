@@ -1,5 +1,11 @@
 import { MongoRepository } from "../../../Shared/infrastructure";
-import { Bank, ConceptType, CostCenter, FinancialConcept } from "../../domain";
+import {
+  AvailabilityAccount,
+  Bank,
+  ConceptType,
+  CostCenter,
+  FinancialConcept,
+} from "../../domain";
 import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 
 export class FinancialConfigurationMongoRepository
@@ -24,10 +30,67 @@ export class FinancialConfigurationMongoRepository
     return "churches";
   }
 
+  async findAvailabilityAccountByAvailabilityAccountId(
+    availabilityAccountId: string,
+  ): Promise<AvailabilityAccount> {
+    const collection = await this.collection<{
+      availabilityAccounts: AvailabilityAccount[];
+      churchId: string;
+    }>();
+
+    const result = await collection.findOne(
+      {
+        "availabilityAccounts.availabilityAccountId": availabilityAccountId,
+      },
+      {
+        projection: {
+          _id: 1,
+          churchId: 1,
+          "availabilityAccounts.$": 1,
+        },
+      },
+    );
+
+    if (!result) {
+      return undefined;
+    }
+
+    return AvailabilityAccount.fromPrimitives({
+      churchId: result.churchId,
+      ...result.availabilityAccounts[0],
+    });
+  }
+
+  async searchAvailabilityAccountsByChurchId(
+    churchId: string,
+  ): Promise<AvailabilityAccount[]> {
+    const collection = await this.collection<{
+      availabilityAccounts: AvailabilityAccount[];
+      churchId: string;
+    }>();
+
+    const result = await collection.findOne(
+      { churchId },
+      { projection: { _id: 1, churchId: 1, availabilityAccounts: 1 } },
+    );
+    console.log(result);
+    if (!result.availabilityAccounts) {
+      return [];
+    }
+
+    return result.availabilityAccounts.map((account: any) =>
+      AvailabilityAccount.fromPrimitives({
+        id: result._id.toString(),
+        churchId: result.churchId,
+        ...account,
+      }),
+    );
+  }
+
   async searchBanksByChurchId(churchId: string): Promise<Bank[]> {
     const collection = await this.collection<{
       banks: Bank[];
-      churchId;
+      churchId: string;
     }>();
 
     const result = await collection.findOne(
@@ -71,6 +134,30 @@ export class FinancialConfigurationMongoRepository
     );
   }
 
+  async upsertAvailabilityAccount(
+    availabilityAccount: AvailabilityAccount,
+  ): Promise<void> {
+    const collection = await this.collection();
+
+    await collection.updateOne(
+      { churchId: availabilityAccount.getChurchId() },
+      {
+        $pull: {
+          availabilityAccounts: {
+            availabilityAccountId:
+              availabilityAccount.getAvailabilityAccountId(),
+          },
+        },
+      },
+    );
+
+    await collection.updateOne(
+      { churchId: availabilityAccount.getChurchId() },
+      { $push: { availabilityAccounts: availabilityAccount.toPrimitives() } },
+      { upsert: true },
+    );
+  }
+
   async upsertFinancialConcept(concept: FinancialConcept): Promise<void> {
     const collection = await this.collection();
     await collection.updateOne(
@@ -86,7 +173,7 @@ export class FinancialConfigurationMongoRepository
 
     await collection.updateOne(
       { churchId: concept.getChurchId() },
-      { $set: { financialConcepts: concept.toPrimitives() } },
+      { $push: { financialConcepts: concept.toPrimitives() } },
       { upsert: true },
     );
   }
@@ -107,38 +194,32 @@ export class FinancialConfigurationMongoRepository
       {
         churchId: costCenter.getChurchId(),
       },
-      { $set: { costCenters: costCenter.toPrimitives() } },
+      { $push: { costCenters: costCenter.toPrimitives() } },
       { upsert: true },
     );
   }
 
   async findCostCenterByCostCenterId(
     costCenterId: string,
+    churchId: string,
   ): Promise<CostCenter> {
     const collection = await this.collection<{
       costCenters: CostCenter[];
       churchId: string;
-      bankId;
     }>();
     const result = await collection.findOne(
-      { "costCenters.costCenterId": costCenterId },
-      { projection: { _id: 1, churchId: 1, "costCenters.$": 1 } },
+      { "costCenters.costCenterId": costCenterId, churchId },
+      { projection: { _id: 1, churchId: 1, costCenters: 1 } },
     );
 
     if (!result) {
       return undefined;
     }
 
-    const bank = await this.findBankByBankId(result.bankId);
-
-    return CostCenter.fromPrimitives(
-      {
-        id: result._id.toString(),
-        churchId: result.churchId,
-        ...result.costCenters[0],
-      },
-      bank,
-    );
+    return CostCenter.fromPrimitives({
+      churchId: result.churchId,
+      ...result.costCenters[0],
+    });
   }
 
   async findBankByBankId(bankId: string): Promise<Bank> {
@@ -178,12 +259,8 @@ export class FinancialConfigurationMongoRepository
     const listCostCenter: CostCenter[] = [];
 
     for (const costCenter of result.costCenters) {
-      const bank = await this.findBankByBankId(costCenter.bankId);
       listCostCenter.push(
-        CostCenter.fromPrimitives(
-          { id: result._id.toString(), ...costCenter },
-          bank,
-        ),
+        CostCenter.fromPrimitives({ id: result._id.toString(), ...costCenter }),
       );
     }
     return listCostCenter;
