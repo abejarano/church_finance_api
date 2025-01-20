@@ -1,7 +1,7 @@
 import { IQueue } from "../../../Shared/domain";
 import {
   IAvailabilityAccountMasterRepository,
-  IFinancialConfigurationRepository,
+  IAvailabilityAccountRepository,
 } from "../../domain/interfaces";
 import {
   AvailabilityAccount,
@@ -12,14 +12,14 @@ import { UpdateAvailabilityAccountMaster } from "./UpdateAvailabilityAccountMast
 
 export class UpdateAvailabilityAccountBalance implements IQueue {
   constructor(
-    private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
+    private readonly availabilityAccountRepository: IAvailabilityAccountRepository,
     private readonly availabilityAccountMasterRepository: IAvailabilityAccountMasterRepository,
   ) {}
 
   async handle(args: UpdateAvailabilityAccountBalanceRequest): Promise<void> {
     logger.info(`UpdateAvailabilityAccountBalance`, args);
     const account: AvailabilityAccount =
-      await this.financialConfigurationRepository.findAvailabilityAccountByAvailabilityAccountId(
+      await this.availabilityAccountRepository.findAvailabilityAccountByAvailabilityAccountId(
         args.availabilityAccountId,
       );
 
@@ -29,9 +29,7 @@ export class UpdateAvailabilityAccountBalance implements IQueue {
       account.decreaseBalance(Number(args.amount));
     }
 
-    await this.financialConfigurationRepository.upsertAvailabilityAccount(
-      account,
-    );
+    await this.availabilityAccountRepository.upsert(account);
 
     logger.info(`UpdateAvailabilityAccountBalance finish`, account);
 

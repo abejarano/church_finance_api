@@ -1,9 +1,9 @@
-import { IFinancialConfigurationRepository } from "../../domain/interfaces";
+import { IAvailabilityAccountRepository } from "../../domain/interfaces";
 import { AvailabilityAccount, AvailabilityAccountRequest } from "../../domain";
 
 export class CreateOrUpdateAvailabilityAccount {
   constructor(
-    private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
+    private readonly availabilityAccountRepository: IAvailabilityAccountRepository,
   ) {}
 
   async execute(requestAvailabilityAccount: AvailabilityAccountRequest) {
@@ -13,7 +13,7 @@ export class CreateOrUpdateAvailabilityAccount {
     }
 
     const availabilityAccount: AvailabilityAccount =
-      await this.financialConfigurationRepository.findAvailabilityAccountByAvailabilityAccountId(
+      await this.availabilityAccountRepository.findAvailabilityAccountByAvailabilityAccountId(
         requestAvailabilityAccount.availabilityAccountId,
       );
 
@@ -23,9 +23,7 @@ export class CreateOrUpdateAvailabilityAccount {
       ? availabilityAccount.enable()
       : availabilityAccount.disable();
 
-    await this.financialConfigurationRepository.upsertAvailabilityAccount(
-      availabilityAccount,
-    );
+    await this.availabilityAccountRepository.upsert(availabilityAccount);
   }
 
   private async registerAvailabilityAccount(
@@ -37,8 +35,6 @@ export class CreateOrUpdateAvailabilityAccount {
       requestAvailabilityAccount.active,
       requestAvailabilityAccount.accountType,
     );
-    await this.financialConfigurationRepository.upsertAvailabilityAccount(
-      availabilityAccount,
-    );
+    await this.availabilityAccountRepository.upsert(availabilityAccount);
   }
 }

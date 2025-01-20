@@ -3,6 +3,7 @@ import { MovementBankRecord } from "../../MovementBank/applications";
 import { MovementBankMongoRepository } from "../../MovementBank/infraestructura/persistence";
 import {
   AvailabilityAccountMasterMongoRepository,
+  AvailabilityAccountMongoRepository,
   FinanceRecordMongoRepository,
   FinancialConfigurationMongoRepository,
 } from "./persistence";
@@ -23,12 +24,13 @@ export const FinancialQueue: IDefinitionQueue[] = [
       FinancialConfigurationMongoRepository.getInstance(),
       FinanceRecordMongoRepository.getInstance(),
       FinancialConfigurationMongoRepository.getInstance(),
+      AvailabilityAccountMongoRepository.getInstance(),
     ],
   },
   {
     useClass: UpdateAvailabilityAccountBalance,
     inject: [
-      FinancialConfigurationMongoRepository.getInstance(),
+      AvailabilityAccountMongoRepository.getInstance(),
       AvailabilityAccountMasterMongoRepository.getInstance(),
     ],
   },
