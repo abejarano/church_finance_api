@@ -10,7 +10,6 @@ export default async (req, res, next) => {
   const rule = {
     amount: "required|numeric",
     financialConceptId: "required|string",
-    //bankId: "requiredIf:moneyLocation,BANK|string",
     date: "required|dateFormat:YYYY-MM-DD",
     availabilityAccountId: "required|string",
   };

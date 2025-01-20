@@ -1,6 +1,10 @@
 import { HttpStatus, QueueName } from "../../../../Shared/domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { ConceptType, FinancialRecordRequest } from "../../../domain";
+import {
+  AccountType,
+  ConceptType,
+  FinancialRecordRequest,
+} from "../../../domain";
 import { RegisterFinancialRecord } from "../../../applications/financeRecord/RegisterFinancialRecord";
 import {
   QueueBullService,
@@ -16,7 +20,10 @@ import {
   MovementBankRequest,
   TypeBankingOperation,
 } from "../../../../MovementBank/domain";
-import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../../../applications";
+import {
+  FindAvailabilityAccountByAvailabilityAccountId,
+  FindFinancialConceptByChurchIdAndFinancialConceptId,
+} from "../../../applications";
 
 export const FinancialRecordController = async (
   request: FinancialRecordRequest,
@@ -27,6 +34,22 @@ export const FinancialRecordController = async (
       request.voucher = await StorageGCP.getInstance(
         process.env.BUCKET_FILES,
       ).uploadFile(request.file);
+    }
+
+    const availabilityAccount =
+      await new FindAvailabilityAccountByAvailabilityAccountId(
+        AvailabilityAccountMongoRepository.getInstance(),
+      ).execute(request.availabilityAccountId);
+
+    if (availabilityAccount.getType() === AccountType.BANK) {
+      if (!request.bankId) {
+        return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send({
+          bankId: {
+            message: "The bank id field is mandatory.",
+            rule: "required",
+          },
+        });
+      }
     }
 
     const financialConcept =
@@ -41,29 +64,31 @@ export const FinancialRecordController = async (
       AvailabilityAccountMongoRepository.getInstance(),
     ).handle(request, financialConcept);
 
-    const movementBank: MovementBankRequest = {
-      amount: request.amount,
-      bankingOperation: TypeBankingOperation.DEPOSIT,
-      concept: financialConcept.getName(),
-      bankId: request.bankId,
-    };
-
-    QueueBullService.getInstance().dispatch(
-      QueueName.MovementBankRecord,
-      movementBank,
-    );
-
-    QueueBullService.getInstance().dispatch(
-      QueueName.UpdateAvailabilityAccountBalance,
-      {
-        availabilityAccountId: request.availabilityAccountId,
+    if (availabilityAccount.getType() === AccountType.BANK) {
+      const movementBank: MovementBankRequest = {
         amount: request.amount,
-        operationType:
-          financialConcept.getType() === ConceptType.INCOME
-            ? "MONEY_IN"
-            : "MONEY_OUT",
-      },
-    );
+        bankingOperation: TypeBankingOperation.DEPOSIT,
+        concept: financialConcept.getName(),
+        bankId: request.bankId,
+      };
+
+      QueueBullService.getInstance().dispatch(
+        QueueName.MovementBankRecord,
+        movementBank,
+      );
+
+      QueueBullService.getInstance().dispatch(
+        QueueName.UpdateAvailabilityAccountBalance,
+        {
+          availabilityAccountId: request.availabilityAccountId,
+          amount: request.amount,
+          operationType:
+            financialConcept.getType() === ConceptType.INCOME
+              ? "MONEY_IN"
+              : "MONEY_OUT",
+        },
+      );
+    }
 
     res
       .status(HttpStatus.CREATED)

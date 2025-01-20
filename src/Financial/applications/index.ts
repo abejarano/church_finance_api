@@ -19,3 +19,4 @@ export { SearchFinanceRecord } from "./financeRecord/SearchFinanceRecord";
 export { CreateOrUpdateAvailabilityAccount } from "./availabilityAccount/CreateOrUpdateAvailabilityAccount";
 export { SearchAvailabilityAccountByChurchId } from "./availabilityAccount/SearchAvailabilityAccountByChurchId";
 export { UpdateAvailabilityAccountBalance } from "./availabilityAccount/UpdateAvailabilityAccountBalance";
+export { FindAvailabilityAccountByAvailabilityAccountId } from "./availabilityAccount/FindAvailabilityAccountByAvailabilityAccountId";
