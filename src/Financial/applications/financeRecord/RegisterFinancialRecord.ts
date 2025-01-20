@@ -3,6 +3,7 @@ import { IQueue } from "../../../Shared/domain";
 import { FinanceRecord } from "../../domain/FinanceRecord";
 import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator";
 import {
+  IAvailabilityAccountRepository,
   IFinancialConfigurationRepository,
   IFinancialRecordRepository,
 } from "../../domain/interfaces";
@@ -19,6 +20,7 @@ export class RegisterFinancialRecord implements IQueue {
     private readonly financialYearRepository: IFinancialYearRepository,
     private readonly financialRecordRepository: IFinancialRecordRepository,
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
+    private readonly availabilityAccountRepository: IAvailabilityAccountRepository,
   ) {}
 
   async handle(
@@ -32,7 +34,7 @@ export class RegisterFinancialRecord implements IQueue {
     );
 
     const availabilityAccount =
-      await this.financialConfigurationRepository.findAvailabilityAccountByAvailabilityAccountId(
+      await this.availabilityAccountRepository.findAvailabilityAccountByAvailabilityAccountId(
         args.availabilityAccountId,
       );
 
@@ -41,6 +43,9 @@ export class RegisterFinancialRecord implements IQueue {
     }
 
     if (!financialConcept) {
+      logger.info(
+        `Searching financial concept by churchId: ${args.churchId} and financialConceptId: ${args.financialConceptId}`,
+      );
       financialConcept =
         await new FindFinancialConceptByChurchIdAndFinancialConceptId(
           this.financialConfigurationRepository,
