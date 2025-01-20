@@ -1,11 +1,9 @@
-import { IChurchRepository } from "../../../Church/domain";
 import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 import { AvailabilityAccount, AvailabilityAccountRequest } from "../../domain";
 
 export class CreateOrUpdateAvailabilityAccount {
   constructor(
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
-    private readonly churchRepository: IChurchRepository,
   ) {}
 
   async execute(requestAvailabilityAccount: AvailabilityAccountRequest) {
@@ -20,7 +18,7 @@ export class CreateOrUpdateAvailabilityAccount {
       );
 
     availabilityAccount.setAccountName(requestAvailabilityAccount.accountName);
-    availabilityAccount.setNewBalance(requestAvailabilityAccount.balance);
+
     requestAvailabilityAccount.active
       ? availabilityAccount.enable()
       : availabilityAccount.disable();

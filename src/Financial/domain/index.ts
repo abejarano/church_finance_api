@@ -7,6 +7,7 @@ export { CostCenter } from "./CostCenter";
 export { FinancialConcept } from "./FinancialConcept";
 export { OnlineContributions } from "./OnlineContributions";
 export { AvailabilityAccount } from "./AvailabilityAccount";
+export { AvailabilityAccountMaster } from "./AvailabilityAccountMaster";
 
 export { BankNotFound } from "./exceptions/BankNotFound.exception";
 export { CostCenterNotFound } from "./exceptions/CostCenterNotFound.exception";
@@ -31,5 +32,6 @@ export {
 } from "./requests/FinancialRecord.request";
 export { FilterFinanceRecordRequest } from "./requests/FilterFinanceRecord.request";
 export { AvailabilityAccountRequest } from "./requests/AvailabilityAccount.request";
+export { UpdateAvailabilityAccountBalanceRequest } from "./requests/UpdateAvailabilityAccountBalance.request";
 
 export { IFinanceRecordDTO } from "./interfaces/FinanceRecordDTO.interface";

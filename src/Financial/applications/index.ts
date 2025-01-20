@@ -10,11 +10,12 @@ export { InitialLoadingFinancialConcepts } from "./financialConfiguration/Initia
 export { RegisterContributionsOnline } from "./contribution/RegisterContributionsOnline";
 export { ListContributions } from "./contribution/ListContributions";
 
-export { UpdateContributionStatus } from "./UpdateContributionStatus";
+export { UpdateContributionStatus } from "./contribution/UpdateContributionStatus";
 
 export { FindFinancialConceptByChurchIdAndFinancialConceptId } from "./financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId";
 
 export { SearchFinanceRecord } from "./financeRecord/SearchFinanceRecord";
 
-export { CreateOrUpdateAvailabilityAccount } from "./financialConfiguration/CreateOrUpdateAvailabilityAccount";
-export { SearchAvailabilityAccountByChurchId } from "./financialConfiguration/finders/SearchAvailabilityAccountByChurchId";
+export { CreateOrUpdateAvailabilityAccount } from "./availabilityAccount/CreateOrUpdateAvailabilityAccount";
+export { SearchAvailabilityAccountByChurchId } from "./availabilityAccount/SearchAvailabilityAccountByChurchId";
+export { UpdateAvailabilityAccountBalance } from "./availabilityAccount/UpdateAvailabilityAccountBalance";

@@ -1,5 +1,5 @@
-import { IFinancialConfigurationRepository } from "../../../domain/interfaces";
-import { AvailabilityAccount } from "../../../domain";
+import { IFinancialConfigurationRepository } from "../../domain/interfaces";
+import { AvailabilityAccount } from "../../domain";
 
 export class SearchAvailabilityAccountByChurchId {
   constructor(

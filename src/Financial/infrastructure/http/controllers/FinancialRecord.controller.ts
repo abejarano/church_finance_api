@@ -1,6 +1,6 @@
 import { HttpStatus, QueueName } from "../../../../Shared/domain";
 import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { FinancialRecordRequest } from "../../../domain";
+import { ConceptType, FinancialRecordRequest } from "../../../domain";
 import { RegisterFinancialRecord } from "../../../applications/financeRecord/RegisterFinancialRecord";
 import {
   QueueBullService,
@@ -49,6 +49,18 @@ export const FinancialRecordController = async (
     QueueBullService.getInstance().dispatch(
       QueueName.MovementBankRecord,
       movementBank,
+    );
+
+    QueueBullService.getInstance().dispatch(
+      QueueName.UpdateAvailabilityAccountBalance,
+      {
+        availabilityAccountId: request.availabilityAccountId,
+        amount: request.amount,
+        operationType:
+          financialConcept.getType() === ConceptType.INCOME
+            ? "MONEY_IN"
+            : "MONEY_OUT",
+      },
     );
 
     res

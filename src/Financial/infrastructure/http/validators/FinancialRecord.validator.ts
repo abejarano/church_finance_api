@@ -10,17 +10,12 @@ export default async (req, res, next) => {
   const rule = {
     amount: "required|numeric",
     financialConceptId: "required|string",
-    bankId: "requiredIf:moneyLocation,BANK|string",
+    //bankId: "requiredIf:moneyLocation,BANK|string",
     date: "required|dateFormat:YYYY-MM-DD",
-    moneyLocation: "required|string|in:BANK,CASH,WALLET,INVESTMENT",
+    availabilityAccountId: "required|string",
   };
 
-  const customMessage = {
-    "moneyLocation.in":
-      "Invalid value, accepted values are: BANK, CASH, WALLET, INVESTMENT.",
-  };
-
-  const v = new Validator(payload, rule, customMessage);
+  const v = new Validator(payload, rule);
 
   const matched = await v.check();
 

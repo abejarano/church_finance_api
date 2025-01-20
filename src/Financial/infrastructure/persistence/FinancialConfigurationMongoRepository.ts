@@ -73,7 +73,7 @@ export class FinancialConfigurationMongoRepository
       { churchId },
       { projection: { _id: 1, churchId: 1, availabilityAccounts: 1 } },
     );
-    console.log(result);
+
     if (!result.availabilityAccounts) {
       return [];
     }
