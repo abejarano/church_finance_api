@@ -1,0 +1,73 @@
+import { MongoRepository } from "../../../Shared/infrastructure";
+import { IAvailabilityAccountMasterRepository } from "../../domain/interfaces";
+import { AvailabilityAccountMaster } from "../../domain";
+
+export class AvailabilityAccountMasterMongoRepository
+  extends MongoRepository<AvailabilityAccountMaster>
+  implements IAvailabilityAccountMasterRepository
+{
+  private static instance: AvailabilityAccountMasterMongoRepository;
+
+  constructor() {
+    super();
+  }
+
+  static getInstance(): AvailabilityAccountMasterMongoRepository {
+    if (!AvailabilityAccountMasterMongoRepository.instance) {
+      AvailabilityAccountMasterMongoRepository.instance =
+        new AvailabilityAccountMasterMongoRepository();
+    }
+    return AvailabilityAccountMasterMongoRepository.instance;
+  }
+
+  collectionName(): string {
+    return "availability_accounts_master";
+  }
+
+  async findByAvailabilityAccountMasterId(
+    availabilityAccountMasterId: string,
+  ): Promise<AvailabilityAccountMaster | undefined> {
+    const collection = await this.collection();
+    const document = await collection.findOne({
+      availabilityAccountMasterId,
+    });
+    return document
+      ? AvailabilityAccountMaster.fromPrimitives({
+          ...document,
+          id: document._id,
+        })
+      : undefined;
+  }
+
+  async upsert(accountMaster: AvailabilityAccountMaster): Promise<void> {
+    const collection = await this.collection();
+
+    await collection.updateOne(
+      {
+        availabilityAccountMasterId:
+          accountMaster.getAvailabilityAccountMasterId(),
+      },
+      { $set: accountMaster.toPrimitives() },
+      { upsert: true },
+    );
+  }
+
+  async searchAvailabilityAccountMaster(
+    month: number,
+    year: number,
+  ): Promise<AvailabilityAccountMaster[] | undefined> {
+    const collection = await this.collection();
+    const documents = await collection.find({ month, year }).toArray();
+
+    if (!documents) {
+      return undefined;
+    }
+
+    return documents.map((document) =>
+      AvailabilityAccountMaster.fromPrimitives({
+        ...document,
+        id: document._id,
+      }),
+    );
+  }
+}

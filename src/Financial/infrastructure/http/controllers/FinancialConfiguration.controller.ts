@@ -147,7 +147,6 @@ export class FinancialConfigurationController {
     try {
       await new CreateOrUpdateAvailabilityAccount(
         FinancialConfigurationMongoRepository.getInstance(),
-        ChurchMongoRepository.getInstance(),
       ).execute(request);
 
       if (!request.availabilityAccountId) {

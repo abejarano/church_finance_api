@@ -1,5 +1,6 @@
 import { AccountType } from "./enums/AccountType.enum";
 import { IdentifyEntity } from "../../Shared/adapter";
+import { DateBR } from "../../Shared/helpers";
 
 export class AvailabilityAccount {
   private churchId: string;
@@ -9,6 +10,7 @@ export class AvailabilityAccount {
   private active: boolean;
   private accountType: AccountType;
   private lastMove: Date;
+  private createdAt: Date;
 
   static create(
     churchId: string,
@@ -23,6 +25,7 @@ export class AvailabilityAccount {
     account.balance = 0;
     account.active = active;
     account.accountType = accountType;
+    account.createdAt = DateBR();
 
     return account;
   }
@@ -52,11 +55,6 @@ export class AvailabilityAccount {
     return this.availabilityAccountId;
   }
 
-  setNewBalance(balance: number) {
-    this.balance = balance;
-    this.lastMove = new Date();
-  }
-
   setAccountName(accountName: string) {
     this.accountName = accountName;
   }
@@ -69,6 +67,16 @@ export class AvailabilityAccount {
     this.active = false;
   }
 
+  decreaseBalance(amount: number) {
+    this.balance -= amount;
+    this.lastMove = DateBR();
+  }
+
+  increaseBalance(amount: number) {
+    this.balance += amount;
+    this.lastMove = DateBR();
+  }
+
   toPrimitives() {
     return {
       churchId: this.churchId,
@@ -78,6 +86,7 @@ export class AvailabilityAccount {
       active: this.active,
       accountType: this.accountType,
       lastUpdate: this.lastMove,
+      createdAt: this.createdAt,
     };
   }
 }
