@@ -63,6 +63,10 @@ export class AvailabilityAccount extends AggregateRoot {
     return this.availabilityAccountId;
   }
 
+  getType(): AccountType {
+    return this.accountType;
+  }
+
   setAccountName(accountName: string) {
     this.accountName = accountName;
   }
