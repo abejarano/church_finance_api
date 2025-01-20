@@ -8,6 +8,7 @@ import {
 } from "../../../../Shared/infrastructure";
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure";
 import {
+  AvailabilityAccountMongoRepository,
   FinanceRecordMongoRepository,
   FinancialConfigurationMongoRepository,
 } from "../../persistence";
@@ -37,6 +38,7 @@ export const FinancialRecordController = async (
       FinancialYearMongoRepository.getInstance(),
       FinanceRecordMongoRepository.getInstance(),
       FinancialConfigurationMongoRepository.getInstance(),
+      AvailabilityAccountMongoRepository.getInstance(),
     ).handle(request, financialConcept);
 
     const movementBank: MovementBankRequest = {

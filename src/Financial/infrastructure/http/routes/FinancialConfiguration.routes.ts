@@ -10,6 +10,10 @@ import {
 } from "../../../domain";
 import { PermissionMiddleware } from "../../../../Shared/infrastructure";
 import AvailabilityAccountValidator from "../validators/AvailabilityAccount.validator";
+import {
+  createOrUpdateAvailabilityAccount,
+  listAvailabilityAccountByChurchId,
+} from "../controllers/AvailabilityAccount.controller";
 
 const financialConfigurationRoute = Router();
 
@@ -87,7 +91,7 @@ financialConfigurationRoute.post(
   "/availability-account/",
   [PermissionMiddleware, AvailabilityAccountValidator],
   async (req, res) => {
-    await FinancialConfigurationController.createOrUpdateAvailabilityAccount(
+    await createOrUpdateAvailabilityAccount(
       req.body as AvailabilityAccountRequest,
       res,
     );
@@ -99,10 +103,7 @@ financialConfigurationRoute.get(
   PermissionMiddleware,
   async (req, res) => {
     const { churchId } = req.params as any;
-    await FinancialConfigurationController.listAvailabilityAccountByChurchId(
-      churchId,
-      res,
-    );
+    await listAvailabilityAccountByChurchId(churchId, res);
   },
 );
 

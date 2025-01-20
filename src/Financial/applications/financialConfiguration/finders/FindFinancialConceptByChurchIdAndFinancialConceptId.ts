@@ -19,8 +19,6 @@ export class FindFinancialConceptByChurchIdAndFinancialConceptId {
       throw new GenericException("Financial concept not found");
     }
 
-    logger.info(`Financial concept found`);
-
     return financialConcept;
   }
 }

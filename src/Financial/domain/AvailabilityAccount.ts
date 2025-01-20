@@ -1,8 +1,10 @@
 import { AccountType } from "./enums/AccountType.enum";
 import { IdentifyEntity } from "../../Shared/adapter";
 import { DateBR } from "../../Shared/helpers";
+import { AggregateRoot } from "../../Shared/domain";
 
-export class AvailabilityAccount {
+export class AvailabilityAccount extends AggregateRoot {
+  private id?: string;
   private churchId: string;
   private availabilityAccountId: string;
   private accountName: string;
@@ -39,8 +41,14 @@ export class AvailabilityAccount {
     account.active = plainData.active;
     account.accountType = plainData.accountType;
     account.lastMove = plainData.lastMove;
+    account.createdAt = plainData.createdAt;
+    account.id = plainData._id;
 
     return account;
+  }
+
+  getId(): string {
+    return this.id;
   }
 
   getChurchId() {

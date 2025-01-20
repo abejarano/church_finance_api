@@ -1,11 +1,5 @@
 import { MongoRepository } from "../../../Shared/infrastructure";
-import {
-  AvailabilityAccount,
-  Bank,
-  ConceptType,
-  CostCenter,
-  FinancialConcept,
-} from "../../domain";
+import { Bank, ConceptType, CostCenter, FinancialConcept } from "../../domain";
 import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 
 export class FinancialConfigurationMongoRepository
@@ -28,63 +22,6 @@ export class FinancialConfigurationMongoRepository
 
   collectionName(): string {
     return "churches";
-  }
-
-  async findAvailabilityAccountByAvailabilityAccountId(
-    availabilityAccountId: string,
-  ): Promise<AvailabilityAccount> {
-    const collection = await this.collection<{
-      availabilityAccounts: AvailabilityAccount[];
-      churchId: string;
-    }>();
-
-    const result = await collection.findOne(
-      {
-        "availabilityAccounts.availabilityAccountId": availabilityAccountId,
-      },
-      {
-        projection: {
-          _id: 1,
-          churchId: 1,
-          "availabilityAccounts.$": 1,
-        },
-      },
-    );
-
-    if (!result) {
-      return undefined;
-    }
-
-    return AvailabilityAccount.fromPrimitives({
-      churchId: result.churchId,
-      ...result.availabilityAccounts[0],
-    });
-  }
-
-  async searchAvailabilityAccountsByChurchId(
-    churchId: string,
-  ): Promise<AvailabilityAccount[]> {
-    const collection = await this.collection<{
-      availabilityAccounts: AvailabilityAccount[];
-      churchId: string;
-    }>();
-
-    const result = await collection.findOne(
-      { churchId },
-      { projection: { _id: 1, churchId: 1, availabilityAccounts: 1 } },
-    );
-
-    if (!result.availabilityAccounts) {
-      return [];
-    }
-
-    return result.availabilityAccounts.map((account: any) =>
-      AvailabilityAccount.fromPrimitives({
-        id: result._id.toString(),
-        churchId: result.churchId,
-        ...account,
-      }),
-    );
   }
 
   async searchBanksByChurchId(churchId: string): Promise<Bank[]> {
@@ -130,30 +67,6 @@ export class FinancialConfigurationMongoRepository
     await collection.updateOne(
       { churchId: bank.getChurchId() },
       { $push: { banks: bank.toPrimitives() } },
-      { upsert: true },
-    );
-  }
-
-  async upsertAvailabilityAccount(
-    availabilityAccount: AvailabilityAccount,
-  ): Promise<void> {
-    const collection = await this.collection();
-
-    await collection.updateOne(
-      { churchId: availabilityAccount.getChurchId() },
-      {
-        $pull: {
-          availabilityAccounts: {
-            availabilityAccountId:
-              availabilityAccount.getAvailabilityAccountId(),
-          },
-        },
-      },
-    );
-
-    await collection.updateOne(
-      { churchId: availabilityAccount.getChurchId() },
-      { $push: { availabilityAccounts: availabilityAccount.toPrimitives() } },
       { upsert: true },
     );
   }

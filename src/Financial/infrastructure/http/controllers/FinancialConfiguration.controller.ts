@@ -1,17 +1,10 @@
 import domainResponse from "../../../../Shared/helpers/domainResponse";
+import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
 import {
-  AvailabilityAccountRequest,
-  BankRequest,
-  ConceptType,
-  CostCenterRequest,
-} from "../../../domain";
-import {
-  CreateOrUpdateAvailabilityAccount,
   CreateOrUpdateBank,
   FinBankByBankId,
   FindCostCenterByChurchId,
   FindFinancialConceptsByChurchIdAndTypeConcept,
-  SearchAvailabilityAccountByChurchId,
   SearchBankByChurchId,
 } from "../../../applications";
 import { FinancialConfigurationMongoRepository } from "../../persistence";
@@ -123,42 +116,6 @@ export class FinancialConfigurationController {
       ).execute(churchId);
 
       res.status(HttpStatus.OK).send(bank);
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
-  static async listAvailabilityAccountByChurchId(churchId: string, res) {
-    try {
-      const availabilityAccount = await new SearchAvailabilityAccountByChurchId(
-        FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(churchId);
-
-      res.status(HttpStatus.OK).send(availabilityAccount);
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
-  static async createOrUpdateAvailabilityAccount(
-    request: AvailabilityAccountRequest,
-    res,
-  ) {
-    try {
-      await new CreateOrUpdateAvailabilityAccount(
-        FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(request);
-
-      if (!request.availabilityAccountId) {
-        res
-          .status(HttpStatus.CREATED)
-          .send({ message: "Registered availability account" });
-        return;
-      }
-
-      res
-        .status(HttpStatus.OK)
-        .send({ message: "Updated availability account" });
     } catch (e) {
       domainResponse(e, res);
     }

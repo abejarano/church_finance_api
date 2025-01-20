@@ -1,13 +1,13 @@
-import { IFinancialConfigurationRepository } from "../../domain/interfaces";
+import { IAvailabilityAccountRepository } from "../../domain/interfaces";
 import { AvailabilityAccount } from "../../domain";
 
 export class SearchAvailabilityAccountByChurchId {
   constructor(
-    private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
+    private readonly availabilityAccountRepository: IAvailabilityAccountRepository,
   ) {}
 
   async execute(churchId: string): Promise<AvailabilityAccount[]> {
-    return this.financialConfigurationRepository.searchAvailabilityAccountsByChurchId(
+    return this.availabilityAccountRepository.searchAvailabilityAccountsByChurchId(
       churchId,
     );
   }
