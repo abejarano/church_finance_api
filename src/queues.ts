@@ -4,32 +4,13 @@ import {
   PasswordAdapter,
   UserMongoRepository,
 } from "./SecuritySystem/infrastructure";
-import { MovementBankMongoRepository } from "./MovementBank/infraestructura/persistence";
-import { MovementBankRecord } from "./MovementBank/applications";
 import { InitialLoadingFinancialConcepts } from "./Financial/applications";
-import {
-  FinanceRecordMongoRepository,
-  FinancialConfigurationMongoRepository,
-} from "./Financial/infrastructure";
+import { FinancialConfigurationMongoRepository } from "./Financial/infrastructure";
 import { ChurchMongoRepository } from "./Church/infrastructure";
-import { RegisterFinancialRecord } from "./Financial/applications/financeRecord/RegisterFinancialRecord";
+import { FinancialQueue } from "./Financial/infrastructure/financal.queue";
 
 export const Queues: IDefinitionQueue[] = [
-  {
-    useClass: MovementBankRecord,
-    inject: [
-      MovementBankMongoRepository.getInstance(),
-      FinancialConfigurationMongoRepository.getInstance(),
-    ],
-  },
-  {
-    useClass: RegisterFinancialRecord,
-    inject: [
-      FinancialConfigurationMongoRepository.getInstance(),
-      FinanceRecordMongoRepository.getInstance(),
-      FinancialConfigurationMongoRepository.getInstance(),
-    ],
-  },
+  ...FinancialQueue,
   {
     useClass: CreateUserForMember,
     inject: [UserMongoRepository.getInstance(), new PasswordAdapter()],

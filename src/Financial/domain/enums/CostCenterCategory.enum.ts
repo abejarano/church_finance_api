@@ -1,0 +1,5 @@
+export enum CostCenterCategory {
+  ESPECIAL_PROJECT = "ESPECIAL_PROJECT",
+  "MINISTRIES" = "MINISTRIES",
+  "OPERATIONS" = "OPERATIONS",
+}

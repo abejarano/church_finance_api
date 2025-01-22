@@ -6,7 +6,10 @@ import { ConceptType } from "../enums/ConcepType.enum";
 export interface IFinancialConfigurationRepository {
   findBankByBankId(bankId: string): Promise<Bank>;
 
-  findCostCenterByCostCenterId(costCenterId: string): Promise<CostCenter>;
+  findCostCenterByCostCenterId(
+    costCenterId: string,
+    churchId: string,
+  ): Promise<CostCenter>;
 
   findFinancialConceptsByChurchIdAndTypeConcept(
     churchId: string,

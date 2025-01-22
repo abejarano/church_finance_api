@@ -17,8 +17,8 @@ export default async (list: Paginate<any>) => {
       amount: item.amount,
       date: item.date,
       type: item.type,
-      moneyLocation: item.moneyLocation,
       voucher: item.voucher,
+      availabilityAccount: item.availabilityAccount,
       description: item.description,
     });
   }

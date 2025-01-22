@@ -1,5 +1,5 @@
-import { ContributionNotFound, OnlineContributionsStatus } from "../domain";
-import { IOnlineContributionsRepository } from "../domain/interfaces";
+import { ContributionNotFound, OnlineContributionsStatus } from "../../domain";
+import { IOnlineContributionsRepository } from "../../domain/interfaces";
 
 export class UpdateContributionStatus {
   constructor(

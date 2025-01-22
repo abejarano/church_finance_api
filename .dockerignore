@@ -2,7 +2,7 @@
 node_modules/
 
 # TypeScript build folder
-.build
+.dist/
 
 # Coverage
 .nyc_output
