@@ -53,11 +53,28 @@ export class AvailabilityAccountMasterMongoRepository
   }
 
   async searchAvailabilityAccountMaster(
+    churchId: string,
     month: number,
     year: number,
   ): Promise<AvailabilityAccountMaster[] | undefined> {
     const collection = await this.collection();
-    const documents = await collection.find({ month, year }).toArray();
+
+    const documents = await collection
+      .aggregate([
+        {
+          $search: {
+            index: "availabilityAccountMasterIndex",
+            compound: {
+              must: [
+                { text: { query: churchId, path: "churchId" } },
+                { equals: { value: month, path: "month" } },
+                { equals: { value: year, path: "year" } },
+              ],
+            },
+          },
+        },
+      ])
+      .toArray();
 
     if (!documents) {
       return undefined;
