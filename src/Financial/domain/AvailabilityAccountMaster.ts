@@ -5,7 +5,10 @@ import { AvailabilityAccount } from "./AvailabilityAccount";
 export class AvailabilityAccountMaster extends AggregateRoot {
   private id?: string;
   private churchId: string;
-  private availabilityAccountId: string;
+  private availabilityAccount: {
+    availabilityAccountId: string;
+    accountName: string;
+  };
   private availabilityAccountMasterId: string;
   private month: number;
   private year: number;
@@ -19,8 +22,11 @@ export class AvailabilityAccountMaster extends AggregateRoot {
     availabilityAccountMaster.year = new Date().getFullYear();
     availabilityAccountMaster.totalOutput = 0;
     availabilityAccountMaster.totalInput = 0;
-    availabilityAccountMaster.availabilityAccountId =
-      availabilityAccount.getAvailabilityAccountId();
+    availabilityAccountMaster.availabilityAccount = {
+      availabilityAccountId: availabilityAccount.getAvailabilityAccountId(),
+      accountName: availabilityAccount.getAccountName(),
+    };
+    availabilityAccount.getAvailabilityAccountId();
     availabilityAccountMaster.availabilityAccountMasterId =
       IdentifyAvailabilityAccountMaster(
         availabilityAccount.getAvailabilityAccountId(),
@@ -38,8 +44,8 @@ export class AvailabilityAccountMaster extends AggregateRoot {
     availabilityAccountMaster.year = plainData.year;
     availabilityAccountMaster.totalOutput = plainData.totalOutput;
     availabilityAccountMaster.totalInput = plainData.totalInput;
-    availabilityAccountMaster.availabilityAccountId =
-      plainData.availabilityAccountId;
+    availabilityAccountMaster.availabilityAccount =
+      plainData.availabilityAccount;
     availabilityAccountMaster.availabilityAccountMasterId =
       plainData.availabilityAccountMasterId;
     availabilityAccountMaster.churchId = plainData.churchId;
@@ -73,7 +79,7 @@ export class AvailabilityAccountMaster extends AggregateRoot {
       year: this.year,
       totalOutput: this.totalOutput,
       totalInput: this.totalInput,
-      availabilityAccountId: this.availabilityAccountId,
+      availabilityAccount: this.availabilityAccount,
       availabilityAccountMasterId: this.availabilityAccountMasterId,
       churchId: this.churchId,
     };
