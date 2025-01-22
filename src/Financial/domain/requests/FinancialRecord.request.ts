@@ -1,4 +1,3 @@
-import { MoneyLocation } from "../enums/MoneyLocation.enum";
 import { TypeBankingOperation } from "../../../MovementBank/domain";
 
 export type FinancialRecordQueueRequest = {
@@ -6,7 +5,7 @@ export type FinancialRecordQueueRequest = {
   churchId: string;
   amount: number;
   date: Date;
-  moneyLocation: MoneyLocation;
+  availabilityAccountId: string;
   voucher?: string;
   description?: string;
 };

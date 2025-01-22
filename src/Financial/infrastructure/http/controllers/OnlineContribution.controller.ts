@@ -1,4 +1,6 @@
 import {
+  AvailabilityAccountNotFound,
+  ConceptType,
   ContributionRequest,
   FilterContributionsRequest,
   OnlineContributions,
@@ -13,7 +15,7 @@ import {
   RegisterContributionsOnline,
   UpdateContributionStatus,
 } from "../../../applications";
-import { HttpStatus, Paginate } from "../../../../Shared/domain";
+import { HttpStatus, Paginate, QueueName } from "../../../../Shared/domain";
 import {
   logger,
   QueueBullService,
@@ -21,6 +23,7 @@ import {
 } from "../../../../Shared/infrastructure";
 import MemberContributionsDTO from "../dto/MemberContributions.dto";
 import {
+  AvailabilityAccountMongoRepository,
   FinancialConfigurationMongoRepository,
   OnlineContributionsMongoRepository,
 } from "../../persistence";
@@ -42,12 +45,33 @@ export const onlineContributionsController = async (
         FinancialConfigurationMongoRepository.getInstance(),
       ).execute(member.getChurchId(), request.financialConceptId);
 
+    const availabilityAccount =
+      await AvailabilityAccountMongoRepository.getInstance().findAvailabilityAccountByAvailabilityAccountId(
+        request.availabilityAccountId,
+      );
+
+    if (!availabilityAccount) {
+      throw new AvailabilityAccountNotFound();
+    }
+
     await new RegisterContributionsOnline(
       OnlineContributionsMongoRepository.getInstance(),
       StorageGCP.getInstance(process.env.BUCKET_FILES),
       QueueBullService.getInstance(),
       FinancialYearMongoRepository.getInstance(),
-    ).execute(request, member, financialConcept);
+    ).execute(request, availabilityAccount, member, financialConcept);
+
+    QueueBullService.getInstance().dispatch(
+      QueueName.UpdateAvailabilityAccountBalance,
+      {
+        availabilityAccountId: request.availabilityAccountId,
+        amount: request.amount,
+        operationType:
+          financialConcept.getType() === ConceptType.INCOME
+            ? "MONEY_IN"
+            : "MONEY_OUT",
+      },
+    );
 
     res
       .status(HttpStatus.CREATED)

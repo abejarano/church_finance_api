@@ -2,15 +2,21 @@ import domainResponse from "../../../../Shared/helpers/domainResponse";
 import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
 import {
   CreateOrUpdateBank,
-  CreateOrUpdateCostCenter,
   FinBankByBankId,
   FindCostCenterByChurchId,
   FindFinancialConceptsByChurchIdAndTypeConcept,
   SearchBankByChurchId,
 } from "../../../applications";
-import { FinancialConfigurationMongoRepository } from "../../persistence/FinancialConfigurationMongoRepository";
+import { FinancialConfigurationMongoRepository } from "../../persistence";
 import { HttpStatus } from "../../../../Shared/domain";
-import { ChurchMongoRepository } from "../../../../Church/infrastructure";
+import {
+  ChurchMongoRepository,
+  MemberMongoRepository,
+} from "../../../../Church/infrastructure";
+import {
+  CreateCostCenter,
+  UpdateCostCenter,
+} from "../../../applications/financialConfiguration";
 
 export class FinancialConfigurationController {
   static async findCostCenterByChurchId(churchId: string, res) {
@@ -25,20 +31,33 @@ export class FinancialConfigurationController {
     }
   }
 
-  static async createOrUpdateCostCenter(costCenter: CostCenterRequest, res) {
+  static async createCostCenter(costCenter: CostCenterRequest, res) {
     try {
-      await new CreateOrUpdateCostCenter(
+      await new CreateCostCenter(
         FinancialConfigurationMongoRepository.getInstance(),
+        MemberMongoRepository.getInstance(),
       ).execute(costCenter);
 
-      if (!costCenter.costCenterId) {
-        res
-          .status(HttpStatus.CREATED)
-          .send({ message: "Registered cost center" });
-        return;
-      }
+      res
+        .status(HttpStatus.CREATED)
+        .send({ message: "Registered cost center" });
+      return;
+    } catch (e) {
+      domainResponse(e, res);
+    }
+  }
 
-      res.status(HttpStatus.OK).send({ message: "Updated cost center" });
+  static async updateCostCenter(costCenter: CostCenterRequest, res) {
+    try {
+      await new UpdateCostCenter(
+        FinancialConfigurationMongoRepository.getInstance(),
+        MemberMongoRepository.getInstance(),
+      ).execute(costCenter);
+
+      res
+        .status(HttpStatus.CREATED)
+        .send({ message: "Registered cost center" });
+      return;
     } catch (e) {
       domainResponse(e, res);
     }

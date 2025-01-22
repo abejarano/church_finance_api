@@ -43,7 +43,7 @@ export class MemberController {
         MemberMongoRepository.getInstance(),
       ).execute(memberId);
 
-      res.status(HttpStatus.OK).send({ data: member });
+      res.status(HttpStatus.OK).send(member);
     } catch (e) {
       domainResponse(e, res);
     }

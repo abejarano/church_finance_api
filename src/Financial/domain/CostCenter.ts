@@ -1,37 +1,60 @@
-import { AggregateRoot } from "../../Shared/domain";
-import { Bank } from "./Bank";
-import { IdentifyEntity } from "../../Shared/adapter";
 import { DateBR } from "../../Shared/helpers";
+import { Member } from "../../Church/domain";
+import { CostCenterCategory } from "./enums/CostCenterCategory.enum";
+import { CostCenterRequest } from "./requests/CostCenter.request";
 
-export class CostCenter extends AggregateRoot {
-  private id?: string;
+export class CostCenter {
   private costCenterId: string;
   private active: boolean;
   private name: string;
+  private description?: string;
+  private responsible: {
+    name: string;
+    email: string;
+    phone: string;
+  };
   private churchId: string;
-  private bank: Bank;
+  private category: CostCenterCategory;
   private createdAt: Date;
 
-  static create(active: boolean, name: string, bank: Bank): CostCenter {
+  static create(
+    costCenterId: string,
+    active: boolean,
+    name: string,
+    churchId: string,
+    responsibleMember: Member,
+    category: CostCenterCategory,
+    description?: string,
+  ): CostCenter {
     const costCenter: CostCenter = new CostCenter();
+    costCenter.costCenterId = costCenterId;
     costCenter.active = active;
-    costCenter.costCenterId = IdentifyEntity.get();
     costCenter.name = name;
-    costCenter.churchId = bank.getChurchId();
-    costCenter.bank = bank;
+    costCenter.churchId = churchId;
+    costCenter.description = description;
     costCenter.createdAt = DateBR();
+    costCenter.responsible = {
+      name: responsibleMember.getName(),
+      email: responsibleMember.getEmail(),
+      phone: responsibleMember.getPhone(),
+    };
+    costCenter.category = category;
+
     return costCenter;
   }
 
-  static fromPrimitives(plainData: any, bank: Bank): CostCenter {
+  static fromPrimitives(plainData: any): CostCenter {
     const costCenter: CostCenter = new CostCenter();
-    costCenter.id = plainData.id;
+
     costCenter.active = plainData.active;
     costCenter.costCenterId = plainData.costCenterId;
     costCenter.name = plainData.name;
     costCenter.churchId = plainData.churchId;
-    costCenter.bank = bank;
     costCenter.createdAt = plainData.createdAt;
+    costCenter.description = plainData.description;
+    costCenter.responsible = plainData.responsible;
+    costCenter.category = plainData.category;
+
     return costCenter;
   }
 
@@ -39,37 +62,35 @@ export class CostCenter extends AggregateRoot {
     return this.costCenterId;
   }
 
-  getId(): string {
-    return this.id;
-  }
-
   getChurchId(): string {
     return this.churchId;
   }
 
-  setName(name: string): void {
-    this.name = name;
+  getCategory(): CostCenterCategory {
+    return this.category;
   }
 
-  setBank(bank: Bank): void {
-    this.bank = bank;
-  }
-
-  disable(): void {
-    this.active = false;
-  }
-
-  enable(): void {
-    this.active = true;
+  setUpdateDate(request: CostCenterRequest, responsibleMember: Member) {
+    this.active = request.active;
+    this.name = request.name;
+    this.description = request.description;
+    this.responsible = {
+      name: responsibleMember.getName(),
+      email: responsibleMember.getEmail(),
+      phone: responsibleMember.getPhone(),
+    };
+    this.category = request.category;
   }
 
   toPrimitives(): any {
     return {
+      category: this.category,
+      responsible: this.responsible,
       active: this.active,
       costCenterId: this.costCenterId,
       name: this.name,
+      description: this.description,
       churchId: this.churchId,
-      bankId: this.bank.getBankId(),
       createdAt: this.createdAt,
     };
   }

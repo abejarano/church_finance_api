@@ -1,8 +1,8 @@
 import {
+  AvailabilityAccount,
   ContributionRequest,
   FinancialConcept,
   FinancialRecordQueueRequest,
-  MoneyLocation,
   OnlineContributions,
 } from "../../domain";
 import {
@@ -32,6 +32,7 @@ export class RegisterContributionsOnline {
 
   async execute(
     contributionRequest: ContributionRequest,
+    availabilityAccount: AvailabilityAccount,
     member: Member,
     financialConcept: FinancialConcept,
   ) {
@@ -69,7 +70,7 @@ export class RegisterContributionsOnline {
       amount: contributionRequest.amount,
       churchId: member.getChurchId(),
       date: DateBR(),
-      moneyLocation: MoneyLocation.BANK,
+      availabilityAccountId: availabilityAccount.getAvailabilityAccountId(),
       voucher,
     };
 
