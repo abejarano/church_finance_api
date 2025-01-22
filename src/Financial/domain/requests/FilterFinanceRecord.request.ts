@@ -1,8 +1,6 @@
-import { MoneyLocation } from "../enums/MoneyLocation.enum";
-
 export type FilterFinanceRecordRequest = {
   financialConceptId?: string;
-  moneyLocation?: MoneyLocation;
+  availabilityAccountId?: string;
   churchId: string;
   startDate?: Date;
   endDate?: Date;
