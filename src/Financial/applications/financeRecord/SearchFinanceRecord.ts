@@ -26,6 +26,16 @@ export class SearchFinanceRecord {
   private prepareCriteria(request: FilterFinanceRecordRequest) {
     const filters = [];
 
+    if (request.availabilityAccountId) {
+      filters.push(
+        new Map([
+          ["field", "availabilityAccount.availabilityAccountId"],
+          ["operator", Operator.EQUAL],
+          ["value", request.availabilityAccountId],
+        ]),
+      );
+    }
+
     if (request.churchId) {
       filters.push(
         new Map([
@@ -42,16 +52,6 @@ export class SearchFinanceRecord {
           ["field", "financialConceptId"],
           ["operator", Operator.EQUAL],
           ["value", request.financialConceptId],
-        ]),
-      );
-    }
-
-    if (request.moneyLocation) {
-      filters.push(
-        new Map([
-          ["field", "moneyLocation"],
-          ["operator", Operator.EQUAL],
-          ["value", request.moneyLocation],
         ]),
       );
     }

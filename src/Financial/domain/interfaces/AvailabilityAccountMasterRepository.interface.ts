@@ -6,6 +6,7 @@ export interface IAvailabilityAccountMasterRepository {
   ): Promise<AvailabilityAccountMaster | undefined>;
 
   searchAvailabilityAccountMaster(
+    churchId: string,
     month: number,
     year: number,
   ): Promise<AvailabilityAccountMaster[] | undefined>;
