@@ -1,7 +1,7 @@
-import { AccountType } from './enums/AccountType.enum'
-import { IdentifyEntity } from '../../Shared/adapter'
-import { DateBR } from '../../Shared/helpers'
-import { AggregateRoot } from '../../Shared/domain'
+import { AccountType } from "./enums/AccountType.enum"
+import { IdentifyEntity } from "../../Shared/adapter"
+import { DateBR } from "../../Shared/helpers"
+import { AggregateRoot } from "../../Shared/domain"
 
 export class AvailabilityAccount extends AggregateRoot {
   private id?: string
@@ -18,7 +18,7 @@ export class AvailabilityAccount extends AggregateRoot {
     churchId: string,
     accountName: string,
     active: boolean,
-    accountType: AccountType,
+    accountType: AccountType
   ): AvailabilityAccount {
     const account: AvailabilityAccount = new AvailabilityAccount()
     account.churchId = churchId

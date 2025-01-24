@@ -1,6 +1,6 @@
-import { IdentifyEntity } from '../../Shared/adapter'
-import { Church } from './Church'
-import { DateBR } from '../../Shared/helpers'
+import { IdentifyEntity } from "../../Shared/adapter"
+import { Church } from "./Church"
+import { DateBR } from "../../Shared/helpers"
 
 export class Member {
   public isTreasurer: boolean
@@ -27,7 +27,7 @@ export class Member {
     conversionDate: Date,
     isTreasurer: boolean,
     isMinister: boolean,
-    baptismDate?: Date,
+    baptismDate?: Date
   ): Member {
     const m: Member = new Member()
     m.name = name

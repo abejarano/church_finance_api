@@ -1,7 +1,7 @@
-import { IDefinitionQueue, IQueueService, QueueName } from '../../domain'
-import * as fs from 'fs'
-import * as Queue from 'bull'
-import * as path from 'path'
+import { IDefinitionQueue, IQueueService, QueueName } from "../../domain"
+import * as fs from "fs"
+import * as Queue from "bull"
+import * as path from "path"
 
 export class QueueBullService implements IQueueService {
   private static instance: QueueBullService
@@ -36,7 +36,7 @@ export class QueueBullService implements IQueueService {
       }
 
       const instanceWorker = new definitionQueue.useClass(
-        ...definitionQueue.inject,
+        ...definitionQueue.inject
       )
 
       worker.process(async (job) => await instanceWorker.handle(job.data))
@@ -64,11 +64,11 @@ export class QueueBullService implements IQueueService {
         redis: this.redisOptions,
       })
 
-      instance.on('ready', () =>
-        console.log(`Queue ${queue.useClass.name} is connected to Redis`),
+      instance.on("ready", () =>
+        console.log(`Queue ${queue.useClass.name} is connected to Redis`)
       )
-      instance.on('error', (error) =>
-        console.error(`Error in queue ${queue.useClass.name}:`, error),
+      instance.on("error", (error) =>
+        console.error(`Error in queue ${queue.useClass.name}:`, error)
       )
 
       this.instanceQueuesBull.push(instance)
@@ -76,30 +76,30 @@ export class QueueBullService implements IQueueService {
     })
 
     this.generateEnumFile(
-      'QueueName',
-      path.resolve(`${__dirname}../../../domain/enums`, 'QueueName.enum.ts'),
+      "QueueName",
+      path.resolve(`${__dirname}../../../domain/enums`, "QueueName.enum.ts")
     )
   }
 
   private generateEnumFile(enumName: string, outputPath: string) {
     const enumContent = Object.keys(this.queueMap)
       .map((key) => `  ${key} = "${key}",`)
-      .join('\n')
+      .join("\n")
 
     const fileContent = `export enum ${enumName} {\n${enumContent}\n}\n`
 
     if (fs.existsSync(outputPath)) {
-      const existingContent = fs.readFileSync(outputPath, 'utf8')
+      const existingContent = fs.readFileSync(outputPath, "utf8")
       if (existingContent === fileContent) return // El archivo ya está actualizado
     }
 
-    fs.writeFileSync(outputPath, fileContent, 'utf8')
+    fs.writeFileSync(outputPath, fileContent, "utf8")
     console.log(`Enum file generated at ${outputPath}`)
   }
 
   private addWorkerListeners(worker: Queue.Queue) {
-    worker.on('failed', (job, err) =>
-      console.error(`Job failed in queue: ${worker.name}`, err),
+    worker.on("failed", (job, err) =>
+      console.error(`Job failed in queue: ${worker.name}`, err)
     )
   }
 }

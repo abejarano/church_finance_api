@@ -1,5 +1,5 @@
-import { OrderBy } from './order-by'
-import { OrderType, OrderTypes } from './order-type'
+import { OrderBy } from "./order-by"
+import { OrderType, OrderTypes } from "./order-type"
 
 export class Order {
   readonly orderBy: OrderBy
@@ -17,12 +17,12 @@ export class Order {
 
     return new Order(
       new OrderBy(orderBy),
-      OrderType.fromValue(orderType || OrderTypes.ASC),
+      OrderType.fromValue(orderType || OrderTypes.ASC)
     )
   }
 
   static none(): Order {
-    return new Order(new OrderBy(''), new OrderType(OrderTypes.NONE))
+    return new Order(new OrderBy(""), new OrderType(OrderTypes.NONE))
   }
 
   static desc(orderBy: string): Order {

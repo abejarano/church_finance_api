@@ -1,16 +1,16 @@
 import {
   ICostCenterMasterRepository,
   IFinancialConfigurationRepository,
-} from '../../domain/interfaces'
-import { logger } from '../../../Shared/infrastructure'
-import { CostCenter, CostCenterMaster } from '../../domain'
-import MasterBalanceIdentifier from '../helpers/MasterBalanceIdentifier'
-import { IQueue } from '../../../Shared/domain'
+} from "../../domain/interfaces"
+import { logger } from "../../../Shared/infrastructure"
+import { CostCenter, CostCenterMaster } from "../../domain"
+import MasterBalanceIdentifier from "../helpers/MasterBalanceIdentifier"
+import { IQueue } from "../../../Shared/domain"
 
 export class UpdateCostCenterMaster implements IQueue {
   constructor(
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
-    private readonly costCenterMasterRepository: ICostCenterMasterRepository,
+    private readonly costCenterMasterRepository: ICostCenterMasterRepository
   ) {}
 
   async handle(args: {
@@ -31,11 +31,12 @@ export class UpdateCostCenterMaster implements IQueue {
     const costCenter: CostCenter =
       await this.financialConfigurationRepository.findCostCenterByCostCenterId(
         costCenterId,
-        churchId,
+        churchId
       )
 
     let costCenterMaster = await this.costCenterMasterRepository.one(identify)
-    if (!costCenter) {
+
+    if (!costCenterMaster) {
       costCenterMaster = CostCenterMaster.create(costCenter)
     }
 

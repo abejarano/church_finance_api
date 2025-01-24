@@ -1,6 +1,6 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { IUserRepository, User } from '../../domain'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IUserRepository, User } from "../../domain"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export class UserMongoRepository
   extends MongoRepository<User>
@@ -20,7 +20,7 @@ export class UserMongoRepository
   }
 
   collectionName(): string {
-    return 'bk_users'
+    return "bk_users"
   }
 
   async upsert(user: User): Promise<void> {

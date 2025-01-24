@@ -1,9 +1,9 @@
-import { AggregateRoot } from '../../Shared/domain'
+import { AggregateRoot } from "../../Shared/domain"
 //import { Minister, Region } from "../../OrganizacionalStructure/domain";
-import { IdentifyEntity } from '../../Shared/adapter'
-import { ChurchStatus } from './enums/ChurchStatus.enum'
-import { Minister } from './Minister'
-import { DateBR } from '../../Shared/helpers'
+import { IdentifyEntity } from "../../Shared/adapter"
+import { ChurchStatus } from "./enums/ChurchStatus.enum"
+import { Minister } from "./Minister"
+import { DateBR } from "../../Shared/helpers"
 
 export class Church extends AggregateRoot {
   private id?: string
@@ -32,7 +32,7 @@ export class Church extends AggregateRoot {
     email: string,
     openingDate: Date,
     //region: Region,
-    registerNumber?: string,
+    registerNumber?: string
   ): Church {
     const c: Church = new Church()
 
@@ -109,7 +109,7 @@ export class Church extends AggregateRoot {
     address: string,
     street: string,
     number: string,
-    postalCode: string,
+    postalCode: string
   ) {
     this.city = city
     this.address = address

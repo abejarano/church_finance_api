@@ -4,16 +4,16 @@ import {
   Criteria,
   Filters,
   Order,
-} from '../../domain/criteria'
+} from "../../domain/criteria"
 
 type MongoFilterOperator =
-  | '$eq'
-  | '$ne'
-  | '$gt'
-  | '$lt'
-  | '$regex'
-  | '$lte'
-  | '$gte'
+  | "$eq"
+  | "$ne"
+  | "$gt"
+  | "$lt"
+  | "$regex"
+  | "$lte"
+  | "$gte"
 
 type MongoFilterBetween = {
   [p: string]: { $gte: Date; $lte: Date }
@@ -95,7 +95,7 @@ export class MongoCriteriaConverter {
 
   protected generateSort(order: Order): MongoSort {
     return <MongoSort>{
-      [order.orderBy.value === 'id' ? '_id' : order.orderBy.value]:
+      [order.orderBy.value === "id" ? "_id" : order.orderBy.value]:
         order.orderType.isAsc() ? 1 : -1,
     }
   }
@@ -136,7 +136,7 @@ export class MongoCriteriaConverter {
   private dateRangeFilter(filter: Filter): MongoFilterBetween {
     if (!filter.value.value.startDate || !filter.value.value.endDate) {
       throw new Error(
-        'Start and end date are required for date range filtering.',
+        "Start and end date are required for date range filtering."
       )
     }
 

@@ -2,13 +2,13 @@ import {
   ChurchStatus,
   IChurchRepository,
   IMinisterRepository,
-} from '../../domain'
-import { GenericException } from '../../../Shared/domain'
+} from "../../domain"
+import { GenericException } from "../../../Shared/domain"
 
 export class RemoveMinister {
   constructor(
     private readonly ministerRepository: IMinisterRepository,
-    private readonly churchRepository: IChurchRepository,
+    private readonly churchRepository: IChurchRepository
   ) {}
 
   async execute(churchId: string) {
@@ -16,12 +16,12 @@ export class RemoveMinister {
 
     if (!church.getMinisterId()) {
       throw new GenericException(
-        'This church does not have an assigned ministers',
+        "This church does not have an assigned ministers"
       )
     }
 
     const minister = await this.ministerRepository.findById(
-      church.getMinisterId(),
+      church.getMinisterId()
     )
 
     minister.removeChurch()

@@ -6,13 +6,13 @@ import {
   User,
   UserDisabled,
   UserNotFound,
-} from '../domain'
+} from "../domain"
 
 export class MakeLogin {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly passwordAdapter: IPasswordAdapter,
-    private readonly authToken: IAuthToken,
+    private readonly authToken: IAuthToken
   ) {}
 
   async execute(emailUser: string, passUser: string): Promise<[User, string]> {

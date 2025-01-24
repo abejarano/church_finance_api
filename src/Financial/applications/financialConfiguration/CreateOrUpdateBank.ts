@@ -1,15 +1,15 @@
-import { Bank, BankRequest } from '../../domain'
+import { Bank, BankRequest } from "../../domain"
 import {
   Church,
   ChurchNotFound,
   IChurchRepository,
-} from '../../../Church/domain'
-import { IFinancialConfigurationRepository } from '../../domain/interfaces'
+} from "../../../Church/domain"
+import { IFinancialConfigurationRepository } from "../../domain/interfaces"
 
 export class CreateOrUpdateBank {
   constructor(
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
-    private readonly churchRepository: IChurchRepository,
+    private readonly churchRepository: IChurchRepository
   ) {}
 
   async execute(requestBank: BankRequest) {
@@ -20,7 +20,7 @@ export class CreateOrUpdateBank {
 
     const bank: Bank =
       await this.financialConfigurationRepository.findBankByBankId(
-        requestBank.bankId,
+        requestBank.bankId
       )
 
     bank.setBankInstruction(requestBank.bankInstruction)
@@ -39,7 +39,7 @@ export class CreateOrUpdateBank {
       requestBank.tag,
       requestBank.addressInstancePayment,
       requestBank.bankInstruction,
-      await this.getChurch(requestBank.churchId),
+      await this.getChurch(requestBank.churchId)
     )
     await this.financialConfigurationRepository.upsertBank(bank)
   }

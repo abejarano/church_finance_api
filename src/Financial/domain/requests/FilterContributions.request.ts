@@ -1,4 +1,4 @@
-import { OnlineContributionsStatus } from '../enums/OnlineContributionsStatus.enum'
+import { OnlineContributionsStatus } from "../enums/OnlineContributionsStatus.enum"
 
 export type FilterContributionsRequest = {
   financialConceptId: string

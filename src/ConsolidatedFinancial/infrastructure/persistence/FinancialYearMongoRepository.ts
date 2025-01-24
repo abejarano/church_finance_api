@@ -1,5 +1,5 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { FinancialMonth, IFinancialYearRepository } from '../../domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { FinancialMonth, IFinancialYearRepository } from "../../domain"
 
 export class FinancialYearMongoRepository
   extends MongoRepository<FinancialMonth>
@@ -20,7 +20,7 @@ export class FinancialYearMongoRepository
   }
 
   collectionName(): string {
-    return 'financial_months'
+    return "financial_months"
   }
 
   async upsertFinancialMonth(financialYear: FinancialMonth): Promise<void> {
@@ -28,7 +28,7 @@ export class FinancialYearMongoRepository
   }
 
   async findById(
-    financialMonthId: string,
+    financialMonthId: string
   ): Promise<FinancialMonth | undefined> {
     const collection = await this.collection()
     const result = await collection.findOne({ financialMonthId })
@@ -46,7 +46,7 @@ export class FinancialYearMongoRepository
   async findByMonthAndYear(
     month: number,
     year: number,
-    churchId: string,
+    churchId: string
   ): Promise<FinancialMonth | undefined> {
     const collection = await this.collection()
 

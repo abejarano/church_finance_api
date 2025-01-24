@@ -1,5 +1,5 @@
-import { User } from '../User'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { User } from "../User"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export interface IUserRepository {
   findByEmail(email: string): Promise<User | undefined>

@@ -1,5 +1,5 @@
-import jwt = require('jsonwebtoken')
-import { IAuthToken } from '../../domain'
+import jwt = require("jsonwebtoken")
+import { IAuthToken } from "../../domain"
 
 type dataForToken = {
   memberId: string
@@ -17,7 +17,7 @@ type dataForToken = {
 export class AuthTokenAdapter implements IAuthToken {
   createToken(user: dataForToken): string {
     return jwt.sign(user, process.env.JWT_SECRET, {
-      expiresIn: '1h',
+      expiresIn: "1h",
     })
   }
 }

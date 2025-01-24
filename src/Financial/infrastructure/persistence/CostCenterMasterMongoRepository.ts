@@ -1,6 +1,6 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { CostCenterMaster } from '../../domain'
-import { ICostCenterMasterRepository } from '../../domain/interfaces'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { CostCenterMaster } from "../../domain"
+import { ICostCenterMasterRepository } from "../../domain/interfaces"
 
 export class CostCenterMasterMongoRepository
   extends MongoRepository<CostCenterMaster>
@@ -17,7 +17,7 @@ export class CostCenterMasterMongoRepository
   }
 
   collectionName(): string {
-    return 'cost_centers_master'
+    return "cost_centers_master"
   }
 
   async one(costCenterMasterId: string): Promise<CostCenterMaster | undefined> {
@@ -37,7 +37,7 @@ export class CostCenterMasterMongoRepository
   async search(
     churchId: string,
     month: number,
-    year: number,
+    year: number
   ): Promise<CostCenterMaster[]> {
     const collection = await this.collection()
     const documents = await collection
@@ -52,7 +52,7 @@ export class CostCenterMasterMongoRepository
       CostCenterMaster.fromPrimitives({
         ...document,
         id: document._id,
-      }),
+      })
     )
   }
 

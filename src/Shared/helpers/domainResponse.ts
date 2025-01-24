@@ -1,4 +1,4 @@
-import { DomainException, HttpStatus } from '../domain'
+import { DomainException, HttpStatus } from "../domain"
 
 export default (e, res) => {
   if (e instanceof DomainException) {

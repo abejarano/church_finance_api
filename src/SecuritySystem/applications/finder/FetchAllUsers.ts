@@ -1,4 +1,4 @@
-import { FilterUserRequest, IUserRepository, User } from '../../domain'
+import { FilterUserRequest, IUserRepository, User } from "../../domain"
 import {
   Criteria,
   Filters,
@@ -6,7 +6,7 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from '../../../Shared/domain'
+} from "../../../Shared/domain"
 
 export class FetchAllUsers {
   constructor(private readonly userRepository: IUserRepository) {}
@@ -30,34 +30,34 @@ export class FetchAllUsers {
   private prepare(reqFilter: FilterUserRequest) {
     const filters: any = []
     if (reqFilter.isSuperuser) {
-      const isSuperuser: boolean = reqFilter.isSuperuser === 'true'
+      const isSuperuser: boolean = reqFilter.isSuperuser === "true"
 
       filters.push(
         new Map<string, string | boolean>([
-          ['field', 'isSuperuser'],
-          ['operator', Operator.EQUAL],
-          ['value', isSuperuser],
-        ]),
+          ["field", "isSuperuser"],
+          ["operator", Operator.EQUAL],
+          ["value", isSuperuser],
+        ])
       )
     }
 
     if (reqFilter.isActive) {
-      const isActive: boolean = reqFilter.isActive === 'true'
+      const isActive: boolean = reqFilter.isActive === "true"
 
       filters.push(
         new Map<string, string | boolean>([
-          ['field', 'isActive'],
-          ['operator', Operator.EQUAL],
-          ['value', isActive],
-        ]),
+          ["field", "isActive"],
+          ["operator", Operator.EQUAL],
+          ["value", isActive],
+        ])
       )
     }
 
     return new Criteria(
       Filters.fromValues(filters),
-      Order.fromValues('createdAt', OrderTypes.DESC),
+      Order.fromValues("createdAt", OrderTypes.DESC),
       20,
-      reqFilter.page,
+      reqFilter.page
     )
   }
 }

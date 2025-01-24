@@ -1,8 +1,8 @@
-import { AggregateRoot } from '../../Shared/domain'
-import { ConceptType } from './enums/ConcepType.enum'
-import { Church } from '../../Church/domain'
-import { IdentifyEntity } from '../../Shared/adapter'
-import { DateBR } from '../../Shared/helpers'
+import { AggregateRoot } from "../../Shared/domain"
+import { ConceptType } from "./enums/ConcepType.enum"
+import { Church } from "../../Church/domain"
+import { IdentifyEntity } from "../../Shared/adapter"
+import { DateBR } from "../../Shared/helpers"
 
 export class FinancialConcept extends AggregateRoot {
   private id?: string
@@ -19,7 +19,7 @@ export class FinancialConcept extends AggregateRoot {
     description: string,
     active: boolean,
     type: ConceptType,
-    church: Church,
+    church: Church
   ): FinancialConcept {
     const concept: FinancialConcept = new FinancialConcept()
     concept.financialConceptId = IdentifyEntity.get()

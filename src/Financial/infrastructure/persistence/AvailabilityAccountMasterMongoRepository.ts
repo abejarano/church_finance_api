@@ -1,6 +1,6 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { IAvailabilityAccountMasterRepository } from '../../domain/interfaces'
-import { AvailabilityAccountMaster } from '../../domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IAvailabilityAccountMasterRepository } from "../../domain/interfaces"
+import { AvailabilityAccountMaster } from "../../domain"
 
 export class AvailabilityAccountMasterMongoRepository
   extends MongoRepository<AvailabilityAccountMaster>
@@ -21,11 +21,11 @@ export class AvailabilityAccountMasterMongoRepository
   }
 
   collectionName(): string {
-    return 'availability_accounts_master'
+    return "availability_accounts_master"
   }
 
   async one(
-    availabilityAccountMasterId: string,
+    availabilityAccountMasterId: string
   ): Promise<AvailabilityAccountMaster | undefined> {
     const collection = await this.collection()
     const document = await collection.findOne({
@@ -48,14 +48,14 @@ export class AvailabilityAccountMasterMongoRepository
           accountMaster.getAvailabilityAccountMasterId(),
       },
       { $set: accountMaster.toPrimitives() },
-      { upsert: true },
+      { upsert: true }
     )
   }
 
   async search(
     churchId: string,
     month: number,
-    year: number,
+    year: number
   ): Promise<AvailabilityAccountMaster[] | undefined> {
     const collection = await this.collection()
 
@@ -63,12 +63,12 @@ export class AvailabilityAccountMasterMongoRepository
       .aggregate([
         {
           $search: {
-            index: 'availabilityAccountMasterIndex',
+            index: "availabilityAccountMasterIndex",
             compound: {
               must: [
-                { text: { query: churchId, path: 'churchId' } },
-                { equals: { value: month, path: 'month' } },
-                { equals: { value: year, path: 'year' } },
+                { text: { query: churchId, path: "churchId" } },
+                { equals: { value: month, path: "month" } },
+                { equals: { value: year, path: "year" } },
               ],
             },
           },
@@ -84,7 +84,7 @@ export class AvailabilityAccountMasterMongoRepository
       AvailabilityAccountMaster.fromPrimitives({
         ...document,
         id: document._id,
-      }),
+      })
     )
   }
 }

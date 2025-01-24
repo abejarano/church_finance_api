@@ -1,7 +1,7 @@
-import { AggregateRoot } from '../../Shared/domain'
-import { IdentifyEntity } from '../../Shared/adapter'
-import { DateBR } from '../../Shared/helpers'
-import { Profile } from './types/profile.type'
+import { AggregateRoot } from "../../Shared/domain"
+import { IdentifyEntity } from "../../Shared/adapter"
+import { DateBR } from "../../Shared/helpers"
+import { Profile } from "./types/profile.type"
 
 export class User extends AggregateRoot {
   isActive: boolean
@@ -20,7 +20,7 @@ export class User extends AggregateRoot {
     email: string,
     password: string,
     profiles: Profile[],
-    churchId: string,
+    churchId: string
   ): User {
     const u = new User()
     u.email = email

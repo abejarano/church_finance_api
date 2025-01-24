@@ -2,13 +2,13 @@ import {
   ChurchStatus,
   IChurchRepository,
   IMinisterRepository,
-} from '../../domain'
-import { GenericException } from '../../../Shared/domain'
+} from "../../domain"
+import { GenericException } from "../../../Shared/domain"
 
 export class AssignChurch {
   constructor(
     private readonly ministerRepository: IMinisterRepository,
-    private readonly churchRepository: IChurchRepository,
+    private readonly churchRepository: IChurchRepository
   ) {}
 
   async execute(ministerId: string, churchId: string): Promise<void> {
@@ -18,7 +18,7 @@ export class AssignChurch {
 
     if (hasAnAssignedMinister) {
       throw new GenericException(
-        'This church already has an assigned ministers',
+        "This church already has an assigned ministers"
       )
     }
 
@@ -26,7 +26,7 @@ export class AssignChurch {
       await this.ministerRepository.hasAnAssignedChurch(ministerId)
     if (hasAnAssignedChurch) {
       throw new GenericException(
-        'This ministers already has an assigned church',
+        "This ministers already has an assigned church"
       )
     }
 

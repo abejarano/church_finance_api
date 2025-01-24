@@ -1,8 +1,8 @@
-import { FinancialMonth, IFinancialYearRepository } from '../domain'
+import { FinancialMonth, IFinancialYearRepository } from "../domain"
 
 export class GenerateFinancialMonths {
   constructor(
-    private readonly financialYearRepository: IFinancialYearRepository,
+    private readonly financialYearRepository: IFinancialYearRepository
   ) {}
 
   async execute(args: { churchId: string; year: number }): Promise<void> {

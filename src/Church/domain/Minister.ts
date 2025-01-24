@@ -1,8 +1,8 @@
-import { AggregateRoot } from '../../Shared/domain'
-import { IdentifyEntity } from '../../Shared/adapter'
-import { Church } from './Church'
-import { MinisterType } from './enums/MinisterType.enum'
-import { DateBR } from '../../Shared/helpers'
+import { AggregateRoot } from "../../Shared/domain"
+import { IdentifyEntity } from "../../Shared/adapter"
+import { Church } from "./Church"
+import { MinisterType } from "./enums/MinisterType.enum"
+import { DateBR } from "../../Shared/helpers"
 
 export class Minister extends AggregateRoot {
   private id?: string
@@ -20,7 +20,7 @@ export class Minister extends AggregateRoot {
     email: string,
     phone: string,
     dni: string,
-    ministerType: MinisterType,
+    ministerType: MinisterType
   ): Minister {
     const m: Minister = new Minister()
     m.name = name

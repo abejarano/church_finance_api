@@ -1,9 +1,9 @@
-import { IAvailabilityAccountRepository } from '../../domain/interfaces'
-import { AvailabilityAccount, AvailabilityAccountRequest } from '../../domain'
+import { IAvailabilityAccountRepository } from "../../domain/interfaces"
+import { AvailabilityAccount, AvailabilityAccountRequest } from "../../domain"
 
 export class CreateOrUpdateAvailabilityAccount {
   constructor(
-    private readonly availabilityAccountRepository: IAvailabilityAccountRepository,
+    private readonly availabilityAccountRepository: IAvailabilityAccountRepository
   ) {}
 
   async execute(requestAvailabilityAccount: AvailabilityAccountRequest) {
@@ -14,7 +14,7 @@ export class CreateOrUpdateAvailabilityAccount {
 
     const availabilityAccount: AvailabilityAccount =
       await this.availabilityAccountRepository.findAvailabilityAccountByAvailabilityAccountId(
-        requestAvailabilityAccount.availabilityAccountId,
+        requestAvailabilityAccount.availabilityAccountId
       )
 
     availabilityAccount.setAccountName(requestAvailabilityAccount.accountName)
@@ -27,13 +27,13 @@ export class CreateOrUpdateAvailabilityAccount {
   }
 
   private async registerAvailabilityAccount(
-    requestAvailabilityAccount: AvailabilityAccountRequest,
+    requestAvailabilityAccount: AvailabilityAccountRequest
   ): Promise<void> {
     const availabilityAccount = AvailabilityAccount.create(
       requestAvailabilityAccount.churchId,
       requestAvailabilityAccount.accountName,
       requestAvailabilityAccount.active,
-      requestAvailabilityAccount.accountType,
+      requestAvailabilityAccount.accountType
     )
     await this.availabilityAccountRepository.upsert(availabilityAccount)
   }

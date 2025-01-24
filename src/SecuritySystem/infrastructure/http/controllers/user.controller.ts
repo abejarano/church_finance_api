@@ -1,12 +1,12 @@
-import { CreateOrUpdateUser, MakeLogin } from '../../../applications'
-import { UserMongoRepository } from '../../persistence/UserMongoRepository'
-import { PasswordAdapter } from '../../adapters/Password.adapter'
-import { AuthTokenAdapter } from '../../adapters/AuthToken.adapter'
-import { HttpStatus } from '../../../../Shared/domain'
-import { logger } from '../../../../Shared/infrastructure'
-import domainResponse from '../../../../Shared/helpers/domainResponse'
-import { CreateUserRequest, FilterUserRequest } from '../../../domain'
-import { FetchAllUsers } from '../../../applications/finder/FetchAllUsers'
+import { CreateOrUpdateUser, MakeLogin } from "../../../applications"
+import { UserMongoRepository } from "../../persistence/UserMongoRepository"
+import { PasswordAdapter } from "../../adapters/Password.adapter"
+import { AuthTokenAdapter } from "../../adapters/AuthToken.adapter"
+import { HttpStatus } from "../../../../Shared/domain"
+import { logger } from "../../../../Shared/infrastructure"
+import domainResponse from "../../../../Shared/helpers/domainResponse"
+import { CreateUserRequest, FilterUserRequest } from "../../../domain"
+import { FetchAllUsers } from "../../../applications/finder/FetchAllUsers"
 
 export type userLoginPayload = {
   email: string
@@ -19,7 +19,7 @@ export class UserController {
       const [user, dataToken] = await new MakeLogin(
         UserMongoRepository.getInstance(),
         new PasswordAdapter(),
-        new AuthTokenAdapter(),
+        new AuthTokenAdapter()
       ).execute(payload.email, payload.password)
 
       const responseUser = user.toPrimitives()
@@ -40,14 +40,14 @@ export class UserController {
     try {
       const user = await new CreateOrUpdateUser(
         UserMongoRepository.getInstance(),
-        new PasswordAdapter(),
+        new PasswordAdapter()
       ).execute(payload)
 
       const response = user.toPrimitives()
       delete response.password
 
       res.status(HttpStatus.OK).json({
-        message: 'Usuario actualizado',
+        message: "Usuario actualizado",
         data: response,
       })
     } catch (e) {
@@ -59,7 +59,7 @@ export class UserController {
   static async fetchAllUser(req: FilterUserRequest, res) {
     try {
       const result = await new FetchAllUsers(
-        UserMongoRepository.getInstance(),
+        UserMongoRepository.getInstance()
       ).execute(req)
 
       res.status(HttpStatus.OK).send({

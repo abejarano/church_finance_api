@@ -1,4 +1,4 @@
-import { AggregateRoot } from '../../Shared/domain'
+import { AggregateRoot } from "../../Shared/domain"
 
 export class Purchase extends AggregateRoot {
   private id?: string
@@ -16,6 +16,6 @@ export class Purchase extends AggregateRoot {
   }
 
   toPrimitives() {
-    throw new Error('Method not implemented.')
+    throw new Error("Method not implemented.")
   }
 }

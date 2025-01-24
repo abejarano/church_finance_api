@@ -5,49 +5,49 @@ import {
   FilterContributionsRequest,
   OnlineContributions,
   OnlineContributionsStatus,
-} from '../../../domain'
-import { FindMemberById } from '../../../../Church/applications'
-import { MemberMongoRepository } from '../../../../Church/infrastructure'
-import domainResponse from '../../../../Shared/helpers/domainResponse'
+} from "../../../domain"
+import { FindMemberById } from "../../../../Church/applications"
+import { MemberMongoRepository } from "../../../../Church/infrastructure"
+import domainResponse from "../../../../Shared/helpers/domainResponse"
 import {
   FindFinancialConceptByChurchIdAndFinancialConceptId,
   ListContributions,
   RegisterContributionsOnline,
   UpdateContributionStatus,
-} from '../../../applications'
-import { HttpStatus, Paginate, QueueName } from '../../../../Shared/domain'
+} from "../../../applications"
+import { HttpStatus, Paginate, QueueName } from "../../../../Shared/domain"
 import {
   logger,
   QueueBullService,
   StorageGCP,
-} from '../../../../Shared/infrastructure'
-import MemberContributionsDTO from '../dto/MemberContributions.dto'
+} from "../../../../Shared/infrastructure"
+import MemberContributionsDTO from "../dto/MemberContributions.dto"
 import {
   AvailabilityAccountMongoRepository,
   FinancialConfigurationMongoRepository,
   OnlineContributionsMongoRepository,
-} from '../../persistence'
-import { FinancialYearMongoRepository } from '../../../../ConsolidatedFinancial/infrastructure'
+} from "../../persistence"
+import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure"
 
 export const onlineContributionsController = async (
   request: ContributionRequest,
-  res,
+  res
 ) => {
   try {
     logger.info(`Solicitud de registro de contribucion en línea:`)
 
     const member = await new FindMemberById(
-      MemberMongoRepository.getInstance(),
+      MemberMongoRepository.getInstance()
     ).execute(request.memberId)
 
     const financialConcept =
       await new FindFinancialConceptByChurchIdAndFinancialConceptId(
-        FinancialConfigurationMongoRepository.getInstance(),
+        FinancialConfigurationMongoRepository.getInstance()
       ).execute(member.getChurchId(), request.financialConceptId)
 
     const availabilityAccount =
       await AvailabilityAccountMongoRepository.getInstance().findAvailabilityAccountByAvailabilityAccountId(
-        request.availabilityAccountId,
+        request.availabilityAccountId
       )
 
     if (!availabilityAccount) {
@@ -58,7 +58,7 @@ export const onlineContributionsController = async (
       OnlineContributionsMongoRepository.getInstance(),
       StorageGCP.getInstance(process.env.BUCKET_FILES),
       QueueBullService.getInstance(),
-      FinancialYearMongoRepository.getInstance(),
+      FinancialYearMongoRepository.getInstance()
     ).execute(request, availabilityAccount, member, financialConcept)
 
     QueueBullService.getInstance().dispatch(
@@ -68,13 +68,13 @@ export const onlineContributionsController = async (
         amount: request.amount,
         operationType:
           financialConcept.getType() === ConceptType.INCOME
-            ? 'MONEY_IN'
-            : 'MONEY_OUT',
-      },
+            ? "MONEY_IN"
+            : "MONEY_OUT",
+      }
     )
 
     res.status(HttpStatus.CREATED).send({
-      message: 'successful contribution registration',
+      message: "successful contribution registration",
     })
   } catch (e) {
     return domainResponse(e, res)
@@ -83,11 +83,11 @@ export const onlineContributionsController = async (
 
 export const listOnlineContributionsController = async (
   request: FilterContributionsRequest,
-  res,
+  res
 ) => {
   try {
     const list: Paginate<OnlineContributions> = await new ListContributions(
-      OnlineContributionsMongoRepository.getInstance(),
+      OnlineContributionsMongoRepository.getInstance()
     ).execute(request)
 
     res.status(HttpStatus.OK).send(await MemberContributionsDTO(list))
@@ -99,14 +99,14 @@ export const listOnlineContributionsController = async (
 export const UpdateContributionStatusController = async (
   contributionId: string,
   status: OnlineContributionsStatus,
-  res,
+  res
 ) => {
   try {
     await new UpdateContributionStatus(
-      OnlineContributionsMongoRepository.getInstance(),
+      OnlineContributionsMongoRepository.getInstance()
     ).execute(contributionId, status)
 
-    res.status(HttpStatus.OK).send({ message: 'Contribution updated' })
+    res.status(HttpStatus.OK).send({ message: "Contribution updated" })
   } catch (e) {
     domainResponse(e, res)
   }

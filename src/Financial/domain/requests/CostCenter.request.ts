@@ -1,4 +1,4 @@
-import { CostCenterCategory } from '../enums/CostCenterCategory.enum'
+import { CostCenterCategory } from "../enums/CostCenterCategory.enum"
 
 export type CostCenterRequest = {
   costCenterId: string

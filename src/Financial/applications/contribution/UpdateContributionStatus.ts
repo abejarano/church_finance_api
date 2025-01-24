@@ -1,9 +1,9 @@
-import { ContributionNotFound, OnlineContributionsStatus } from '../../domain'
-import { IOnlineContributionsRepository } from '../../domain/interfaces'
+import { ContributionNotFound, OnlineContributionsStatus } from "../../domain"
+import { IOnlineContributionsRepository } from "../../domain/interfaces"
 
 export class UpdateContributionStatus {
   constructor(
-    private readonly contributionRepository: IOnlineContributionsRepository,
+    private readonly contributionRepository: IOnlineContributionsRepository
   ) {}
 
   async execute(contributionId: string, status: OnlineContributionsStatus) {

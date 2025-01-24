@@ -6,14 +6,14 @@ import {
   Member,
   MemberExist,
   MemberRequest,
-} from '../../domain'
-import { IQueueService, QueueName } from '../../../Shared/domain'
+} from "../../domain"
+import { IQueueService, QueueName } from "../../../Shared/domain"
 
 export class CreateOrUpdateMember {
   constructor(
     private readonly memberRepository: IMemberRepository,
     private readonly churchRepository: IChurchRepository,
-    private readonly queueService: IQueueService,
+    private readonly queueService: IQueueService
   ) {}
 
   async execute(request: MemberRequest) {
@@ -47,7 +47,7 @@ export class CreateOrUpdateMember {
     console.log(`Registrar miembro ${JSON.stringify(request)}`)
 
     const memberExist: Member = await this.memberRepository.findByDni(
-      request.dni,
+      request.dni
     )
     if (memberExist) {
       throw new MemberExist()
@@ -64,7 +64,7 @@ export class CreateOrUpdateMember {
       request.conversionDate,
       request.isTreasurer,
       false,
-      request.baptismDate,
+      request.baptismDate
     )
 
     await this.memberRepository.upsert(member)

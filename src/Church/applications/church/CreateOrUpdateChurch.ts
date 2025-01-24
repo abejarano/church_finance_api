@@ -1,18 +1,18 @@
-import { Church, ChurchNotFound, IChurchRepository } from '../../domain'
-import { ChurchRequest } from '../../domain/requests/Church.request'
+import { Church, ChurchNotFound, IChurchRepository } from "../../domain"
+import { ChurchRequest } from "../../domain/requests/Church.request"
 
 // import {
 //   IRegionRepository,
 //   Region,
 //   RegionNotFound,
 // } from "../../../OrganizacionalStructure/domain";
-import { IMessageBus } from '../../../Shared/domain'
+import { IMessageBus } from "../../../Shared/domain"
 
 export class CreateOrUpdateChurch {
   constructor(
     private readonly churchRepository: IChurchRepository,
     //private readonly regionRepository: IRegionRepository,
-    private readonly messageEvent: IMessageBus,
+    private readonly messageEvent: IMessageBus
   ) {}
 
   async execute(churchRequest: ChurchRequest): Promise<void> {
@@ -27,7 +27,7 @@ export class CreateOrUpdateChurch {
         JSON.stringify({
           churchId: church.getChurchId(),
         }),
-        process.env.TOPIC_CHURCH_CREATED,
+        process.env.TOPIC_CHURCH_CREATED
       )
       return
     }
@@ -45,7 +45,7 @@ export class CreateOrUpdateChurch {
       churchRequest.address,
       churchRequest.street,
       churchRequest.number,
-      churchRequest.postalCode,
+      churchRequest.postalCode
     )
     church.setEmail(churchRequest.email)
     church.setOpeningDate(churchRequest.openingDate)
@@ -79,7 +79,7 @@ export class CreateOrUpdateChurch {
       churchRequest.email,
       churchRequest.openingDate,
       //region,
-      churchRequest.registerNumber,
+      churchRequest.registerNumber
     )
   }
 }

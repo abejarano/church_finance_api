@@ -1,4 +1,4 @@
-import { MinisterType } from '../enums/MinisterType.enum'
+import { MinisterType } from "../enums/MinisterType.enum"
 
 export type MinisterRequest = {
   name: string

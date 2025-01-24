@@ -1,4 +1,4 @@
-import { AccountType } from '../enums/AccountType.enum'
+import { AccountType } from "../enums/AccountType.enum"
 
 export type AvailabilityAccountRequest = {
   availabilityAccountId?: string

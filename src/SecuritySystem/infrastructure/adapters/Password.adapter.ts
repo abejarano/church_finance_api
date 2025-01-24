@@ -1,5 +1,5 @@
-import { checkPassword, encrypt } from '../../../Shared/helpers'
-import { IPasswordAdapter } from '../../domain'
+import { checkPassword, encrypt } from "../../../Shared/helpers"
+import { IPasswordAdapter } from "../../domain"
 
 export class PasswordAdapter implements IPasswordAdapter {
   async encrypt(passwordPlain: string): Promise<string> {

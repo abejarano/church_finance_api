@@ -1,9 +1,9 @@
-import { BankNotFound } from '../../../domain'
-import { IFinancialConfigurationRepository } from '../../../domain/interfaces'
+import { BankNotFound } from "../../../domain"
+import { IFinancialConfigurationRepository } from "../../../domain/interfaces"
 
 export class FinBankByBankId {
   constructor(
-    private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
+    private readonly financialConfigurationRepository: IFinancialConfigurationRepository
   ) {}
 
   async execute(bankId: string) {

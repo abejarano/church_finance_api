@@ -1,4 +1,4 @@
-import { Profile } from '../types/profile.type'
+import { Profile } from "../types/profile.type"
 
 export type CreateUserRequest = {
   userId?: string
