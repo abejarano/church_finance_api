@@ -9,6 +9,7 @@ import {
 } from "../../domain/interfaces";
 import {
   AvailabilityAccountNotFound,
+  CostCenter,
   FinancialConcept,
   FinancialRecordQueueRequest,
 } from "../../domain";
@@ -26,6 +27,7 @@ export class RegisterFinancialRecord implements IQueue {
   async handle(
     args: FinancialRecordQueueRequest,
     financialConcept?: FinancialConcept,
+    costCenter?: CostCenter,
   ): Promise<void> {
     logger.info(`RegisterFinancialRecord`, args);
 
@@ -52,15 +54,19 @@ export class RegisterFinancialRecord implements IQueue {
         ).execute(args.churchId, args.financialConceptId);
     }
 
-    const financialRecord = FinanceRecord.create(
-      FinancialConcept.fromPrimitives(financialConcept, args.churchId),
-      args.churchId,
-      args.amount,
-      new Date(args.date),
+    const financialRecord = FinanceRecord.create({
+      financialConcept: FinancialConcept.fromPrimitives(
+        financialConcept,
+        args.churchId,
+      ),
+      churchId: args.churchId,
+      amount: args.amount,
+      date: new Date(args.date),
       availabilityAccount,
-      args.description,
-      args.voucher,
-    );
+      description: args.description,
+      voucher: args.voucher,
+      costCenter,
+    });
 
     await this.financialRecordRepository.upsert(financialRecord);
   }

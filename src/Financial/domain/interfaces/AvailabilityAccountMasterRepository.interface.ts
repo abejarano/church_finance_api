@@ -1,11 +1,11 @@
 import { AvailabilityAccountMaster } from "../AvailabilityAccountMaster";
 
 export interface IAvailabilityAccountMasterRepository {
-  findByAvailabilityAccountMasterId(
+  one(
     availabilityAccountMasterId: string,
   ): Promise<AvailabilityAccountMaster | undefined>;
 
-  searchAvailabilityAccountMaster(
+  search(
     churchId: string,
     month: number,
     year: number,

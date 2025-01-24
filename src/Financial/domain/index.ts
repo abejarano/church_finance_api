@@ -8,6 +8,7 @@ export { FinancialConcept } from "./FinancialConcept";
 export { OnlineContributions } from "./OnlineContributions";
 export { AvailabilityAccount } from "./AvailabilityAccount";
 export { AvailabilityAccountMaster } from "./AvailabilityAccountMaster";
+export { CostCenterMaster } from "./CostCenterMaster";
 
 export { BankNotFound } from "./exceptions/BankNotFound.exception";
 export { CostCenterNotFound } from "./exceptions/CostCenterNotFound.exception";

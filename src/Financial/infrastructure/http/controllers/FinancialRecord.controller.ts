@@ -3,6 +3,8 @@ import domainResponse from "../../../../Shared/helpers/domainResponse";
 import {
   AccountType,
   ConceptType,
+  CostCenter,
+  FinancialConcept,
   FinancialRecordRequest,
 } from "../../../domain";
 import { RegisterFinancialRecord } from "../../../applications/financeRecord/RegisterFinancialRecord";
@@ -22,12 +24,14 @@ import {
 } from "../../../../MovementBank/domain";
 import {
   FindAvailabilityAccountByAvailabilityAccountId,
+  FindCostCenterByCostCenterId,
   FindFinancialConceptByChurchIdAndFinancialConceptId,
 } from "../../../applications";
+import { Response } from "express";
 
 export const FinancialRecordController = async (
   request: FinancialRecordRequest,
-  res,
+  res: Response,
 ) => {
   try {
     if (request.file) {
@@ -52,6 +56,14 @@ export const FinancialRecordController = async (
       }
     }
 
+    let costCenter: CostCenter = undefined;
+
+    if (request.costCenterId) {
+      costCenter = await new FindCostCenterByCostCenterId(
+        FinancialConfigurationMongoRepository.getInstance(),
+      ).execute(request.churchId, request.costCenterId);
+    }
+
     const financialConcept =
       await new FindFinancialConceptByChurchIdAndFinancialConceptId(
         FinancialConfigurationMongoRepository.getInstance(),
@@ -62,30 +74,19 @@ export const FinancialRecordController = async (
       FinanceRecordMongoRepository.getInstance(),
       FinancialConfigurationMongoRepository.getInstance(),
       AvailabilityAccountMongoRepository.getInstance(),
-    ).handle(request, financialConcept);
+    ).handle(request, financialConcept, costCenter);
 
     if (availabilityAccount.getType() === AccountType.BANK) {
-      const movementBank: MovementBankRequest = {
-        amount: request.amount,
-        bankingOperation: TypeBankingOperation.DEPOSIT,
-        concept: financialConcept.getName(),
-        bankId: request.bankId,
-      };
+      await recordMovementBank(request, financialConcept);
+    }
 
+    if (costCenter) {
       QueueBullService.getInstance().dispatch(
-        QueueName.MovementBankRecord,
-        movementBank,
-      );
-
-      QueueBullService.getInstance().dispatch(
-        QueueName.UpdateAvailabilityAccountBalance,
+        QueueName.UpdateCostCenterMaster,
         {
-          availabilityAccountId: request.availabilityAccountId,
+          churchId: request.churchId,
           amount: request.amount,
-          operationType:
-            financialConcept.getType() === ConceptType.INCOME
-              ? "MONEY_IN"
-              : "MONEY_OUT",
+          costCenterId: costCenter.getCostCenterId(),
         },
       );
     }
@@ -102,4 +103,33 @@ export const FinancialRecordController = async (
 
     return domainResponse(e, res);
   }
+};
+
+const recordMovementBank = async (
+  request: FinancialRecordRequest,
+  financialConcept: FinancialConcept,
+) => {
+  const movementBank: MovementBankRequest = {
+    amount: request.amount,
+    bankingOperation: TypeBankingOperation.DEPOSIT,
+    concept: financialConcept.getName(),
+    bankId: request.bankId,
+  };
+
+  QueueBullService.getInstance().dispatch(
+    QueueName.MovementBankRecord,
+    movementBank,
+  );
+
+  QueueBullService.getInstance().dispatch(
+    QueueName.UpdateAvailabilityAccountBalance,
+    {
+      availabilityAccountId: request.availabilityAccountId,
+      amount: request.amount,
+      operationType:
+        financialConcept.getType() === ConceptType.INCOME
+          ? "MONEY_IN"
+          : "MONEY_OUT",
+    },
+  );
 };
