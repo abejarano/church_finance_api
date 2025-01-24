@@ -25,7 +25,7 @@ export class FinancialConfigurationController {
         FinancialConfigurationMongoRepository.getInstance(),
       ).execute(churchId);
 
-      res.status(HttpStatus.OK).send({ data: costCenter });
+      res.status(HttpStatus.OK).send(costCenter);
     } catch (e) {
       domainResponse(e, res);
     }
