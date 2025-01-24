@@ -24,7 +24,7 @@ export class AvailabilityAccountMasterMongoRepository
     return "availability_accounts_master";
   }
 
-  async findByAvailabilityAccountMasterId(
+  async one(
     availabilityAccountMasterId: string,
   ): Promise<AvailabilityAccountMaster | undefined> {
     const collection = await this.collection();
@@ -52,7 +52,7 @@ export class AvailabilityAccountMasterMongoRepository
     );
   }
 
-  async searchAvailabilityAccountMaster(
+  async search(
     churchId: string,
     month: number,
     year: number,

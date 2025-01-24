@@ -3,3 +3,4 @@ export { IFinancialConfigurationRepository } from "./FinancialConfigurationRepos
 export { IOnlineContributionsRepository } from "./ContributionRepository.interface";
 export { IAvailabilityAccountMasterRepository } from "./AvailabilityAccountMasterRepository.interface";
 export { IAvailabilityAccountRepository } from "./AvailabilityAccountRepository.interface";
+export { ICostCenterMasterRepository } from "./CostCenterMasterRepository.interface";

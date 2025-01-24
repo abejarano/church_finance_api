@@ -14,4 +14,5 @@ export type FinancialRecordRequest = {
   bankId: string;
   file?: any;
   bankingOperation?: TypeBankingOperation;
+  costCenterId?: string;
 } & FinancialRecordQueueRequest;

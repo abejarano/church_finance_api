@@ -1,68 +1,16 @@
 import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
+import { BankRequest, ConceptType } from "../../../domain";
 import {
   CreateOrUpdateBank,
   FinBankByBankId,
-  FindCostCenterByChurchId,
   FindFinancialConceptsByChurchIdAndTypeConcept,
   SearchBankByChurchId,
 } from "../../../applications";
 import { FinancialConfigurationMongoRepository } from "../../persistence";
 import { HttpStatus } from "../../../../Shared/domain";
-import {
-  ChurchMongoRepository,
-  MemberMongoRepository,
-} from "../../../../Church/infrastructure";
-import {
-  CreateCostCenter,
-  UpdateCostCenter,
-} from "../../../applications/financialConfiguration";
+import { ChurchMongoRepository } from "../../../../Church/infrastructure";
 
 export class FinancialConfigurationController {
-  static async findCostCenterByChurchId(churchId: string, res) {
-    try {
-      const costCenter = await new FindCostCenterByChurchId(
-        FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(churchId);
-
-      res.status(HttpStatus.OK).send({ data: costCenter });
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
-  static async createCostCenter(costCenter: CostCenterRequest, res) {
-    try {
-      await new CreateCostCenter(
-        FinancialConfigurationMongoRepository.getInstance(),
-        MemberMongoRepository.getInstance(),
-      ).execute(costCenter);
-
-      res
-        .status(HttpStatus.CREATED)
-        .send({ message: "Registered cost center" });
-      return;
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
-  static async updateCostCenter(costCenter: CostCenterRequest, res) {
-    try {
-      await new UpdateCostCenter(
-        FinancialConfigurationMongoRepository.getInstance(),
-        MemberMongoRepository.getInstance(),
-      ).execute(costCenter);
-
-      res
-        .status(HttpStatus.CREATED)
-        .send({ message: "Registered cost center" });
-      return;
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
   static async createOrUpdateBank(request: BankRequest, res) {
     try {
       await new CreateOrUpdateBank(

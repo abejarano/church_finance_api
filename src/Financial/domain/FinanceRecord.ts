@@ -4,8 +4,13 @@ import { IdentifyEntity } from "../../Shared/adapter";
 import { ConceptType } from "./enums/ConcepType.enum";
 import { AvailabilityAccount } from "./AvailabilityAccount";
 import { AccountType } from "./enums/AccountType.enum";
+import { CostCenter } from "./CostCenter";
 
 export class FinanceRecord extends AggregateRoot {
+  private costCenter: {
+    costCenterId: string;
+    name: string;
+  };
   private id?: string;
   private financialRecordId: string;
   private financialConcept: FinancialConcept;
@@ -21,15 +26,26 @@ export class FinanceRecord extends AggregateRoot {
   private voucher?: string;
   private description?: string;
 
-  static create(
-    financialConcept: FinancialConcept,
-    churchId: string,
-    amount: number,
-    date: Date,
-    availabilityAccount: AvailabilityAccount,
-    description?: string,
-    voucher?: string,
-  ): FinanceRecord {
+  static create(params: {
+    financialConcept: FinancialConcept;
+    churchId: string;
+    amount: number;
+    date: Date;
+    availabilityAccount: AvailabilityAccount;
+    description?: string;
+    voucher?: string;
+    costCenter?: CostCenter;
+  }): FinanceRecord {
+    const {
+      financialConcept,
+      churchId,
+      amount,
+      date,
+      availabilityAccount,
+      description,
+      voucher,
+      costCenter,
+    } = params;
     const financialRecord: FinanceRecord = new FinanceRecord();
     financialRecord.financialRecordId = IdentifyEntity.get();
     financialRecord.financialConcept = financialConcept;
@@ -45,6 +61,13 @@ export class FinanceRecord extends AggregateRoot {
     financialRecord.voucher = voucher;
     financialRecord.description = description;
 
+    if (costCenter) {
+      financialRecord.costCenter = {
+        costCenterId: costCenter.getCostCenterId(),
+        name: costCenter.getCostCenterName(),
+      };
+    }
+
     return financialRecord;
   }
 
@@ -58,8 +81,9 @@ export class FinanceRecord extends AggregateRoot {
     financialRecord.date = plainData.date;
     financialRecord.type = plainData.type;
     financialRecord.availabilityAccount = plainData.availabilityAccount;
-    financialRecord.voucher = plainData.voucher;
+    financialRecord.voucher = plainData?.voucher;
     financialRecord.description = plainData.description;
+    financialRecord.costCenter = plainData?.costCenter;
 
     return financialRecord;
   }
@@ -79,6 +103,7 @@ export class FinanceRecord extends AggregateRoot {
       availabilityAccount: this.availabilityAccount,
       voucher: this.voucher,
       description: this.description,
+      costCenter: this.costCenter,
     };
   }
 }

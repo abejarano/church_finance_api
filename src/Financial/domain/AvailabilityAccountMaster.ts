@@ -1,5 +1,5 @@
 import { AggregateRoot } from "../../Shared/domain";
-import IdentifyAvailabilityAccountMaster from "../applications/availabilityAccount/helpers/IdentifyAvailabilityAccountMaster";
+import IdentifyAvailabilityAccountMaster from "../applications/helpers/MasterBalanceIdentifier";
 import { AvailabilityAccount } from "./AvailabilityAccount";
 
 export class AvailabilityAccountMaster extends AggregateRoot {

@@ -1,22 +1,20 @@
-import {
-  CostCenter,
-  CostCenterNotFound,
-  CostCenterRequest,
-} from "../../../domain";
-import { IFinancialConfigurationRepository } from "../../../domain/interfaces";
+import { CostCenter, CostCenterExists, CostCenterRequest } from "../../domain";
+import { IFinancialConfigurationRepository } from "../../domain/interfaces";
 import {
   IMemberRepository,
   Member,
   MemberNotFound,
-} from "../../../../Church/domain";
+} from "../../../Church/domain";
+import { logger } from "../../../Shared/infrastructure";
 
-export class UpdateCostCenter {
+export class CreateCostCenter {
   constructor(
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
     private readonly memberRepository: IMemberRepository,
   ) {}
 
   async execute(costCenterRequest: CostCenterRequest) {
+    logger.info(`Creating cost center `, costCenterRequest);
     const responsibleMember = await this.findMember(
       costCenterRequest.responsibleMemberId,
     );
@@ -27,11 +25,11 @@ export class UpdateCostCenter {
         costCenterRequest.churchId,
       );
 
-    if (!costCenter) {
-      throw new CostCenterNotFound();
+    if (costCenter) {
+      throw new CostCenterExists();
     }
 
-    costCenter.setUpdateDate(costCenterRequest, responsibleMember);
+    await this.create(costCenterRequest, responsibleMember);
 
     await this.financialConfigurationRepository.upsertCostCenter(costCenter);
   }

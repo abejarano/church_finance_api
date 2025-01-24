@@ -1,6 +1,6 @@
 import { IAvailabilityAccountMasterRepository } from "../../domain/interfaces";
 import { AvailabilityAccount, AvailabilityAccountMaster } from "../../domain";
-import IdentifyAvailabilityAccountMaster from "./helpers/IdentifyAvailabilityAccountMaster";
+import IdentifyAvailabilityAccountMaster from "../helpers/MasterBalanceIdentifier";
 import { logger } from "../../../Shared/infrastructure";
 
 export class UpdateAvailabilityAccountMaster {
@@ -22,10 +22,9 @@ export class UpdateAvailabilityAccountMaster {
       `Search AvailabilityAccountMaster ${identifyAvailabilityAccountMaster}`,
     );
 
-    let accountMaster =
-      await this.availabilityAccountMasterRepository.findByAvailabilityAccountMasterId(
-        identifyAvailabilityAccountMaster,
-      );
+    let accountMaster = await this.availabilityAccountMasterRepository.one(
+      identifyAvailabilityAccountMaster,
+    );
 
     if (!accountMaster) {
       logger.info(

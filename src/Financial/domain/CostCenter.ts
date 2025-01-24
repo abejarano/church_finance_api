@@ -62,6 +62,10 @@ export class CostCenter {
     return this.costCenterId;
   }
 
+  getCostCenterName() {
+    return this.name;
+  }
+
   getChurchId(): string {
     return this.churchId;
   }

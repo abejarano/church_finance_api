@@ -14,6 +14,11 @@ import {
   createOrUpdateAvailabilityAccount,
   listAvailabilityAccountByChurchId,
 } from "../controllers/AvailabilityAccount.controller";
+import {
+  CreateCostCenterController,
+  FindCostCenterByChurchIdController,
+  UpdateCostCenterController,
+} from "../controllers/CostCenter.controller";
 
 const financialConfigurationRoute = Router();
 
@@ -21,10 +26,7 @@ financialConfigurationRoute.post(
   "/cost-center",
   PermissionMiddleware,
   async (req, res) => {
-    await FinancialConfigurationController.createCostCenter(
-      req.body as CostCenterRequest,
-      res,
-    );
+    await CreateCostCenterController(req.body as CostCenterRequest, res);
   },
 );
 
@@ -32,19 +34,13 @@ financialConfigurationRoute.put(
   "/cost-center",
   PermissionMiddleware,
   async (req, res) => {
-    await FinancialConfigurationController.updateCostCenter(
-      req.body as CostCenterRequest,
-      res,
-    );
+    await UpdateCostCenterController(req.body as CostCenterRequest, res);
   },
 );
 
 financialConfigurationRoute.get("/cost-center/:churchId", async (req, res) => {
   const { churchId } = req.params as any;
-  await FinancialConfigurationController.findCostCenterByChurchId(
-    churchId,
-    res,
-  );
+  await FindCostCenterByChurchIdController(churchId, res);
 });
 
 //TODO sera necesario crear endpoint por pais para el registro de banco?

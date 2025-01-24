@@ -4,13 +4,22 @@ import { MovementBankMongoRepository } from "../../MovementBank/infraestructura/
 import {
   AvailabilityAccountMasterMongoRepository,
   AvailabilityAccountMongoRepository,
+  CostCenterMasterMongoRepository,
   FinanceRecordMongoRepository,
   FinancialConfigurationMongoRepository,
 } from "./persistence";
 import { RegisterFinancialRecord } from "../applications/financeRecord/RegisterFinancialRecord";
 import { UpdateAvailabilityAccountBalance } from "../applications";
+import { UpdateCostCenterMaster } from "../applications/costCenter/UpdateCostCenterMaster";
 
 export const FinancialQueue: IDefinitionQueue[] = [
+  {
+    useClass: UpdateCostCenterMaster,
+    inject: [
+      FinancialConfigurationMongoRepository.getInstance(),
+      CostCenterMasterMongoRepository.getInstance(),
+    ],
+  },
   {
     useClass: MovementBankRecord,
     inject: [

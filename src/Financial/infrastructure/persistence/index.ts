@@ -3,3 +3,4 @@ export { FinanceRecordMongoRepository } from "./FinanceRecordMongoRepository";
 export { OnlineContributionsMongoRepository } from "./OnlineContributionsMongoRepository";
 export { AvailabilityAccountMasterMongoRepository } from "./AvailabilityAccountMasterMongoRepository";
 export { AvailabilityAccountMongoRepository } from "./AvailabilityAccountMongoRepository";
+export { CostCenterMasterMongoRepository } from "./CostCenterMasterMongoRepository";
