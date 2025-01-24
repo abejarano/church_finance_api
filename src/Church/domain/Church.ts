@@ -1,26 +1,26 @@
-import { AggregateRoot } from "../../Shared/domain";
+import { AggregateRoot } from '../../Shared/domain'
 //import { Minister, Region } from "../../OrganizacionalStructure/domain";
-import { IdentifyEntity } from "../../Shared/adapter";
-import { ChurchStatus } from "./enums/ChurchStatus.enum";
-import { Minister } from "./Minister";
-import { DateBR } from "../../Shared/helpers";
+import { IdentifyEntity } from '../../Shared/adapter'
+import { ChurchStatus } from './enums/ChurchStatus.enum'
+import { Minister } from './Minister'
+import { DateBR } from '../../Shared/helpers'
 
 export class Church extends AggregateRoot {
-  private id?: string;
-  private churchId: string;
-  private name: string;
-  private city: string;
-  private address: string;
-  private street: string;
-  private number: string;
-  private postalCode: string;
-  private registerNumber: string;
-  private email: string;
-  private openingDate: Date;
-  private ministerId: string;
+  private id?: string
+  private churchId: string
+  private name: string
+  private city: string
+  private address: string
+  private street: string
+  private number: string
+  private postalCode: string
+  private registerNumber: string
+  private email: string
+  private openingDate: Date
+  private ministerId: string
   //private region: Region;
-  private status: ChurchStatus;
-  private createdAt: Date;
+  private status: ChurchStatus
+  private createdAt: Date
 
   static create(
     name: string,
@@ -34,58 +34,58 @@ export class Church extends AggregateRoot {
     //region: Region,
     registerNumber?: string,
   ): Church {
-    const c: Church = new Church();
+    const c: Church = new Church()
 
-    c.name = name;
-    c.city = city;
-    c.address = address;
-    c.street = street;
-    c.number = number;
-    c.postalCode = postalCode;
-    c.registerNumber = registerNumber;
-    c.email = email;
-    c.openingDate = openingDate;
+    c.name = name
+    c.city = city
+    c.address = address
+    c.street = street
+    c.number = number
+    c.postalCode = postalCode
+    c.registerNumber = registerNumber
+    c.email = email
+    c.openingDate = openingDate
     //c.region = region;
-    c.createdAt = DateBR();
-    c.churchId = IdentifyEntity.get();
-    c.status = ChurchStatus.ACTIVE;
+    c.createdAt = DateBR()
+    c.churchId = IdentifyEntity.get()
+    c.status = ChurchStatus.ACTIVE
 
-    return c;
+    return c
   }
 
   static fromPrimitives(plainData: any): Church {
-    const c: Church = new Church();
+    const c: Church = new Church()
 
-    c.id = plainData.id;
-    c.churchId = plainData.churchId;
-    c.name = plainData.name;
-    c.city = plainData.city;
-    c.address = plainData.address;
-    c.street = plainData.street;
-    c.number = plainData.number;
-    c.postalCode = plainData.postalCode;
-    c.registerNumber = plainData.registerNumber;
-    c.email = plainData.email;
-    c.openingDate = plainData.openingDate;
-    c.ministerId = plainData.ministerId;
+    c.id = plainData.id
+    c.churchId = plainData.churchId
+    c.name = plainData.name
+    c.city = plainData.city
+    c.address = plainData.address
+    c.street = plainData.street
+    c.number = plainData.number
+    c.postalCode = plainData.postalCode
+    c.registerNumber = plainData.registerNumber
+    c.email = plainData.email
+    c.openingDate = plainData.openingDate
+    c.ministerId = plainData.ministerId
     //c.region = Region.fromPrimitives(plainData.region);
-    c.status = plainData.status;
+    c.status = plainData.status
 
-    c.createdAt = plainData.createdAt;
+    c.createdAt = plainData.createdAt
 
-    return c;
+    return c
   }
 
   setStatus(status: ChurchStatus) {
-    this.status = status;
+    this.status = status
   }
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   getChurchId(): string {
-    return this.churchId;
+    return this.churchId
   }
 
   // setRegion(region: Region) {
@@ -93,15 +93,15 @@ export class Church extends AggregateRoot {
   // }
 
   setRegisterNumber(registerNumber: string) {
-    this.registerNumber = registerNumber;
+    this.registerNumber = registerNumber
   }
 
   setMinister(minister: Minister) {
-    this.ministerId = minister.getMinisterId();
+    this.ministerId = minister.getMinisterId()
   }
 
   setEmail(email: string) {
-    this.email = email;
+    this.email = email
   }
 
   setAddress(
@@ -111,27 +111,27 @@ export class Church extends AggregateRoot {
     number: string,
     postalCode: string,
   ) {
-    this.city = city;
-    this.address = address;
-    this.street = street;
-    this.number = number;
-    this.postalCode = postalCode;
+    this.city = city
+    this.address = address
+    this.street = street
+    this.number = number
+    this.postalCode = postalCode
   }
 
   setOpeningDate(openingDate: Date) {
-    this.openingDate = openingDate;
+    this.openingDate = openingDate
   }
 
   getName(): string {
-    return this.name;
+    return this.name
   }
 
   getMinisterId() {
-    return this.ministerId;
+    return this.ministerId
   }
 
   removeMinister() {
-    this.ministerId = undefined;
+    this.ministerId = undefined
   }
 
   // getRegion(): Region {
@@ -154,6 +154,6 @@ export class Church extends AggregateRoot {
       createdAt: this.createdAt,
       ministerId: this.ministerId ?? null,
       status: this.status,
-    };
+    }
   }
 }

@@ -1,18 +1,18 @@
-import { TypeBankAccount } from "./enums/TypeBankAccount.enum";
-import { AggregateRoot } from "../../Shared/domain";
-import { Church } from "../../Church/domain";
-import { IdentifyEntity } from "../../Shared/adapter";
+import { TypeBankAccount } from './enums/TypeBankAccount.enum'
+import { AggregateRoot } from '../../Shared/domain'
+import { Church } from '../../Church/domain'
+import { IdentifyEntity } from '../../Shared/adapter'
 
 export class Bank extends AggregateRoot {
-  private id?: string;
-  private accountType: TypeBankAccount;
-  private bankId: string;
-  private churchId: string;
-  private active: boolean;
-  private name: string;
-  private tag: string;
-  private addressInstancePayment: string;
-  private bankInstruction: any;
+  private id?: string
+  private accountType: TypeBankAccount
+  private bankId: string
+  private churchId: string
+  private active: boolean
+  private name: string
+  private tag: string
+  private addressInstancePayment: string
+  private bankInstruction: any
 
   static create(
     accountType: TypeBankAccount,
@@ -23,62 +23,62 @@ export class Bank extends AggregateRoot {
     bankInstruction: string,
     church: Church,
   ): Bank {
-    const bank: Bank = new Bank();
-    bank.accountType = accountType;
-    bank.active = active;
-    bank.bankId = IdentifyEntity.get();
-    bank.name = name;
-    bank.tag = tag;
-    bank.addressInstancePayment = addressInstancePayment;
-    bank.bankInstruction = bankInstruction;
-    bank.churchId = church.getChurchId();
-    return bank;
+    const bank: Bank = new Bank()
+    bank.accountType = accountType
+    bank.active = active
+    bank.bankId = IdentifyEntity.get()
+    bank.name = name
+    bank.tag = tag
+    bank.addressInstancePayment = addressInstancePayment
+    bank.bankInstruction = bankInstruction
+    bank.churchId = church.getChurchId()
+    return bank
   }
 
   static fromPrimitives(plainData: any): Bank {
-    const bank: Bank = new Bank();
-    bank.id = plainData.id;
-    bank.accountType = plainData.accountType;
-    bank.active = plainData.active;
-    bank.bankId = plainData.bankId;
-    bank.name = plainData.name;
-    bank.tag = plainData.tag;
-    bank.addressInstancePayment = plainData.addressInstancePayment;
-    bank.bankInstruction = plainData.bankInstruction;
-    bank.churchId = plainData.churchId;
-    return bank;
+    const bank: Bank = new Bank()
+    bank.id = plainData.id
+    bank.accountType = plainData.accountType
+    bank.active = plainData.active
+    bank.bankId = plainData.bankId
+    bank.name = plainData.name
+    bank.tag = plainData.tag
+    bank.addressInstancePayment = plainData.addressInstancePayment
+    bank.bankInstruction = plainData.bankInstruction
+    bank.churchId = plainData.churchId
+    return bank
   }
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   getChurchId(): string {
-    return this.churchId;
+    return this.churchId
   }
 
   getBankId(): string {
-    return this.bankId;
+    return this.bankId
   }
 
   isActive(): boolean {
-    return this.active;
+    return this.active
   }
 
   setInstancePaymentAddress(address: string): void {
-    this.addressInstancePayment = address;
+    this.addressInstancePayment = address
   }
 
   setTag(tag: string): void {
-    this.tag = tag;
+    this.tag = tag
   }
 
   setBankInstruction(instruction: string): void {
-    this.bankInstruction = instruction;
+    this.bankInstruction = instruction
   }
 
   setAccountType(accountType: TypeBankAccount): void {
-    this.accountType = accountType;
+    this.accountType = accountType
   }
 
   toPrimitives(): any {
@@ -91,6 +91,6 @@ export class Bank extends AggregateRoot {
       addressInstancePayment: this.addressInstancePayment,
       bankInstruction: this.bankInstruction,
       churchId: this.churchId,
-    };
+    }
   }
 }

@@ -1,18 +1,18 @@
-import { AccountType } from "./enums/AccountType.enum";
-import { IdentifyEntity } from "../../Shared/adapter";
-import { DateBR } from "../../Shared/helpers";
-import { AggregateRoot } from "../../Shared/domain";
+import { AccountType } from './enums/AccountType.enum'
+import { IdentifyEntity } from '../../Shared/adapter'
+import { DateBR } from '../../Shared/helpers'
+import { AggregateRoot } from '../../Shared/domain'
 
 export class AvailabilityAccount extends AggregateRoot {
-  private id?: string;
-  private churchId: string;
-  private availabilityAccountId: string;
-  private accountName: string;
-  private balance: number;
-  private active: boolean;
-  private accountType: AccountType;
-  private lastMove: Date;
-  private createdAt: Date;
+  private id?: string
+  private churchId: string
+  private availabilityAccountId: string
+  private accountName: string
+  private balance: number
+  private active: boolean
+  private accountType: AccountType
+  private lastMove: Date
+  private createdAt: Date
 
   static create(
     churchId: string,
@@ -20,73 +20,73 @@ export class AvailabilityAccount extends AggregateRoot {
     active: boolean,
     accountType: AccountType,
   ): AvailabilityAccount {
-    const account: AvailabilityAccount = new AvailabilityAccount();
-    account.churchId = churchId;
-    account.availabilityAccountId = IdentifyEntity.get();
-    account.accountName = accountName;
-    account.balance = 0;
-    account.active = active;
-    account.accountType = accountType;
-    account.createdAt = DateBR();
+    const account: AvailabilityAccount = new AvailabilityAccount()
+    account.churchId = churchId
+    account.availabilityAccountId = IdentifyEntity.get()
+    account.accountName = accountName
+    account.balance = 0
+    account.active = active
+    account.accountType = accountType
+    account.createdAt = DateBR()
 
-    return account;
+    return account
   }
 
   static fromPrimitives(plainData: any): AvailabilityAccount {
-    const account: AvailabilityAccount = new AvailabilityAccount();
-    account.churchId = plainData.churchId;
-    account.availabilityAccountId = plainData.availabilityAccountId;
-    account.accountName = plainData.accountName;
-    account.balance = plainData.balance;
-    account.active = plainData.active;
-    account.accountType = plainData.accountType;
-    account.lastMove = plainData.lastMove;
-    account.createdAt = plainData.createdAt;
-    account.id = plainData._id;
+    const account: AvailabilityAccount = new AvailabilityAccount()
+    account.churchId = plainData.churchId
+    account.availabilityAccountId = plainData.availabilityAccountId
+    account.accountName = plainData.accountName
+    account.balance = plainData.balance
+    account.active = plainData.active
+    account.accountType = plainData.accountType
+    account.lastMove = plainData.lastMove
+    account.createdAt = plainData.createdAt
+    account.id = plainData._id
 
-    return account;
+    return account
   }
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   getChurchId() {
-    return this.churchId;
+    return this.churchId
   }
 
   getAccountName() {
-    return this.accountName;
+    return this.accountName
   }
 
   getAvailabilityAccountId() {
-    return this.availabilityAccountId;
+    return this.availabilityAccountId
   }
 
   getType(): AccountType {
-    return this.accountType;
+    return this.accountType
   }
 
   setAccountName(accountName: string) {
-    this.accountName = accountName;
+    this.accountName = accountName
   }
 
   enable() {
-    this.active = true;
+    this.active = true
   }
 
   disable() {
-    this.active = false;
+    this.active = false
   }
 
   decreaseBalance(amount: number) {
-    this.balance -= amount;
-    this.lastMove = DateBR();
+    this.balance -= amount
+    this.lastMove = DateBR()
   }
 
   increaseBalance(amount: number) {
-    this.balance += amount;
-    this.lastMove = DateBR();
+    this.balance += amount
+    this.lastMove = DateBR()
   }
 
   toPrimitives() {
@@ -99,6 +99,6 @@ export class AvailabilityAccount extends AggregateRoot {
       accountType: this.accountType,
       lastUpdate: this.lastMove,
       createdAt: this.createdAt,
-    };
+    }
   }
 }

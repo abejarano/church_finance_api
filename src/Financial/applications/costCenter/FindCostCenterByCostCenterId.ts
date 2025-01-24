@@ -1,5 +1,5 @@
-import { CostCenter, CostCenterNotFound } from "../../domain";
-import { IFinancialConfigurationRepository } from "../../domain/interfaces";
+import { CostCenter, CostCenterNotFound } from '../../domain'
+import { IFinancialConfigurationRepository } from '../../domain/interfaces'
 
 export class FindCostCenterByCostCenterId {
   constructor(
@@ -11,12 +11,12 @@ export class FindCostCenterByCostCenterId {
       await this.financialConfigurationRepository.findCostCenterByCostCenterId(
         costCenterId,
         churchId,
-      );
+      )
 
     if (!costCenter) {
-      throw new CostCenterNotFound();
+      throw new CostCenterNotFound()
     }
 
-    return costCenter;
+    return costCenter
   }
 }

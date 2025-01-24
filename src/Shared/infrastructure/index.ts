@@ -1,12 +1,12 @@
-import { CustomLogger } from "./CustomLogger";
+import { CustomLogger } from './CustomLogger'
 
-export { AppAuthMiddleware } from "./middleware/AppAuth.middleware";
-export { server } from "./http/server";
-export * from "./mongodb/index";
+export { AppAuthMiddleware } from './middleware/AppAuth.middleware'
+export { server } from './http/server'
+export * from './mongodb/index'
 
-export { PermissionMiddleware } from "./middleware/Permission.middleware";
+export { PermissionMiddleware } from './middleware/Permission.middleware'
 
-export { QueueBullService } from "./bull/QueueBull.service";
-export { StorageGCP } from "./StorageGCP";
+export { QueueBullService } from './bull/QueueBull.service'
+export { StorageGCP } from './StorageGCP'
 
-export const logger = new CustomLogger();
+export const logger = new CustomLogger()

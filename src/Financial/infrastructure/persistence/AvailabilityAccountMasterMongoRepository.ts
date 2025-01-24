@@ -1,46 +1,46 @@
-import { MongoRepository } from "../../../Shared/infrastructure";
-import { IAvailabilityAccountMasterRepository } from "../../domain/interfaces";
-import { AvailabilityAccountMaster } from "../../domain";
+import { MongoRepository } from '../../../Shared/infrastructure'
+import { IAvailabilityAccountMasterRepository } from '../../domain/interfaces'
+import { AvailabilityAccountMaster } from '../../domain'
 
 export class AvailabilityAccountMasterMongoRepository
   extends MongoRepository<AvailabilityAccountMaster>
   implements IAvailabilityAccountMasterRepository
 {
-  private static instance: AvailabilityAccountMasterMongoRepository;
+  private static instance: AvailabilityAccountMasterMongoRepository
 
   constructor() {
-    super();
+    super()
   }
 
   static getInstance(): AvailabilityAccountMasterMongoRepository {
     if (!AvailabilityAccountMasterMongoRepository.instance) {
       AvailabilityAccountMasterMongoRepository.instance =
-        new AvailabilityAccountMasterMongoRepository();
+        new AvailabilityAccountMasterMongoRepository()
     }
-    return AvailabilityAccountMasterMongoRepository.instance;
+    return AvailabilityAccountMasterMongoRepository.instance
   }
 
   collectionName(): string {
-    return "availability_accounts_master";
+    return 'availability_accounts_master'
   }
 
   async one(
     availabilityAccountMasterId: string,
   ): Promise<AvailabilityAccountMaster | undefined> {
-    const collection = await this.collection();
+    const collection = await this.collection()
     const document = await collection.findOne({
       availabilityAccountMasterId,
-    });
+    })
     return document
       ? AvailabilityAccountMaster.fromPrimitives({
           ...document,
           id: document._id,
         })
-      : undefined;
+      : undefined
   }
 
   async upsert(accountMaster: AvailabilityAccountMaster): Promise<void> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     await collection.updateOne(
       {
@@ -49,7 +49,7 @@ export class AvailabilityAccountMasterMongoRepository
       },
       { $set: accountMaster.toPrimitives() },
       { upsert: true },
-    );
+    )
   }
 
   async search(
@@ -57,27 +57,27 @@ export class AvailabilityAccountMasterMongoRepository
     month: number,
     year: number,
   ): Promise<AvailabilityAccountMaster[] | undefined> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     const documents = await collection
       .aggregate([
         {
           $search: {
-            index: "availabilityAccountMasterIndex",
+            index: 'availabilityAccountMasterIndex',
             compound: {
               must: [
-                { text: { query: churchId, path: "churchId" } },
-                { equals: { value: month, path: "month" } },
-                { equals: { value: year, path: "year" } },
+                { text: { query: churchId, path: 'churchId' } },
+                { equals: { value: month, path: 'month' } },
+                { equals: { value: year, path: 'year' } },
               ],
             },
           },
         },
       ])
-      .toArray();
+      .toArray()
 
     if (!documents) {
-      return undefined;
+      return undefined
     }
 
     return documents.map((document) =>
@@ -85,6 +85,6 @@ export class AvailabilityAccountMasterMongoRepository
         ...document,
         id: document._id,
       }),
-    );
+    )
   }
 }

@@ -1,19 +1,19 @@
-import { Storage } from "@google-cloud/storage";
-import * as fs from "fs";
-import { v4 } from "uuid";
-import { GenericException, IStorageService } from "../domain";
-import { logger } from ".";
+import { Storage } from '@google-cloud/storage'
+import * as fs from 'fs'
+import { v4 } from 'uuid'
+import { GenericException, IStorageService } from '../domain'
+import { logger } from '.'
 
 export class StorageGCP implements IStorageService {
-  private static _instance: StorageGCP;
-  private storage: Storage;
-  private bucketName: string;
+  private static _instance: StorageGCP
+  private storage: Storage
+  private bucketName: string
 
   constructor(bucketName?: string) {
-    this.storage = new Storage();
+    this.storage = new Storage()
 
     if (bucketName) {
-      this.bucketName = bucketName;
+      this.bucketName = bucketName
     }
 
     //this.configureBucketCors(bucketName).catch(console.error);
@@ -21,9 +21,9 @@ export class StorageGCP implements IStorageService {
 
   static getInstance(bucketName: string): StorageGCP {
     if (!StorageGCP._instance) {
-      StorageGCP._instance = new StorageGCP(bucketName);
+      StorageGCP._instance = new StorageGCP(bucketName)
     }
-    return StorageGCP._instance;
+    return StorageGCP._instance
   }
 
   // async configureBucketCors(bucketName: string) {
@@ -38,8 +38,8 @@ export class StorageGCP implements IStorageService {
   // }
 
   setBucketName(bucketName: string): IStorageService {
-    this.bucketName = bucketName;
-    return this;
+    this.bucketName = bucketName
+    return this
   }
 
   /**
@@ -48,19 +48,19 @@ export class StorageGCP implements IStorageService {
    */
   async downloadFile(pathInFileStorage: string): Promise<string> {
     try {
-      const bucket = this.storage.bucket(this.bucketName);
-      const file = bucket.file(pathInFileStorage);
+      const bucket = this.storage.bucket(this.bucketName)
+      const file = bucket.file(pathInFileStorage)
 
       // Generate signed URL with expiration (1 hour)
       const [url] = await file.getSignedUrl({
-        action: "read",
+        action: 'read',
         expires: Date.now() + 3600 * 1000,
-      });
+      })
 
-      return url;
+      return url
     } catch (error) {
-      logger.error("Error generating signed URL:", error);
-      throw new GenericException("Error generating signed URL.");
+      logger.error('Error generating signed URL:', error)
+      throw new GenericException('Error generating signed URL.')
     }
   }
 
@@ -69,11 +69,11 @@ export class StorageGCP implements IStorageService {
    * @param file File to upload
    */
   async uploadFile(file: any): Promise<string> {
-    const key: string = this.generateNameFile(file); // Generate a unique file name
+    const key: string = this.generateNameFile(file) // Generate a unique file name
 
     try {
-      const bucket = this.storage.bucket(this.bucketName);
-      const gcsFile = bucket.file(key);
+      const bucket = this.storage.bucket(this.bucketName)
+      const gcsFile = bucket.file(key)
 
       // Create a writable stream to upload the file
       await new Promise<void>((resolve, reject) => {
@@ -85,31 +85,29 @@ export class StorageGCP implements IStorageService {
               },
             }),
           )
-          .on("error", (err) => {
-            logger.error("Error uploading file to GCP Storage:", err);
-            reject(
-              new GenericException("Error uploading file to GCP Storage."),
-            );
+          .on('error', (err) => {
+            logger.error('Error uploading file to GCP Storage:', err)
+            reject(new GenericException('Error uploading file to GCP Storage.'))
           })
-          .on("finish", () => {
-            logger.info("File uploaded successfully to GCP Storage.");
-            resolve();
-          });
-      });
+          .on('finish', () => {
+            logger.info('File uploaded successfully to GCP Storage.')
+            resolve()
+          })
+      })
 
       // Delete the temporary file after upload
       fs.unlink(file.tempFilePath, (unlinkErr) => {
         if (unlinkErr) {
-          logger.error("Error deleting temporary file:", unlinkErr);
+          logger.error('Error deleting temporary file:', unlinkErr)
         } else {
-          logger.info("Temporary file deleted successfully.");
+          logger.info('Temporary file deleted successfully.')
         }
-      });
+      })
 
-      return key; // Return the file name in GCP Storage
+      return key // Return the file name in GCP Storage
     } catch (error) {
-      logger.error("Error uploading file to GCP Storage:", error);
-      throw new GenericException("Error uploading file to GCP Storage.");
+      logger.error('Error uploading file to GCP Storage:', error)
+      throw new GenericException('Error uploading file to GCP Storage.')
     }
   }
 
@@ -119,14 +117,14 @@ export class StorageGCP implements IStorageService {
    */
   async deleteFile(path: string) {
     try {
-      const bucket = this.storage.bucket(this.bucketName);
-      const file = bucket.file(path);
+      const bucket = this.storage.bucket(this.bucketName)
+      const file = bucket.file(path)
 
-      await file.delete();
-      logger.info(`File ${path} deleted successfully from GCP Storage.`);
+      await file.delete()
+      logger.info(`File ${path} deleted successfully from GCP Storage.`)
     } catch (error) {
-      logger.error("Error deleting file from GCP Storage:", error);
-      throw new GenericException("Error deleting file from GCP Storage.");
+      logger.error('Error deleting file from GCP Storage:', error)
+      throw new GenericException('Error deleting file from GCP Storage.')
     }
   }
 
@@ -135,13 +133,13 @@ export class StorageGCP implements IStorageService {
    * @param file
    */
   private generateNameFile(file: any): string {
-    const currentDate: Date = new Date();
-    const year: number = currentDate.getFullYear();
-    const month: number = currentDate.getMonth() + 1;
+    const currentDate: Date = new Date()
+    const year: number = currentDate.getFullYear()
+    const month: number = currentDate.getMonth() + 1
 
-    const extension = file.name.split(".").pop();
-    const newFileName = `${v4()}.${extension}`;
+    const extension = file.name.split('.').pop()
+    const newFileName = `${v4()}.${extension}`
 
-    return `${year}/${month}/${newFileName}`;
+    return `${year}/${month}/${newFileName}`
   }
 }

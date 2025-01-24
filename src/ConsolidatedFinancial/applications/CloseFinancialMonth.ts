@@ -1,8 +1,8 @@
-import { IQueue } from "../../Shared/domain";
+import { IQueue } from '../../Shared/domain'
 import {
   IFinancialYearRepository,
   UpdateFinancialMonthRequest,
-} from "../domain";
+} from '../domain'
 
 export class CloseFinancialMonth implements IQueue {
   constructor(
@@ -12,18 +12,18 @@ export class CloseFinancialMonth implements IQueue {
   async handle(args: UpdateFinancialMonthRequest): Promise<void> {
     const financialMonth = await this.financialYearRepository.findById(
       args.financialMonthId,
-    );
+    )
 
     if (!financialMonth) {
-      throw new Error("Financial month not found");
+      throw new Error('Financial month not found')
     }
 
     if (args.closed) {
-      financialMonth.close();
+      financialMonth.close()
     } else {
-      financialMonth.open();
+      financialMonth.open()
     }
 
-    await this.financialYearRepository.upsertFinancialMonth(financialMonth);
+    await this.financialYearRepository.upsertFinancialMonth(financialMonth)
   }
 }

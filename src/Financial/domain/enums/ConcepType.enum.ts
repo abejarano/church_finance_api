@@ -1,5 +1,5 @@
 export enum ConceptType {
-  INCOME = "INCOME",
-  DISCHARGE = "OUTGO",
-  PURCHASE = "PURCHASE",
+  INCOME = 'INCOME',
+  DISCHARGE = 'OUTGO',
+  PURCHASE = 'PURCHASE',
 }

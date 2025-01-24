@@ -1,14 +1,14 @@
-import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { BankRequest, ConceptType } from "../../../domain";
+import domainResponse from '../../../../Shared/helpers/domainResponse'
+import { BankRequest, ConceptType } from '../../../domain'
 import {
   CreateOrUpdateBank,
   FinBankByBankId,
   FindFinancialConceptsByChurchIdAndTypeConcept,
   SearchBankByChurchId,
-} from "../../../applications";
-import { FinancialConfigurationMongoRepository } from "../../persistence";
-import { HttpStatus } from "../../../../Shared/domain";
-import { ChurchMongoRepository } from "../../../../Church/infrastructure";
+} from '../../../applications'
+import { FinancialConfigurationMongoRepository } from '../../persistence'
+import { HttpStatus } from '../../../../Shared/domain'
+import { ChurchMongoRepository } from '../../../../Church/infrastructure'
 
 export class FinancialConfigurationController {
   static async createOrUpdateBank(request: BankRequest, res) {
@@ -16,15 +16,17 @@ export class FinancialConfigurationController {
       await new CreateOrUpdateBank(
         FinancialConfigurationMongoRepository.getInstance(),
         ChurchMongoRepository.getInstance(),
-      ).execute(request);
+      ).execute(request)
 
       if (!request.bankId) {
-        res.status(HttpStatus.CREATED).send({ message: "Registered bank" });
+        res.status(HttpStatus.CREATED).send({
+          message: 'Registered bank',
+        })
       } else {
-        res.status(HttpStatus.OK).send({ message: "Updated bank" });
+        res.status(HttpStatus.OK).send({ message: 'Updated bank' })
       }
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
@@ -32,11 +34,11 @@ export class FinancialConfigurationController {
     try {
       const bank = await new FinBankByBankId(
         FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(bankId);
+      ).execute(bankId)
 
-      res.status(HttpStatus.OK).send({ data: bank });
+      res.status(HttpStatus.OK).send({ data: bank })
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
@@ -49,11 +51,11 @@ export class FinancialConfigurationController {
       const financial = await new FindFinancialConceptsByChurchIdAndTypeConcept(
         FinancialConfigurationMongoRepository.getInstance(),
         ChurchMongoRepository.getInstance(),
-      ).execute(churchId, typeConcept);
+      ).execute(churchId, typeConcept)
 
-      res.status(HttpStatus.OK).send(financial);
+      res.status(HttpStatus.OK).send(financial)
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
@@ -61,11 +63,11 @@ export class FinancialConfigurationController {
     try {
       const bank = await new SearchBankByChurchId(
         FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(churchId);
+      ).execute(churchId)
 
-      res.status(HttpStatus.OK).send(bank);
+      res.status(HttpStatus.OK).send(bank)
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 }
