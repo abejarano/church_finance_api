@@ -1,6 +1,6 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { IMemberRepository, Member } from '../../domain'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IMemberRepository, Member } from "../../domain"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export class MemberMongoRepository
   extends MongoRepository<any>
@@ -21,16 +21,16 @@ export class MemberMongoRepository
   }
 
   collectionName(): string {
-    return 'churches'
+    return "churches"
   }
 
   async findById(memberId: string): Promise<Member | undefined> {
     const collection = await this.collection()
     const result = await collection.findOne<any>(
       {
-        'members.memberId': memberId,
+        "members.memberId": memberId,
       },
-      { projection: { 'members.$': 1, churchId: 1 } },
+      { projection: { "members.$": 1, churchId: 1 } }
     )
 
     if (result === null || result.members.length === 0) {
@@ -49,21 +49,21 @@ export class MemberMongoRepository
     // Paso 1: Elimina el objeto existente del array (si existe)
     await collection.updateOne(
       { churchId: member.getChurchId() },
-      { $pull: { members: { memberId: member.getMemberId() } } },
+      { $pull: { members: { memberId: member.getMemberId() } } }
     )
 
     // Paso 2: Añade el nuevo objeto al array
     await collection.updateOne(
       { churchId: member.getChurchId() },
       { $push: { members: member.toPrimitives() } },
-      { upsert: true },
+      { upsert: true }
     )
   }
 
   async list(criteria: Criteria): Promise<Paginate<Member>> {
     const documents = await this.searchByCriteriaWithProjection<any>(
       criteria,
-      'members',
+      "members"
     )
 
     const listMembers = []
@@ -81,7 +81,7 @@ export class MemberMongoRepository
     const agg = [
       {
         $project: {
-          numberOfMembers: { $size: '$members' },
+          numberOfMembers: { $size: "$members" },
         },
       },
     ]
@@ -109,8 +109,8 @@ export class MemberMongoRepository
     }>()
 
     const result = await collection.findOne(
-      { 'members.dni': dni },
-      { projection: { 'members.$': 1 } },
+      { "members.dni": dni },
+      { projection: { "members.$": 1 } }
     )
 
     if (result === null || result.members.length === 0) {

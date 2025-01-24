@@ -1,5 +1,5 @@
-import { ValueObject } from './value-object'
-import { InvalidArgumentError } from '../exceptions/invalid-argument-error'
+import { ValueObject } from "./value-object"
+import { InvalidArgumentError } from "../exceptions/invalid-argument-error"
 
 export class AmountValueObject extends ValueObject<number> {
   constructor(readonly value: any) {
@@ -13,7 +13,7 @@ export class AmountValueObject extends ValueObject<number> {
 
   private ensureValueIsPositive(): void {
     if (this.value <= 0) {
-      throw new InvalidArgumentError('Amount must be positive')
+      throw new InvalidArgumentError("Amount must be positive")
     }
   }
 

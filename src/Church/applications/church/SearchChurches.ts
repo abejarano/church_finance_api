@@ -2,7 +2,7 @@ import {
   ChurchDTO,
   ChurchPaginateRequest,
   IChurchRepository,
-} from '../../domain'
+} from "../../domain"
 import {
   Criteria,
   Filters,
@@ -10,13 +10,13 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from '../../../Shared/domain'
+} from "../../../Shared/domain"
 
 export class SearchChurches {
   constructor(private readonly churchRepository: IChurchRepository) {}
 
   async execute(
-    requestChurch: ChurchPaginateRequest,
+    requestChurch: ChurchPaginateRequest
   ): Promise<Paginate<ChurchDTO>> {
     return await this.churchRepository.list(this.prepareCriteria(requestChurch))
   }
@@ -27,28 +27,28 @@ export class SearchChurches {
     if (requestChurch.regionId) {
       filters.push(
         new Map([
-          ['field', 'region.regionId'],
-          ['operator', Operator.EQUAL],
-          ['value', requestChurch.regionId],
-        ]),
+          ["field", "region.regionId"],
+          ["operator", Operator.EQUAL],
+          ["value", requestChurch.regionId],
+        ])
       )
     }
 
     if (requestChurch.status) {
       filters.push(
         new Map([
-          ['field', 'status'],
-          ['operator', Operator.EQUAL],
-          ['value', requestChurch.status],
-        ]),
+          ["field", "status"],
+          ["operator", Operator.EQUAL],
+          ["value", requestChurch.status],
+        ])
       )
     }
 
     return new Criteria(
       Filters.fromValues(filters),
-      Order.fromValues('createdAt', OrderTypes.DESC),
+      Order.fromValues("createdAt", OrderTypes.DESC),
       requestChurch.perPage,
-      requestChurch.page,
+      requestChurch.page
     )
   }
 }

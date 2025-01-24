@@ -1,5 +1,5 @@
-import { ProfileType } from '../enums/profileType.enum'
-import { Profile } from './profile.type'
+import { ProfileType } from "../enums/profileType.enum"
+import { Profile } from "./profile.type"
 
 export type UserAuthDTO = {
   churchId: string

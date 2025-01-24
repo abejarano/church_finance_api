@@ -1,10 +1,10 @@
-import { EnumValueObject } from '../value-object/enum-value-object'
-import { InvalidArgumentError } from '../exceptions/invalid-argument-error'
+import { EnumValueObject } from "../value-object/enum-value-object"
+import { InvalidArgumentError } from "../exceptions/invalid-argument-error"
 
 export enum OrderTypes {
-  ASC = 'asc',
-  DESC = 'desc',
-  NONE = 'none',
+  ASC = "asc",
+  DESC = "desc",
+  NONE = "none",
 }
 
 export class OrderType extends EnumValueObject<OrderTypes> {

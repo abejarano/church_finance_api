@@ -1,5 +1,5 @@
-import { IFinanceRecordDTO, MoneyLocation } from '../../../domain'
-import { Expose, Type } from 'class-transformer'
+import { IFinanceRecordDTO, MoneyLocation } from "../../../domain"
+import { Expose, Type } from "class-transformer"
 
 class FinancialConceptDTO {
   @Expose()

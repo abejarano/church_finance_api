@@ -1,5 +1,5 @@
-import { IMemberRepository, Member, MemberNotFound } from '../../domain'
-import { logger } from '../../../Shared/infrastructure'
+import { IMemberRepository, Member, MemberNotFound } from "../../domain"
+import { logger } from "../../../Shared/infrastructure"
 
 export class FindMemberById {
   constructor(private readonly memberRepository: IMemberRepository) {}

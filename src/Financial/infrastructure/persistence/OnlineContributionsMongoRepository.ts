@@ -1,7 +1,7 @@
-import { Criteria, Paginate } from 'src/Shared/domain'
-import { OnlineContributions } from '../../domain'
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { IOnlineContributionsRepository } from '../../domain/interfaces'
+import { Criteria, Paginate } from "src/Shared/domain"
+import { OnlineContributions } from "../../domain"
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IOnlineContributionsRepository } from "../../domain/interfaces"
 
 export class OnlineContributionsMongoRepository
   extends MongoRepository<OnlineContributions>
@@ -22,7 +22,7 @@ export class OnlineContributionsMongoRepository
   }
 
   collectionName(): string {
-    return 'contributions_sent'
+    return "contributions_sent"
   }
 
   async upsert(contribution: OnlineContributions): Promise<void> {
@@ -30,20 +30,20 @@ export class OnlineContributionsMongoRepository
   }
 
   async findByCriteria(
-    criteria: Criteria,
+    criteria: Criteria
   ): Promise<Paginate<OnlineContributions>> {
     const documents = await this.searchByCriteria<OnlineContributions>(criteria)
     return this.buildPaginate<OnlineContributions>(documents)
   }
 
   async findByMemberId(
-    memberId: string,
+    memberId: string
   ): Promise<Paginate<OnlineContributions>> {
-    throw new Error('Method not implemented.')
+    throw new Error("Method not implemented.")
   }
 
   async findById(
-    contributionId: string,
+    contributionId: string
   ): Promise<OnlineContributions | undefined> {
     const collection = await this.collection()
     const result = await collection.findOne({ contributionId })

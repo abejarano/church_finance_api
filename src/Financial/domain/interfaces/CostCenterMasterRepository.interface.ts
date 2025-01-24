@@ -1,4 +1,4 @@
-import { CostCenterMaster } from '../CostCenterMaster'
+import { CostCenterMaster } from "../CostCenterMaster"
 
 export interface ICostCenterMasterRepository {
   one(costCenterMasterId: string): Promise<CostCenterMaster | undefined>
@@ -6,7 +6,7 @@ export interface ICostCenterMasterRepository {
   search(
     churchId: string,
     month: number,
-    year: number,
+    year: number
   ): Promise<CostCenterMaster[]>
 
   upsert(costCenterMaster: CostCenterMaster): Promise<void>

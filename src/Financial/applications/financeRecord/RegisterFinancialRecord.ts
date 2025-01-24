@@ -1,43 +1,43 @@
-import { IFinancialYearRepository } from '../../../ConsolidatedFinancial/domain'
-import { IQueue } from '../../../Shared/domain'
-import { FinanceRecord } from '../../domain/FinanceRecord'
-import { FinancialMonthValidator } from '../../../ConsolidatedFinancial/FinancialMonthValidator'
+import { IFinancialYearRepository } from "../../../ConsolidatedFinancial/domain"
+import { IQueue } from "../../../Shared/domain"
+import { FinanceRecord } from "../../domain/FinanceRecord"
+import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator"
 import {
   IAvailabilityAccountRepository,
   IFinancialConfigurationRepository,
   IFinancialRecordRepository,
-} from '../../domain/interfaces'
+} from "../../domain/interfaces"
 import {
   AvailabilityAccountNotFound,
   CostCenter,
   FinancialConcept,
   FinancialRecordQueueRequest,
-} from '../../domain'
-import { FindFinancialConceptByChurchIdAndFinancialConceptId } from '../financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId'
-import { logger } from '../../../Shared/infrastructure'
+} from "../../domain"
+import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId"
+import { logger } from "../../../Shared/infrastructure"
 
 export class RegisterFinancialRecord implements IQueue {
   constructor(
     private readonly financialYearRepository: IFinancialYearRepository,
     private readonly financialRecordRepository: IFinancialRecordRepository,
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
-    private readonly availabilityAccountRepository: IAvailabilityAccountRepository,
+    private readonly availabilityAccountRepository: IAvailabilityAccountRepository
   ) {}
 
   async handle(
     args: FinancialRecordQueueRequest,
     financialConcept?: FinancialConcept,
-    costCenter?: CostCenter,
+    costCenter?: CostCenter
   ): Promise<void> {
     logger.info(`RegisterFinancialRecord`, args)
 
     await new FinancialMonthValidator(this.financialYearRepository).validate(
-      args.churchId,
+      args.churchId
     )
 
     const availabilityAccount =
       await this.availabilityAccountRepository.findAvailabilityAccountByAvailabilityAccountId(
-        args.availabilityAccountId,
+        args.availabilityAccountId
       )
 
     if (!availabilityAccount) {
@@ -46,18 +46,18 @@ export class RegisterFinancialRecord implements IQueue {
 
     if (!financialConcept) {
       logger.info(
-        `Searching financial concept by churchId: ${args.churchId} and financialConceptId: ${args.financialConceptId}`,
+        `Searching financial concept by churchId: ${args.churchId} and financialConceptId: ${args.financialConceptId}`
       )
       financialConcept =
         await new FindFinancialConceptByChurchIdAndFinancialConceptId(
-          this.financialConfigurationRepository,
+          this.financialConfigurationRepository
         ).execute(args.churchId, args.financialConceptId)
     }
 
     const financialRecord = FinanceRecord.create({
       financialConcept: FinancialConcept.fromPrimitives(
         financialConcept,
-        args.churchId,
+        args.churchId
       ),
       churchId: args.churchId,
       amount: args.amount,

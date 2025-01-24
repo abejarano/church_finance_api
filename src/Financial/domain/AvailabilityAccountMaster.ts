@@ -1,6 +1,6 @@
-import { AggregateRoot } from '../../Shared/domain'
-import IdentifyAvailabilityAccountMaster from '../applications/helpers/MasterBalanceIdentifier'
-import { AvailabilityAccount } from './AvailabilityAccount'
+import { AggregateRoot } from "../../Shared/domain"
+import IdentifyAvailabilityAccountMaster from "../applications/helpers/MasterBalanceIdentifier"
+import { AvailabilityAccount } from "./AvailabilityAccount"
 
 export class AvailabilityAccountMaster extends AggregateRoot {
   private id?: string
@@ -29,7 +29,7 @@ export class AvailabilityAccountMaster extends AggregateRoot {
     availabilityAccount.getAvailabilityAccountId()
     availabilityAccountMaster.availabilityAccountMasterId =
       IdentifyAvailabilityAccountMaster(
-        availabilityAccount.getAvailabilityAccountId(),
+        availabilityAccount.getAvailabilityAccountId()
       )
     availabilityAccountMaster.churchId = availabilityAccount.getChurchId()
 
@@ -63,9 +63,9 @@ export class AvailabilityAccountMaster extends AggregateRoot {
 
   updateMaster(
     amount: number,
-    operationType: 'MONEY_IN' | 'MONEY_OUT',
+    operationType: "MONEY_IN" | "MONEY_OUT"
   ): AvailabilityAccountMaster {
-    if (operationType === 'MONEY_IN') {
+    if (operationType === "MONEY_IN") {
       this.totalInput += amount
     } else {
       this.totalOutput += amount

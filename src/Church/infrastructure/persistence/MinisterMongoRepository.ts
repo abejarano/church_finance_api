@@ -1,6 +1,6 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { IMinisterRepository, Minister } from '../../domain'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IMinisterRepository, Minister } from "../../domain"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export class MinisterMongoRepository
   extends MongoRepository<Minister>
@@ -20,7 +20,7 @@ export class MinisterMongoRepository
   }
 
   collectionName(): string {
-    return 'ministers'
+    return "ministers"
   }
 
   async findByDni(dni: string): Promise<Minister | undefined> {
@@ -49,7 +49,7 @@ export class MinisterMongoRepository
       Minister.fromPrimitives({
         id: minister._id.toString(),
         ...minister,
-      }),
+      })
     )
   }
 
@@ -62,7 +62,7 @@ export class MinisterMongoRepository
       Minister.fromPrimitives({
         id: minister._id.toString(),
         ...minister,
-      }),
+      })
     )
   }
 

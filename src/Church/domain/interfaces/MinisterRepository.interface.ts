@@ -1,5 +1,5 @@
-import { Minister } from '../Minister'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { Minister } from "../Minister"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export interface IMinisterRepository {
   upsert(minister: Minister): Promise<void>

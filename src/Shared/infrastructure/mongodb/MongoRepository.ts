@@ -1,7 +1,7 @@
-import { Collection, ObjectId } from 'mongodb'
-import { AggregateRoot, Criteria, Paginate } from '../../domain'
-import { MongoCriteriaConverter, MongoQuery } from './MongoCriteriaConverter'
-import { MongoClientFactory } from './MongoClientFactory'
+import { Collection, ObjectId } from "mongodb"
+import { AggregateRoot, Criteria, Paginate } from "../../domain"
+import { MongoCriteriaConverter, MongoQuery } from "./MongoCriteriaConverter"
+import { MongoClientFactory } from "./MongoClientFactory"
 
 export abstract class MongoRepository<T extends AggregateRoot> {
   private criteriaConverter: MongoCriteriaConverter
@@ -16,7 +16,7 @@ export abstract class MongoRepository<T extends AggregateRoot> {
 
   transformationToUpsertInSubDocuments(
     subDocumentField: string,
-    primitiveData: any,
+    primitiveData: any
   ): {} {
     const response = {}
 
@@ -78,7 +78,7 @@ export abstract class MongoRepository<T extends AggregateRoot> {
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
       { $set: document },
-      { upsert: true },
+      { upsert: true }
     )
 
     return result.upsertedId
@@ -86,7 +86,7 @@ export abstract class MongoRepository<T extends AggregateRoot> {
 
   protected async searchByCriteria<D>(
     criteria: Criteria,
-    fieldsToExclude: string[] = [],
+    fieldsToExclude: string[] = []
   ): Promise<D[]> {
     this.criteria = criteria
     this.query = this.criteriaConverter.convert(criteria)
@@ -123,7 +123,7 @@ export abstract class MongoRepository<T extends AggregateRoot> {
    */
   protected async searchByCriteriaWithProjection<D>(
     criteria: Criteria,
-    objectTypeField: string,
+    objectTypeField: string
   ): Promise<D[]> {
     this.criteria = criteria
     this.query = this.criteriaConverter.convert(criteria)

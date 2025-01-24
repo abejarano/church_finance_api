@@ -1,4 +1,4 @@
-import { MoneyLocation } from '../enums/MoneyLocation.enum'
+import { MoneyLocation } from "../enums/MoneyLocation.enum"
 
 export interface IFinanceRecordDTO {
   amount: number

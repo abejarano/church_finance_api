@@ -1,4 +1,4 @@
-import { FinancialMonth } from '../FinancialMonth'
+import { FinancialMonth } from "../FinancialMonth"
 
 export interface IFinancialYearRepository {
   upsertFinancialMonth(financialYear: FinancialMonth): Promise<void>
@@ -8,6 +8,6 @@ export interface IFinancialYearRepository {
   findByMonthAndYear(
     month: number,
     year: number,
-    churchId: string,
+    churchId: string
   ): Promise<FinancialMonth | undefined>
 }

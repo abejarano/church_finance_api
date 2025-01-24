@@ -1,16 +1,16 @@
-import { EnumValueObject } from '../value-object/enum-value-object'
-import { InvalidArgumentError } from '../exceptions/invalid-argument-error'
+import { EnumValueObject } from "../value-object/enum-value-object"
+import { InvalidArgumentError } from "../exceptions/invalid-argument-error"
 
 export enum Operator {
-  EQUAL = '=',
-  NOT_EQUAL = '!=',
-  GT = '>',
-  LT = '<',
-  CONTAINS = 'CONTAINS',
-  NOT_CONTAINS = 'NOT_CONTAINS',
-  GTE = '>=',
-  LTE = '<=',
-  DATE_RANGE = 'DATE_RANGE',
+  EQUAL = "=",
+  NOT_EQUAL = "!=",
+  GT = ">",
+  LT = "<",
+  CONTAINS = "CONTAINS",
+  NOT_CONTAINS = "NOT_CONTAINS",
+  GTE = ">=",
+  LTE = "<=",
+  DATE_RANGE = "DATE_RANGE",
 }
 
 export class FilterOperator extends EnumValueObject<Operator> {

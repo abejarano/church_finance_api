@@ -1,4 +1,4 @@
-import { Church, IChurchRepository } from '../../domain'
+import { Church, IChurchRepository } from "../../domain"
 
 export class WithoutAssignedMinister {
   constructor(private readonly churchRepository: IChurchRepository) {}

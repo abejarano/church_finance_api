@@ -1,6 +1,6 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { Bank, ConceptType, CostCenter, FinancialConcept } from '../../domain'
-import { IFinancialConfigurationRepository } from '../../domain/interfaces'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { Bank, ConceptType, CostCenter, FinancialConcept } from "../../domain"
+import { IFinancialConfigurationRepository } from "../../domain/interfaces"
 
 export class FinancialConfigurationMongoRepository
   extends MongoRepository<any>
@@ -21,7 +21,7 @@ export class FinancialConfigurationMongoRepository
   }
 
   collectionName(): string {
-    return 'churches'
+    return "churches"
   }
 
   async searchBanksByChurchId(churchId: string): Promise<Bank[]> {
@@ -40,10 +40,10 @@ export class FinancialConfigurationMongoRepository
           churchId: 1,
           banks: 1,
         },
-      },
+      }
     )
 
-    if (!('banks' in result)) {
+    if (!("banks" in result)) {
       return []
     }
 
@@ -52,7 +52,7 @@ export class FinancialConfigurationMongoRepository
         id: result._id.toString(),
         churchId: result.churchId,
         ...bank,
-      }),
+      })
     )
   }
 
@@ -61,13 +61,13 @@ export class FinancialConfigurationMongoRepository
 
     await collection.updateOne(
       { churchId: bank.getChurchId() },
-      { $pull: { banks: { bankId: bank.getBankId() } } },
+      { $pull: { banks: { bankId: bank.getBankId() } } }
     )
 
     await collection.updateOne(
       { churchId: bank.getChurchId() },
       { $push: { banks: bank.toPrimitives() } },
-      { upsert: true },
+      { upsert: true }
     )
   }
 
@@ -81,13 +81,13 @@ export class FinancialConfigurationMongoRepository
             financialConceptId: concept.getfinancialConceptId(),
           },
         },
-      },
+      }
     )
 
     await collection.updateOne(
       { churchId: concept.getChurchId() },
       { $push: { financialConcepts: concept.toPrimitives() } },
-      { upsert: true },
+      { upsert: true }
     )
   }
 
@@ -102,7 +102,7 @@ export class FinancialConfigurationMongoRepository
         $pull: {
           costCenters: { costCenterId: costCenter.getCostCenterId() },
         },
-      },
+      }
     )
 
     await collection.updateOne(
@@ -110,21 +110,21 @@ export class FinancialConfigurationMongoRepository
         churchId: costCenter.getChurchId(),
       },
       { $push: { costCenters: costCenter.toPrimitives() } },
-      { upsert: true },
+      { upsert: true }
     )
   }
 
   async findCostCenterByCostCenterId(
     costCenterId: string,
-    churchId: string,
+    churchId: string
   ): Promise<CostCenter> {
     const collection = await this.collection<{
       costCenters: CostCenter[]
       churchId: string
     }>()
     const result = await collection.findOne(
-      { 'costCenters.costCenterId': costCenterId, churchId },
-      { projection: { _id: 1, churchId: 1, costCenters: 1 } },
+      { "costCenters.costCenterId": costCenterId, churchId },
+      { projection: { _id: 1, churchId: 1, costCenters: 1 } }
     )
 
     if (!result) {
@@ -143,8 +143,8 @@ export class FinancialConfigurationMongoRepository
       churchId: string
     }>()
     const result = await collection.findOne(
-      { 'banks.bankId': bankId },
-      { projection: { _id: 1, churchId: 1, 'banks.$': 1 } },
+      { "banks.bankId": bankId },
+      { projection: { _id: 1, churchId: 1, "banks.$": 1 } }
     )
 
     if (!result) {
@@ -164,7 +164,7 @@ export class FinancialConfigurationMongoRepository
     }>()
     const result = await collection.findOne(
       { churchId },
-      { projection: { _id: 1, costCenters: 1 } },
+      { projection: { _id: 1, costCenters: 1 } }
     )
 
     if (!result || !result.costCenters) {
@@ -178,7 +178,7 @@ export class FinancialConfigurationMongoRepository
         CostCenter.fromPrimitives({
           id: result._id.toString(),
           ...costCenter,
-        }),
+        })
       )
     }
     return listCostCenter
@@ -186,7 +186,7 @@ export class FinancialConfigurationMongoRepository
 
   async findFinancialConceptsByChurchIdAndTypeConcept(
     churchId: string,
-    typeConcept: ConceptType,
+    typeConcept: ConceptType
   ): Promise<FinancialConcept[]> {
     const collection = await this.collection()
 
@@ -194,7 +194,7 @@ export class FinancialConfigurationMongoRepository
       {
         $match: {
           churchId: churchId,
-          'financialConcepts.type': typeConcept,
+          "financialConcepts.type": typeConcept,
         },
       },
       {
@@ -202,9 +202,9 @@ export class FinancialConfigurationMongoRepository
           _id: 1,
           financialConcepts: {
             $filter: {
-              input: '$financialConcepts',
-              as: 'concept',
-              cond: { $eq: ['$$concept.type', typeConcept] },
+              input: "$financialConcepts",
+              as: "concept",
+              cond: { $eq: ["$$concept.type", typeConcept] },
             },
           },
         },
@@ -221,7 +221,7 @@ export class FinancialConfigurationMongoRepository
   }
 
   async findFinancialConceptsByChurchId(
-    churchId: string,
+    churchId: string
   ): Promise<FinancialConcept[]> {
     const collection = await this.collection()
 
@@ -250,7 +250,7 @@ export class FinancialConfigurationMongoRepository
 
   async findFinancialConceptByChurchIdAndFinancialConceptId(
     churchId: string,
-    financialConceptId: string,
+    financialConceptId: string
   ): Promise<FinancialConcept | undefined> {
     const collection = await this.collection()
 
@@ -258,7 +258,7 @@ export class FinancialConfigurationMongoRepository
       {
         $match: {
           churchId: churchId,
-          'financialConcepts.financialConceptId': financialConceptId,
+          "financialConcepts.financialConceptId": financialConceptId,
         },
       },
       {
@@ -266,10 +266,10 @@ export class FinancialConfigurationMongoRepository
           _id: 1,
           financialConcepts: {
             $filter: {
-              input: '$financialConcepts',
-              as: 'concept',
+              input: "$financialConcepts",
+              as: "concept",
               cond: {
-                $eq: ['$$concept.financialConceptId', financialConceptId],
+                $eq: ["$$concept.financialConceptId", financialConceptId],
               },
             },
           },
@@ -288,7 +288,7 @@ export class FinancialConfigurationMongoRepository
         id: result[0]._id.toString(),
         ...result[0].financialConcepts[0],
       },
-      churchId,
+      churchId
     )
   }
 
@@ -302,8 +302,8 @@ export class FinancialConfigurationMongoRepository
             id: result[0]._id.toString(),
             ...financialConcept,
           },
-          churchId,
-        ),
+          churchId
+        )
       )
     }
 

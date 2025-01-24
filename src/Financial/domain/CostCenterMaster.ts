@@ -1,7 +1,7 @@
-import { AggregateRoot } from '../../Shared/domain'
-import { CostCenter } from './CostCenter'
-import { DateBR } from '../../Shared/helpers'
-import MasterBalanceIdentifier from '../applications/helpers/MasterBalanceIdentifier'
+import { AggregateRoot } from "../../Shared/domain"
+import { CostCenter } from "./CostCenter"
+import { DateBR } from "../../Shared/helpers"
+import MasterBalanceIdentifier from "../applications/helpers/MasterBalanceIdentifier"
 
 export class CostCenterMaster extends AggregateRoot {
   private id?: string
@@ -16,11 +16,11 @@ export class CostCenterMaster extends AggregateRoot {
   private total: number
   private lastMove: Date
 
-  static create(costCenter: CostCenter) {
+  static create(costCenter: CostCenter): CostCenterMaster {
     const costCenterMaster = new CostCenterMaster()
 
     costCenterMaster.costCenterMasterId = MasterBalanceIdentifier(
-      costCenter.getCostCenterId(),
+      costCenter.getCostCenterId()
     )
     costCenterMaster.month = new Date().getMonth() + 1
     costCenterMaster.year = new Date().getFullYear()

@@ -1,1 +1,1 @@
-export { MovementBankMongoRepository } from './MovementBankMongoRepository'
+export { MovementBankMongoRepository } from "./MovementBankMongoRepository"

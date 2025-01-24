@@ -1,5 +1,5 @@
-import pino, { Logger } from 'pino'
-import { v4 } from 'uuid'
+import pino, { Logger } from "pino"
+import { v4 } from "uuid"
 
 export class CustomLogger {
   private logger: Logger
@@ -8,10 +8,10 @@ export class CustomLogger {
   constructor() {
     this.logger = pino({
       transport: {
-        target: 'pino-pretty',
+        target: "pino-pretty",
         options: {
-          translateTime: 'yyyy-mm-dd HH:MM:ss',
-          ignore: 'pid,hostname',
+          translateTime: "yyyy-mm-dd HH:MM:ss",
+          ignore: "pid,hostname",
           colorize: true,
         },
       },
@@ -25,7 +25,7 @@ export class CustomLogger {
 
     this.logger.info(
       { environment: process.env.NODE_ENV },
-      'Logger inicializado',
+      "Logger inicializado"
     )
   }
 

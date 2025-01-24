@@ -1,4 +1,4 @@
-import { FilterFinanceRecordRequest } from '../../domain'
+import { FilterFinanceRecordRequest } from "../../domain"
 import {
   Criteria,
   Filters,
@@ -6,20 +6,20 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from '../../../Shared/domain'
-import { IFinancialRecordRepository } from '../../domain/interfaces'
-import { FinanceRecord } from '../../domain/FinanceRecord'
+} from "../../../Shared/domain"
+import { IFinancialRecordRepository } from "../../domain/interfaces"
+import { FinanceRecord } from "../../domain/FinanceRecord"
 
 export class SearchFinanceRecord {
   constructor(
-    private readonly financialRecordRepository: IFinancialRecordRepository,
+    private readonly financialRecordRepository: IFinancialRecordRepository
   ) {}
 
   async execute(
-    request: FilterFinanceRecordRequest,
+    request: FilterFinanceRecordRequest
   ): Promise<Paginate<FinanceRecord>> {
     return await this.financialRecordRepository.list(
-      this.prepareCriteria(request),
+      this.prepareCriteria(request)
     )
   }
 
@@ -29,74 +29,74 @@ export class SearchFinanceRecord {
     if (request.availabilityAccountId) {
       filters.push(
         new Map([
-          ['field', 'availabilityAccount.availabilityAccountId'],
-          ['operator', Operator.EQUAL],
-          ['value', request.availabilityAccountId],
-        ]),
+          ["field", "availabilityAccount.availabilityAccountId"],
+          ["operator", Operator.EQUAL],
+          ["value", request.availabilityAccountId],
+        ])
       )
     }
 
     if (request.churchId) {
       filters.push(
         new Map([
-          ['field', 'churchId'],
-          ['operator', Operator.EQUAL],
-          ['value', request.churchId],
-        ]),
+          ["field", "churchId"],
+          ["operator", Operator.EQUAL],
+          ["value", request.churchId],
+        ])
       )
     }
 
     if (request.financialConceptId) {
       filters.push(
         new Map([
-          ['field', 'financialConceptId'],
-          ['operator', Operator.EQUAL],
-          ['value', request.financialConceptId],
-        ]),
+          ["field", "financialConceptId"],
+          ["operator", Operator.EQUAL],
+          ["value", request.financialConceptId],
+        ])
       )
     }
 
     if (request.startDate && !request.endDate) {
       filters.push(
         new Map<string, string | Date>([
-          ['field', 'date'],
-          ['operator', Operator.GTE],
-          ['value', new Date(request.startDate)],
-        ]),
+          ["field", "date"],
+          ["operator", Operator.GTE],
+          ["value", new Date(request.startDate)],
+        ])
       )
     }
 
     if (!request.startDate && request.endDate) {
       filters.push(
         new Map<string, string | Date>([
-          ['field', 'date'],
-          ['operator', Operator.LTE],
-          ['value', new Date(request.endDate)],
-        ]),
+          ["field", "date"],
+          ["operator", Operator.LTE],
+          ["value", new Date(request.endDate)],
+        ])
       )
     }
 
     if (request.startDate && request.endDate) {
       filters.push(
         new Map<string, string | any>([
-          ['field', 'date'],
-          ['operator', Operator.DATE_RANGE],
+          ["field", "date"],
+          ["operator", Operator.DATE_RANGE],
           [
-            'value',
+            "value",
             {
               startDate: request.startDate,
               endDate: request.endDate,
             },
           ],
-        ]),
+        ])
       )
     }
 
     return new Criteria(
       Filters.fromValues(filters),
-      Order.fromValues('date', OrderTypes.DESC),
+      Order.fromValues("date", OrderTypes.DESC),
       request.perPage,
-      request.page,
+      request.page
     )
   }
 }

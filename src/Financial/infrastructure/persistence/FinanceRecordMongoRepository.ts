@@ -1,7 +1,7 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { FinanceRecord } from '../../domain/FinanceRecord'
-import { IFinancialRecordRepository } from '../../domain/interfaces'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { FinanceRecord } from "../../domain/FinanceRecord"
+import { IFinancialRecordRepository } from "../../domain/interfaces"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export class FinanceRecordMongoRepository
   extends MongoRepository<FinanceRecord>
@@ -21,7 +21,7 @@ export class FinanceRecordMongoRepository
   }
 
   collectionName(): string {
-    return 'financial_records'
+    return "financial_records"
   }
 
   async list(criteria: Criteria): Promise<Paginate<FinanceRecord>> {

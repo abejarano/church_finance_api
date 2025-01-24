@@ -1,10 +1,10 @@
-import { AggregateRoot, AmountValueObject } from '../../Shared/domain'
-import { OnlineContributionsStatus } from './enums/OnlineContributionsStatus.enum'
-import { IdentifyEntity } from '../../Shared/adapter'
-import { Member } from '../../Church/domain'
-import { FinancialConcept } from './FinancialConcept'
-import { FinancialConceptDisable } from './exceptions/FinancialConceptDisable.exception'
-import { DateBR } from '../../Shared/helpers'
+import { AggregateRoot, AmountValueObject } from "../../Shared/domain"
+import { OnlineContributionsStatus } from "./enums/OnlineContributionsStatus.enum"
+import { IdentifyEntity } from "../../Shared/adapter"
+import { Member } from "../../Church/domain"
+import { FinancialConcept } from "./FinancialConcept"
+import { FinancialConceptDisable } from "./exceptions/FinancialConceptDisable.exception"
+import { DateBR } from "../../Shared/helpers"
 
 export class OnlineContributions extends AggregateRoot {
   private id?: string
@@ -25,7 +25,7 @@ export class OnlineContributions extends AggregateRoot {
     financialConcept: FinancialConcept,
     bankTransferReceipt: string,
     observation: string,
-    bankId: string,
+    bankId: string
   ): OnlineContributions {
     const contributions: OnlineContributions = new OnlineContributions()
     contributions.member = member
@@ -60,7 +60,7 @@ export class OnlineContributions extends AggregateRoot {
     contributions.churchId = plainData.churchId
     contributions.financialConcept = FinancialConcept.fromPrimitives(
       plainData.financialConcept,
-      plainData.churchId,
+      plainData.churchId
     )
     contributions.observation = plainData.observation
     contributions.bankId = plainData.bankId

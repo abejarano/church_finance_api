@@ -1,10 +1,10 @@
-import { FinancialConcept } from './FinancialConcept'
-import { AggregateRoot } from '../../Shared/domain'
-import { IdentifyEntity } from '../../Shared/adapter'
-import { ConceptType } from './enums/ConcepType.enum'
-import { AvailabilityAccount } from './AvailabilityAccount'
-import { AccountType } from './enums/AccountType.enum'
-import { CostCenter } from './CostCenter'
+import { FinancialConcept } from "./FinancialConcept"
+import { AggregateRoot } from "../../Shared/domain"
+import { IdentifyEntity } from "../../Shared/adapter"
+import { ConceptType } from "./enums/ConcepType.enum"
+import { AvailabilityAccount } from "./AvailabilityAccount"
+import { AccountType } from "./enums/AccountType.enum"
+import { CostCenter } from "./CostCenter"
 
 export class FinanceRecord extends AggregateRoot {
   private costCenter: {

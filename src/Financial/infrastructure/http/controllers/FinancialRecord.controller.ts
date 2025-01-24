@@ -2,42 +2,42 @@ import {
   GenericException,
   HttpStatus,
   QueueName,
-} from '../../../../Shared/domain'
-import domainResponse from '../../../../Shared/helpers/domainResponse'
+} from "../../../../Shared/domain"
+import domainResponse from "../../../../Shared/helpers/domainResponse"
 import {
   AccountType,
   ConceptType,
   CostCenter,
   FinancialConcept,
   FinancialRecordRequest,
-} from '../../../domain'
-import { RegisterFinancialRecord } from '../../../applications/financeRecord/RegisterFinancialRecord'
-import { QueueBullService, StorageGCP } from '../../../../Shared/infrastructure'
-import { FinancialYearMongoRepository } from '../../../../ConsolidatedFinancial/infrastructure'
+} from "../../../domain"
+import { RegisterFinancialRecord } from "../../../applications/financeRecord/RegisterFinancialRecord"
+import { QueueBullService, StorageGCP } from "../../../../Shared/infrastructure"
+import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure"
 import {
   AvailabilityAccountMongoRepository,
   FinanceRecordMongoRepository,
   FinancialConfigurationMongoRepository,
-} from '../../persistence'
+} from "../../persistence"
 import {
   MovementBankRequest,
   TypeBankingOperation,
-} from '../../../../MovementBank/domain'
+} from "../../../../MovementBank/domain"
 import {
   FindAvailabilityAccountByAvailabilityAccountId,
   FindCostCenterByCostCenterId,
   FindFinancialConceptByChurchIdAndFinancialConceptId,
-} from '../../../applications'
-import { Response } from 'express'
+} from "../../../applications"
+import { Response } from "express"
 
 export const FinancialRecordController = async (
   request: FinancialRecordRequest,
-  res: Response,
+  res: Response
 ) => {
   try {
     if (request.file) {
       request.voucher = await StorageGCP.getInstance(
-        process.env.BUCKET_FILES,
+        process.env.BUCKET_FILES
       ).uploadFile(request.file)
     }
 
@@ -52,7 +52,7 @@ export const FinancialRecordController = async (
       request.costCenterId
     ) {
       costCenter = await new FindCostCenterByCostCenterId(
-        FinancialConfigurationMongoRepository.getInstance(),
+        FinancialConfigurationMongoRepository.getInstance()
       ).execute(request.churchId, request.costCenterId)
     }
 
@@ -60,7 +60,7 @@ export const FinancialRecordController = async (
       FinancialYearMongoRepository.getInstance(),
       FinanceRecordMongoRepository.getInstance(),
       FinancialConfigurationMongoRepository.getInstance(),
-      AvailabilityAccountMongoRepository.getInstance(),
+      AvailabilityAccountMongoRepository.getInstance()
     ).handle(request, financialConcept, costCenter)
 
     if (availabilityAccount.getType() === AccountType.BANK) {
@@ -74,17 +74,17 @@ export const FinancialRecordController = async (
           churchId: request.churchId,
           amount: request.amount,
           costCenterId: costCenter.getCostCenterId(),
-        },
+        }
       )
     }
 
     res.status(HttpStatus.CREATED).send({
-      message: 'successful financial record registration',
+      message: "successful financial record registration",
     })
   } catch (e) {
     if (request.voucher) {
       await StorageGCP.getInstance(process.env.BUCKET_FILES).deleteFile(
-        request.voucher,
+        request.voucher
       )
     }
 
@@ -95,12 +95,12 @@ export const FinancialRecordController = async (
 const searchAvailabilityAccount = async (request: FinancialRecordRequest) => {
   const availabilityAccount =
     await new FindAvailabilityAccountByAvailabilityAccountId(
-      AvailabilityAccountMongoRepository.getInstance(),
+      AvailabilityAccountMongoRepository.getInstance()
     ).execute(request.availabilityAccountId)
 
   if (availabilityAccount.getType() === AccountType.BANK) {
     if (!request.bankId) {
-      throw new GenericException('The bank id field is mandatory.')
+      throw new GenericException("The bank id field is mandatory.")
     }
   }
 
@@ -110,14 +110,14 @@ const searchAvailabilityAccount = async (request: FinancialRecordRequest) => {
 const searchFinancialConcept = async (request: FinancialRecordRequest) => {
   const financialConcept =
     await new FindFinancialConceptByChurchIdAndFinancialConceptId(
-      FinancialConfigurationMongoRepository.getInstance(),
+      FinancialConfigurationMongoRepository.getInstance()
     ).execute(request.churchId, request.financialConceptId)
 
   if (
     financialConcept.getType() === ConceptType.DISCHARGE &&
     request.costCenterId === undefined
   ) {
-    throw new GenericException('The cost center field is mandatory.')
+    throw new GenericException("The cost center field is mandatory.")
   }
 
   return financialConcept
@@ -125,7 +125,7 @@ const searchFinancialConcept = async (request: FinancialRecordRequest) => {
 
 const recordMovementBank = async (
   request: FinancialRecordRequest,
-  financialConcept: FinancialConcept,
+  financialConcept: FinancialConcept
 ) => {
   const movementBank: MovementBankRequest = {
     amount: request.amount,
@@ -136,7 +136,7 @@ const recordMovementBank = async (
 
   QueueBullService.getInstance().dispatch(
     QueueName.MovementBankRecord,
-    movementBank,
+    movementBank
   )
 
   QueueBullService.getInstance().dispatch(
@@ -146,8 +146,8 @@ const recordMovementBank = async (
       amount: request.amount,
       operationType:
         financialConcept.getType() === ConceptType.INCOME
-          ? 'MONEY_IN'
-          : 'MONEY_OUT',
-    },
+          ? "MONEY_IN"
+          : "MONEY_OUT",
+    }
   )
 }

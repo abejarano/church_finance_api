@@ -1,7 +1,7 @@
-import { TypeBankAccount } from './enums/TypeBankAccount.enum'
-import { AggregateRoot } from '../../Shared/domain'
-import { Church } from '../../Church/domain'
-import { IdentifyEntity } from '../../Shared/adapter'
+import { TypeBankAccount } from "./enums/TypeBankAccount.enum"
+import { AggregateRoot } from "../../Shared/domain"
+import { Church } from "../../Church/domain"
+import { IdentifyEntity } from "../../Shared/adapter"
 
 export class Bank extends AggregateRoot {
   private id?: string
@@ -21,7 +21,7 @@ export class Bank extends AggregateRoot {
     tag: string,
     addressInstancePayment: string,
     bankInstruction: string,
-    church: Church,
+    church: Church
   ): Bank {
     const bank: Bank = new Bank()
     bank.accountType = accountType

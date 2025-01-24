@@ -1,5 +1,5 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { IMovementBankRepository, MovementBank } from '../../domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IMovementBankRepository, MovementBank } from "../../domain"
 
 export class MovementBankMongoRepository
   extends MongoRepository<MovementBank>
@@ -23,6 +23,6 @@ export class MovementBankMongoRepository
   }
 
   collectionName(): string {
-    return 'movement_bank'
+    return "movement_bank"
   }
 }

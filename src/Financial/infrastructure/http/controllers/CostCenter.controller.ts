@@ -1,23 +1,23 @@
-import { FinancialConfigurationMongoRepository } from '../../persistence'
-import { HttpStatus } from '../../../../Shared/domain'
-import domainResponse from '../../../../Shared/helpers/domainResponse'
-import { Response } from 'express'
-import { CostCenterRequest } from '../../../domain'
-import { MemberMongoRepository } from '../../../../Church/infrastructure'
-import { CreateCostCenter } from '../../../applications/costCenter/CreateCostCenter'
-import { UpdateCostCenter } from '../../../applications/costCenter/UpdateCostCenter'
-import { SearchCostCenterByChurchId } from '../../../applications'
+import { FinancialConfigurationMongoRepository } from "../../persistence"
+import { HttpStatus } from "../../../../Shared/domain"
+import domainResponse from "../../../../Shared/helpers/domainResponse"
+import { Response } from "express"
+import { CostCenterRequest } from "../../../domain"
+import { MemberMongoRepository } from "../../../../Church/infrastructure"
+import { CreateCostCenter } from "../../../applications/costCenter/CreateCostCenter"
+import { UpdateCostCenter } from "../../../applications/costCenter/UpdateCostCenter"
+import { SearchCostCenterByChurchId } from "../../../applications"
 
 export const FindCostCenterByChurchIdController = async (
   churchId: string,
-  res: Response,
+  res: Response
 ) => {
   try {
     const costCenter = await new SearchCostCenterByChurchId(
-      FinancialConfigurationMongoRepository.getInstance(),
+      FinancialConfigurationMongoRepository.getInstance()
     ).execute(churchId)
 
-    res.status(HttpStatus.OK).send({ data: costCenter })
+    res.status(HttpStatus.OK).send(costCenter)
   } catch (e) {
     domainResponse(e, res)
   }
@@ -25,16 +25,16 @@ export const FindCostCenterByChurchIdController = async (
 
 export const CreateCostCenterController = async (
   costCenter: CostCenterRequest,
-  res: Response,
+  res: Response
 ) => {
   try {
     await new CreateCostCenter(
       FinancialConfigurationMongoRepository.getInstance(),
-      MemberMongoRepository.getInstance(),
+      MemberMongoRepository.getInstance()
     ).execute(costCenter)
 
     res.status(HttpStatus.CREATED).send({
-      message: 'Registered cost center',
+      message: "Registered cost center",
     })
     return
   } catch (e) {
@@ -44,16 +44,16 @@ export const CreateCostCenterController = async (
 
 export const UpdateCostCenterController = async (
   costCenter: CostCenterRequest,
-  res: Response,
+  res: Response
 ) => {
   try {
     await new UpdateCostCenter(
       FinancialConfigurationMongoRepository.getInstance(),
-      MemberMongoRepository.getInstance(),
+      MemberMongoRepository.getInstance()
     ).execute(costCenter)
 
     res.status(HttpStatus.CREATED).send({
-      message: 'Registered cost center',
+      message: "Registered cost center",
     })
     return
   } catch (e) {

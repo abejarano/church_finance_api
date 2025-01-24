@@ -1,12 +1,12 @@
-import { IWorldRepository, States } from '../../domain'
-import { MongoRepository } from '../../../Shared/infrastructure'
+import { IWorldRepository, States } from "../../domain"
+import { MongoRepository } from "../../../Shared/infrastructure"
 
 export class WorldMongoRepository
   extends MongoRepository<any>
   implements IWorldRepository
 {
   private static instance: WorldMongoRepository
-  private collectName: string = 'states'
+  private collectName: string = "states"
 
   constructor() {
     super()
@@ -37,7 +37,7 @@ export class WorldMongoRepository
     const collection = await this.collection()
     const result = await collection.find({ countryId: countryId }).toArray()
     return result.map((state) =>
-      States.fromPrimitives({ ...state, id: state._id }),
+      States.fromPrimitives({ ...state, id: state._id })
     )
   }
 }

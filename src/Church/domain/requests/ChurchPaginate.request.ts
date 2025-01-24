@@ -1,4 +1,4 @@
-import { ChurchStatus } from '../index'
+import { ChurchStatus } from "../index"
 
 export type ChurchPaginateRequest = {
   perPage: number

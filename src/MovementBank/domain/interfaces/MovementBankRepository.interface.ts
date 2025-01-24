@@ -1,4 +1,4 @@
-import { MovementBank } from '../MovementBank'
+import { MovementBank } from "../MovementBank"
 
 export interface IMovementBankRepository {
   upsert(movementBank: MovementBank): Promise<void>

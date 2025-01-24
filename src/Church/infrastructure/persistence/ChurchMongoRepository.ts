@@ -1,6 +1,6 @@
-import { MongoRepository } from '../../../Shared/infrastructure'
-import { Church, ChurchDTO, IChurchRepository } from '../../domain'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { Church, ChurchDTO, IChurchRepository } from "../../domain"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export class ChurchMongoRepository
   extends MongoRepository<Church>
@@ -21,7 +21,7 @@ export class ChurchMongoRepository
   }
 
   collectionName(): string {
-    return 'churches'
+    return "churches"
   }
 
   async findById(churchId: string): Promise<Church | undefined> {
@@ -41,13 +41,13 @@ export class ChurchMongoRepository
   async list(criteria: Criteria): Promise<Paginate<ChurchDTO>> {
     const result: ChurchDTO[] = await this.searchByCriteria<ChurchDTO>(
       criteria,
-      ['financialConcepts', 'members'],
+      ["financialConcepts", "members"]
     )
     return this.buildPaginate<ChurchDTO>(result)
   }
 
   async hasAnAssignedMinister(
-    churchId: string,
+    churchId: string
   ): Promise<[boolean, Church | undefined]> {
     const collection = await this.collection()
     const result = await collection.findOne({
@@ -69,7 +69,7 @@ export class ChurchMongoRepository
     const result = await collection.find({ ministerId: null }).toArray()
 
     return result.map((church) =>
-      Church.fromPrimitives({ id: church._id.toString(), ...church }),
+      Church.fromPrimitives({ id: church._id.toString(), ...church })
     )
   }
 
@@ -78,7 +78,7 @@ export class ChurchMongoRepository
     const result = await collection.find({ districtId }).toArray()
 
     return result.map((church) =>
-      Church.fromPrimitives({ id: church._id.toString(), ...church }),
+      Church.fromPrimitives({ id: church._id.toString(), ...church })
     )
   }
 }

@@ -1,5 +1,5 @@
-import { OnlineContributions } from '../OnlineContributions'
-import { Criteria, Paginate } from '../../../Shared/domain'
+import { OnlineContributions } from "../OnlineContributions"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export interface IOnlineContributionsRepository {
   findById(contributionId: string): Promise<OnlineContributions | undefined>

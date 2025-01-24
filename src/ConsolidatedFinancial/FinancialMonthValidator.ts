@@ -1,10 +1,10 @@
-import { IFinancialYearRepository } from './domain'
-import { FinancialMonthIsClosed } from './domain/exceptions'
-import { logger } from '../Shared/infrastructure'
+import { IFinancialYearRepository } from "./domain"
+import { FinancialMonthIsClosed } from "./domain/exceptions"
+import { logger } from "../Shared/infrastructure"
 
 export class FinancialMonthValidator {
   constructor(
-    private readonly financialYearRepository: IFinancialYearRepository,
+    private readonly financialYearRepository: IFinancialYearRepository
   ) {}
 
   async validate(churchId: string) {
@@ -17,12 +17,12 @@ export class FinancialMonthValidator {
       await this.financialYearRepository.findByMonthAndYear(
         currentMonth,
         currentYear,
-        churchId,
+        churchId
       )
 
     if (!financialMonth) {
       logger.info(`Financial month not found`, financialMonth)
-      throw new Error('Financial month not found')
+      throw new Error("Financial month not found")
     }
 
     if (financialMonth.isClosed()) {

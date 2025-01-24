@@ -1,11 +1,11 @@
-import { IMinisterRepository, Minister, MinisterRequest } from '../../domain'
+import { IMinisterRepository, Minister, MinisterRequest } from "../../domain"
 
 export class RegisterOrUpdateMinister {
   constructor(private readonly ministerRepository: IMinisterRepository) {}
 
   async execute(request: MinisterRequest): Promise<void> {
     let minister: Minister = await this.ministerRepository.findByDni(
-      request.dni,
+      request.dni
     )
 
     if (!minister) {
@@ -25,7 +25,7 @@ export class RegisterOrUpdateMinister {
       request.email,
       request.phone,
       request.dni,
-      request.ministerType,
+      request.ministerType
     )
   }
 }

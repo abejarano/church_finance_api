@@ -1,12 +1,12 @@
-import { IMemberRepository } from '../../domain'
-import { MemberPaginateRequest } from '../../domain/requests/MemberPaginate.request'
+import { IMemberRepository } from "../../domain"
+import { MemberPaginateRequest } from "../../domain/requests/MemberPaginate.request"
 import {
   Criteria,
   Filters,
   Operator,
   Order,
   OrderTypes,
-} from '../../../Shared/domain'
+} from "../../../Shared/domain"
 
 export class SearchMembers {
   constructor(private readonly memberRepository: IMemberRepository) {}
@@ -16,35 +16,35 @@ export class SearchMembers {
   }
 
   private async prepareCriteria(
-    request: MemberPaginateRequest,
+    request: MemberPaginateRequest
   ): Promise<Criteria> {
     const filters = []
 
     if (request.regionId) {
       filters.push(
         new Map([
-          ['field', 'region.regionId'],
-          ['operator', Operator.EQUAL],
-          ['value', request.regionId],
-        ]),
+          ["field", "region.regionId"],
+          ["operator", Operator.EQUAL],
+          ["value", request.regionId],
+        ])
       )
     }
 
     if (request.churchId) {
       filters.push(
         new Map([
-          ['field', 'churchId'],
-          ['operator', Operator.EQUAL],
-          ['value', request.churchId],
-        ]),
+          ["field", "churchId"],
+          ["operator", Operator.EQUAL],
+          ["value", request.churchId],
+        ])
       )
     }
 
     return new Criteria(
       Filters.fromValues(filters),
-      Order.fromValues('members.name', OrderTypes.DESC),
+      Order.fromValues("members.name", OrderTypes.DESC),
       request.perPage,
-      request.page,
+      request.page
     )
   }
 }

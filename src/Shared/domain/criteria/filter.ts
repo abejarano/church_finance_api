@@ -1,7 +1,7 @@
-import { FilterField } from './filter-field'
-import { FilterOperator } from './filter-operator'
-import { FilterValue } from './filter-value'
-import { InvalidArgumentError } from '../exceptions/invalid-argument-error'
+import { FilterField } from "./filter-field"
+import { FilterOperator } from "./filter-operator"
+import { FilterValue } from "./filter-value"
+import { InvalidArgumentError } from "../exceptions/invalid-argument-error"
 
 export class Filter {
   readonly field: FilterField
@@ -11,7 +11,7 @@ export class Filter {
   constructor(
     field: FilterField,
     operator: FilterOperator,
-    value: FilterValue,
+    value: FilterValue
   ) {
     this.field = field
     this.operator = operator
@@ -19,9 +19,9 @@ export class Filter {
   }
 
   static fromValues(values: Map<string, string>): Filter {
-    const field = values.get('field')
-    const operator = values.get('operator')
-    const value = values.get('value')
+    const field = values.get("field")
+    const operator = values.get("operator")
+    const value = values.get("value")
 
     if (!field || !operator || !value) {
       throw new InvalidArgumentError(`The filter is invalid`)
@@ -30,7 +30,7 @@ export class Filter {
     return new Filter(
       new FilterField(field),
       FilterOperator.fromValue(operator),
-      new FilterValue(value),
+      new FilterValue(value)
     )
   }
 }

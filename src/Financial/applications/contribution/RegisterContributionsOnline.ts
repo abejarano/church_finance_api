@@ -4,45 +4,45 @@ import {
   FinancialConcept,
   FinancialRecordQueueRequest,
   OnlineContributions,
-} from '../../domain'
+} from "../../domain"
 import {
   AmountValueObject,
   IQueueService,
   IStorageService,
   QueueName,
-} from '../../../Shared/domain'
-import { Member } from '../../../Church/domain'
-import { IFinancialYearRepository } from '../../../ConsolidatedFinancial/domain'
+} from "../../../Shared/domain"
+import { Member } from "../../../Church/domain"
+import { IFinancialYearRepository } from "../../../ConsolidatedFinancial/domain"
 import {
   MovementBankRequest,
   TypeBankingOperation,
-} from '../../../MovementBank/domain'
-import { FinancialMonthValidator } from '../../../ConsolidatedFinancial/FinancialMonthValidator'
-import { IOnlineContributionsRepository } from '../../domain/interfaces'
-import { logger } from '../../../Shared/infrastructure'
-import { DateBR } from '../../../Shared/helpers'
+} from "../../../MovementBank/domain"
+import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator"
+import { IOnlineContributionsRepository } from "../../domain/interfaces"
+import { logger } from "../../../Shared/infrastructure"
+import { DateBR } from "../../../Shared/helpers"
 
 export class RegisterContributionsOnline {
   constructor(
     private readonly contributionRepository: IOnlineContributionsRepository,
     private readonly storageService: IStorageService,
     private readonly queueService: IQueueService,
-    private readonly financialYearRepository: IFinancialYearRepository,
+    private readonly financialYearRepository: IFinancialYearRepository
   ) {}
 
   async execute(
     contributionRequest: ContributionRequest,
     availabilityAccount: AvailabilityAccount,
     member: Member,
-    financialConcept: FinancialConcept,
+    financialConcept: FinancialConcept
   ) {
     logger.info(`RegisterContributionsOnline`)
     await new FinancialMonthValidator(this.financialYearRepository).validate(
-      member.getChurchId(),
+      member.getChurchId()
     )
 
     const voucher = await this.storageService.uploadFile(
-      contributionRequest.bankTransferReceipt,
+      contributionRequest.bankTransferReceipt
     )
 
     const contribution: OnlineContributions = OnlineContributions.create(
@@ -51,7 +51,7 @@ export class RegisterContributionsOnline {
       financialConcept,
       voucher,
       contributionRequest.observation,
-      contributionRequest.bankId,
+      contributionRequest.bankId
     )
 
     await this.contributionRepository.upsert(contribution)
@@ -76,7 +76,7 @@ export class RegisterContributionsOnline {
 
     this.queueService.dispatch(
       QueueName.RegisterFinancialRecord,
-      financialRecord,
+      financialRecord
     )
   }
 }
