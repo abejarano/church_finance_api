@@ -6,8 +6,8 @@ import {
   Member,
   MemberExist,
   MemberRequest,
-} from "../../domain";
-import { IQueueService, QueueName } from "../../../Shared/domain";
+} from '../../domain'
+import { IQueueService, QueueName } from '../../../Shared/domain'
 
 export class CreateOrUpdateMember {
   constructor(
@@ -18,41 +18,41 @@ export class CreateOrUpdateMember {
 
   async execute(request: MemberRequest) {
     if (!request.memberId) {
-      await this.create(request);
-      return;
+      await this.create(request)
+      return
     }
 
-    const member = await this.memberRepository.findById(request.memberId);
-    member.setDni(request.dni);
-    member.setEmail(request.email);
-    member.setPhone(request.phone);
-    member.setName(request.name);
-    member.setBirthdate(request.birthdate);
-    member.setBaptismDate(request.baptismDate);
-    member.setConversionDate(request.conversionDate);
+    const member = await this.memberRepository.findById(request.memberId)
+    member.setDni(request.dni)
+    member.setEmail(request.email)
+    member.setPhone(request.phone)
+    member.setName(request.name)
+    member.setBirthdate(request.birthdate)
+    member.setBaptismDate(request.baptismDate)
+    member.setConversionDate(request.conversionDate)
 
-    return await this.memberRepository.upsert(member);
+    return await this.memberRepository.upsert(member)
   }
 
   private async getChurch(churchId: string): Promise<Church> {
-    const church: Church = await this.churchRepository.findById(churchId);
+    const church: Church = await this.churchRepository.findById(churchId)
 
     if (!church) {
-      throw new ChurchNotFound();
+      throw new ChurchNotFound()
     }
-    return church;
+    return church
   }
 
   private async create(request: MemberRequest) {
-    console.log(`Registrar miembro ${JSON.stringify(request)}`);
+    console.log(`Registrar miembro ${JSON.stringify(request)}`)
 
     const memberExist: Member = await this.memberRepository.findByDni(
       request.dni,
-    );
+    )
     if (memberExist) {
-      throw new MemberExist();
+      throw new MemberExist()
     }
-    const church: Church = await this.getChurch(request.churchId);
+    const church: Church = await this.getChurch(request.churchId)
 
     const member: Member = Member.create(
       request.name,
@@ -65,10 +65,10 @@ export class CreateOrUpdateMember {
       request.isTreasurer,
       false,
       request.baptismDate,
-    );
+    )
 
-    await this.memberRepository.upsert(member);
+    await this.memberRepository.upsert(member)
 
-    this.queueService.dispatch(QueueName.CreateUserForMember, member);
+    this.queueService.dispatch(QueueName.CreateUserForMember, member)
   }
 }

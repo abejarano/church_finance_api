@@ -1,5 +1,5 @@
 export type FilterUserRequest = {
-  page: number;
-  isSuperuser: string;
-  isActive: string;
-};
+  page: number
+  isSuperuser: string
+  isActive: string
+}

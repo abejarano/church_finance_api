@@ -1,13 +1,13 @@
-import { AvailabilityAccount } from "../AvailabilityAccount";
+import { AvailabilityAccount } from '../AvailabilityAccount'
 
 export interface IAvailabilityAccountRepository {
-  upsert(availabilityAccount: AvailabilityAccount): Promise<void>;
+  upsert(availabilityAccount: AvailabilityAccount): Promise<void>
 
   findAvailabilityAccountByAvailabilityAccountId(
     availabilityAccountId: string,
-  ): Promise<AvailabilityAccount | undefined>;
+  ): Promise<AvailabilityAccount | undefined>
 
   searchAvailabilityAccountsByChurchId(
     churchId: string,
-  ): Promise<AvailabilityAccount[]>;
+  ): Promise<AvailabilityAccount[]>
 }

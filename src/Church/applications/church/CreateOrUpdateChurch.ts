@@ -1,12 +1,12 @@
-import { Church, ChurchNotFound, IChurchRepository } from "../../domain";
-import { ChurchRequest } from "../../domain/requests/Church.request";
+import { Church, ChurchNotFound, IChurchRepository } from '../../domain'
+import { ChurchRequest } from '../../domain/requests/Church.request'
 
 // import {
 //   IRegionRepository,
 //   Region,
 //   RegionNotFound,
 // } from "../../../OrganizacionalStructure/domain";
-import { IMessageBus } from "../../../Shared/domain";
+import { IMessageBus } from '../../../Shared/domain'
 
 export class CreateOrUpdateChurch {
   constructor(
@@ -16,25 +16,25 @@ export class CreateOrUpdateChurch {
   ) {}
 
   async execute(churchRequest: ChurchRequest): Promise<void> {
-    let church: Church;
+    let church: Church
 
     if (!churchRequest.churchId) {
-      church = await this.create(churchRequest);
+      church = await this.create(churchRequest)
 
-      await this.churchRepository.upsert(church);
+      await this.churchRepository.upsert(church)
 
       await this.messageEvent.transmissionMessage(
         JSON.stringify({
           churchId: church.getChurchId(),
         }),
         process.env.TOPIC_CHURCH_CREATED,
-      );
-      return;
+      )
+      return
     }
 
-    church = await this.churchRepository.findById(churchRequest.churchId);
+    church = await this.churchRepository.findById(churchRequest.churchId)
     if (!church) {
-      throw new ChurchNotFound();
+      throw new ChurchNotFound()
     }
 
     //const region: Region = await this.getRegion(churchRequest.regionId);
@@ -46,13 +46,13 @@ export class CreateOrUpdateChurch {
       churchRequest.street,
       churchRequest.number,
       churchRequest.postalCode,
-    );
-    church.setEmail(churchRequest.email);
-    church.setOpeningDate(churchRequest.openingDate);
-    church.setRegisterNumber(churchRequest.registerNumber);
-    church.setStatus(churchRequest.status);
+    )
+    church.setEmail(churchRequest.email)
+    church.setOpeningDate(churchRequest.openingDate)
+    church.setRegisterNumber(churchRequest.registerNumber)
+    church.setStatus(churchRequest.status)
 
-    await this.churchRepository.upsert(church);
+    await this.churchRepository.upsert(church)
   }
 
   // private async getRegion(regionId: string): Promise<Region> {
@@ -66,7 +66,7 @@ export class CreateOrUpdateChurch {
   // }
 
   private async create(churchRequest: ChurchRequest): Promise<Church> {
-    console.log(`Registrar iglesia ${JSON.stringify(churchRequest)}`);
+    console.log(`Registrar iglesia ${JSON.stringify(churchRequest)}`)
     //const region: Region = await this.getRegion(churchRequest.regionId);
 
     return Church.create(
@@ -80,6 +80,6 @@ export class CreateOrUpdateChurch {
       churchRequest.openingDate,
       //region,
       churchRequest.registerNumber,
-    );
+    )
   }
 }

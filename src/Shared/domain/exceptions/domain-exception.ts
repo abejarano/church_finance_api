@@ -1,18 +1,18 @@
 export abstract class DomainException implements Error {
-  message: string;
-  name: string;
+  message: string
+  name: string
 
-  data?: [];
+  data?: []
 
   getMessage(): string {
-    return this.message;
+    return this.message
   }
 
   getErrorCode() {
-    return this.name;
+    return this.name
   }
 
   getData(): [] {
-    return this.data;
+    return this.data
   }
 }

@@ -1,21 +1,21 @@
-import { DateBR } from "../../Shared/helpers";
-import { Member } from "../../Church/domain";
-import { CostCenterCategory } from "./enums/CostCenterCategory.enum";
-import { CostCenterRequest } from "./requests/CostCenter.request";
+import { DateBR } from '../../Shared/helpers'
+import { Member } from '../../Church/domain'
+import { CostCenterCategory } from './enums/CostCenterCategory.enum'
+import { CostCenterRequest } from './requests/CostCenter.request'
 
 export class CostCenter {
-  private costCenterId: string;
-  private active: boolean;
-  private name: string;
-  private description?: string;
+  private costCenterId: string
+  private active: boolean
+  private name: string
+  private description?: string
   private responsible: {
-    name: string;
-    email: string;
-    phone: string;
-  };
-  private churchId: string;
-  private category: CostCenterCategory;
-  private createdAt: Date;
+    name: string
+    email: string
+    phone: string
+  }
+  private churchId: string
+  private category: CostCenterCategory
+  private createdAt: Date
 
   static create(
     costCenterId: string,
@@ -26,64 +26,64 @@ export class CostCenter {
     category: CostCenterCategory,
     description?: string,
   ): CostCenter {
-    const costCenter: CostCenter = new CostCenter();
-    costCenter.costCenterId = costCenterId;
-    costCenter.active = active;
-    costCenter.name = name;
-    costCenter.churchId = churchId;
-    costCenter.description = description;
-    costCenter.createdAt = DateBR();
+    const costCenter: CostCenter = new CostCenter()
+    costCenter.costCenterId = costCenterId
+    costCenter.active = active
+    costCenter.name = name
+    costCenter.churchId = churchId
+    costCenter.description = description
+    costCenter.createdAt = DateBR()
     costCenter.responsible = {
       name: responsibleMember.getName(),
       email: responsibleMember.getEmail(),
       phone: responsibleMember.getPhone(),
-    };
-    costCenter.category = category;
+    }
+    costCenter.category = category
 
-    return costCenter;
+    return costCenter
   }
 
   static fromPrimitives(plainData: any): CostCenter {
-    const costCenter: CostCenter = new CostCenter();
+    const costCenter: CostCenter = new CostCenter()
 
-    costCenter.active = plainData.active;
-    costCenter.costCenterId = plainData.costCenterId;
-    costCenter.name = plainData.name;
-    costCenter.churchId = plainData.churchId;
-    costCenter.createdAt = plainData.createdAt;
-    costCenter.description = plainData.description;
-    costCenter.responsible = plainData.responsible;
-    costCenter.category = plainData.category;
+    costCenter.active = plainData.active
+    costCenter.costCenterId = plainData.costCenterId
+    costCenter.name = plainData.name
+    costCenter.churchId = plainData.churchId
+    costCenter.createdAt = plainData.createdAt
+    costCenter.description = plainData.description
+    costCenter.responsible = plainData.responsible
+    costCenter.category = plainData.category
 
-    return costCenter;
+    return costCenter
   }
 
   getCostCenterId() {
-    return this.costCenterId;
+    return this.costCenterId
   }
 
   getCostCenterName() {
-    return this.name;
+    return this.name
   }
 
   getChurchId(): string {
-    return this.churchId;
+    return this.churchId
   }
 
   getCategory(): CostCenterCategory {
-    return this.category;
+    return this.category
   }
 
   setUpdateDate(request: CostCenterRequest, responsibleMember: Member) {
-    this.active = request.active;
-    this.name = request.name;
-    this.description = request.description;
+    this.active = request.active
+    this.name = request.name
+    this.description = request.description
     this.responsible = {
       name: responsibleMember.getName(),
       email: responsibleMember.getEmail(),
       phone: responsibleMember.getPhone(),
-    };
-    this.category = request.category;
+    }
+    this.category = request.category
   }
 
   toPrimitives(): any {
@@ -96,6 +96,6 @@ export class CostCenter {
       description: this.description,
       churchId: this.churchId,
       createdAt: this.createdAt,
-    };
+    }
   }
 }

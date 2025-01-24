@@ -1,23 +1,23 @@
-import { AggregateRoot, AmountValueObject } from "../../Shared/domain";
-import { OnlineContributionsStatus } from "./enums/OnlineContributionsStatus.enum";
-import { IdentifyEntity } from "../../Shared/adapter";
-import { Member } from "../../Church/domain";
-import { FinancialConcept } from "./FinancialConcept";
-import { FinancialConceptDisable } from "./exceptions/FinancialConceptDisable.exception";
-import { DateBR } from "../../Shared/helpers";
+import { AggregateRoot, AmountValueObject } from '../../Shared/domain'
+import { OnlineContributionsStatus } from './enums/OnlineContributionsStatus.enum'
+import { IdentifyEntity } from '../../Shared/adapter'
+import { Member } from '../../Church/domain'
+import { FinancialConcept } from './FinancialConcept'
+import { FinancialConceptDisable } from './exceptions/FinancialConceptDisable.exception'
+import { DateBR } from '../../Shared/helpers'
 
 export class OnlineContributions extends AggregateRoot {
-  private id?: string;
-  private churchId: string;
-  private member: Member;
-  private contributionId: string;
-  private status: OnlineContributionsStatus;
-  private financialConcept: FinancialConcept;
-  private amount: number;
-  private bankTransferReceipt: string;
-  private observation: string;
-  private createdAt: Date;
-  private bankId: string;
+  private id?: string
+  private churchId: string
+  private member: Member
+  private contributionId: string
+  private status: OnlineContributionsStatus
+  private financialConcept: FinancialConcept
+  private amount: number
+  private bankTransferReceipt: string
+  private observation: string
+  private createdAt: Date
+  private bankId: string
 
   static create(
     amount: AmountValueObject,
@@ -27,76 +27,76 @@ export class OnlineContributions extends AggregateRoot {
     observation: string,
     bankId: string,
   ): OnlineContributions {
-    const contributions: OnlineContributions = new OnlineContributions();
-    contributions.member = member;
-    contributions.churchId = member.getChurchId();
-    contributions.contributionId = IdentifyEntity.get();
-    contributions.bankTransferReceipt = bankTransferReceipt;
+    const contributions: OnlineContributions = new OnlineContributions()
+    contributions.member = member
+    contributions.churchId = member.getChurchId()
+    contributions.contributionId = IdentifyEntity.get()
+    contributions.bankTransferReceipt = bankTransferReceipt
 
-    contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION;
-    contributions.amount = amount.getValue();
-    contributions.createdAt = DateBR();
-    contributions.financialConcept = financialConcept;
-    contributions.bankId = bankId;
+    contributions.status = OnlineContributionsStatus.PENDING_VERIFICATION
+    contributions.amount = amount.getValue()
+    contributions.createdAt = DateBR()
+    contributions.financialConcept = financialConcept
+    contributions.bankId = bankId
 
     if (financialConcept.isDisable()) {
-      throw new FinancialConceptDisable();
+      throw new FinancialConceptDisable()
     }
 
-    contributions.observation = observation;
+    contributions.observation = observation
 
-    return contributions;
+    return contributions
   }
 
   static fromPrimitives(plainData: any): OnlineContributions {
-    const contributions: OnlineContributions = new OnlineContributions();
-    contributions.id = plainData.id;
-    contributions.member = plainData.member;
-    contributions.contributionId = plainData.contributionId;
-    contributions.status = plainData.status;
-    contributions.amount = plainData.amount;
-    contributions.createdAt = plainData.createdAt;
-    contributions.bankTransferReceipt = plainData.bankTransferReceipt;
-    contributions.churchId = plainData.churchId;
+    const contributions: OnlineContributions = new OnlineContributions()
+    contributions.id = plainData.id
+    contributions.member = plainData.member
+    contributions.contributionId = plainData.contributionId
+    contributions.status = plainData.status
+    contributions.amount = plainData.amount
+    contributions.createdAt = plainData.createdAt
+    contributions.bankTransferReceipt = plainData.bankTransferReceipt
+    contributions.churchId = plainData.churchId
     contributions.financialConcept = FinancialConcept.fromPrimitives(
       plainData.financialConcept,
       plainData.churchId,
-    );
-    contributions.observation = plainData.observation;
-    contributions.bankId = plainData.bankId;
-    return contributions;
+    )
+    contributions.observation = plainData.observation
+    contributions.bankId = plainData.bankId
+    return contributions
   }
 
   updateStatus(status: OnlineContributionsStatus) {
-    this.status = status;
+    this.status = status
   }
 
   getContributionsId(): string {
-    return this.contributionId;
+    return this.contributionId
   }
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   getAmount() {
-    return this.amount;
+    return this.amount
   }
 
   getStatus() {
-    return this.status;
+    return this.status
   }
 
   getCreatedAt() {
-    return this.createdAt;
+    return this.createdAt
   }
 
   getMember(): Member {
-    return this.member;
+    return this.member
   }
 
   getBankId() {
-    return this.bankId;
+    return this.bankId
   }
 
   toPrimitives() {
@@ -111,6 +111,6 @@ export class OnlineContributions extends AggregateRoot {
       observation: this.observation,
       financialConcept: this.financialConcept.toPrimitives(),
       bankId: this.bankId,
-    };
+    }
   }
 }

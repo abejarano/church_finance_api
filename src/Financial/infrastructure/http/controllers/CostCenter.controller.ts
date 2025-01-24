@@ -1,12 +1,12 @@
-import { FinancialConfigurationMongoRepository } from "../../persistence";
-import { HttpStatus } from "../../../../Shared/domain";
-import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { Response } from "express";
-import { CostCenterRequest } from "../../../domain";
-import { MemberMongoRepository } from "../../../../Church/infrastructure";
-import { CreateCostCenter } from "../../../applications/costCenter/CreateCostCenter";
-import { UpdateCostCenter } from "../../../applications/costCenter/UpdateCostCenter";
-import { SearchCostCenterByChurchId } from "../../../applications";
+import { FinancialConfigurationMongoRepository } from '../../persistence'
+import { HttpStatus } from '../../../../Shared/domain'
+import domainResponse from '../../../../Shared/helpers/domainResponse'
+import { Response } from 'express'
+import { CostCenterRequest } from '../../../domain'
+import { MemberMongoRepository } from '../../../../Church/infrastructure'
+import { CreateCostCenter } from '../../../applications/costCenter/CreateCostCenter'
+import { UpdateCostCenter } from '../../../applications/costCenter/UpdateCostCenter'
+import { SearchCostCenterByChurchId } from '../../../applications'
 
 export const FindCostCenterByChurchIdController = async (
   churchId: string,
@@ -15,13 +15,13 @@ export const FindCostCenterByChurchIdController = async (
   try {
     const costCenter = await new SearchCostCenterByChurchId(
       FinancialConfigurationMongoRepository.getInstance(),
-    ).execute(churchId);
+    ).execute(churchId)
 
-    res.status(HttpStatus.OK).send({ data: costCenter });
+    res.status(HttpStatus.OK).send({ data: costCenter })
   } catch (e) {
-    domainResponse(e, res);
+    domainResponse(e, res)
   }
-};
+}
 
 export const CreateCostCenterController = async (
   costCenter: CostCenterRequest,
@@ -31,14 +31,16 @@ export const CreateCostCenterController = async (
     await new CreateCostCenter(
       FinancialConfigurationMongoRepository.getInstance(),
       MemberMongoRepository.getInstance(),
-    ).execute(costCenter);
+    ).execute(costCenter)
 
-    res.status(HttpStatus.CREATED).send({ message: "Registered cost center" });
-    return;
+    res.status(HttpStatus.CREATED).send({
+      message: 'Registered cost center',
+    })
+    return
   } catch (e) {
-    domainResponse(e, res);
+    domainResponse(e, res)
   }
-};
+}
 
 export const UpdateCostCenterController = async (
   costCenter: CostCenterRequest,
@@ -48,11 +50,13 @@ export const UpdateCostCenterController = async (
     await new UpdateCostCenter(
       FinancialConfigurationMongoRepository.getInstance(),
       MemberMongoRepository.getInstance(),
-    ).execute(costCenter);
+    ).execute(costCenter)
 
-    res.status(HttpStatus.CREATED).send({ message: "Registered cost center" });
-    return;
+    res.status(HttpStatus.CREATED).send({
+      message: 'Registered cost center',
+    })
+    return
   } catch (e) {
-    domainResponse(e, res);
+    domainResponse(e, res)
   }
-};
+}

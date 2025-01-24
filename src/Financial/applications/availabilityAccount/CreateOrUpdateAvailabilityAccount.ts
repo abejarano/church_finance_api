@@ -1,5 +1,5 @@
-import { IAvailabilityAccountRepository } from "../../domain/interfaces";
-import { AvailabilityAccount, AvailabilityAccountRequest } from "../../domain";
+import { IAvailabilityAccountRepository } from '../../domain/interfaces'
+import { AvailabilityAccount, AvailabilityAccountRequest } from '../../domain'
 
 export class CreateOrUpdateAvailabilityAccount {
   constructor(
@@ -8,22 +8,22 @@ export class CreateOrUpdateAvailabilityAccount {
 
   async execute(requestAvailabilityAccount: AvailabilityAccountRequest) {
     if (!requestAvailabilityAccount.availabilityAccountId) {
-      await this.registerAvailabilityAccount(requestAvailabilityAccount);
-      return;
+      await this.registerAvailabilityAccount(requestAvailabilityAccount)
+      return
     }
 
     const availabilityAccount: AvailabilityAccount =
       await this.availabilityAccountRepository.findAvailabilityAccountByAvailabilityAccountId(
         requestAvailabilityAccount.availabilityAccountId,
-      );
+      )
 
-    availabilityAccount.setAccountName(requestAvailabilityAccount.accountName);
+    availabilityAccount.setAccountName(requestAvailabilityAccount.accountName)
 
     requestAvailabilityAccount.active
       ? availabilityAccount.enable()
-      : availabilityAccount.disable();
+      : availabilityAccount.disable()
 
-    await this.availabilityAccountRepository.upsert(availabilityAccount);
+    await this.availabilityAccountRepository.upsert(availabilityAccount)
   }
 
   private async registerAvailabilityAccount(
@@ -34,7 +34,7 @@ export class CreateOrUpdateAvailabilityAccount {
       requestAvailabilityAccount.accountName,
       requestAvailabilityAccount.active,
       requestAvailabilityAccount.accountType,
-    );
-    await this.availabilityAccountRepository.upsert(availabilityAccount);
+    )
+    await this.availabilityAccountRepository.upsert(availabilityAccount)
   }
 }

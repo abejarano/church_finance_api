@@ -1,11 +1,11 @@
 import {
   ICostCenterMasterRepository,
   IFinancialConfigurationRepository,
-} from "../../domain/interfaces";
-import { logger } from "../../../Shared/infrastructure";
-import { CostCenter, CostCenterMaster } from "../../domain";
-import MasterBalanceIdentifier from "../helpers/MasterBalanceIdentifier";
-import { IQueue } from "../../../Shared/domain";
+} from '../../domain/interfaces'
+import { logger } from '../../../Shared/infrastructure'
+import { CostCenter, CostCenterMaster } from '../../domain'
+import MasterBalanceIdentifier from '../helpers/MasterBalanceIdentifier'
+import { IQueue } from '../../../Shared/domain'
 
 export class UpdateCostCenterMaster implements IQueue {
   constructor(
@@ -14,31 +14,35 @@ export class UpdateCostCenterMaster implements IQueue {
   ) {}
 
   async handle(args: {
-    churchId: string;
-    costCenterId: string;
-    amount: number;
+    churchId: string
+    costCenterId: string
+    amount: number
   }) {
-    const { churchId, costCenterId, amount } = args;
+    const { churchId, costCenterId, amount } = args
 
-    logger.info(`UpdateCostCenterMaster`, { churchId, costCenterId, amount });
+    logger.info(`UpdateCostCenterMaster`, {
+      churchId,
+      costCenterId,
+      amount,
+    })
 
-    const identify = MasterBalanceIdentifier(costCenterId);
+    const identify = MasterBalanceIdentifier(costCenterId)
 
     const costCenter: CostCenter =
       await this.financialConfigurationRepository.findCostCenterByCostCenterId(
         costCenterId,
         churchId,
-      );
+      )
 
-    let costCenterMaster = await this.costCenterMasterRepository.one(identify);
+    let costCenterMaster = await this.costCenterMasterRepository.one(identify)
     if (!costCenter) {
-      costCenterMaster = CostCenterMaster.create(costCenter);
+      costCenterMaster = CostCenterMaster.create(costCenter)
     }
 
-    costCenterMaster.updateMaster(amount);
+    costCenterMaster.updateMaster(amount)
 
-    await this.costCenterMasterRepository.upsert(costCenterMaster);
+    await this.costCenterMasterRepository.upsert(costCenterMaster)
 
-    logger.info(`UpdateCostCenterMaster finish`, costCenterMaster);
+    logger.info(`UpdateCostCenterMaster finish`, costCenterMaster)
   }
 }

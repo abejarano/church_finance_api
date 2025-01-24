@@ -1,10 +1,10 @@
-import { Bank, BankRequest } from "../../domain";
+import { Bank, BankRequest } from '../../domain'
 import {
   Church,
   ChurchNotFound,
   IChurchRepository,
-} from "../../../Church/domain";
-import { IFinancialConfigurationRepository } from "../../domain/interfaces";
+} from '../../../Church/domain'
+import { IFinancialConfigurationRepository } from '../../domain/interfaces'
 
 export class CreateOrUpdateBank {
   constructor(
@@ -14,20 +14,20 @@ export class CreateOrUpdateBank {
 
   async execute(requestBank: BankRequest) {
     if (!requestBank.bankId) {
-      await this.registerBank(requestBank);
-      return;
+      await this.registerBank(requestBank)
+      return
     }
 
     const bank: Bank =
       await this.financialConfigurationRepository.findBankByBankId(
         requestBank.bankId,
-      );
+      )
 
-    bank.setBankInstruction(requestBank.bankInstruction);
-    bank.setAccountType(requestBank.accountType);
-    bank.setInstancePaymentAddress(requestBank.addressInstancePayment);
-    bank.setTag(requestBank.tag);
-    await this.financialConfigurationRepository.upsertBank(bank);
+    bank.setBankInstruction(requestBank.bankInstruction)
+    bank.setAccountType(requestBank.accountType)
+    bank.setInstancePaymentAddress(requestBank.addressInstancePayment)
+    bank.setTag(requestBank.tag)
+    await this.financialConfigurationRepository.upsertBank(bank)
   }
 
   private async registerBank(requestBank: BankRequest): Promise<void> {
@@ -40,14 +40,14 @@ export class CreateOrUpdateBank {
       requestBank.addressInstancePayment,
       requestBank.bankInstruction,
       await this.getChurch(requestBank.churchId),
-    );
-    await this.financialConfigurationRepository.upsertBank(bank);
+    )
+    await this.financialConfigurationRepository.upsertBank(bank)
   }
 
   private async getChurch(churchId: string): Promise<Church> {
-    const church = await this.churchRepository.findById(churchId);
-    if (!church) throw new ChurchNotFound();
+    const church = await this.churchRepository.findById(churchId)
+    if (!church) throw new ChurchNotFound()
 
-    return church;
+    return church
   }
 }

@@ -1,5 +1,5 @@
-import { Bank } from "../../../domain";
-import { IFinancialConfigurationRepository } from "../../../domain/interfaces";
+import { Bank } from '../../../domain'
+import { IFinancialConfigurationRepository } from '../../../domain/interfaces'
 
 export class SearchBankByChurchId {
   constructor(
@@ -7,8 +7,6 @@ export class SearchBankByChurchId {
   ) {}
 
   async execute(churchId: string): Promise<Bank[]> {
-    return this.financialConfigurationRepository.searchBanksByChurchId(
-      churchId,
-    );
+    return this.financialConfigurationRepository.searchBanksByChurchId(churchId)
   }
 }

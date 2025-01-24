@@ -1,8 +1,8 @@
-import { TypeBankingOperation } from "../enums/TypeBankingOperation.enum";
+import { TypeBankingOperation } from '../enums/TypeBankingOperation.enum'
 
 export type MovementBankRequest = {
-  amount: number;
-  bankingOperation: TypeBankingOperation;
-  concept: string;
-  bankId: string;
-};
+  amount: number
+  bankingOperation: TypeBankingOperation
+  concept: string
+  bankId: string
+}

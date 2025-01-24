@@ -1,13 +1,13 @@
-import { CostCenterMaster } from "../CostCenterMaster";
+import { CostCenterMaster } from '../CostCenterMaster'
 
 export interface ICostCenterMasterRepository {
-  one(costCenterMasterId: string): Promise<CostCenterMaster | undefined>;
+  one(costCenterMasterId: string): Promise<CostCenterMaster | undefined>
 
   search(
     churchId: string,
     month: number,
     year: number,
-  ): Promise<CostCenterMaster[]>;
+  ): Promise<CostCenterMaster[]>
 
-  upsert(costCenterMaster: CostCenterMaster): Promise<void>;
+  upsert(costCenterMaster: CostCenterMaster): Promise<void>
 }
