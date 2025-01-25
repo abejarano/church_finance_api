@@ -6,28 +6,28 @@ import {
   User,
   UserDisabled,
   UserNotFound,
-} from "../domain";
+} from "../domain"
 
 export class MakeLogin {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly passwordAdapter: IPasswordAdapter,
-    private readonly authToken: IAuthToken,
+    private readonly authToken: IAuthToken
   ) {}
 
   async execute(emailUser: string, passUser: string): Promise<[User, string]> {
-    const user: User = await this.userRepository.findByEmail(emailUser);
+    const user: User = await this.userRepository.findByEmail(emailUser)
 
     if (!user) {
-      throw new UserNotFound(emailUser);
+      throw new UserNotFound(emailUser)
     }
 
     if (!user.isActive) {
-      throw new UserDisabled(emailUser);
+      throw new UserDisabled(emailUser)
     }
 
     if (!(await this.passwordAdapter.check(passUser, user.getPassword()))) {
-      throw new InvalidPassword();
+      throw new InvalidPassword()
     }
 
     return [
@@ -38,6 +38,6 @@ export class MakeLogin {
         email: user.getEmail(),
         profiles: user.getProfiles(),
       }),
-    ];
+    ]
   }
 }

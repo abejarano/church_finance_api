@@ -1,30 +1,30 @@
-import { AggregateRoot } from "../../Shared/domain";
+import { AggregateRoot } from "../../Shared/domain"
 
 export class States extends AggregateRoot {
-  private id?: string;
-  private countryId: string;
-  private stateId: string;
-  private name: string;
+  private id?: string
+  private countryId: string
+  private stateId: string
+  private name: string
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   getName(): string {
-    return this.name;
+    return this.name
   }
 
   getStateId(): string {
-    return this.stateId;
+    return this.stateId
   }
 
   static fromPrimitives(plainData: any): States {
-    const s: States = new States();
-    s.id = plainData.id;
-    s.countryId = plainData.countryId;
-    s.stateId = plainData.stateId;
-    s.name = plainData.name;
-    return s;
+    const s: States = new States()
+    s.id = plainData.id
+    s.countryId = plainData.countryId
+    s.stateId = plainData.stateId
+    s.name = plainData.name
+    return s
   }
 
   toPrimitives(): any {
@@ -32,6 +32,6 @@ export class States extends AggregateRoot {
       countryId: this.countryId,
       stateId: this.stateId,
       name: this.name,
-    };
+    }
   }
 }

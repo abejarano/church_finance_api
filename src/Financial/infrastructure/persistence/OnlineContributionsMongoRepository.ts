@@ -1,61 +1,60 @@
-import { Criteria, Paginate } from "src/Shared/domain";
-import { OnlineContributions } from "../../domain";
-import { MongoRepository } from "../../../Shared/infrastructure";
-import { IOnlineContributionsRepository } from "../../domain/interfaces";
+import { Criteria, Paginate } from "src/Shared/domain"
+import { OnlineContributions } from "../../domain"
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IOnlineContributionsRepository } from "../../domain/interfaces"
 
 export class OnlineContributionsMongoRepository
   extends MongoRepository<OnlineContributions>
   implements IOnlineContributionsRepository
 {
-  private static instance: OnlineContributionsMongoRepository;
+  private static instance: OnlineContributionsMongoRepository
 
   constructor() {
-    super();
+    super()
   }
 
   static getInstance(): OnlineContributionsMongoRepository {
     if (!OnlineContributionsMongoRepository.instance) {
       OnlineContributionsMongoRepository.instance =
-        new OnlineContributionsMongoRepository();
+        new OnlineContributionsMongoRepository()
     }
-    return OnlineContributionsMongoRepository.instance;
+    return OnlineContributionsMongoRepository.instance
   }
 
   collectionName(): string {
-    return "contributions_sent";
+    return "contributions_sent"
   }
 
   async upsert(contribution: OnlineContributions): Promise<void> {
-    await this.persist(contribution.getId(), contribution);
+    await this.persist(contribution.getId(), contribution)
   }
 
   async findByCriteria(
-    criteria: Criteria,
+    criteria: Criteria
   ): Promise<Paginate<OnlineContributions>> {
-    const documents =
-      await this.searchByCriteria<OnlineContributions>(criteria);
-    return this.buildPaginate<OnlineContributions>(documents);
+    const documents = await this.searchByCriteria<OnlineContributions>(criteria)
+    return this.buildPaginate<OnlineContributions>(documents)
   }
 
   async findByMemberId(
-    memberId: string,
+    memberId: string
   ): Promise<Paginate<OnlineContributions>> {
-    throw new Error("Method not implemented.");
+    throw new Error("Method not implemented.")
   }
 
   async findById(
-    contributionId: string,
+    contributionId: string
   ): Promise<OnlineContributions | undefined> {
-    const collection = await this.collection();
-    const result = await collection.findOne({ contributionId });
+    const collection = await this.collection()
+    const result = await collection.findOne({ contributionId })
 
     if (!result) {
-      return undefined;
+      return undefined
     }
 
     return OnlineContributions.fromPrimitives({
       id: result._id.toString(),
       ...result,
-    });
+    })
   }
 }

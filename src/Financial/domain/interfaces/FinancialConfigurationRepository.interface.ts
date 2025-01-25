@@ -1,37 +1,35 @@
-import { CostCenter } from "../CostCenter";
-import { Bank } from "../Bank";
-import { FinancialConcept } from "../FinancialConcept";
-import { ConceptType } from "../enums/ConcepType.enum";
+import { CostCenter } from "../CostCenter"
+import { Bank } from "../Bank"
+import { FinancialConcept } from "../FinancialConcept"
+import { ConceptType } from "../enums/ConcepType.enum"
 
 export interface IFinancialConfigurationRepository {
-  findBankByBankId(bankId: string): Promise<Bank>;
+  findBankByBankId(bankId: string): Promise<Bank>
 
   findCostCenterByCostCenterId(
     costCenterId: string,
-    churchId: string,
-  ): Promise<CostCenter>;
+    churchId: string
+  ): Promise<CostCenter>
 
   findFinancialConceptsByChurchIdAndTypeConcept(
     churchId: string,
-    typeConcept: ConceptType,
-  ): Promise<FinancialConcept[]>;
+    typeConcept: ConceptType
+  ): Promise<FinancialConcept[]>
 
-  findFinancialConceptsByChurchId(
-    churchId: string,
-  ): Promise<FinancialConcept[]>;
+  findFinancialConceptsByChurchId(churchId: string): Promise<FinancialConcept[]>
 
   findFinancialConceptByChurchIdAndFinancialConceptId(
     churchId: string,
-    financialConceptId: string,
-  ): Promise<FinancialConcept | undefined>;
+    financialConceptId: string
+  ): Promise<FinancialConcept | undefined>
 
-  upsertBank(bank: Bank): Promise<void>;
+  upsertBank(bank: Bank): Promise<void>
 
-  upsertCostCenter(costCenter: CostCenter): Promise<void>;
+  upsertCostCenter(costCenter: CostCenter): Promise<void>
 
-  upsertFinancialConcept(concept: FinancialConcept): Promise<void>;
+  upsertFinancialConcept(concept: FinancialConcept): Promise<void>
 
-  searchBanksByChurchId(churchId: string): Promise<Bank[]>;
+  searchBanksByChurchId(churchId: string): Promise<Bank[]>
 
-  searchCenterCostsByChurchId(churchId: string): Promise<CostCenter[]>;
+  searchCenterCostsByChurchId(churchId: string): Promise<CostCenter[]>
 }

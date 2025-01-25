@@ -1,123 +1,73 @@
-import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { BankRequest, ConceptType, CostCenterRequest } from "../../../domain";
+import domainResponse from "../../../../Shared/helpers/domainResponse"
+import { BankRequest, ConceptType } from "../../../domain"
 import {
   CreateOrUpdateBank,
   FinBankByBankId,
-  FindCostCenterByChurchId,
   FindFinancialConceptsByChurchIdAndTypeConcept,
   SearchBankByChurchId,
-} from "../../../applications";
-import { FinancialConfigurationMongoRepository } from "../../persistence";
-import { HttpStatus } from "../../../../Shared/domain";
-import {
-  ChurchMongoRepository,
-  MemberMongoRepository,
-} from "../../../../Church/infrastructure";
-import {
-  CreateCostCenter,
-  UpdateCostCenter,
-} from "../../../applications/financialConfiguration";
+} from "../../../applications"
+import { FinancialConfigurationMongoRepository } from "../../persistence"
+import { HttpStatus } from "../../../../Shared/domain"
+import { ChurchMongoRepository } from "../../../../Church/infrastructure"
 
 export class FinancialConfigurationController {
-  static async findCostCenterByChurchId(churchId: string, res) {
-    try {
-      const costCenter = await new FindCostCenterByChurchId(
-        FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(churchId);
-
-      res.status(HttpStatus.OK).send(costCenter);
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
-  static async createCostCenter(costCenter: CostCenterRequest, res) {
-    try {
-      await new CreateCostCenter(
-        FinancialConfigurationMongoRepository.getInstance(),
-        MemberMongoRepository.getInstance(),
-      ).execute(costCenter);
-
-      res
-        .status(HttpStatus.CREATED)
-        .send({ message: "Registered cost center" });
-      return;
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
-  static async updateCostCenter(costCenter: CostCenterRequest, res) {
-    try {
-      await new UpdateCostCenter(
-        FinancialConfigurationMongoRepository.getInstance(),
-        MemberMongoRepository.getInstance(),
-      ).execute(costCenter);
-
-      res
-        .status(HttpStatus.CREATED)
-        .send({ message: "Registered cost center" });
-      return;
-    } catch (e) {
-      domainResponse(e, res);
-    }
-  }
-
   static async createOrUpdateBank(request: BankRequest, res) {
     try {
       await new CreateOrUpdateBank(
         FinancialConfigurationMongoRepository.getInstance(),
-        ChurchMongoRepository.getInstance(),
-      ).execute(request);
+        ChurchMongoRepository.getInstance()
+      ).execute(request)
 
       if (!request.bankId) {
-        res.status(HttpStatus.CREATED).send({ message: "Registered bank" });
+        res.status(HttpStatus.CREATED).send({
+          message: "Registered bank",
+        })
       } else {
-        res.status(HttpStatus.OK).send({ message: "Updated bank" });
+        res.status(HttpStatus.OK).send({ message: "Updated bank" })
       }
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
   static async findBankByBankId(bankId: string, res) {
     try {
       const bank = await new FinBankByBankId(
-        FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(bankId);
+        FinancialConfigurationMongoRepository.getInstance()
+      ).execute(bankId)
 
-      res.status(HttpStatus.OK).send({ data: bank });
+      res.status(HttpStatus.OK).send({ data: bank })
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
   static async findFinancialConceptsByChurchIdAndTypeConcept(
     churchId: string,
     res,
-    typeConcept?: ConceptType,
+    typeConcept?: ConceptType
   ) {
     try {
       const financial = await new FindFinancialConceptsByChurchIdAndTypeConcept(
         FinancialConfigurationMongoRepository.getInstance(),
-        ChurchMongoRepository.getInstance(),
-      ).execute(churchId, typeConcept);
+        ChurchMongoRepository.getInstance()
+      ).execute(churchId, typeConcept)
 
-      res.status(HttpStatus.OK).send(financial);
+      res.status(HttpStatus.OK).send(financial)
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
   static async listBankByChurchId(churchId: string, res) {
     try {
       const bank = await new SearchBankByChurchId(
-        FinancialConfigurationMongoRepository.getInstance(),
-      ).execute(churchId);
+        FinancialConfigurationMongoRepository.getInstance()
+      ).execute(churchId)
 
-      res.status(HttpStatus.OK).send(bank);
+      res.status(HttpStatus.OK).send(bank)
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 }

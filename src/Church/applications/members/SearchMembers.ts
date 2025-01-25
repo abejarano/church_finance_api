@@ -1,26 +1,24 @@
-import { IMemberRepository } from "../../domain";
-import { MemberPaginateRequest } from "../../domain/requests/MemberPaginate.request";
+import { IMemberRepository } from "../../domain"
+import { MemberPaginateRequest } from "../../domain/requests/MemberPaginate.request"
 import {
   Criteria,
   Filters,
   Operator,
   Order,
   OrderTypes,
-} from "../../../Shared/domain";
+} from "../../../Shared/domain"
 
 export class SearchMembers {
   constructor(private readonly memberRepository: IMemberRepository) {}
 
   async execute(request: MemberPaginateRequest) {
-    return await this.memberRepository.list(
-      await this.prepareCriteria(request),
-    );
+    return await this.memberRepository.list(await this.prepareCriteria(request))
   }
 
   private async prepareCriteria(
-    request: MemberPaginateRequest,
+    request: MemberPaginateRequest
   ): Promise<Criteria> {
-    const filters = [];
+    const filters = []
 
     if (request.regionId) {
       filters.push(
@@ -28,8 +26,8 @@ export class SearchMembers {
           ["field", "region.regionId"],
           ["operator", Operator.EQUAL],
           ["value", request.regionId],
-        ]),
-      );
+        ])
+      )
     }
 
     if (request.churchId) {
@@ -38,15 +36,15 @@ export class SearchMembers {
           ["field", "churchId"],
           ["operator", Operator.EQUAL],
           ["value", request.churchId],
-        ]),
-      );
+        ])
+      )
     }
 
     return new Criteria(
       Filters.fromValues(filters),
       Order.fromValues("members.name", OrderTypes.DESC),
       request.perPage,
-      request.page,
-    );
+      request.page
+    )
   }
 }

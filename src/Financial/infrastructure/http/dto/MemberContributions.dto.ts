@@ -1,9 +1,9 @@
-import { Paginate } from "../../../../Shared/domain";
-import { StorageGCP } from "../../../../Shared/infrastructure";
+import { Paginate } from "../../../../Shared/domain"
+import { StorageGCP } from "../../../../Shared/infrastructure"
 
 export default async (list: Paginate<any>) => {
-  const storage: StorageGCP = StorageGCP.getInstance(process.env.BUCKET_FILES);
-  let results = [];
+  const storage: StorageGCP = StorageGCP.getInstance(process.env.BUCKET_FILES)
+  let results = []
 
   for (const item of list.results) {
     results.push({
@@ -23,12 +23,12 @@ export default async (list: Paginate<any>) => {
         financialConceptId: item.financialConcept.financialConceptId,
         name: item.financialConcept.name,
       },
-    });
+    })
   }
 
   return {
     count: list.count,
     nextPag: list.nextPag,
     results,
-  };
-};
+  }
+}

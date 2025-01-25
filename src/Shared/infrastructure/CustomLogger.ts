@@ -1,9 +1,9 @@
-import pino, { Logger } from "pino";
-import { v4 } from "uuid";
+import pino, { Logger } from "pino"
+import { v4 } from "uuid"
 
 export class CustomLogger {
-  private logger: Logger;
-  private codeHash: string;
+  private logger: Logger
+  private codeHash: string
 
   constructor() {
     this.logger = pino({
@@ -20,22 +20,22 @@ export class CustomLogger {
         req: (req) => ({ raw: req }),
         res: (res) => ({ raw: res }),
       },
-    });
-    this.codeHash = process.env.requestId ?? v4();
+    })
+    this.codeHash = process.env.requestId ?? v4()
 
     this.logger.info(
       { environment: process.env.NODE_ENV },
-      "Logger inicializado",
-    );
+      "Logger inicializado"
+    )
   }
 
   info(message: any, args?: object): void {
-    args = { ...args, requestId: this.codeHash };
-    this.logger.info(args, message);
+    args = { ...args, requestId: this.codeHash }
+    this.logger.info(args, message)
   }
 
   error(message: any, args?: object): void {
-    args = { ...args, requestId: this.codeHash };
-    this.logger.error(args, message);
+    args = { ...args, requestId: this.codeHash }
+    this.logger.error(args, message)
   }
 }

@@ -1,1 +1,1 @@
-export { IdentifyEntity } from "./identify-entity.adapter";
+export { IdentifyEntity } from "./identify-entity.adapter"

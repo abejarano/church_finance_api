@@ -1,34 +1,34 @@
-import { MongoRepository } from "../../../Shared/infrastructure";
-import { Bank, ConceptType, CostCenter, FinancialConcept } from "../../domain";
-import { IFinancialConfigurationRepository } from "../../domain/interfaces";
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { Bank, ConceptType, CostCenter, FinancialConcept } from "../../domain"
+import { IFinancialConfigurationRepository } from "../../domain/interfaces"
 
 export class FinancialConfigurationMongoRepository
   extends MongoRepository<any>
   implements IFinancialConfigurationRepository
 {
-  private static instance: FinancialConfigurationMongoRepository;
+  private static instance: FinancialConfigurationMongoRepository
 
   constructor() {
-    super();
+    super()
   }
 
   static getInstance(): FinancialConfigurationMongoRepository {
     if (!FinancialConfigurationMongoRepository.instance) {
       FinancialConfigurationMongoRepository.instance =
-        new FinancialConfigurationMongoRepository();
+        new FinancialConfigurationMongoRepository()
     }
-    return FinancialConfigurationMongoRepository.instance;
+    return FinancialConfigurationMongoRepository.instance
   }
 
   collectionName(): string {
-    return "churches";
+    return "churches"
   }
 
   async searchBanksByChurchId(churchId: string): Promise<Bank[]> {
     const collection = await this.collection<{
-      banks: Bank[];
-      churchId: string;
-    }>();
+      banks: Bank[]
+      churchId: string
+    }>()
 
     const result = await collection.findOne(
       {
@@ -40,11 +40,11 @@ export class FinancialConfigurationMongoRepository
           churchId: 1,
           banks: 1,
         },
-      },
-    );
+      }
+    )
 
     if (!("banks" in result)) {
-      return [];
+      return []
     }
 
     return result.banks.map((bank: any) =>
@@ -52,27 +52,27 @@ export class FinancialConfigurationMongoRepository
         id: result._id.toString(),
         churchId: result.churchId,
         ...bank,
-      }),
-    );
+      })
+    )
   }
 
   async upsertBank(bank: Bank): Promise<void> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     await collection.updateOne(
       { churchId: bank.getChurchId() },
-      { $pull: { banks: { bankId: bank.getBankId() } } },
-    );
+      { $pull: { banks: { bankId: bank.getBankId() } } }
+    )
 
     await collection.updateOne(
       { churchId: bank.getChurchId() },
       { $push: { banks: bank.toPrimitives() } },
-      { upsert: true },
-    );
+      { upsert: true }
+    )
   }
 
   async upsertFinancialConcept(concept: FinancialConcept): Promise<void> {
-    const collection = await this.collection();
+    const collection = await this.collection()
     await collection.updateOne(
       { churchId: concept.getChurchId() },
       {
@@ -81,109 +81,114 @@ export class FinancialConfigurationMongoRepository
             financialConceptId: concept.getfinancialConceptId(),
           },
         },
-      },
-    );
+      }
+    )
 
     await collection.updateOne(
       { churchId: concept.getChurchId() },
       { $push: { financialConcepts: concept.toPrimitives() } },
-      { upsert: true },
-    );
+      { upsert: true }
+    )
   }
 
   async upsertCostCenter(costCenter: CostCenter): Promise<void> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     await collection.updateOne(
       {
         churchId: costCenter.getChurchId(),
       },
       {
-        $pull: { costCenters: { costCenterId: costCenter.getCostCenterId() } },
-      },
-    );
+        $pull: {
+          costCenters: { costCenterId: costCenter.getCostCenterId() },
+        },
+      }
+    )
 
     await collection.updateOne(
       {
         churchId: costCenter.getChurchId(),
       },
       { $push: { costCenters: costCenter.toPrimitives() } },
-      { upsert: true },
-    );
+      { upsert: true }
+    )
   }
 
   async findCostCenterByCostCenterId(
     costCenterId: string,
-    churchId: string,
+    churchId: string
   ): Promise<CostCenter> {
     const collection = await this.collection<{
-      costCenters: CostCenter[];
-      churchId: string;
-    }>();
+      costCenters: CostCenter[]
+      churchId: string
+    }>()
     const result = await collection.findOne(
       { "costCenters.costCenterId": costCenterId, churchId },
-      { projection: { _id: 1, churchId: 1, costCenters: 1 } },
-    );
+      { projection: { _id: 1, churchId: 1, costCenters: 1 } }
+    )
 
     if (!result) {
-      return undefined;
+      return undefined
     }
 
     return CostCenter.fromPrimitives({
       churchId: result.churchId,
       ...result.costCenters[0],
-    });
+    })
   }
 
   async findBankByBankId(bankId: string): Promise<Bank> {
     const collection = await this.collection<{
-      banks: Bank[];
-      churchId: string;
-    }>();
+      banks: Bank[]
+      churchId: string
+    }>()
     const result = await collection.findOne(
       { "banks.bankId": bankId },
-      { projection: { _id: 1, churchId: 1, "banks.$": 1 } },
-    );
+      { projection: { _id: 1, churchId: 1, "banks.$": 1 } }
+    )
 
     if (!result) {
-      return undefined;
+      return undefined
     }
 
     return Bank.fromPrimitives({
       id: result._id.toString(),
       churchId: result.churchId,
       ...result.banks[0],
-    });
+    })
   }
 
   async searchCenterCostsByChurchId(churchId: string): Promise<CostCenter[]> {
     const collection = await this.collection<{
-      costCenters: { bankId }[];
-    }>();
+      costCenters: { bankId }[]
+    }>()
     const result = await collection.findOne(
       { churchId },
-      { projection: { _id: 1, costCenters: 1 } },
-    );
+      { projection: { _id: 1, costCenters: 1 } }
+    )
 
     if (!result || !result.costCenters) {
-      return [];
+      return []
     }
 
-    const listCostCenter: CostCenter[] = [];
+    const listCostCenter: CostCenter[] = []
 
     for (const costCenter of result.costCenters) {
       listCostCenter.push(
-        CostCenter.fromPrimitives({ id: result._id.toString(), ...costCenter }),
-      );
+        CostCenter.fromPrimitives({
+          id: result._id.toString(),
+          ...costCenter,
+        })
+      )
     }
-    return listCostCenter;
+    return listCostCenter
   }
 
   async findFinancialConceptsByChurchIdAndTypeConcept(
     churchId: string,
-    typeConcept: ConceptType,
+    typeConcept: ConceptType
   ): Promise<FinancialConcept[]> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     const aggregationPipeline = [
       {
@@ -204,21 +209,21 @@ export class FinancialConfigurationMongoRepository
           },
         },
       },
-    ];
+    ]
 
-    const result = await collection.aggregate(aggregationPipeline).toArray();
+    const result = await collection.aggregate(aggregationPipeline).toArray()
 
     if (!result) {
-      return [];
+      return []
     }
 
-    return this.buildFinancialConcept(result, churchId);
+    return this.buildFinancialConcept(result, churchId)
   }
 
   async findFinancialConceptsByChurchId(
-    churchId: string,
+    churchId: string
   ): Promise<FinancialConcept[]> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     const aggregationPipeline = [
       {
@@ -232,22 +237,22 @@ export class FinancialConfigurationMongoRepository
           financialConcepts: 1,
         },
       },
-    ];
+    ]
 
-    const result = await collection.aggregate(aggregationPipeline).toArray();
+    const result = await collection.aggregate(aggregationPipeline).toArray()
 
     if (!result) {
-      return [];
+      return []
     }
 
-    return this.buildFinancialConcept(result, churchId);
+    return this.buildFinancialConcept(result, churchId)
   }
 
   async findFinancialConceptByChurchIdAndFinancialConceptId(
     churchId: string,
-    financialConceptId: string,
+    financialConceptId: string
   ): Promise<FinancialConcept | undefined> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     const aggregationPipeline = [
       {
@@ -270,12 +275,12 @@ export class FinancialConfigurationMongoRepository
           },
         },
       },
-    ];
+    ]
 
-    const result = await collection.aggregate(aggregationPipeline).toArray();
+    const result = await collection.aggregate(aggregationPipeline).toArray()
 
     if (!result[0]) {
-      return undefined;
+      return undefined
     }
 
     return FinancialConcept.fromPrimitives(
@@ -283,12 +288,12 @@ export class FinancialConfigurationMongoRepository
         id: result[0]._id.toString(),
         ...result[0].financialConcepts[0],
       },
-      churchId,
-    );
+      churchId
+    )
   }
 
   private buildFinancialConcept(result, churchId) {
-    const lisFinancialConcepts: FinancialConcept[] = [];
+    const lisFinancialConcepts: FinancialConcept[] = []
 
     for (const financialConcept of result[0].financialConcepts) {
       lisFinancialConcepts.push(
@@ -297,11 +302,11 @@ export class FinancialConfigurationMongoRepository
             id: result[0]._id.toString(),
             ...financialConcept,
           },
-          churchId,
-        ),
-      );
+          churchId
+        )
+      )
     }
 
-    return lisFinancialConcepts;
+    return lisFinancialConcepts
   }
 }

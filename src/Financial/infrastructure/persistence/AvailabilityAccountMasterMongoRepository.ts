@@ -1,46 +1,46 @@
-import { MongoRepository } from "../../../Shared/infrastructure";
-import { IAvailabilityAccountMasterRepository } from "../../domain/interfaces";
-import { AvailabilityAccountMaster } from "../../domain";
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { IAvailabilityAccountMasterRepository } from "../../domain/interfaces"
+import { AvailabilityAccountMaster } from "../../domain"
 
 export class AvailabilityAccountMasterMongoRepository
   extends MongoRepository<AvailabilityAccountMaster>
   implements IAvailabilityAccountMasterRepository
 {
-  private static instance: AvailabilityAccountMasterMongoRepository;
+  private static instance: AvailabilityAccountMasterMongoRepository
 
   constructor() {
-    super();
+    super()
   }
 
   static getInstance(): AvailabilityAccountMasterMongoRepository {
     if (!AvailabilityAccountMasterMongoRepository.instance) {
       AvailabilityAccountMasterMongoRepository.instance =
-        new AvailabilityAccountMasterMongoRepository();
+        new AvailabilityAccountMasterMongoRepository()
     }
-    return AvailabilityAccountMasterMongoRepository.instance;
+    return AvailabilityAccountMasterMongoRepository.instance
   }
 
   collectionName(): string {
-    return "availability_accounts_master";
+    return "availability_accounts_master"
   }
 
-  async findByAvailabilityAccountMasterId(
-    availabilityAccountMasterId: string,
+  async one(
+    availabilityAccountMasterId: string
   ): Promise<AvailabilityAccountMaster | undefined> {
-    const collection = await this.collection();
+    const collection = await this.collection()
     const document = await collection.findOne({
       availabilityAccountMasterId,
-    });
+    })
     return document
       ? AvailabilityAccountMaster.fromPrimitives({
           ...document,
           id: document._id,
         })
-      : undefined;
+      : undefined
   }
 
   async upsert(accountMaster: AvailabilityAccountMaster): Promise<void> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     await collection.updateOne(
       {
@@ -48,16 +48,16 @@ export class AvailabilityAccountMasterMongoRepository
           accountMaster.getAvailabilityAccountMasterId(),
       },
       { $set: accountMaster.toPrimitives() },
-      { upsert: true },
-    );
+      { upsert: true }
+    )
   }
 
-  async searchAvailabilityAccountMaster(
+  async search(
     churchId: string,
     month: number,
-    year: number,
+    year: number
   ): Promise<AvailabilityAccountMaster[] | undefined> {
-    const collection = await this.collection();
+    const collection = await this.collection()
 
     const documents = await collection
       .aggregate([
@@ -74,17 +74,17 @@ export class AvailabilityAccountMasterMongoRepository
           },
         },
       ])
-      .toArray();
+      .toArray()
 
     if (!documents) {
-      return undefined;
+      return undefined
     }
 
     return documents.map((document) =>
       AvailabilityAccountMaster.fromPrimitives({
         ...document,
         id: document._id,
-      }),
-    );
+      })
+    )
   }
 }

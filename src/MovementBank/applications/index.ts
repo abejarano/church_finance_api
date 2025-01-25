@@ -1,1 +1,1 @@
-export { MovementBankRecord } from "./MovementBankRecord";
+export { MovementBankRecord } from "./MovementBankRecord"

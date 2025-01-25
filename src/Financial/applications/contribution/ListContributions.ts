@@ -1,26 +1,26 @@
-import { FilterContributionsRequest } from "../../domain";
+import { FilterContributionsRequest } from "../../domain"
 import {
   Criteria,
   Filters,
   Operator,
   Order,
   OrderTypes,
-} from "../../../Shared/domain";
-import { IOnlineContributionsRepository } from "../../domain/interfaces";
+} from "../../../Shared/domain"
+import { IOnlineContributionsRepository } from "../../domain/interfaces"
 
 export class ListContributions {
   constructor(
-    private readonly contributionRepository: IOnlineContributionsRepository,
+    private readonly contributionRepository: IOnlineContributionsRepository
   ) {}
 
   async execute(filter: FilterContributionsRequest) {
     return this.contributionRepository.findByCriteria(
-      this.prepareFilter(filter),
-    );
+      this.prepareFilter(filter)
+    )
   }
 
   private prepareFilter(reqFilters: FilterContributionsRequest) {
-    const filters = [];
+    const filters = []
 
     if (reqFilters.startDate && !reqFilters.endDate) {
       filters.push(
@@ -28,8 +28,8 @@ export class ListContributions {
           ["field", "createdAt"],
           ["operator", Operator.GTE],
           ["value", new Date(reqFilters.startDate)],
-        ]),
-      );
+        ])
+      )
     }
 
     if (reqFilters.endDate && !reqFilters.startDate) {
@@ -38,8 +38,8 @@ export class ListContributions {
           ["field", "createdAt"],
           ["operator", Operator.LTE],
           ["value", new Date(reqFilters.endDate)],
-        ]),
-      );
+        ])
+      )
     }
 
     if (reqFilters.startDate && reqFilters.endDate) {
@@ -54,8 +54,8 @@ export class ListContributions {
               endDate: reqFilters.endDate,
             },
           ],
-        ]),
-      );
+        ])
+      )
     }
 
     if (reqFilters.status) {
@@ -64,8 +64,8 @@ export class ListContributions {
           ["field", "status"],
           ["operator", Operator.EQUAL],
           ["value", reqFilters.status],
-        ]),
-      );
+        ])
+      )
     }
 
     if (reqFilters.memberId) {
@@ -74,8 +74,8 @@ export class ListContributions {
           ["field", "member.memberId"],
           ["operator", Operator.EQUAL],
           ["value", reqFilters.memberId],
-        ]),
-      );
+        ])
+      )
     }
 
     if (reqFilters.churchId) {
@@ -84,8 +84,8 @@ export class ListContributions {
           ["field", "churchId"],
           ["operator", Operator.EQUAL],
           ["value", reqFilters.churchId],
-        ]),
-      );
+        ])
+      )
     }
 
     if (reqFilters.financialConceptId) {
@@ -94,15 +94,15 @@ export class ListContributions {
           ["field", "financialConcept.financialConceptId"],
           ["operator", Operator.EQUAL],
           ["value", reqFilters.financialConceptId],
-        ]),
-      );
+        ])
+      )
     }
 
     return new Criteria(
       Filters.fromValues(filters),
       Order.fromValues("createdAt", OrderTypes.DESC),
       reqFilters.perPage,
-      reqFilters.page,
-    );
+      reqFilters.page
+    )
   }
 }

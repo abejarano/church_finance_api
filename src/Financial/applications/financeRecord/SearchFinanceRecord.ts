@@ -1,4 +1,4 @@
-import { FilterFinanceRecordRequest } from "../../domain";
+import { FilterFinanceRecordRequest } from "../../domain"
 import {
   Criteria,
   Filters,
@@ -6,25 +6,25 @@ import {
   Order,
   OrderTypes,
   Paginate,
-} from "../../../Shared/domain";
-import { IFinancialRecordRepository } from "../../domain/interfaces";
-import { FinanceRecord } from "../../domain/FinanceRecord";
+} from "../../../Shared/domain"
+import { IFinancialRecordRepository } from "../../domain/interfaces"
+import { FinanceRecord } from "../../domain/FinanceRecord"
 
 export class SearchFinanceRecord {
   constructor(
-    private readonly financialRecordRepository: IFinancialRecordRepository,
+    private readonly financialRecordRepository: IFinancialRecordRepository
   ) {}
 
   async execute(
-    request: FilterFinanceRecordRequest,
+    request: FilterFinanceRecordRequest
   ): Promise<Paginate<FinanceRecord>> {
     return await this.financialRecordRepository.list(
-      this.prepareCriteria(request),
-    );
+      this.prepareCriteria(request)
+    )
   }
 
   private prepareCriteria(request: FilterFinanceRecordRequest) {
-    const filters = [];
+    const filters = []
 
     if (request.availabilityAccountId) {
       filters.push(
@@ -32,8 +32,8 @@ export class SearchFinanceRecord {
           ["field", "availabilityAccount.availabilityAccountId"],
           ["operator", Operator.EQUAL],
           ["value", request.availabilityAccountId],
-        ]),
-      );
+        ])
+      )
     }
 
     if (request.churchId) {
@@ -42,8 +42,8 @@ export class SearchFinanceRecord {
           ["field", "churchId"],
           ["operator", Operator.EQUAL],
           ["value", request.churchId],
-        ]),
-      );
+        ])
+      )
     }
 
     if (request.financialConceptId) {
@@ -52,8 +52,8 @@ export class SearchFinanceRecord {
           ["field", "financialConceptId"],
           ["operator", Operator.EQUAL],
           ["value", request.financialConceptId],
-        ]),
-      );
+        ])
+      )
     }
 
     if (request.startDate && !request.endDate) {
@@ -62,8 +62,8 @@ export class SearchFinanceRecord {
           ["field", "date"],
           ["operator", Operator.GTE],
           ["value", new Date(request.startDate)],
-        ]),
-      );
+        ])
+      )
     }
 
     if (!request.startDate && request.endDate) {
@@ -72,8 +72,8 @@ export class SearchFinanceRecord {
           ["field", "date"],
           ["operator", Operator.LTE],
           ["value", new Date(request.endDate)],
-        ]),
-      );
+        ])
+      )
     }
 
     if (request.startDate && request.endDate) {
@@ -88,15 +88,15 @@ export class SearchFinanceRecord {
               endDate: request.endDate,
             },
           ],
-        ]),
-      );
+        ])
+      )
     }
 
     return new Criteria(
       Filters.fromValues(filters),
       Order.fromValues("date", OrderTypes.DESC),
       request.perPage,
-      request.page,
-    );
+      request.page
+    )
   }
 }

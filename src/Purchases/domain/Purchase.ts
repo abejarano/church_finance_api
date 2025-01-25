@@ -1,21 +1,21 @@
-import { AggregateRoot } from "../../Shared/domain";
+import { AggregateRoot } from "../../Shared/domain"
 
 export class Purchase extends AggregateRoot {
-  private id?: string;
-  private churchId: string;
-  private createdAt: Date;
-  private amount: number;
-  private invoice: string;
+  private id?: string
+  private churchId: string
+  private createdAt: Date
+  private amount: number
+  private invoice: string
   private items: Array<{
-    quantity: number;
-    price: number;
-  }>;
+    quantity: number
+    price: number
+  }>
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   toPrimitives() {
-    throw new Error("Method not implemented.");
+    throw new Error("Method not implemented.")
   }
 }

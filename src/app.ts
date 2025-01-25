@@ -1,49 +1,49 @@
-import "reflect-metadata";
-import "dotenv/config";
+import "reflect-metadata"
+import "dotenv/config"
 
-import churchRouters from "./Church/infrastructure/http/routes/Church.routers";
-import memberRouters from "./Church/infrastructure/http/routes/Member.routers";
-import financialRouter from "./Financial/infrastructure/http/routes";
+import churchRouters from "./Church/infrastructure/http/routes/Church.routers"
+import memberRouters from "./Church/infrastructure/http/routes/Member.routers"
+import financialRouter from "./Financial/infrastructure/http/routes"
 
-import worldRoute from "./World/infrastructure/http/routes/World.route";
-import ministerRoute from "./Church/infrastructure/http/routes/Minsiter.routers";
-import { Express } from "express";
-import { server } from "./Shared/infrastructure";
-import { Queues } from "./queues";
-import { bullBoard } from "./Shared/infrastructure/bull/bullBoard";
-import userRoutes from "./SecuritySystem/infrastructure/http/routes/user.routes";
+import worldRoute from "./World/infrastructure/http/routes/World.route"
+import ministerRoute from "./Church/infrastructure/http/routes/Minsiter.routers"
+import { Express } from "express"
+import { server } from "./Shared/infrastructure"
+import { Queues } from "./queues"
+import { bullBoard } from "./Shared/infrastructure/bull/bullBoard"
+import userRoutes from "./SecuritySystem/infrastructure/http/routes/user.routes"
 
-const port = Number(process.env.APP_PORT) || 8080;
-const app: Express = server(port);
+const port = Number(process.env.APP_PORT) || 8080
+const app: Express = server(port)
 
-bullBoard(app, Queues);
+bullBoard(app, Queues)
 
-app.use("/api/v1/church", churchRouters);
-app.use("/api/v1/church/member", memberRouters);
-app.use("/api/v1/minister", ministerRoute);
-app.use("/api/v1/finance", financialRouter);
-app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/world", worldRoute);
+app.use("/api/v1/church", churchRouters)
+app.use("/api/v1/church/member", memberRouters)
+app.use("/api/v1/minister", ministerRoute)
+app.use("/api/v1/finance", financialRouter)
+app.use("/api/v1/user", userRoutes)
+app.use("/api/v1/world", worldRoute)
 
 //StorageGCP.getInstance(process.env.BUCKET_FILES);
 
 const serverInstance = app.listen(
   port,
-  (): string => `server running on port ${port}`,
-);
+  (): string => `server running on port ${port}`
+)
 
 process.on("SIGINT", () => {
-  console.log("Recibida señal SIGINT. Cerrando servidor...");
+  console.log("Recibida señal SIGINT. Cerrando servidor...")
   serverInstance.close(() => {
-    console.log("Servidor cerrado.");
-    process.exit(0);
-  });
-});
+    console.log("Servidor cerrado.")
+    process.exit(0)
+  })
+})
 
 process.on("SIGTERM", () => {
-  console.log("Recibida señal SIGTERM. Cerrando servidor...");
+  console.log("Recibida señal SIGTERM. Cerrando servidor...")
   serverInstance.close(() => {
-    console.log("Servidor cerrado.");
-    process.exit(0);
-  });
-});
+    console.log("Servidor cerrado.")
+    process.exit(0)
+  })
+})

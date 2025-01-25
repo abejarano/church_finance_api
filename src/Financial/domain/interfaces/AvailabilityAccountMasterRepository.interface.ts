@@ -1,15 +1,15 @@
-import { AvailabilityAccountMaster } from "../AvailabilityAccountMaster";
+import { AvailabilityAccountMaster } from "../AvailabilityAccountMaster"
 
 export interface IAvailabilityAccountMasterRepository {
-  findByAvailabilityAccountMasterId(
-    availabilityAccountMasterId: string,
-  ): Promise<AvailabilityAccountMaster | undefined>;
+  one(
+    availabilityAccountMasterId: string
+  ): Promise<AvailabilityAccountMaster | undefined>
 
-  searchAvailabilityAccountMaster(
+  search(
     churchId: string,
     month: number,
-    year: number,
-  ): Promise<AvailabilityAccountMaster[] | undefined>;
+    year: number
+  ): Promise<AvailabilityAccountMaster[] | undefined>
 
-  upsert(accountMaster: AvailabilityAccountMaster): Promise<void>;
+  upsert(accountMaster: AvailabilityAccountMaster): Promise<void>
 }

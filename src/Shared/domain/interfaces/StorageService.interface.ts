@@ -1,9 +1,9 @@
 export interface IStorageService {
-  uploadFile(file: any): Promise<string>;
+  uploadFile(file: any): Promise<string>
 
-  downloadFile(fileName: string): Promise<string>;
+  downloadFile(fileName: string): Promise<string>
 
-  deleteFile(path: string): Promise<void>;
+  deleteFile(path: string): Promise<void>
 
-  setBucketName(bucketName: string): IStorageService;
+  setBucketName(bucketName: string): IStorageService
 }

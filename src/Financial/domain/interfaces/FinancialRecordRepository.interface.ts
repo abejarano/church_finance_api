@@ -1,8 +1,8 @@
-import { FinanceRecord } from "../FinanceRecord";
-import { Criteria, Paginate } from "../../../Shared/domain";
+import { FinanceRecord } from "../FinanceRecord"
+import { Criteria, Paginate } from "../../../Shared/domain"
 
 export interface IFinancialRecordRepository {
-  upsert(financialRecord: FinanceRecord): Promise<void>;
+  upsert(financialRecord: FinanceRecord): Promise<void>
 
-  list(criteria: Criteria): Promise<Paginate<FinanceRecord>>;
+  list(criteria: Criteria): Promise<Paginate<FinanceRecord>>
 }

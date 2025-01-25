@@ -1,3 +1,3 @@
 export interface IAuthToken {
-  createToken(user: any): string;
+  createToken(user: any): string
 }

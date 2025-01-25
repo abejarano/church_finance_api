@@ -1,5 +1,5 @@
 export type File = {
-  name: string;
-  mimeType: string;
-  data: Buffer;
-};
+  name: string
+  mimeType: string
+  data: Buffer
+}

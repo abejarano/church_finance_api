@@ -1,4 +1,4 @@
 export type UpdateFinancialMonthRequest = {
-  closed: boolean;
-  financialMonthId: string;
-};
+  closed: boolean
+  financialMonthId: string
+}
