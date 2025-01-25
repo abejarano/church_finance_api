@@ -1,50 +1,50 @@
-import { AggregateRoot } from "../../Shared/domain";
+import { AggregateRoot } from "../../Shared/domain"
 
 export class FinancialMonth extends AggregateRoot {
-  private id?: string;
-  private financialMonthId: string;
-  private month: number;
-  private year: number;
-  private churchId: string;
-  private closed: boolean;
+  private id?: string
+  private financialMonthId: string
+  private month: number
+  private year: number
+  private churchId: string
+  private closed: boolean
 
   static create(churchId: string, month: number, year: number): FinancialMonth {
-    const financialMonths: FinancialMonth = new FinancialMonth();
-    financialMonths.churchId = churchId;
-    financialMonths.month = month;
-    financialMonths.year = year;
-    financialMonths.closed = false;
-    financialMonths.financialMonthId = `${year}-${month}:${churchId}`;
+    const financialMonths: FinancialMonth = new FinancialMonth()
+    financialMonths.churchId = churchId
+    financialMonths.month = month
+    financialMonths.year = year
+    financialMonths.closed = false
+    financialMonths.financialMonthId = `${year}-${month}:${churchId}`
 
-    return financialMonths;
+    return financialMonths
   }
 
   static fromPrimitives(plainData: any): FinancialMonth {
-    const financialMonths: FinancialMonth = new FinancialMonth();
-    financialMonths.id = plainData.id;
-    financialMonths.month = plainData.month;
-    financialMonths.year = plainData.year;
-    financialMonths.closed = plainData.closed;
-    financialMonths.churchId = plainData.churchId;
-    financialMonths.financialMonthId = plainData.financialMonthId;
+    const financialMonths: FinancialMonth = new FinancialMonth()
+    financialMonths.id = plainData.id
+    financialMonths.month = plainData.month
+    financialMonths.year = plainData.year
+    financialMonths.closed = plainData.closed
+    financialMonths.churchId = plainData.churchId
+    financialMonths.financialMonthId = plainData.financialMonthId
 
-    return financialMonths;
+    return financialMonths
   }
 
   close(): void {
-    this.closed = true;
+    this.closed = true
   }
 
   isClosed(): boolean {
-    return this.closed;
+    return this.closed
   }
 
   open(): void {
-    this.closed = false;
+    this.closed = false
   }
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   toPrimitives() {
@@ -54,6 +54,6 @@ export class FinancialMonth extends AggregateRoot {
       month: this.month,
       year: this.year,
       closed: this.closed,
-    };
+    }
   }
 }

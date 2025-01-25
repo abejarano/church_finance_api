@@ -1,6 +1,6 @@
-import { IQueue } from "./Queue.interface";
+import { IQueue } from "./Queue.interface"
 
 export interface IDefinitionQueue {
-  useClass: new (...args: any[]) => IQueue;
-  inject: any[];
+  useClass: new (...args: any[]) => IQueue
+  inject: any[]
 }

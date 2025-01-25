@@ -1,65 +1,65 @@
-import { IdentifyEntity } from "../../Shared/adapter";
-import { Bank } from "../../Financial/domain";
-import { AggregateRoot } from "../../Shared/domain";
+import { IdentifyEntity } from "../../Shared/adapter"
+import { Bank } from "../../Financial/domain"
+import { AggregateRoot } from "../../Shared/domain"
 import {
   OperationImpactType,
   TypeBankingOperation,
-} from "./enums/TypeBankingOperation.enum";
-import { DateBR } from "../../Shared/helpers";
+} from "./enums/TypeBankingOperation.enum"
+import { DateBR } from "../../Shared/helpers"
 
 export class MovementBank extends AggregateRoot {
-  private id?: string;
-  private movementBankId: string;
-  private amount: number;
-  private impact: OperationImpactType;
-  private operationType: TypeBankingOperation;
-  private concept: string;
-  private bankId: string;
-  private churchId: string;
-  private createdAt: Date;
+  private id?: string
+  private movementBankId: string
+  private amount: number
+  private impact: OperationImpactType
+  private operationType: TypeBankingOperation
+  private concept: string
+  private bankId: string
+  private churchId: string
+  private createdAt: Date
 
   static create(
     amount: number,
     operationType: TypeBankingOperation,
     concept: string,
-    bank: Bank,
+    bank: Bank
   ): MovementBank {
-    const movementBank: MovementBank = new MovementBank();
-    movementBank.amount = Number(amount);
-    movementBank.impact = OperationImpact[operationType];
-    movementBank.operationType = operationType;
-    movementBank.concept = concept;
-    movementBank.movementBankId = IdentifyEntity.get();
-    movementBank.bankId = bank.getBankId();
-    movementBank.churchId = bank.getChurchId();
-    movementBank.createdAt = DateBR();
+    const movementBank: MovementBank = new MovementBank()
+    movementBank.amount = Number(amount)
+    movementBank.impact = OperationImpact[operationType]
+    movementBank.operationType = operationType
+    movementBank.concept = concept
+    movementBank.movementBankId = IdentifyEntity.get()
+    movementBank.bankId = bank.getBankId()
+    movementBank.churchId = bank.getChurchId()
+    movementBank.createdAt = DateBR()
 
-    return movementBank;
+    return movementBank
   }
 
   static fromPrimitives(plainData: any): MovementBank {
-    const movementBank: MovementBank = new MovementBank();
-    movementBank.amount = plainData.amount;
-    movementBank.impact = plainData.impact;
-    movementBank.operationType = plainData.operationType;
-    movementBank.concept = plainData.concept;
-    movementBank.movementBankId = plainData.movementBankId;
-    movementBank.bankId = plainData.bankId;
-    movementBank.churchId = plainData.churchId;
-    movementBank.createdAt = plainData.createdAt;
-    return movementBank;
+    const movementBank: MovementBank = new MovementBank()
+    movementBank.amount = plainData.amount
+    movementBank.impact = plainData.impact
+    movementBank.operationType = plainData.operationType
+    movementBank.concept = plainData.concept
+    movementBank.movementBankId = plainData.movementBankId
+    movementBank.bankId = plainData.bankId
+    movementBank.churchId = plainData.churchId
+    movementBank.createdAt = plainData.createdAt
+    return movementBank
   }
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   getBankId(): string {
-    return this.bankId;
+    return this.bankId
   }
 
   getChurchId(): string {
-    return this.churchId;
+    return this.churchId
   }
 
   toPrimitives(): any {
@@ -72,7 +72,7 @@ export class MovementBank extends AggregateRoot {
       bankId: this.bankId,
       churchId: this.churchId,
       createdAt: this.createdAt,
-    };
+    }
   }
 }
 
@@ -80,4 +80,4 @@ const OperationImpact: Record<TypeBankingOperation, OperationImpactType> = {
   [TypeBankingOperation.DEPOSIT]: OperationImpactType.CREDIT,
   [TypeBankingOperation.INTEREST]: OperationImpactType.CREDIT,
   [TypeBankingOperation.WITHDRAWAL]: OperationImpactType.DEBIT,
-};
+}

@@ -1,39 +1,34 @@
-import { Member } from "../../Church/domain";
-import { IQueue } from "../../Shared/domain";
-import {
-  IPasswordAdapter,
-  IUserRepository,
-  ProfileType,
-  User,
-} from "../domain";
-import { CreateOrUpdateUser } from "./CreateOrUpdateUser";
+import { Member } from "../../Church/domain"
+import { IQueue } from "../../Shared/domain"
+import { IPasswordAdapter, IUserRepository, ProfileType, User } from "../domain"
+import { CreateOrUpdateUser } from "./CreateOrUpdateUser"
 
 export class CreateUserForMember implements IQueue {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly passwordAdapter: IPasswordAdapter,
+    private readonly passwordAdapter: IPasswordAdapter
   ) {}
 
   async handle(args: any): Promise<void> {
     console.log(
       `Solicitud de creación de usuario para el miembro: ${JSON.stringify(
-        args,
-      )}`,
-    );
-    const member = Member.fromPrimitives(args);
+        args
+      )}`
+    )
+    const member = Member.fromPrimitives(args)
 
     const userExist: User = await this.userRepository.findByEmail(
-      member.getEmail(),
-    );
+      member.getEmail()
+    )
 
     if (userExist) {
-      return;
+      return
     }
-    console.log("Crear usuario");
+    console.log("Crear usuario")
 
     await new CreateOrUpdateUser(
       this.userRepository,
-      this.passwordAdapter,
+      this.passwordAdapter
     ).execute({
       name: member.getName(),
       memberId: member.getMemberId(),
@@ -46,6 +41,6 @@ export class CreateUserForMember implements IQueue {
         },
       ],
       churchId: member.getChurchId(),
-    });
+    })
   }
 }

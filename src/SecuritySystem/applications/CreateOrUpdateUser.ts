@@ -4,53 +4,53 @@ import {
   IUserRepository,
   User,
   UserNotFound,
-} from "../domain";
+} from "../domain"
 
 export class CreateOrUpdateUser {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly passwordAdapter: IPasswordAdapter,
+    private readonly passwordAdapter: IPasswordAdapter
   ) {}
 
   async execute(userRequest: CreateUserRequest): Promise<User> {
     if (userRequest.userId) {
-      return await this.updateUser(userRequest);
+      return await this.updateUser(userRequest)
     }
     const user = User.create(
       userRequest.name,
       userRequest.email,
       await this.passwordAdapter.encrypt(userRequest.password),
       userRequest.profiles,
-      userRequest.churchId,
-    );
+      userRequest.churchId
+    )
 
     if (userRequest.memberId) {
-      user.setMemberId(userRequest.memberId);
+      user.setMemberId(userRequest.memberId)
     }
 
-    await this.userRepository.upsert(user);
+    await this.userRepository.upsert(user)
 
-    return user;
+    return user
   }
 
   private async updateUser(userRequest: CreateUserRequest): Promise<User> {
     const user: User = await this.userRepository.findByUserId(
-      userRequest.userId,
-    );
+      userRequest.userId
+    )
 
     if (!user) {
-      throw new UserNotFound(userRequest.email);
+      throw new UserNotFound(userRequest.email)
     }
 
-    userRequest.isActive ? user.enable() : user.disable();
+    userRequest.isActive ? user.enable() : user.disable()
 
-    user.setEmail(userRequest.email);
+    user.setEmail(userRequest.email)
 
-    user.deleteAllProfile();
-    user.setProfile(userRequest.profiles);
+    user.deleteAllProfile()
+    user.setProfile(userRequest.profiles)
 
-    await this.userRepository.upsert(user);
+    await this.userRepository.upsert(user)
 
-    return user;
+    return user
   }
 }

@@ -1,15 +1,15 @@
-import { HttpStatus } from "../../../../Shared/domain";
-import domainResponse from "../../../../Shared/helpers/domainResponse";
-import { Church, ChurchPaginateRequest, ChurchRequest } from "../../../domain";
+import { HttpStatus } from "../../../../Shared/domain"
+import domainResponse from "../../../../Shared/helpers/domainResponse"
+import { Church, ChurchPaginateRequest, ChurchRequest } from "../../../domain"
 import {
   FindChurchById,
   RemoveMinister,
   SearchChurches,
   SearchChurchesByDistrictId,
   WithoutAssignedMinister,
-} from "../../../applications";
-import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository";
-import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository";
+} from "../../../applications"
+import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository"
+import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository"
 // import {
 //   MinisterMongoRepository,
 //   RegionMongoRepository,
@@ -33,57 +33,57 @@ export class ChurchController {
   static async list(req: ChurchPaginateRequest, res) {
     try {
       const churches = await new SearchChurches(
-        ChurchMongoRepository.getInstance(),
-      ).execute(req);
+        ChurchMongoRepository.getInstance()
+      ).execute(req)
 
       res.status(HttpStatus.OK).send({
         // data: PaginateChurchDto(
         //   churches,
         //   await MinisterMongoRepository.getInstance().allActive(),
         // ),
-      });
+      })
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
   static async listByDistrictId(districtId: string, res) {
     try {
       const churches = await new SearchChurchesByDistrictId(
-        ChurchMongoRepository.getInstance(),
-      ).execute(districtId);
+        ChurchMongoRepository.getInstance()
+      ).execute(districtId)
 
       res.status(HttpStatus.OK).send({
         data: churches,
-      });
+      })
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
   static async findByChurchId(churchId: string, res) {
     try {
       const church: Church = await new FindChurchById(
-        ChurchMongoRepository.getInstance(),
-      ).execute(churchId);
+        ChurchMongoRepository.getInstance()
+      ).execute(churchId)
 
-      res.status(HttpStatus.OK).send(church);
+      res.status(HttpStatus.OK).send(church)
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
   static async listWithoutAssignedMinister(res) {
     try {
       const churches = await new WithoutAssignedMinister(
-        ChurchMongoRepository.getInstance(),
-      ).execute();
+        ChurchMongoRepository.getInstance()
+      ).execute()
 
       res.status(HttpStatus.OK).send({
         data: churches,
-      });
+      })
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 
@@ -91,12 +91,12 @@ export class ChurchController {
     try {
       await new RemoveMinister(
         MinisterMongoRepository.getInstance(),
-        ChurchMongoRepository.getInstance(),
-      ).execute(churchId);
+        ChurchMongoRepository.getInstance()
+      ).execute(churchId)
 
-      res.status(HttpStatus.OK).send({ message: "Minister removed" });
+      res.status(HttpStatus.OK).send({ message: "Minister removed" })
     } catch (e) {
-      domainResponse(e, res);
+      domainResponse(e, res)
     }
   }
 }

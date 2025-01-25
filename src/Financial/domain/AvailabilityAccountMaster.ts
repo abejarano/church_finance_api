@@ -1,76 +1,76 @@
-import { AggregateRoot } from "../../Shared/domain";
-import IdentifyAvailabilityAccountMaster from "../applications/availabilityAccount/helpers/IdentifyAvailabilityAccountMaster";
-import { AvailabilityAccount } from "./AvailabilityAccount";
+import { AggregateRoot } from "../../Shared/domain"
+import IdentifyAvailabilityAccountMaster from "../applications/helpers/MasterBalanceIdentifier"
+import { AvailabilityAccount } from "./AvailabilityAccount"
 
 export class AvailabilityAccountMaster extends AggregateRoot {
-  private id?: string;
-  private churchId: string;
+  private id?: string
+  private churchId: string
   private availabilityAccount: {
-    availabilityAccountId: string;
-    accountName: string;
-  };
-  private availabilityAccountMasterId: string;
-  private month: number;
-  private year: number;
-  private totalOutput: number;
-  private totalInput: number;
+    availabilityAccountId: string
+    accountName: string
+  }
+  private availabilityAccountMasterId: string
+  private month: number
+  private year: number
+  private totalOutput: number
+  private totalInput: number
 
   static create(availabilityAccount: AvailabilityAccount) {
-    const availabilityAccountMaster = new AvailabilityAccountMaster();
+    const availabilityAccountMaster = new AvailabilityAccountMaster()
 
-    availabilityAccountMaster.month = new Date().getMonth() + 1;
-    availabilityAccountMaster.year = new Date().getFullYear();
-    availabilityAccountMaster.totalOutput = 0;
-    availabilityAccountMaster.totalInput = 0;
+    availabilityAccountMaster.month = new Date().getMonth() + 1
+    availabilityAccountMaster.year = new Date().getFullYear()
+    availabilityAccountMaster.totalOutput = 0
+    availabilityAccountMaster.totalInput = 0
     availabilityAccountMaster.availabilityAccount = {
       availabilityAccountId: availabilityAccount.getAvailabilityAccountId(),
       accountName: availabilityAccount.getAccountName(),
-    };
-    availabilityAccount.getAvailabilityAccountId();
+    }
+    availabilityAccount.getAvailabilityAccountId()
     availabilityAccountMaster.availabilityAccountMasterId =
       IdentifyAvailabilityAccountMaster(
-        availabilityAccount.getAvailabilityAccountId(),
-      );
-    availabilityAccountMaster.churchId = availabilityAccount.getChurchId();
+        availabilityAccount.getAvailabilityAccountId()
+      )
+    availabilityAccountMaster.churchId = availabilityAccount.getChurchId()
 
-    return availabilityAccountMaster;
+    return availabilityAccountMaster
   }
 
   static fromPrimitives(plainData: any) {
-    const availabilityAccountMaster = new AvailabilityAccountMaster();
+    const availabilityAccountMaster = new AvailabilityAccountMaster()
 
-    availabilityAccountMaster.id = plainData.id;
-    availabilityAccountMaster.month = plainData.month;
-    availabilityAccountMaster.year = plainData.year;
-    availabilityAccountMaster.totalOutput = plainData.totalOutput;
-    availabilityAccountMaster.totalInput = plainData.totalInput;
+    availabilityAccountMaster.id = plainData.id
+    availabilityAccountMaster.month = plainData.month
+    availabilityAccountMaster.year = plainData.year
+    availabilityAccountMaster.totalOutput = plainData.totalOutput
+    availabilityAccountMaster.totalInput = plainData.totalInput
     availabilityAccountMaster.availabilityAccount =
-      plainData.availabilityAccount;
+      plainData.availabilityAccount
     availabilityAccountMaster.availabilityAccountMasterId =
-      plainData.availabilityAccountMasterId;
-    availabilityAccountMaster.churchId = plainData.churchId;
+      plainData.availabilityAccountMasterId
+    availabilityAccountMaster.churchId = plainData.churchId
 
-    return availabilityAccountMaster;
+    return availabilityAccountMaster
   }
 
   getId(): string {
-    return this.id;
+    return this.id
   }
 
   getAvailabilityAccountMasterId(): string {
-    return this.availabilityAccountMasterId;
+    return this.availabilityAccountMasterId
   }
 
   updateMaster(
     amount: number,
-    operationType: "MONEY_IN" | "MONEY_OUT",
+    operationType: "MONEY_IN" | "MONEY_OUT"
   ): AvailabilityAccountMaster {
     if (operationType === "MONEY_IN") {
-      this.totalInput += amount;
+      this.totalInput += amount
     } else {
-      this.totalOutput += amount;
+      this.totalOutput += amount
     }
-    return this;
+    return this
   }
 
   toPrimitives() {
@@ -82,6 +82,6 @@ export class AvailabilityAccountMaster extends AggregateRoot {
       availabilityAccount: this.availabilityAccount,
       availabilityAccountMasterId: this.availabilityAccountMasterId,
       churchId: this.churchId,
-    };
+    }
   }
 }

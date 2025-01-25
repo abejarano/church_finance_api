@@ -1,16 +1,17 @@
-import { Paginate } from "../../../../Shared/domain";
-import { StorageGCP } from "../../../../Shared/infrastructure";
+import { Paginate } from "../../../../Shared/domain"
+import { StorageGCP } from "../../../../Shared/infrastructure"
+import { ConceptType } from "../../../domain"
 
 export default async (list: Paginate<any>) => {
-  const storage: StorageGCP = StorageGCP.getInstance(process.env.BUCKET_FILES);
-  let results = [];
+  const storage: StorageGCP = StorageGCP.getInstance(process.env.BUCKET_FILES)
+  let results = []
 
   for (const item of list.results) {
     if (item.voucher) {
-      item.voucher = await storage.downloadFile(item.voucher);
+      item.voucher = await storage.downloadFile(item.voucher)
     }
 
-    results.push({
+    const object = {
       financialConcept: item.financialConcept,
       financialRecordId: item.financialRecordId,
       churchId: item.churchId,
@@ -20,12 +21,18 @@ export default async (list: Paginate<any>) => {
       voucher: item.voucher,
       availabilityAccount: item.availabilityAccount,
       description: item.description,
-    });
+    }
+
+    if (item.type === ConceptType.DISCHARGE) {
+      object["costCenter"] = item.costCenter
+    }
+
+    results.push(object)
   }
 
   return {
     count: list.count,
     nextPag: list.nextPag,
     results,
-  };
-};
+  }
+}

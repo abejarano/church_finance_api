@@ -1,28 +1,28 @@
-import { IFinanceRecordDTO, MoneyLocation } from "../../../domain";
-import { Expose, Type } from "class-transformer";
+import { IFinanceRecordDTO, MoneyLocation } from "../../../domain"
+import { Expose, Type } from "class-transformer"
 
 class FinancialConceptDTO {
   @Expose()
-  financialConceptId: string;
+  financialConceptId: string
 
   @Expose()
-  name: string;
+  name: string
 }
 
 export class FinanceRecordDTO implements IFinanceRecordDTO {
   @Expose()
-  amount: number;
+  amount: number
 
   @Expose()
-  date: string;
+  date: string
 
   @Expose()
   @Type(() => FinancialConceptDTO)
-  financialConcept: FinancialConceptDTO;
+  financialConcept: FinancialConceptDTO
 
   @Expose()
-  financialRecordId: string;
+  financialRecordId: string
 
   @Expose()
-  moneyLocation: MoneyLocation;
+  moneyLocation: MoneyLocation
 }

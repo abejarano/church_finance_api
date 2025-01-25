@@ -1,12 +1,12 @@
-import { checkPassword, encrypt } from "../../../Shared/helpers";
-import { IPasswordAdapter } from "../../domain";
+import { checkPassword, encrypt } from "../../../Shared/helpers"
+import { IPasswordAdapter } from "../../domain"
 
 export class PasswordAdapter implements IPasswordAdapter {
   async encrypt(passwordPlain: string): Promise<string> {
-    return await encrypt(passwordPlain);
+    return await encrypt(passwordPlain)
   }
 
   async check(password: string, passwordHash: string): Promise<boolean> {
-    return await checkPassword(password, passwordHash);
+    return await checkPassword(password, passwordHash)
   }
 }

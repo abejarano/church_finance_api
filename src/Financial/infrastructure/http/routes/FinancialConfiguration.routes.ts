@@ -1,51 +1,47 @@
-import { Router } from "express";
-import { FinancialConfigurationController } from "../controllers/FinancialConfiguration.controller";
-import bankValidator from "../validators/Bank.validator";
-import bankBRValidator from "../validators/BankBR.validator";
+import { Router } from "express"
+import { FinancialConfigurationController } from "../controllers/FinancialConfiguration.controller"
+import bankValidator from "../validators/Bank.validator"
+import bankBRValidator from "../validators/BankBR.validator"
 import {
   AvailabilityAccountRequest,
   BankRequest,
   ConceptType,
   CostCenterRequest,
-} from "../../../domain";
-import { PermissionMiddleware } from "../../../../Shared/infrastructure";
-import AvailabilityAccountValidator from "../validators/AvailabilityAccount.validator";
+} from "../../../domain"
+import { PermissionMiddleware } from "../../../../Shared/infrastructure"
+import AvailabilityAccountValidator from "../validators/AvailabilityAccount.validator"
 import {
   createOrUpdateAvailabilityAccount,
   listAvailabilityAccountByChurchId,
-} from "../controllers/AvailabilityAccount.controller";
+} from "../controllers/AvailabilityAccount.controller"
+import {
+  CreateCostCenterController,
+  FindCostCenterByChurchIdController,
+  UpdateCostCenterController,
+} from "../controllers/CostCenter.controller"
 
-const financialConfigurationRoute = Router();
+const financialConfigurationRoute = Router()
 
 financialConfigurationRoute.post(
   "/cost-center",
   PermissionMiddleware,
   async (req, res) => {
-    await FinancialConfigurationController.createCostCenter(
-      req.body as CostCenterRequest,
-      res,
-    );
-  },
-);
+    await CreateCostCenterController(req.body as CostCenterRequest, res)
+  }
+)
 
 financialConfigurationRoute.put(
   "/cost-center",
   PermissionMiddleware,
   async (req, res) => {
-    await FinancialConfigurationController.updateCostCenter(
-      req.body as CostCenterRequest,
-      res,
-    );
-  },
-);
+    await UpdateCostCenterController(req.body as CostCenterRequest, res)
+  }
+)
 
 financialConfigurationRoute.get("/cost-center/:churchId", async (req, res) => {
-  const { churchId } = req.params as any;
-  await FinancialConfigurationController.findCostCenterByChurchId(
-    churchId,
-    res,
-  );
-});
+  const { churchId } = req.params as any
+  await FindCostCenterByChurchIdController(churchId, res)
+})
 
 //TODO sera necesario crear endpoint por pais para el registro de banco?
 financialConfigurationRoute.post(
@@ -54,38 +50,38 @@ financialConfigurationRoute.post(
   async (req, res) => {
     await FinancialConfigurationController.createOrUpdateBank(
       req.body as BankRequest,
-      res,
-    );
-  },
-);
+      res
+    )
+  }
+)
 
 financialConfigurationRoute.get(
   "/bank/:churchId",
   PermissionMiddleware,
   async (req, res) => {
-    const { churchId } = req.params as any;
-    await FinancialConfigurationController.listBankByChurchId(churchId, res);
-  },
-);
+    const { churchId } = req.params as any
+    await FinancialConfigurationController.listBankByChurchId(churchId, res)
+  }
+)
 
 financialConfigurationRoute.get("/bank/data/:bankId", async (req, res) => {
-  const { bankId } = req.params as any;
-  await FinancialConfigurationController.findBankByBankId(bankId, res);
-});
+  const { bankId } = req.params as any
+  await FinancialConfigurationController.findBankByBankId(bankId, res)
+})
 
 financialConfigurationRoute.get(
   "/financial-concepts/:churchId/:typeConcept?",
   PermissionMiddleware,
   async (req, res) => {
-    const { churchId, typeConcept } = req.params as any;
+    const { churchId, typeConcept } = req.params as any
 
     await FinancialConfigurationController.findFinancialConceptsByChurchIdAndTypeConcept(
       churchId,
       res,
-      typeConcept as ConceptType,
-    );
-  },
-);
+      typeConcept as ConceptType
+    )
+  }
+)
 
 financialConfigurationRoute.post(
   "/availability-account/",
@@ -93,18 +89,18 @@ financialConfigurationRoute.post(
   async (req, res) => {
     await createOrUpdateAvailabilityAccount(
       req.body as AvailabilityAccountRequest,
-      res,
-    );
-  },
-);
+      res
+    )
+  }
+)
 
 financialConfigurationRoute.get(
   "/availability-account/:churchId",
   PermissionMiddleware,
   async (req, res) => {
-    const { churchId } = req.params as any;
-    await listAvailabilityAccountByChurchId(churchId, res);
-  },
-);
+    const { churchId } = req.params as any
+    await listAvailabilityAccountByChurchId(churchId, res)
+  }
+)
 
-export default financialConfigurationRoute;
+export default financialConfigurationRoute

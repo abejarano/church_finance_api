@@ -1,1 +1,1 @@
-export { FinancialYearMongoRepository } from "./persistence/FinancialYearMongoRepository";
+export { FinancialYearMongoRepository } from "./persistence/FinancialYearMongoRepository"

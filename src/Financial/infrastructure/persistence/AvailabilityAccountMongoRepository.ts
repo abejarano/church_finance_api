@@ -1,60 +1,62 @@
-import { MongoRepository } from "../../../Shared/infrastructure";
-import { AvailabilityAccount } from "../../domain";
-import { IAvailabilityAccountRepository } from "../../domain/interfaces";
+import { MongoRepository } from "../../../Shared/infrastructure"
+import { AvailabilityAccount } from "../../domain"
+import { IAvailabilityAccountRepository } from "../../domain/interfaces"
 
 export class AvailabilityAccountMongoRepository
   extends MongoRepository<AvailabilityAccount>
   implements IAvailabilityAccountRepository
 {
-  private static instance: AvailabilityAccountMongoRepository;
+  private static instance: AvailabilityAccountMongoRepository
 
   static getInstance(): AvailabilityAccountMongoRepository {
     if (!this.instance) {
-      this.instance = new AvailabilityAccountMongoRepository();
+      this.instance = new AvailabilityAccountMongoRepository()
     }
-    return this.instance;
+    return this.instance
   }
 
   collectionName(): string {
-    return "availability_accounts";
+    return "availability_accounts"
   }
 
   async upsert(availabilityAccount: AvailabilityAccount): Promise<void> {
-    const collection = await this.collection();
+    const collection = await this.collection()
     await collection.updateOne(
-      { availabilityAccountId: availabilityAccount.getAvailabilityAccountId() },
+      {
+        availabilityAccountId: availabilityAccount.getAvailabilityAccountId(),
+      },
       { $set: availabilityAccount },
-      { upsert: true },
-    );
+      { upsert: true }
+    )
   }
 
   async findAvailabilityAccountByAvailabilityAccountId(
-    availabilityAccountId: string,
+    availabilityAccountId: string
   ): Promise<AvailabilityAccount | undefined> {
-    const collection = await this.collection();
-    const document = await collection.findOne({ availabilityAccountId });
+    const collection = await this.collection()
+    const document = await collection.findOne({ availabilityAccountId })
 
     if (!document) {
-      return undefined;
+      return undefined
     }
 
     return AvailabilityAccount.fromPrimitives({
       ...document,
       id: document._id,
-    });
+    })
   }
 
   async searchAvailabilityAccountsByChurchId(
-    churchId: string,
+    churchId: string
   ): Promise<AvailabilityAccount[]> {
-    const collection = await this.collection();
-    const documents = await collection.find({ churchId }).toArray();
+    const collection = await this.collection()
+    const documents = await collection.find({ churchId }).toArray()
 
     return documents.map((document) =>
       AvailabilityAccount.fromPrimitives({
         ...document,
         id: document._id,
-      }),
-    );
+      })
+    )
   }
 }
