@@ -2,6 +2,7 @@ import { HttpStatus } from "../../../../Shared/domain"
 import domainResponse from "../../../../Shared/helpers/domainResponse"
 import { Church, ChurchPaginateRequest, ChurchRequest } from "../../../domain"
 import {
+  CreateOrUpdateChurch,
   FindChurchById,
   RemoveMinister,
   SearchChurches,
@@ -10,6 +11,8 @@ import {
 } from "../../../applications"
 import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository"
 import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository"
+import { FirstLoadFinancialConcepts } from "../../../../Financial/applications"
+import { FinancialConceptMongoRepository } from "../../../../Financial/infrastructure/persistence"
 // import {
 //   MinisterMongoRepository,
 //   RegionMongoRepository,
@@ -17,17 +20,23 @@ import { MinisterMongoRepository } from "../../persistence/MinisterMongoReposito
 
 export class ChurchController {
   static async createOrUpdate(request: ChurchRequest, res) {
-    // try {
-    //   await new CreateOrUpdateChurch(
-    //     ChurchMongoRepository.getInstance(),
-    //     //RegionMongoRepository.getInstance(),
-    //     NativeEventBus.getInstance(),
-    //   ).execute(request);
-    //
-    //   res.status(HttpStatus.CREATED).send({ message: "Registered Church" });
-    // } catch (e) {
-    //   domainResponse(e, res);
-    // }
+    try {
+      const church = await new CreateOrUpdateChurch(
+        ChurchMongoRepository.getInstance()
+        //RegionMongoRepository.getInstance(),
+      ).execute(request)
+
+      if (!request.churchId) {
+        await new FirstLoadFinancialConcepts(
+          FinancialConceptMongoRepository.getInstance(),
+          ChurchMongoRepository.getInstance()
+        ).execute(church.getChurchId())
+      }
+
+      res.status(HttpStatus.CREATED).send({ message: "Registered Church" })
+    } catch (e) {
+      domainResponse(e, res)
+    }
   }
 
   static async list(req: ChurchPaginateRequest, res) {

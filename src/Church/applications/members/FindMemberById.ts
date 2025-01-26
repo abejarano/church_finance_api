@@ -6,7 +6,7 @@ export class FindMemberById {
 
   async execute(memberId: string): Promise<Member> {
     logger.info(`Buscando miembro por el id: ${memberId}`)
-    const member: Member = await this.memberRepository.findById(memberId)
+    const member: Member = await this.memberRepository.one(memberId)
 
     if (!member) {
       logger.error(`Miembro no encontrado`)

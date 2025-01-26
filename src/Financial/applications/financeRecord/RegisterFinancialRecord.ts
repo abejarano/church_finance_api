@@ -4,7 +4,7 @@ import { FinanceRecord } from "../../domain/FinanceRecord"
 import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator"
 import {
   IAvailabilityAccountRepository,
-  IFinancialConfigurationRepository,
+  IFinancialConceptRepository,
   IFinancialRecordRepository,
 } from "../../domain/interfaces"
 import {
@@ -13,14 +13,14 @@ import {
   FinancialConcept,
   FinancialRecordQueueRequest,
 } from "../../domain"
-import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId"
+import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../financialConcept/FindFinancialConceptByChurchIdAndFinancialConceptId"
 import { logger } from "../../../Shared/infrastructure"
 
 export class RegisterFinancialRecord implements IQueue {
   constructor(
     private readonly financialYearRepository: IFinancialYearRepository,
     private readonly financialRecordRepository: IFinancialRecordRepository,
-    private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
+    private readonly financialConceptRepository: IFinancialConceptRepository,
     private readonly availabilityAccountRepository: IAvailabilityAccountRepository
   ) {}
 
@@ -50,15 +50,12 @@ export class RegisterFinancialRecord implements IQueue {
       )
       financialConcept =
         await new FindFinancialConceptByChurchIdAndFinancialConceptId(
-          this.financialConfigurationRepository
+          this.financialConceptRepository
         ).execute(args.churchId, args.financialConceptId)
     }
 
     const financialRecord = FinanceRecord.create({
-      financialConcept: FinancialConcept.fromPrimitives(
-        financialConcept,
-        args.churchId
-      ),
+      financialConcept: FinancialConcept.fromPrimitives(financialConcept),
       churchId: args.churchId,
       amount: args.amount,
       date: new Date(args.date),

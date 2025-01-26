@@ -1,15 +1,15 @@
-import { logger } from "../../../../Shared/infrastructure"
-import { IFinancialConfigurationRepository } from "../../../domain/interfaces"
-import { GenericException } from "../../../../Shared/domain"
+import { logger } from "../../../Shared/infrastructure"
+import { IFinancialConceptRepository } from "../../domain/interfaces"
+import { GenericException } from "../../../Shared/domain"
 
 export class FindFinancialConceptByChurchIdAndFinancialConceptId {
   constructor(
-    private readonly financialConfigurationRepository: IFinancialConfigurationRepository
+    private readonly financialConceptRepository: IFinancialConceptRepository
   ) {}
 
   async execute(churchId: string, financialConceptId: string) {
     const financialConcept =
-      await this.financialConfigurationRepository.findFinancialConceptByChurchIdAndFinancialConceptId(
+      await this.financialConceptRepository.findFinancialConceptByChurchIdAndFinancialConceptId(
         churchId,
         financialConceptId
       )

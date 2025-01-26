@@ -7,7 +7,7 @@ export class FindChurchById {
   async execute(churchId: string): Promise<Church> {
     logger.info(`Buscar iglesia por el id: ${churchId}`)
 
-    const church: Church = await this.churchRepository.findById(churchId)
+    const church: Church = await this.churchRepository.one(churchId)
     if (!church) {
       throw new ChurchNotFound()
     }

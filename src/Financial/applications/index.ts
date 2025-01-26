@@ -2,7 +2,6 @@ export { SearchCostCenterByChurchId } from "./costCenter/SearchCostCenterByChurc
 export { FindCostCenterByCostCenterId } from "./costCenter/FindCostCenterByCostCenterId"
 
 export { FinBankByBankId } from "./financialConfiguration/finders/FinBankByBankId"
-export { FindFinancialConceptsByChurchIdAndTypeConcept } from "./financialConfiguration/finders/FindFinancialConceptsByChurchIdAndTypeConcept"
 export { SearchBankByChurchId } from "./financialConfiguration/finders/SearchBankByChurchId"
 export { CreateOrUpdateBank } from "./financialConfiguration/CreateOrUpdateBank"
 export { InitialLoadingFinancialConcepts } from "./financialConfiguration/InitialLoadingFinancialConcepts"
@@ -11,7 +10,9 @@ export { RegisterContributionsOnline } from "./contribution/RegisterContribution
 export { ListContributions } from "./contribution/ListContributions"
 export { UpdateContributionStatus } from "./contribution/UpdateContributionStatus"
 
-export { FindFinancialConceptByChurchIdAndFinancialConceptId } from "./financialConfiguration/finders/FindFinancialConceptByChurchIdAndFinancialConceptId"
+export { FindFinancialConceptByChurchIdAndFinancialConceptId } from "./financialConcept/FindFinancialConceptByChurchIdAndFinancialConceptId"
+export { FirstLoadFinancialConcepts } from "./financialConcept/FirstLoadFinancialConcepts"
+export { FindFinancialConceptsByChurchIdAndTypeConcept } from "./financialConcept/FindFinancialConceptsByChurchIdAndTypeConcept"
 
 export { SearchFinanceRecord } from "./financeRecord/SearchFinanceRecord"
 

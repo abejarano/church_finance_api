@@ -1,5 +1,5 @@
 import { MongoRepository } from "../../../Shared/infrastructure"
-import { Bank, ConceptType, CostCenter, FinancialConcept } from "../../domain"
+import { Bank, CostCenter, FinancialConcept } from "../../domain"
 import { IFinancialConfigurationRepository } from "../../domain/interfaces"
 
 export class FinancialConfigurationMongoRepository
@@ -78,7 +78,7 @@ export class FinancialConfigurationMongoRepository
       {
         $pull: {
           financialConcepts: {
-            financialConceptId: concept.getfinancialConceptId(),
+            financialConceptId: concept.getFinancialConceptId(),
           },
         },
       }
@@ -182,131 +182,5 @@ export class FinancialConfigurationMongoRepository
       )
     }
     return listCostCenter
-  }
-
-  async findFinancialConceptsByChurchIdAndTypeConcept(
-    churchId: string,
-    typeConcept: ConceptType
-  ): Promise<FinancialConcept[]> {
-    const collection = await this.collection()
-
-    const aggregationPipeline = [
-      {
-        $match: {
-          churchId: churchId,
-          "financialConcepts.type": typeConcept,
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          financialConcepts: {
-            $filter: {
-              input: "$financialConcepts",
-              as: "concept",
-              cond: { $eq: ["$$concept.type", typeConcept] },
-            },
-          },
-        },
-      },
-    ]
-
-    const result = await collection.aggregate(aggregationPipeline).toArray()
-
-    if (!result) {
-      return []
-    }
-
-    return this.buildFinancialConcept(result, churchId)
-  }
-
-  async findFinancialConceptsByChurchId(
-    churchId: string
-  ): Promise<FinancialConcept[]> {
-    const collection = await this.collection()
-
-    const aggregationPipeline = [
-      {
-        $match: {
-          churchId: churchId,
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          financialConcepts: 1,
-        },
-      },
-    ]
-
-    const result = await collection.aggregate(aggregationPipeline).toArray()
-
-    if (!result) {
-      return []
-    }
-
-    return this.buildFinancialConcept(result, churchId)
-  }
-
-  async findFinancialConceptByChurchIdAndFinancialConceptId(
-    churchId: string,
-    financialConceptId: string
-  ): Promise<FinancialConcept | undefined> {
-    const collection = await this.collection()
-
-    const aggregationPipeline = [
-      {
-        $match: {
-          churchId: churchId,
-          "financialConcepts.financialConceptId": financialConceptId,
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          financialConcepts: {
-            $filter: {
-              input: "$financialConcepts",
-              as: "concept",
-              cond: {
-                $eq: ["$$concept.financialConceptId", financialConceptId],
-              },
-            },
-          },
-        },
-      },
-    ]
-
-    const result = await collection.aggregate(aggregationPipeline).toArray()
-
-    if (!result[0]) {
-      return undefined
-    }
-
-    return FinancialConcept.fromPrimitives(
-      {
-        id: result[0]._id.toString(),
-        ...result[0].financialConcepts[0],
-      },
-      churchId
-    )
-  }
-
-  private buildFinancialConcept(result, churchId) {
-    const lisFinancialConcepts: FinancialConcept[] = []
-
-    for (const financialConcept of result[0].financialConcepts) {
-      lisFinancialConcepts.push(
-        FinancialConcept.fromPrimitives(
-          {
-            id: result[0]._id.toString(),
-            ...financialConcept,
-          },
-          churchId
-        )
-      )
-    }
-
-    return lisFinancialConcepts
   }
 }

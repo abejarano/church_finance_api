@@ -6,7 +6,10 @@ import {
   FindFinancialConceptsByChurchIdAndTypeConcept,
   SearchBankByChurchId,
 } from "../../../applications"
-import { FinancialConfigurationMongoRepository } from "../../persistence"
+import {
+  FinancialConceptMongoRepository,
+  FinancialConfigurationMongoRepository,
+} from "../../persistence"
 import { HttpStatus } from "../../../../Shared/domain"
 import { ChurchMongoRepository } from "../../../../Church/infrastructure"
 
@@ -49,7 +52,7 @@ export class FinancialConfigurationController {
   ) {
     try {
       const financial = await new FindFinancialConceptsByChurchIdAndTypeConcept(
-        FinancialConfigurationMongoRepository.getInstance(),
+        FinancialConceptMongoRepository.getInstance(),
         ChurchMongoRepository.getInstance()
       ).execute(churchId, typeConcept)
 

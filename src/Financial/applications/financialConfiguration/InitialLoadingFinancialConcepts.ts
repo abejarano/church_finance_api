@@ -4,7 +4,7 @@ import {
   ChurchNotFound,
   IChurchRepository,
 } from "../../../Church/domain"
-import * as conceptBase from "../../../fixtures/conceptBaseBR.json"
+import * as conceptBase from "../../../fixtures/financialConcepts.json"
 import { IQueue } from "../../../Shared/domain"
 import { IFinancialConfigurationRepository } from "../../domain/interfaces"
 
@@ -16,7 +16,7 @@ export class InitialLoadingFinancialConcepts implements IQueue {
 
   async handle(churchId: string): Promise<void> {
     console.log(`Crear conceptos financieros para la iglesia ${churchId}`)
-    const church: Church = await this.churchRepository.findById(churchId)
+    const church: Church = await this.churchRepository.one(churchId)
     if (!church) {
       throw new ChurchNotFound()
     }

@@ -17,6 +17,7 @@ import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/
 import {
   AvailabilityAccountMongoRepository,
   FinanceRecordMongoRepository,
+  FinancialConceptMongoRepository,
   FinancialConfigurationMongoRepository,
 } from "../../persistence"
 import {
@@ -59,7 +60,7 @@ export const FinancialRecordController = async (
     await new RegisterFinancialRecord(
       FinancialYearMongoRepository.getInstance(),
       FinanceRecordMongoRepository.getInstance(),
-      FinancialConfigurationMongoRepository.getInstance(),
+      FinancialConceptMongoRepository.getInstance(),
       AvailabilityAccountMongoRepository.getInstance()
     ).handle(request, financialConcept, costCenter)
 
@@ -110,7 +111,7 @@ const searchAvailabilityAccount = async (request: FinancialRecordRequest) => {
 const searchFinancialConcept = async (request: FinancialRecordRequest) => {
   const financialConcept =
     await new FindFinancialConceptByChurchIdAndFinancialConceptId(
-      FinancialConfigurationMongoRepository.getInstance()
+      FinancialConceptMongoRepository.getInstance()
     ).execute(request.churchId, request.financialConceptId)
 
   if (

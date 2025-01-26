@@ -24,7 +24,7 @@ import {
 import MemberContributionsDTO from "../dto/MemberContributions.dto"
 import {
   AvailabilityAccountMongoRepository,
-  FinancialConfigurationMongoRepository,
+  FinancialConceptMongoRepository,
   OnlineContributionsMongoRepository,
 } from "../../persistence"
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure"
@@ -42,7 +42,7 @@ export const onlineContributionsController = async (
 
     const financialConcept =
       await new FindFinancialConceptByChurchIdAndFinancialConceptId(
-        FinancialConfigurationMongoRepository.getInstance()
+        FinancialConceptMongoRepository.getInstance()
       ).execute(member.getChurchId(), request.financialConceptId)
 
     const availabilityAccount =

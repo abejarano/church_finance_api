@@ -59,8 +59,7 @@ export class OnlineContributions extends AggregateRoot {
     contributions.bankTransferReceipt = plainData.bankTransferReceipt
     contributions.churchId = plainData.churchId
     contributions.financialConcept = FinancialConcept.fromPrimitives(
-      plainData.financialConcept,
-      plainData.churchId
+      plainData.financialConcept
     )
     contributions.observation = plainData.observation
     contributions.bankId = plainData.bankId
