@@ -17,12 +17,12 @@ export class CreateOrUpdateMember {
   ) {}
 
   async execute(request: MemberRequest) {
-    if (!request.memberId) {
+    const member = await this.memberRepository.one(request.dni)
+    if (!member) {
       await this.create(request)
       return
     }
 
-    const member = await this.memberRepository.findById(request.memberId)
     member.setDni(request.dni)
     member.setEmail(request.email)
     member.setPhone(request.phone)
@@ -35,7 +35,7 @@ export class CreateOrUpdateMember {
   }
 
   private async getChurch(churchId: string): Promise<Church> {
-    const church: Church = await this.churchRepository.findById(churchId)
+    const church: Church = await this.churchRepository.one(churchId)
 
     if (!church) {
       throw new ChurchNotFound()
@@ -46,9 +46,7 @@ export class CreateOrUpdateMember {
   private async create(request: MemberRequest) {
     console.log(`Registrar miembro ${JSON.stringify(request)}`)
 
-    const memberExist: Member = await this.memberRepository.findByDni(
-      request.dni
-    )
+    const memberExist: Member = await this.memberRepository.one(request.dni)
     if (memberExist) {
       throw new MemberExist()
     }

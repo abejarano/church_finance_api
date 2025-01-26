@@ -4,3 +4,4 @@ export { OnlineContributionsMongoRepository } from "./OnlineContributionsMongoRe
 export { AvailabilityAccountMasterMongoRepository } from "./AvailabilityAccountMasterMongoRepository"
 export { AvailabilityAccountMongoRepository } from "./AvailabilityAccountMongoRepository"
 export { CostCenterMasterMongoRepository } from "./CostCenterMasterMongoRepository"
+export { FinancialConceptMongoRepository } from "./FinancialConceptMongoRepository"

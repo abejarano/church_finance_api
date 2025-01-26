@@ -32,7 +32,7 @@ export class FinancialConcept extends AggregateRoot {
     return concept
   }
 
-  static fromPrimitives(plainData: any, churchId: string): FinancialConcept {
+  static fromPrimitives(plainData: any): FinancialConcept {
     const concept: FinancialConcept = new FinancialConcept()
     concept.id = plainData.id
     concept.financialConceptId = plainData.financialConceptId
@@ -41,11 +41,11 @@ export class FinancialConcept extends AggregateRoot {
     concept.active = plainData.active
     concept.type = plainData.type
     concept.createdAt = plainData.createdAt
-    concept.churchId = churchId
+    concept.churchId = plainData.churchId
     return concept
   }
 
-  getfinancialConceptId(): string {
+  getFinancialConceptId(): string {
     return this.financialConceptId
   }
 
@@ -80,6 +80,7 @@ export class FinancialConcept extends AggregateRoot {
   toPrimitives(): any {
     return {
       financialConceptId: this.financialConceptId,
+      churchId: this.churchId,
       name: this.name,
       description: this.description,
       active: this.active,

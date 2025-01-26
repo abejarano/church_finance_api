@@ -3,7 +3,7 @@ import { Criteria, Paginate } from "../../../Shared/domain"
 import { ChurchDTO } from "../type/Church.dto.type"
 
 export interface IChurchRepository {
-  findById(churchId: string): Promise<Church | undefined>
+  one(churchId: string): Promise<Church | undefined>
 
   upsert(church: Church): Promise<void>
 

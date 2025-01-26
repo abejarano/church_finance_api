@@ -24,7 +24,7 @@ export class ChurchMongoRepository
     return "churches"
   }
 
-  async findById(churchId: string): Promise<Church | undefined> {
+  async one(churchId: string): Promise<Church | undefined> {
     const collection = await this.collection()
     const result = await collection.findOne({ churchId: churchId })
 

@@ -1,21 +1,23 @@
-import { Church, ChurchNotFound, IChurchRepository } from "../../domain"
-import { ChurchRequest } from "../../domain/requests/Church.request"
+import {
+  Church,
+  ChurchNotFound,
+  ChurchRequest,
+  IChurchRepository,
+} from "../../domain"
 
 // import {
 //   IRegionRepository,
 //   Region,
 //   RegionNotFound,
 // } from "../../../OrganizacionalStructure/domain";
-import { IMessageBus } from "../../../Shared/domain"
 
 export class CreateOrUpdateChurch {
   constructor(
-    private readonly churchRepository: IChurchRepository,
+    private readonly churchRepository: IChurchRepository
     //private readonly regionRepository: IRegionRepository,
-    private readonly messageEvent: IMessageBus
   ) {}
 
-  async execute(churchRequest: ChurchRequest): Promise<void> {
+  async execute(churchRequest: ChurchRequest): Promise<Church> {
     let church: Church
 
     if (!churchRequest.churchId) {
@@ -23,16 +25,10 @@ export class CreateOrUpdateChurch {
 
       await this.churchRepository.upsert(church)
 
-      await this.messageEvent.transmissionMessage(
-        JSON.stringify({
-          churchId: church.getChurchId(),
-        }),
-        process.env.TOPIC_CHURCH_CREATED
-      )
-      return
+      return church
     }
 
-    church = await this.churchRepository.findById(churchRequest.churchId)
+    church = await this.churchRepository.one(churchRequest.churchId)
     if (!church) {
       throw new ChurchNotFound()
     }
@@ -53,6 +49,8 @@ export class CreateOrUpdateChurch {
     church.setStatus(churchRequest.status)
 
     await this.churchRepository.upsert(church)
+
+    return church
   }
 
   // private async getRegion(regionId: string): Promise<Region> {

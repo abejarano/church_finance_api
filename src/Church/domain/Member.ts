@@ -1,10 +1,12 @@
 import { IdentifyEntity } from "../../Shared/adapter"
 import { Church } from "./Church"
 import { DateBR } from "../../Shared/helpers"
+import { AggregateRoot } from "../../Shared/domain"
 
-export class Member {
+export class Member extends AggregateRoot {
   public isTreasurer: boolean
   public isMinister: boolean
+  private id?: string
   private memberId: string
   private name: string
   private email: string
@@ -13,7 +15,6 @@ export class Member {
   private dni: string
   private conversionDate: Date
   private baptismDate?: Date
-  private church: Church
   private birthdate: Date
   private churchId: string
 
@@ -37,7 +38,6 @@ export class Member {
     m.dni = dni
     m.conversionDate = conversionDate
     m.baptismDate = baptismDate
-    m.church = church
     m.churchId = church.getChurchId()
     m.birthdate = birthdate
     m.memberId = IdentifyEntity.get()
@@ -61,8 +61,13 @@ export class Member {
     m.isMinister = plainData.isMinister
     m.isTreasurer = plainData.isTreasurer
     m.churchId = plainData.churchId
+    m.id = plainData.id
 
     return m
+  }
+
+  getId(): string {
+    return this.id
   }
 
   getPhone() {
@@ -120,6 +125,7 @@ export class Member {
   toPrimitives(): any {
     return {
       memberId: this.memberId,
+      churchId: this.churchId,
       name: this.name,
       email: this.email,
       phone: this.phone,
