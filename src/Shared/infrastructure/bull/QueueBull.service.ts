@@ -35,9 +35,10 @@ export class QueueBullService implements IQueueService {
         continue
       }
 
-      const instanceWorker = new definitionQueue.useClass(
-        ...definitionQueue.inject
-      )
+      const instanceWorker =
+        definitionQueue.inject !== undefined
+          ? new definitionQueue.useClass(...definitionQueue.inject)
+          : new definitionQueue.useClass()
 
       worker.process(async (job) => await instanceWorker.handle(job.data))
 
@@ -62,6 +63,7 @@ export class QueueBullService implements IQueueService {
     definitionQueues.forEach((queue) => {
       const instance = new Queue(queue.useClass.name, {
         redis: this.redisOptions,
+        defaultJobOptions: { delay: queue.delay ? queue.delay * 1000 : 0 },
       })
 
       instance.on("ready", () =>
