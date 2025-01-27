@@ -5,4 +5,5 @@ export enum QueueName {
   UpdateAvailabilityAccountBalance = "UpdateAvailabilityAccountBalance",
   CreateUserForMember = "CreateUserForMember",
   InitialLoadingFinancialConcepts = "InitialLoadingFinancialConcepts",
+  SendMail = "SendMail",
 }

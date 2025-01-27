@@ -13,6 +13,8 @@ import { Queues } from "./queues"
 import { bullBoard } from "./Shared/infrastructure/bull/bullBoard"
 import userRoutes from "./SecuritySystem/infrastructure/http/routes/user.routes"
 
+export const APP_DIR = __dirname
+
 const port = Number(process.env.APP_PORT) || 8080
 const app: Express = server(port)
 
