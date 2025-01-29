@@ -27,7 +27,7 @@ export class UserController {
     const logger = Logger("LoginController")
 
     try {
-      const [user, dataToken] = await new MakeLogin(
+      const { user, token } = await new MakeLogin(
         UserMongoRepository.getInstance(),
         new PasswordAdapter(),
         new AuthTokenAdapter()
@@ -39,7 +39,7 @@ export class UserController {
 
       res.status(HttpStatus.OK).send({
         ...responseUser,
-        token: dataToken,
+        token,
       })
     } catch (e) {
       logger.error(`login error`, e)

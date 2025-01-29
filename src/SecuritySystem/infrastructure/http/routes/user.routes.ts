@@ -6,6 +6,7 @@ import {
 } from "../controllers/user.controller"
 import { CreateUserRequest, FilterUserRequest } from "../../../domain"
 import { PermissionMiddleware } from "../../../../Shared/infrastructure"
+import { ChangePasswordController } from "../controllers/changePassword.controller"
 
 const userRoutes = Router()
 
@@ -37,6 +38,10 @@ userRoutes.post("/login", async (req, res) => {
 
 userRoutes.post("/recovery-password", async (req, res) => {
   await recoveryPassword(req.body.email, res)
+})
+
+userRoutes.post("/change-password", async (req, res) => {
+  await ChangePasswordController(req.body, res)
 })
 
 export default userRoutes
