@@ -3,14 +3,18 @@ import { IQueue } from "../../Shared/domain"
 import { IPasswordAdapter, IUserRepository, ProfileType, User } from "../domain"
 import { CreateOrUpdateUser } from "./CreateOrUpdateUser"
 
+import { Logger } from "../../Shared/adapter"
+
 export class CreateUserForMember implements IQueue {
+  private logger = Logger("AssingChurchValidator")
+
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly passwordAdapter: IPasswordAdapter
   ) {}
 
   async handle(args: any): Promise<void> {
-    console.log(
+    this.logger.info(
       `Solicitud de creación de usuario para el miembro: ${JSON.stringify(
         args
       )}`
@@ -24,7 +28,7 @@ export class CreateUserForMember implements IQueue {
     if (userExist) {
       return
     }
-    console.log("Crear usuario")
+    this.logger.info("Crear usuario")
 
     await new CreateOrUpdateUser(
       this.userRepository,

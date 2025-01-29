@@ -2,12 +2,15 @@ import {
   ICostCenterMasterRepository,
   IFinancialConfigurationRepository,
 } from "../../domain/interfaces"
-import { logger } from "../../../Shared/infrastructure"
+
 import { CostCenter, CostCenterMaster } from "../../domain"
 import MasterBalanceIdentifier from "../helpers/MasterBalanceIdentifier"
 import { IQueue } from "../../../Shared/domain"
+import { Logger } from "../../../Shared/adapter"
 
 export class UpdateCostCenterMaster implements IQueue {
+  private logger = Logger("UpdateCostCenterMaster")
+
   constructor(
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
     private readonly costCenterMasterRepository: ICostCenterMasterRepository
@@ -20,7 +23,7 @@ export class UpdateCostCenterMaster implements IQueue {
   }) {
     const { churchId, costCenterId, amount } = args
 
-    logger.info(`UpdateCostCenterMaster`, {
+    this.logger.info(`UpdateCostCenterMaster`, {
       churchId,
       costCenterId,
       amount,
@@ -44,6 +47,6 @@ export class UpdateCostCenterMaster implements IQueue {
 
     await this.costCenterMasterRepository.upsert(costCenterMaster)
 
-    logger.info(`UpdateCostCenterMaster finish`, costCenterMaster)
+    this.logger.info(`UpdateCostCenterMaster finish`, costCenterMaster)
   }
 }

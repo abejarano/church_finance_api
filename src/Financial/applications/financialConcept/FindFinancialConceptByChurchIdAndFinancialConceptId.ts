@@ -1,8 +1,10 @@
-import { logger } from "../../../Shared/infrastructure"
 import { IFinancialConceptRepository } from "../../domain/interfaces"
 import { GenericException } from "../../../Shared/domain"
+import { Logger } from "../../../Shared/adapter"
 
 export class FindFinancialConceptByChurchIdAndFinancialConceptId {
+  private logger = Logger("FindFinancialConceptByChurchIdAndFinancialConceptId")
+
   constructor(
     private readonly financialConceptRepository: IFinancialConceptRepository
   ) {}
@@ -15,7 +17,7 @@ export class FindFinancialConceptByChurchIdAndFinancialConceptId {
       )
 
     if (!financialConcept) {
-      logger.error(`Financial concept not found`)
+      this.logger.error(`Financial concept not found`)
       throw new GenericException("Financial concept not found")
     }
 

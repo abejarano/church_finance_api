@@ -2,10 +2,11 @@ import { Storage } from "@google-cloud/storage"
 import * as fs from "fs"
 import { v4 } from "uuid"
 import { GenericException, IStorageService } from "../domain"
-import { logger } from "."
+import { Logger } from "../adapter"
 
 export class StorageGCP implements IStorageService {
   private static _instance: StorageGCP
+  private logger = Logger("StorageGCP")
   private storage: Storage
   private bucketName: string
 
@@ -59,7 +60,7 @@ export class StorageGCP implements IStorageService {
 
       return url
     } catch (error) {
-      logger.error("Error generating signed URL:", error)
+      this.logger.error("Error generating signed URL:", error)
       throw new GenericException("Error generating signed URL.")
     }
   }
@@ -86,11 +87,11 @@ export class StorageGCP implements IStorageService {
             })
           )
           .on("error", (err) => {
-            logger.error("Error uploading file to GCP Storage:", err)
+            this.logger.error("Error uploading file to GCP Storage:", err)
             reject(new GenericException("Error uploading file to GCP Storage."))
           })
           .on("finish", () => {
-            logger.info("File uploaded successfully to GCP Storage.")
+            this.logger.info("File uploaded successfully to GCP Storage.")
             resolve()
           })
       })
@@ -98,15 +99,15 @@ export class StorageGCP implements IStorageService {
       // Delete the temporary file after upload
       fs.unlink(file.tempFilePath, (unlinkErr) => {
         if (unlinkErr) {
-          logger.error("Error deleting temporary file:", unlinkErr)
+          this.logger.error("Error deleting temporary file:", unlinkErr)
         } else {
-          logger.info("Temporary file deleted successfully.")
+          this.logger.info("Temporary file deleted successfully.")
         }
       })
 
       return key // Return the file name in GCP Storage
     } catch (error) {
-      logger.error("Error uploading file to GCP Storage:", error)
+      this.logger.error("Error uploading file to GCP Storage:", error)
       throw new GenericException("Error uploading file to GCP Storage.")
     }
   }
@@ -121,9 +122,9 @@ export class StorageGCP implements IStorageService {
       const file = bucket.file(path)
 
       await file.delete()
-      logger.info(`File ${path} deleted successfully from GCP Storage.`)
+      this.logger.info(`File ${path} deleted successfully from GCP Storage.`)
     } catch (error) {
-      logger.error("Error deleting file from GCP Storage:", error)
+      this.logger.error("Error deleting file from GCP Storage:", error)
       throw new GenericException("Error deleting file from GCP Storage.")
     }
   }

@@ -4,6 +4,7 @@ import {
   ChurchRequest,
   IChurchRepository,
 } from "../../domain"
+import { Logger } from "../../../Shared/adapter"
 
 // import {
 //   IRegionRepository,
@@ -12,6 +13,8 @@ import {
 // } from "../../../OrganizacionalStructure/domain";
 
 export class CreateOrUpdateChurch {
+  private logger = Logger("CreateOrUpdateChurch")
+
   constructor(
     private readonly churchRepository: IChurchRepository
     //private readonly regionRepository: IRegionRepository,
@@ -64,7 +67,7 @@ export class CreateOrUpdateChurch {
   // }
 
   private async create(churchRequest: ChurchRequest): Promise<Church> {
-    console.log(`Registrar iglesia ${JSON.stringify(churchRequest)}`)
+    this.logger.info(`Registrar iglesia ${JSON.stringify(churchRequest)}`)
     //const region: Region = await this.getRegion(churchRequest.regionId);
 
     return Church.create(

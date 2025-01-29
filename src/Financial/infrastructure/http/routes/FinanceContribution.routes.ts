@@ -39,8 +39,6 @@ financeContribution.get("", PermissionMiddleware, async (req, res) => {
     filter.churchId = req["user"].churchId
   }
 
-  console.log(`Filtering contributions with: ${JSON.stringify(filter)}`)
-
   await listOnlineContributionsController(filter, res)
 })
 

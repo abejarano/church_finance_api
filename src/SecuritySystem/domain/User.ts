@@ -14,6 +14,7 @@ export class User extends AggregateRoot {
   private profiles: Profile[]
   private churchId: string
   private memberId?: string
+  private lastLogin?: Date
 
   static create(
     name: string,
@@ -51,6 +52,7 @@ export class User extends AggregateRoot {
     u.name = data.name
     u.profiles = data.profiles
     u.memberId = data.memberId
+    u.lastLogin = data.lastLogin ?? null
 
     return u
   }
@@ -128,6 +130,11 @@ export class User extends AggregateRoot {
     return this
   }
 
+  updateLastLogin(): User {
+    this.lastLogin = DateBR()
+    return this
+  }
+
   enable(): User {
     this.isActive = true
     return this
@@ -149,6 +156,7 @@ export class User extends AggregateRoot {
       userId: this.userId,
       churchId: this.churchId,
       memberId: this.memberId,
+      lastLogin: this.lastLogin,
     }
   }
 }

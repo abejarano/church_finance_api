@@ -1,11 +1,13 @@
 import { Church, ChurchNotFound, IChurchRepository } from "../../domain"
-import { logger } from "../../../Shared/infrastructure"
+import { Logger } from "../../../Shared/adapter"
 
 export class FindChurchById {
+  private logger = Logger("FindChurchById")
+
   constructor(private readonly churchRepository: IChurchRepository) {}
 
   async execute(churchId: string): Promise<Church> {
-    logger.info(`Buscar iglesia por el id: ${churchId}`)
+    this.logger.info(`Buscar iglesia por el id: ${churchId}`)
 
     const church: Church = await this.churchRepository.one(churchId)
     if (!church) {

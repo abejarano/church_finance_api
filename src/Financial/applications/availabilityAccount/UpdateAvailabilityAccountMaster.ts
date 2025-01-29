@@ -1,9 +1,11 @@
 import { IAvailabilityAccountMasterRepository } from "../../domain/interfaces"
 import { AvailabilityAccount, AvailabilityAccountMaster } from "../../domain"
 import IdentifyAvailabilityAccountMaster from "../helpers/MasterBalanceIdentifier"
-import { logger } from "../../../Shared/infrastructure"
+import { Logger } from "../../../Shared/adapter"
 
 export class UpdateAvailabilityAccountMaster {
+  private logger = Logger("UpdateAvailabilityAccountMaster")
+
   constructor(
     private readonly availabilityAccountMasterRepository: IAvailabilityAccountMasterRepository
   ) {}
@@ -13,12 +15,12 @@ export class UpdateAvailabilityAccountMaster {
     amount: number,
     operationType: "MONEY_IN" | "MONEY_OUT"
   ) {
-    logger.info(`UpdateAvailabilityAccountMaster`, account)
+    this.logger.info(`UpdateAvailabilityAccountMaster`, account)
     const identifyAvailabilityAccountMaster = IdentifyAvailabilityAccountMaster(
       account.getAvailabilityAccountId()
     )
 
-    logger.info(
+    this.logger.info(
       `Search AvailabilityAccountMaster ${identifyAvailabilityAccountMaster}`
     )
 
@@ -27,7 +29,7 @@ export class UpdateAvailabilityAccountMaster {
     )
 
     if (!accountMaster) {
-      logger.info(
+      this.logger.info(
         `AvailabilityAccountMaster ${identifyAvailabilityAccountMaster} not found`
       )
       accountMaster = AvailabilityAccountMaster.create(account)
@@ -37,6 +39,6 @@ export class UpdateAvailabilityAccountMaster {
 
     await this.availabilityAccountMasterRepository.upsert(accountMaster)
 
-    logger.info(`UpdateAvailabilityAccountMaster finish`, accountMaster)
+    this.logger.info(`UpdateAvailabilityAccountMaster finish`, accountMaster)
   }
 }

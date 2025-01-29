@@ -10,13 +10,17 @@ import ministerRoute from "./Church/infrastructure/http/routes/Minsiter.routers"
 import { Express } from "express"
 import { server } from "./Shared/infrastructure"
 import { Queues } from "./queues"
-import { bullBoard } from "./Shared/infrastructure/bull/bullBoard"
+import { BullBoard } from "./Shared/infrastructure/bull/bullBoard"
 import userRoutes from "./SecuritySystem/infrastructure/http/routes/user.routes"
+import { Logger } from "./Shared/adapter"
+
+export const APP_DIR = __dirname
 
 const port = Number(process.env.APP_PORT) || 8080
 const app: Express = server(port)
+const logger = Logger("AppServer")
 
-bullBoard(app, Queues)
+BullBoard(app, Queues)
 
 app.use("/api/v1/church", churchRouters)
 app.use("/api/v1/church/member", memberRouters)
@@ -27,23 +31,22 @@ app.use("/api/v1/world", worldRoute)
 
 //StorageGCP.getInstance(process.env.BUCKET_FILES);
 
-const serverInstance = app.listen(
-  port,
-  (): string => `server running on port ${port}`
+const serverInstance = app.listen(port, () =>
+  logger.info(`server running on port ${port}`)
 )
 
 process.on("SIGINT", () => {
-  console.log("Recibida señal SIGINT. Cerrando servidor...")
+  logger.info("Recibida señal SIGINT. Cerrando servidor...")
   serverInstance.close(() => {
-    console.log("Servidor cerrado.")
+    logger.info("Servidor cerrado.")
     process.exit(0)
   })
 })
 
 process.on("SIGTERM", () => {
-  console.log("Recibida señal SIGTERM. Cerrando servidor...")
+  logger.info("Recibida señal SIGTERM. Cerrando servidor...")
   serverInstance.close(() => {
-    console.log("Servidor cerrado.")
+    logger.info("Servidor cerrado.")
     process.exit(0)
   })
 })

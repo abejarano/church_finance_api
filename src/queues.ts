@@ -7,7 +7,8 @@ import {
 import { InitialLoadingFinancialConcepts } from "./Financial/applications"
 import { FinancialConfigurationMongoRepository } from "./Financial/infrastructure"
 import { ChurchMongoRepository } from "./Church/infrastructure"
-import { FinancialQueue } from "./Financial/infrastructure/financal.queue"
+import { FinancialQueue } from "./Financial/infrastructure/Financal.queue"
+import { SendMail } from "./SendMail/SendMail"
 
 export const Queues: IDefinitionQueue[] = [
   ...FinancialQueue,
@@ -21,5 +22,10 @@ export const Queues: IDefinitionQueue[] = [
       FinancialConfigurationMongoRepository.getInstance(),
       ChurchMongoRepository.getInstance(),
     ],
+  },
+  {
+    useClass: SendMail,
+    inject: [],
+    delay: 4,
   },
 ]

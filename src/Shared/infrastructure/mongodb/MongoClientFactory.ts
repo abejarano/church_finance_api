@@ -1,8 +1,10 @@
 import { MongoClient } from "mongodb"
-import { logger } from "../index"
+
+import { Logger } from "../../adapter"
 
 export class MongoClientFactory {
   private static client: MongoClient | null = null // Almacena la instancia única de MongoClient
+  private static logger = Logger("MongoClientFactory")
 
   /**
    * Obtiene o crea una instancia de MongoClient.
@@ -24,7 +26,7 @@ export class MongoClientFactory {
     if (MongoClientFactory.client) {
       await MongoClientFactory.client.close()
       MongoClientFactory.client = null // Limpia la instancia
-      console.log("MongoDB connection closed.")
+      this.logger.info("MongoDB connection closed.")
     }
   }
 
@@ -43,16 +45,16 @@ export class MongoClientFactory {
 
     const uri = `mongodb+srv://${MONGO_USER}:${MONGO_PASS}@${MONGO_SERVER}/${MONGO_DB}?retryWrites=true&w=majority`
 
-    logger.info("Connecting to MongoDB")
+    this.logger.info("Connecting to MongoDB")
 
     const client = new MongoClient(uri, { ignoreUndefined: true })
 
     try {
       await client.connect()
-      logger.info("Connected to MongoDB successfully.")
+      this.logger.info("Connected to MongoDB successfully.")
       return client
     } catch (error) {
-      logger.error("Failed to connect to MongoDB:", error)
+      this.logger.error("Failed to connect to MongoDB:", error)
       throw error
     }
   }
