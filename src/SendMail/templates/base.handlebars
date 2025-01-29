@@ -4,510 +4,167 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>E-mail</title>
     <style type="text/css">
-        body {
-            Margin: 0 !important;
-            padding: 15px;
-            background-color: #FFF;
+        /* Fonte Lato embutida */
+        @font-face {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            src: url('https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHjx4wWw.ttf') format('truetype');
         }
 
-        .titulo_correo {
-            color: #253089;
+        /* Estilos gerais */
+        body {
             margin: 0;
             padding: 0;
-            margin-top: 4px;
-        }
-
-        .azul {
-            color: #253089;
-        }
-
-        .wrapper {
-            width: 100%;
-            table-layout: fixed;
-        }
-
-        .wrapper-inner {
-            width: 100%;
-            /*background-color: #eee;*/
-            max-width: 670px;
-            margin: 0 auto;
-        }
-
-        .beneficio {
-            color: black;
-            font-size: 12px;
-            padding-left: 12px;
+            background-color: #f5f5f5;
+            font-family: 'Lato', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
         }
 
         table {
-            border-spacing: 0;
-            font-family: sans-serif;
-            color: #727f80;
-        }
-
-        .outer-table {
-            width: 100%;
-            max-width: 670px;
             margin: 0 auto;
-            background-color: #FFF;
+            width: 100%;
+            max-width: 600px;
+            border-spacing: 0;
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+            border-radius: 5px;
         }
 
-        td {
-            padding: 0;
+        h1 {
+            font-size: 22px;
+            color: #7528E9;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         p {
+            font-size: 16px;
             margin: 0;
-        }
-
-        .header p {
-            padding: 1%;
-            color: black;
-            font-weight: 500;
-            font-size: 11px;
-            text-transform: uppercase;
+            padding: 0;
         }
 
         a {
-            color: black;
+            color: #7528E9;
             text-decoration: none;
         }
 
-        /*--- End Outer Table 1 --*/
-        .main-table-first {
-            width: 100%;
-            max-width: 610px;
-            margin: 0 auto;
-            background-color: #FFF;
-            border-radius: 6px;
-        }
-
-        /*--- Start Two Column Sections --*/
-        .two-column {
+        /* Cabeçalho */
+        .header {
+            background-color: #fff;
+            padding: 20px 0;
             text-align: center;
-            font-size: 0;
-            padding: 5px 0 10px 0;
+            border-bottom: 1px solid #e6e6e6;
         }
 
-        .two-column .section {
-            width: 100%;
-            max-width: 300px;
-            display: inline-block;
-            vertical-align: top;
+        .header img {
+            width: 120px;
         }
 
-        .two-column .content {
-            font-size: 16px;
-            line-height: 20px;
-            text-align: justify;
-        }
-
+        /* Conteúdo */
         .content {
-            width: 100%;
-            padding-top: 20px;
+            padding: 30px 20px;
         }
 
-        .center {
-            display: table;
-            Margin: 0 auto;
+        /* Botão de ação */
+        .cta {
+            text-align: center;
+            margin-top: 20px;
         }
 
-        img {
-            border: 0;
-        }
-
-        img.logo {
-            float: left;
-            Margin-left: 5%;
-            max-width: 90px !important;
-        }
-
-        #callout {
-            Margin: 4% 5% 2% 0;
-            height: auto;
-            overflow: hidden;
-        }
-
-        #callout p {
-            color: black;
-            font-size: 12px
-        }
-
-        #callout img {
-            max-width: 20px;
-        }
-
-        .social {
-            list-style-type: none;
-            margin-top: 1%;
-            padding: 0;
-            border-top: 0.5px solid #f1f1f1;
-            padding-top: 10px;
-        }
-
-        .social li {
+        .cta a {
             display: inline-block;
-        }
-
-        .social li img {
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        /*--- Start Outer Table Banner Image, Text & Button --*/
-        .image {
-            width: 100%;
-            max-width: 670px;
-            background: #eee;
-            height: auto;
-            padding: 10px;
-        }
-
-        .image p {
-            color: black;
-            font-size: 12px
-        }
-
-        .main-table {
-            width: 100%;
-            max-width: 610px;
-            margin: 0 auto;
-            background-color: #FFF;
-            border-radius: 6px;
-        }
-
-        .one-column .inner-td {
-            font-size: 16px;
-            line-height: 20px;
-            text-align: justify;
-        }
-
-        .one-column .inner-td p {
+            background-color: #7528E9;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 12px 20px;
             font-size: 14px;
-            color: black;
-            margin-top: 10px
-        }
-
-        .inner-td {
-            padding: 10px;
-        }
-
-        .h2 {
-            text-align: center;
-            font-size: 26px;
-            font-weight: 600;
-            line-height: 30px;
-            margin: 12px;
-            color: black;
-        }
-
-        p.center {
-            text-align: center;
-            max-width: 580px;
-            line-height: 24px;
-        }
-
-        .button-holder-center {
-            text-align: center;
-            Margin: 5% 2% 3% 0;
-        }
-
-        .button-holder {
-            float: right;
-            Margin: 5% 0 3% 0;
-        }
-
-        .btn {
-            font-size: 14px;
-            font-weight: 600;
-            background: #3D3D3D;
-            color: #FFF;
-            text-decoration: none;
-            padding: 9px 16px;
-            border-radius: 28px;
-        }
-
-        /*--- Start Two Column Image & Text Sections --*/
-        .two-column img {
-            width: 100%;
-            max-width: 71px;
-            height: auto;
-        }
-
-        .left {
-            float: left;
-        }
-
-        .two-column .text {
-            padding: 10px 0;
-            max-width: 206px;
-            color: black;
-            font-size: 12px;
-        }
-
-        /*--- Start 3 Column Image & Text Section --*/
-        .outer-table-2 {
-            width: 100%;
-            max-width: 670px;
-            background-color: #C2C1C1;
-        }
-
-        .three-column {
-            font-size: 0;
-            padding: 12px;
+            border-radius: 3px;
             font-weight: bold;
         }
 
-        .three-column .section {
-            width: 100%;
-            max-width: 200px;
-            display: inline-block;
-            vertical-align: top;
+        .cta a:hover {
+            background-color: #5f20b6;
         }
 
-        .three-column .content {
-            font-size: 16px;
-            line-height: 20px;
-        }
-
-        .three-column img {
-            width: 100%;
-            max-width: 125px;
-            height: auto;
-        }
-
-        .outer-table-2 p {
-            color: black;
-            font-size: 12px;
-        }
-
-        /*--- Start Two Column Article Section --*/
-        .outer-table-3 {
-            width: 100%;
-            max-width: 670px;
-            margin: 22px auto;
-            background-color: #C2C1C1;
-            border-top: 3px solid #81B9C3;
-        }
-
-        .h3 {
-            text-align: center;
-            font-size: 21px;
-            font-weight: 600;
-            Margin-bottom: 8px;
-            color: #4A4A4A;
-        }
-
-        /*--- Start Bottom One Column Section --*/
-        .inner-bottom {
-            padding: 22px;
-        }
-
-        .end {
-            text-align: center;
-            font-size: 10px;
-            padding-top: 42px
-        }
-
-        .h1 {
-            text-align: center !important;
-            font-size: 25px !important;
-            font-weight: 600;
-            line-height: 45px;
-            Margin: 12px 0 20px 0;
-            color: #4A4A4A;
-        }
-
-        .inner-bottom p {
-            font-size: 16px;
-            line-height: 24px;
-            text-align: justify;
-        }
-
-        /*--- Start Footer Section --*/
+        /* Rodapé */
         .footer {
-            width: 100%;
-            background-color: #C2C1C1;
-            Margin: 0 auto;
-            color: #FFF;
+            background-color: #ffffff;
+            padding: 20px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #727f80;
+            border-top: 1px solid #e6e6e6;
+        }
+
+        .footer a {
+            color: #7528E9;
         }
 
         .footer img {
-            max-width: 135px;
-            Margin: 0 auto;
-            display: block;
-            padding: 4% 0 1% 0;
-        }
-
-        p.footer {
-            text-align: center;
-            color: #FFF !important;
-            line-height: 30px;
-            padding-bottom: 4%;
-            text-transform: uppercase;
-        }
-
-        /*--- Media Queries --*/
-        @media screen and (max-width: 400px) {
-            .h1 {
-                font-size: 22px;
-            }
-
-            .two-column .column, .three-column .column {
-                max-width: 100% !important;
-            }
-
-            .two-column img {
-                width: 100% !important;
-            }
-
-            .three-column img {
-                max-width: 60% !important;
-            }
-        }
-
-        @media screen and (min-width: 401px) and (max-width: 400px) {
-
-            .two-column .column {
-                max-width: 50% !important;
-            }
-
-            .three-column .column {
-                max-width: 33% !important;
-            }
-        }
-
-        @media screen and (max-width: 768px) {
-            img.logo {
-                float: none !important;
-                margin-left: 0% !important;
-                max-width: 200px !important;
-            }
-
-            #callout {
-                float: none !important;
-                margin: 0% 0% 0% 0;
-                height: auto;
-                text-align: center;
-                overflow: hidden;
-            }
-
-            #callout img {
-                max-width: 26px !important;
-            }
-
-            .two-column .section {
-                width: 100% !important;
-                max-width: 100% !important;
-                display: inline-block;
-                vertical-align: top;
-            }
-
-            .two-column img {
-                width: 100% !important;
-                height: auto !important;
-            }
-
-            img.img-responsive {
-                width: 100% !important;
-                height: auto !important;
-                max-width: 100% !important;
-            }
-
-            .content {
-                width: 100%;
-                padding-top: 0px !important;
-
-            }
+            display: inline-block;
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-<div class="wrapper">
-    <div class="wrapper-inner">
-        <table class="outer-table">
-            <tr>
-                <td class="header">
-                    <a><b>
-                        <a href="https://api.whatsapp.com/send?phone=5511965990791&text=Estou%20precisando%20un%20de%20ajuda">
-                            TFChurch</b> suporte@jaspesoft.com
-                    </a>
-                    </p>
-                </td>
-            </tr>
-        </table>
+<!-- Container Principal -->
+<table>
+    <!-- Cabeçalho -->
+    <tr>
+        <td class="header">
+            <img src="https://storage.googleapis.com/noba-dev/logo.png" alt="Logo Gloria Finance">
+        </td>
+    </tr>
 
-        <table class="main-table-first">
-            <tr>
-                <td class="two-column">
-                    <div class="section">
-                        <table width="100%">
-                            <tr>
-                                <td class="inner-td">
-                                    <table class="content">
-                                        <tr>
-                                            <td align="center">
-                                                <img src="https://storage.googleapis.com/noba-dev/logo.png"
-                                                     class="logo">
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                </td>
-            </tr>
-        </table>
-        <div style="border-top: 1px solid #f1f1f1;"></div>
+    <!-- Conteúdo do e-mail -->
+    <tr>
+        <td class="content">
+            <h1>Olá, {{ client }}</h1>
+            {{{body}}}
 
 
-        <!-- cuerpo -->
-        {{{body}}}
 
-        <!-- fin cuerpo -->
+            <!--            <div class="cta">-->
+            <!--                <a href="https://finance.jaspesoft.com">Ver mais detalhes</a>-->
+            <!--            </div>-->
+        </td>
+    </tr>
 
-        <table class="outer-table main-table">
-            <tr>
-                <td class="end">
-                    <a href="https://finance.jaspesoft.com">finance.jaspesoft.com</a> <br>
-                    Gestão administrativa e financeira focada nas igrejas.<br><br>
-                    <ul class="social">
-                        <li>
-                            <img src="https://storage.googleapis.com/noba-dev/apple.png"
-                                 width="120">
-                        </li>
-                        <li>
+    <!-- Aplicativos -->
+    <tr>
+        <td class="content" style="text-align: center;">
+            <p>Baixe nosso aplicativo:</p>
+            <div style="display: inline-block; margin: 10px 0;">
+                <a href="#" style="margin-right: 10px;">
+                    <img src="https://storage.googleapis.com/noba-dev/apple.png"
+                         alt="Download no App Store" width="120">
+                </a>
+                <a href="#">
+                    <img src="https://storage.googleapis.com/noba-dev/google.png"
+                         alt="Baixar no Google Play" width="120">
+                </a>
+            </div>
+        </td>
+    </tr>
 
-                            <img src="https://storage.googleapis.com/noba-dev/google.png"
-                                 width="120">
-
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        </table>
-        <table class="outer-table" style="border-top: 1px solid #f1f1f1;margin-top: 35px">
-            <tbody>
-            <tr>
-                <td class="header">
-                    <p style="color: #727f80;font-size: 10px" class="end">Não responda a este e-mail.
-                        <a href="#" style="color: blue">Ajuda</a>
-                    </p>
-                </td>
-                <td>
-                    <br>
-                    <small class="end">
-                        <b> © {{year}} Jaspesoft CNPJ 43.716.343/0001-60, All rights reserved</b>
-                    </small>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<br>
+    <!-- Rodapé -->
+    <tr>
+        <td class="footer">
+            <p>Gestão administrativa e financeira focada em igrejas.</p>
+            <p>
+                <a href="https://api.whatsapp.com/send?phone=5511965990791&text=Ol%C3%A1%2C%20t%C3%B4%20precisando%20de%20ajuda%20com%20o%20sistema%20Gloria%20finance">
+                    Ajuda no WhatsApp!
+                </a>
+            </p>
+            <p><b>© {{year}} Jaspesoft CNPJ 43.716.343/0001-60, Todos os direitos reservados</b></p>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

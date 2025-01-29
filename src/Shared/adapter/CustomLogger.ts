@@ -33,6 +33,9 @@ class CustomLogger {
           transport: {
             target: "pino-pretty",
             options: {
+              colorizeObjects: true,
+              customColors: "err:red,info:green",
+              singleLine: true,
               translateTime: "yyyy-mm-dd HH:MM:ss",
               ignore: "pid,hostname",
               colorize: true,

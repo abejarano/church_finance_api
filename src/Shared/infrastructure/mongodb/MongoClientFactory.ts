@@ -4,7 +4,7 @@ import { Logger } from "../../adapter"
 
 export class MongoClientFactory {
   private static client: MongoClient | null = null // Almacena la instancia única de MongoClient
-  private static logger = Logger("AssingChurchValidator")
+  private static logger = Logger("MongoClientFactory")
 
   /**
    * Obtiene o crea una instancia de MongoClient.
