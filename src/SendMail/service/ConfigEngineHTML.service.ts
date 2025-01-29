@@ -5,7 +5,7 @@ import hbs = require("nodemailer-express-handlebars")
 export default async (transport: any) => {
   const logger = Logger("ConfigEngineHTML")
 
-  logger.info(`[EMAIL] Configuración del motor de template`)
+  logger.info(`Configuración del motor de template`)
 
   //const hbs = await import("nodemailer-express-handlebars")
 

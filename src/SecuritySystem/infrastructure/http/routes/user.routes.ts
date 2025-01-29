@@ -1,5 +1,6 @@
 import { Router } from "express"
 import {
+  recoveryPassword,
   UserController,
   userLoginPayload,
 } from "../controllers/user.controller"
@@ -32,6 +33,10 @@ userRoutes.put("/edit-user/:userId", PermissionMiddleware, async (req, res) => {
 
 userRoutes.post("/login", async (req, res) => {
   await UserController.login(req.body as unknown as userLoginPayload, res)
+})
+
+userRoutes.post("/recovery-password", async (req, res) => {
+  await recoveryPassword(req.body.email, res)
 })
 
 export default userRoutes

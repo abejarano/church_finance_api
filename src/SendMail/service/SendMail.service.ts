@@ -14,7 +14,7 @@ const configTransportMail = async () => {
     secure: true,
     auth: {
       type: "OAuth2",
-      user: "angel.bejarano@jaspesoft.com",
+      user: "gloriafinance@jaspesoft.com",
       serviceClient: process.env.SEND_MAIL_CLIENT_ID,
       privateKey: process.env.SEND_MAIL_PRIVATE_KEY,
     },
@@ -37,9 +37,10 @@ export const SendMailService = async (payload: Mail) => {
 
   const transport = await configTransportMail()
 
-  logger.info(`[EMAIL] Configuraciones del email`)
+  logger.info(`Configuraciones del email`)
 
   const HelperOptions = {
+    from: '"Gloria Finance" <gloriafinance@jaspesoft.com>',
     to: payload.to,
     subject: payload.subject,
     template: `${payload.template}`,
@@ -51,7 +52,7 @@ export const SendMailService = async (payload: Mail) => {
   }
 
   logger.info(
-    `[EMAIL] Enviando email a ${payload.to}, subject ${
+    `Enviando email a ${payload.to}, subject ${
       payload.subject
     } template ${payload.template}, context
       ${JSON.stringify(HelperOptions.context)}`
@@ -59,5 +60,5 @@ export const SendMailService = async (payload: Mail) => {
 
   await transport.sendMail(HelperOptions)
 
-  logger.info(`[EMAIL] Correo enviado con exito`)
+  logger.info(`Correo enviado con exito`)
 }

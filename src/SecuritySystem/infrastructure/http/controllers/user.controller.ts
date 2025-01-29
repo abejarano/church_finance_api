@@ -1,4 +1,8 @@
-import { CreateOrUpdateUser, MakeLogin } from "../../../applications"
+import {
+  ChangePassword,
+  CreateOrUpdateUser,
+  MakeLogin,
+} from "../../../applications"
 import { UserMongoRepository } from "../../persistence/UserMongoRepository"
 import { PasswordAdapter } from "../../adapters/Password.adapter"
 import { AuthTokenAdapter } from "../../adapters/AuthToken.adapter"
@@ -8,6 +12,10 @@ import domainResponse from "../../../../Shared/helpers/domainResponse"
 import { CreateUserRequest, FilterUserRequest } from "../../../domain"
 import { FetchAllUsers } from "../../../applications/finder/FetchAllUsers"
 import { Logger } from "../../../../Shared/adapter"
+import { Response } from "express"
+import { QueueBullService } from "../../../../Shared/infrastructure"
+import { SendEmailChangePassword } from "../../../../SendMail/applications"
+import randomString from "../../../../Shared/helpers/randomString"
 
 export type userLoginPayload = {
   email: string
@@ -74,5 +82,28 @@ export class UserController {
       logger.error(`fetch all user error`, e)
       domainResponse(e, res)
     }
+  }
+}
+
+export const recoveryPassword = async (email: string, res: Response) => {
+  const logger = Logger("GenerateTemporalPasswordController")
+  try {
+    const temporalPassword = randomString(10)
+
+    const user = await new ChangePassword(
+      UserMongoRepository.getInstance(),
+      new PasswordAdapter()
+    ).execute(email, temporalPassword)
+
+    new SendEmailChangePassword(QueueBullService.getInstance()).execute(
+      user,
+      temporalPassword
+    )
+
+    res.status(HttpStatus.OK).send({
+      message: "Temporal password generated",
+    })
+  } catch (e) {
+    domainResponse(e, res)
   }
 }
