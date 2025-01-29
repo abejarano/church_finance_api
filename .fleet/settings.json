@@ -1,0 +1,19 @@
+{
+    "prettier.mode": "Auto",
+    "editor.formatOnSave": true,
+    "prettier.specificBinary": "/node_module/prettier",
+    "plugins": [
+        {
+            "type": "add",
+            "pluginName": "fleet.javascript"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.aiCompletion"
+        },
+        {
+            "type": "add",
+            "pluginName": "fleet.javascript.ai"
+        }
+    ]
+}
