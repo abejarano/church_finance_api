@@ -18,7 +18,7 @@ export class MakeLogin {
     private readonly authToken: IAuthToken
   ) {}
 
-  async execute(emailUser: string, passUser: string): Promise<[User, string]> {
+  async execute(emailUser: string, passUser: string) {
     const user: User = await this.userRepository.findByEmail(emailUser)
 
     if (!user) {
@@ -40,14 +40,14 @@ export class MakeLogin {
 
     await this.userRepository.upsert(user)
 
-    return [
+    return {
       user,
-      this.authToken.createToken({
+      token: this.authToken.createToken({
         churchId: user.getChurchId(),
         userId: user.getUserId(),
         email: user.getEmail(),
         profiles: user.getProfiles(),
       }),
-    ]
+    }
   }
 }
