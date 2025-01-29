@@ -7,17 +7,20 @@ import {
   AvailabilityAccount,
   UpdateAvailabilityAccountBalanceRequest,
 } from "../../domain"
-import { logger } from "../../../Shared/infrastructure"
+
 import { UpdateAvailabilityAccountMaster } from "./UpdateAvailabilityAccountMaster"
+import { Logger } from "../../../Shared/adapter"
 
 export class UpdateAvailabilityAccountBalance implements IQueue {
+  private logger = Logger("UpdateAvailabilityAccountBalance")
+
   constructor(
     private readonly availabilityAccountRepository: IAvailabilityAccountRepository,
     private readonly availabilityAccountMasterRepository: IAvailabilityAccountMasterRepository
   ) {}
 
   async handle(args: UpdateAvailabilityAccountBalanceRequest): Promise<void> {
-    logger.info(`UpdateAvailabilityAccountBalance`, args)
+    this.logger.info(`UpdateAvailabilityAccountBalance`, args)
     const account: AvailabilityAccount =
       await this.availabilityAccountRepository.findAvailabilityAccountByAvailabilityAccountId(
         args.availabilityAccountId
@@ -31,7 +34,7 @@ export class UpdateAvailabilityAccountBalance implements IQueue {
 
     await this.availabilityAccountRepository.upsert(account)
 
-    logger.info(`UpdateAvailabilityAccountBalance finish`, account)
+    this.logger.info(`UpdateAvailabilityAccountBalance finish`, account)
 
     await new UpdateAvailabilityAccountMaster(
       this.availabilityAccountMasterRepository

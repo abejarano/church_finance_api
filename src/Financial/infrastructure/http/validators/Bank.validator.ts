@@ -1,10 +1,13 @@
 import { HttpStatus } from "../../../../Shared/domain"
 import { Validator } from "node-input-validator"
+import { Logger } from "../../../../Shared/adapter"
 
 export default async (req, res, next) => {
   const payload = req.body
 
-  console.log(`Validando banco ${JSON.stringify(payload)}`)
+  const logger = Logger("BankValidator")
+
+  logger.info(`Validando banco ${JSON.stringify(payload)}`)
 
   const rule = {
     accountType: "required|in:CURRENT,SAVINGS,PAYMENT,SALARY",

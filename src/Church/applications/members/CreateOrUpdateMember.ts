@@ -8,8 +8,11 @@ import {
   MemberRequest,
 } from "../../domain"
 import { IQueueService, QueueName } from "../../../Shared/domain"
+import { Logger } from "../../../Shared/adapter"
 
 export class CreateOrUpdateMember {
+  private logger = Logger("CreateOrUpdateMember")
+
   constructor(
     private readonly memberRepository: IMemberRepository,
     private readonly churchRepository: IChurchRepository,
@@ -44,7 +47,7 @@ export class CreateOrUpdateMember {
   }
 
   private async create(request: MemberRequest) {
-    console.log(`Registrar miembro ${JSON.stringify(request)}`)
+    this.logger.info(`Registrar miembro ${JSON.stringify(request)}`)
 
     const memberExist: Member = await this.memberRepository.one(request.dni)
     if (memberExist) {

@@ -1,10 +1,12 @@
 import { HttpStatus } from "../../../../Shared/domain"
 import { Validator } from "node-input-validator"
+import { Logger } from "../../../../Shared/adapter"
 
 export default async (req, res, next) => {
   const payload = req.body
+  const logger = Logger("BanlBRValidator")
 
-  console.log(`Validando banco ${JSON.stringify(payload)}`)
+  logger.info(`Validando banco ${JSON.stringify(payload)}`)
 
   const rule = {
     bankInstruction: "required|object",

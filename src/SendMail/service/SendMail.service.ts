@@ -1,10 +1,13 @@
 import nodemailer = require("nodemailer")
 import * as process from "process"
-import { logger } from "../../Shared/infrastructure"
+
 import configEngineHTML from "./ConfigEngineHTML.service"
 import { Mail } from "../types/mail.type"
+import { Logger } from "../../Shared/adapter"
 
 const configTransportMail = async () => {
+  const logger = Logger("configTransportMail")
+
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -12,8 +15,8 @@ const configTransportMail = async () => {
     auth: {
       type: "OAuth2",
       user: "angel.bejarano@jaspesoft.com",
-      serviceClient: process.env.send_mail_client_id,
-      privateKey: process.env.send_mail_private_key,
+      serviceClient: process.env.SEND_MAIL_CLIENT_ID,
+      privateKey: process.env.SEND_MAIL_PRIVATE_KEY,
     },
   })
 
@@ -30,6 +33,8 @@ const configTransportMail = async () => {
 }
 
 export const SendMailService = async (payload: Mail) => {
+  const logger = Logger("SendMailService")
+
   const transport = await configTransportMail()
 
   logger.info(`[EMAIL] Configuraciones del email`)

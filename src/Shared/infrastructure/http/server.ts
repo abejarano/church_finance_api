@@ -3,6 +3,16 @@ import express = require("express")
 import fileUpload = require("express-fileupload")
 import bodyParser = require("body-parser")
 import rateLimit from "express-rate-limit"
+import { RequestContext } from "../../adapter/CustomLogger"
+import { v4 } from "uuid"
+
+const requestContextMiddleware = (req, res, next) => {
+  const requestId = (req.headers["x-request-id"] as string) || v4()
+
+  RequestContext.run({ requestId }, () => {
+    next()
+  })
+}
 
 export function server(port: number) {
   const app = express()
@@ -42,6 +52,8 @@ export function server(port: number) {
   )
 
   app.set("port", port)
+
+  app.use(requestContextMiddleware)
 
   return app
 }

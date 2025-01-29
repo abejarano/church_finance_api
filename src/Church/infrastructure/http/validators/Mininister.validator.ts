@@ -1,9 +1,10 @@
 import { HttpStatus } from "../../../../Shared/domain"
 import { Validator } from "node-input-validator"
-import { logger } from "../../../../Shared/infrastructure"
+import { Logger } from "../../../../Shared/adapter"
 
 export default async (req, res) => {
   const payload = req.body
+  const logger = Logger("MinisterValidator")
 
   logger.info(`Validando registro de ministros ${JSON.stringify(payload)}`)
 
