@@ -13,6 +13,7 @@ import { Queues } from "./queues"
 import { BullBoard } from "./Shared/infrastructure/bull/bullBoard"
 import userRoutes from "./SecuritySystem/infrastructure/http/routes/user.routes"
 import { Logger } from "./Shared/adapter"
+import reportsRouter from "./Reports/http/routes"
 
 export const APP_DIR = __dirname
 
@@ -28,6 +29,7 @@ app.use("/api/v1/minister", ministerRoute)
 app.use("/api/v1/finance", financialRouter)
 app.use("/api/v1/user", userRoutes)
 app.use("/api/v1/world", worldRoute)
+app.use("/api/v1/reports", reportsRouter)
 
 //StorageGCP.getInstance(process.env.BUCKET_FILES);
 

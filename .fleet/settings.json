@@ -1,5 +1,5 @@
 {
-    "prettier.mode": "Auto",
+    "prettier.mode": "Enabled",
     "editor.formatOnSave": true,
     "prettier.specificBinary": "/node_module/prettier",
     "plugins": [
