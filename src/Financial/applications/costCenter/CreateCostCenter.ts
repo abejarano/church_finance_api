@@ -5,16 +5,19 @@ import {
   Member,
   MemberNotFound,
 } from "../../../Church/domain"
-import { logger } from "../../../Shared/infrastructure"
+
+import { Logger } from "../../../Shared/adapter"
 
 export class CreateCostCenter {
+  private logger = Logger("CreateCostCenter")
+
   constructor(
     private readonly financialConfigurationRepository: IFinancialConfigurationRepository,
     private readonly memberRepository: IMemberRepository
   ) {}
 
   async execute(costCenterRequest: CostCenterRequest) {
-    logger.info(`Creating cost center `, costCenterRequest)
+    this.logger.info(`Creating cost center `, costCenterRequest)
     const responsibleMember = await this.findMember(
       costCenterRequest.responsibleMemberId
     )

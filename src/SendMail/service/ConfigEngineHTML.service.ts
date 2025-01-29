@@ -1,13 +1,15 @@
-import { logger } from "../../Shared/infrastructure"
 import { APP_DIR } from "../../app"
+import { Logger } from "../../Shared/adapter"
 import hbs = require("nodemailer-express-handlebars")
 
 export default async (transport: any) => {
+  const logger = Logger("ConfigEngineHTML")
+
   logger.info(`[EMAIL] Configuración del motor de template`)
 
   //const hbs = await import("nodemailer-express-handlebars")
 
-  console.log(`${APP_DIR}/SendMail/templates`)
+  logger.info(`${APP_DIR}/SendMail/templates`)
   const handlebarOptions = {
     viewEngine: {
       extName: ".hbs",

@@ -16,11 +16,7 @@ import {
   UpdateContributionStatus,
 } from "../../../applications"
 import { HttpStatus, Paginate, QueueName } from "../../../../Shared/domain"
-import {
-  logger,
-  QueueBullService,
-  StorageGCP,
-} from "../../../../Shared/infrastructure"
+import { QueueBullService, StorageGCP } from "../../../../Shared/infrastructure"
 import MemberContributionsDTO from "../dto/MemberContributions.dto"
 import {
   AvailabilityAccountMongoRepository,
@@ -28,12 +24,15 @@ import {
   OnlineContributionsMongoRepository,
 } from "../../persistence"
 import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure"
+import { Logger } from "../../../../Shared/adapter"
 
 export const onlineContributionsController = async (
   request: ContributionRequest,
   res
 ) => {
   try {
+    const logger = Logger("OnlineContributionsController")
+
     logger.info(`Solicitud de registro de contribucion en línea:`)
 
     const member = await new FindMemberById(
@@ -85,6 +84,9 @@ export const listOnlineContributionsController = async (
   request: FilterContributionsRequest,
   res
 ) => {
+  const logger = Logger("listOnlineContributionsController")
+  logger.info(`Filtering online contributions with: `, request)
+
   try {
     const list: Paginate<OnlineContributions> = await new ListContributions(
       OnlineContributionsMongoRepository.getInstance()

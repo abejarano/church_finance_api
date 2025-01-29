@@ -2,9 +2,11 @@ import { IDefinitionQueue, IQueueService, QueueName } from "../../domain"
 import * as fs from "fs"
 import * as Queue from "bull"
 import * as path from "path"
+import { Logger } from "../../adapter"
 
 export class QueueBullService implements IQueueService {
   private static instance: QueueBullService
+  private logger = Logger("QueueBullService")
   private instanceQueuesBull: Queue.Queue[] = []
   private queueMap: Record<string, IDefinitionQueue> = {}
   private redisOptions = {
@@ -67,7 +69,7 @@ export class QueueBullService implements IQueueService {
       })
 
       instance.on("ready", () =>
-        console.log(`Queue ${queue.useClass.name} is connected to Redis`)
+        this.logger.info(`Queue ${queue.useClass.name} is connected to Redis`)
       )
       instance.on("error", (error) =>
         console.error(`Error in queue ${queue.useClass.name}:`, error)
@@ -96,7 +98,7 @@ export class QueueBullService implements IQueueService {
     }
 
     fs.writeFileSync(outputPath, fileContent, "utf8")
-    console.log(`Enum file generated at ${outputPath}`)
+    this.logger.info(`Enum file generated at ${outputPath}`)
   }
 
   private addWorkerListeners(worker: Queue.Queue) {

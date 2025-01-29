@@ -19,10 +19,13 @@ import {
 } from "../../../MovementBank/domain"
 import { FinancialMonthValidator } from "../../../ConsolidatedFinancial/FinancialMonthValidator"
 import { IOnlineContributionsRepository } from "../../domain/interfaces"
-import { logger } from "../../../Shared/infrastructure"
+
 import { DateBR } from "../../../Shared/helpers"
+import { Logger } from "../../../Shared/adapter"
 
 export class RegisterContributionsOnline {
+  private logger = Logger("RegisterContributionsOnline")
+
   constructor(
     private readonly contributionRepository: IOnlineContributionsRepository,
     private readonly storageService: IStorageService,
@@ -36,7 +39,7 @@ export class RegisterContributionsOnline {
     member: Member,
     financialConcept: FinancialConcept
   ) {
-    logger.info(`RegisterContributionsOnline`)
+    this.logger.info(`RegisterContributionsOnline`)
     await new FinancialMonthValidator(this.financialYearRepository).validate(
       member.getChurchId()
     )

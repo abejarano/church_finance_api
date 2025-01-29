@@ -1,9 +1,10 @@
 import { Validator } from "node-input-validator"
 import { HttpStatus } from "../../../../Shared/domain"
-import { logger } from "../../../../Shared/infrastructure"
+import { Logger } from "../../../../Shared/adapter"
 
 export default async (req, res, next) => {
   const payload = req.body
+  const logger = Logger("ContributionValidator")
 
   logger.info(`Validando contribucion`, payload)
 
