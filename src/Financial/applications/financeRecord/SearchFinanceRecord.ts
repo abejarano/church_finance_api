@@ -18,7 +18,7 @@ export class SearchFinanceRecord {
   async execute(
     request: FilterFinanceRecordRequest
   ): Promise<Paginate<FinanceRecord>> {
-    return await this.financialRecordRepository.list(
+    return await this.financialRecordRepository.fetch(
       this.prepareCriteria(request)
     )
   }
