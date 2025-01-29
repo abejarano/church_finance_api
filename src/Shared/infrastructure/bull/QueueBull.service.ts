@@ -2,9 +2,12 @@ import { IDefinitionQueue, IQueueService, QueueName } from "../../domain"
 import * as fs from "fs"
 import * as Queue from "bull"
 import * as path from "path"
+import { Logger } from "../../adapter"
+import { RequestContext } from "../../adapter/CustomLogger"
 
 export class QueueBullService implements IQueueService {
   private static instance: QueueBullService
+  private logger = Logger("QueueBullService")
   private instanceQueuesBull: Queue.Queue[] = []
   private queueMap: Record<string, IDefinitionQueue> = {}
   private redisOptions = {
@@ -31,30 +34,42 @@ export class QueueBullService implements IQueueService {
       const worker = this.instanceQueuesBull.find((q) => q.name === queueName)
 
       if (!worker) {
-        console.error(`Worker not found for queue: ${queueName}`)
+        this.logger.error(`Worker not found for queue: ${queueName}`)
         continue
       }
 
-      const instanceWorker = new definitionQueue.useClass(
-        ...definitionQueue.inject
-      )
+      const instanceWorker =
+        definitionQueue.inject !== undefined
+          ? new definitionQueue.useClass(...definitionQueue.inject)
+          : new definitionQueue.useClass()
 
-      worker.process(async (job) => await instanceWorker.handle(job.data))
+      worker.process(async (job) => {
+        const requestId = job.data?.requestId || "N/A"
+
+        RequestContext.run({ requestId }, async () => {
+          return await instanceWorker.handle(job.data)
+        })
+      })
 
       this.addWorkerListeners(worker)
     }
   }
 
   dispatch(jobName: QueueName, args: any) {
-    const queue = this.instanceQueuesBull.find((q) => q.name === jobName)
+    const requestId = RequestContext.requestId
 
-    if (!queue) {
-      console.error(`Queue not found: ${jobName}`)
-      return
-    }
+    // Crear un contexto para la tarea asíncrona
+    RequestContext.run({ requestId: requestId || "N/A" }, async () => {
+      const queue = this.instanceQueuesBull.find((q) => q.name === jobName)
 
-    queue.add(args).catch((err) => {
-      console.error(`Failed to add job to queue: ${jobName}`, err)
+      if (!queue) {
+        this.logger.error(`Queue not found: ${jobName}`)
+        return
+      }
+
+      queue.add({ ...args, requestId }).catch((err) => {
+        this.logger.error(`Failed to add job to queue: ${jobName}`, err)
+      })
     })
   }
 
@@ -62,10 +77,11 @@ export class QueueBullService implements IQueueService {
     definitionQueues.forEach((queue) => {
       const instance = new Queue(queue.useClass.name, {
         redis: this.redisOptions,
+        defaultJobOptions: { delay: queue.delay ? queue.delay * 1000 : 0 },
       })
 
       instance.on("ready", () =>
-        console.log(`Queue ${queue.useClass.name} is connected to Redis`)
+        this.logger.info(`Queue ${queue.useClass.name} is connected to Redis`)
       )
       instance.on("error", (error) =>
         console.error(`Error in queue ${queue.useClass.name}:`, error)
@@ -94,12 +110,12 @@ export class QueueBullService implements IQueueService {
     }
 
     fs.writeFileSync(outputPath, fileContent, "utf8")
-    console.log(`Enum file generated at ${outputPath}`)
+    this.logger.info(`Enum file generated at ${outputPath}`)
   }
 
   private addWorkerListeners(worker: Queue.Queue) {
     worker.on("failed", (job, err) =>
-      console.error(`Job failed in queue: ${worker.name}`, err)
+      this.logger.error(`Job failed in queue: ${worker.name}`, err)
     )
   }
 }

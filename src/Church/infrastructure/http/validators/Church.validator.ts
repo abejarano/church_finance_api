@@ -1,10 +1,12 @@
 import { HttpStatus } from "../../../../Shared/domain"
 import { Validator } from "node-input-validator"
+import { Logger } from "../../../../Shared/adapter"
 
 export default async (req, res, next) => {
   const payload = req.body
+  const logger = Logger("ChurchValidator")
 
-  console.log(`Validando iglesia ${JSON.stringify(payload)}`)
+  logger.info(`Validando iglesia ${JSON.stringify(payload)}`)
 
   const rule = {
     name: "required|maxLength:150",

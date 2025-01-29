@@ -14,9 +14,11 @@ import {
   FinancialRecordQueueRequest,
 } from "../../domain"
 import { FindFinancialConceptByChurchIdAndFinancialConceptId } from "../financialConcept/FindFinancialConceptByChurchIdAndFinancialConceptId"
-import { logger } from "../../../Shared/infrastructure"
+import { Logger } from "../../../Shared/adapter"
 
 export class RegisterFinancialRecord implements IQueue {
+  private logger = Logger("RegisterFinancialRecord")
+
   constructor(
     private readonly financialYearRepository: IFinancialYearRepository,
     private readonly financialRecordRepository: IFinancialRecordRepository,
@@ -29,7 +31,7 @@ export class RegisterFinancialRecord implements IQueue {
     financialConcept?: FinancialConcept,
     costCenter?: CostCenter
   ): Promise<void> {
-    logger.info(`RegisterFinancialRecord`, args)
+    this.logger.info(`RegisterFinancialRecord`, args)
 
     await new FinancialMonthValidator(this.financialYearRepository).validate(
       args.churchId
@@ -45,7 +47,7 @@ export class RegisterFinancialRecord implements IQueue {
     }
 
     if (!financialConcept) {
-      logger.info(
+      this.logger.info(
         `Searching financial concept by churchId: ${args.churchId} and financialConceptId: ${args.financialConceptId}`
       )
       financialConcept =

@@ -4,10 +4,11 @@ import { QueueBullService } from "./QueueBull.service"
 import { createBullBoard } from "@bull-board/api"
 import { BullAdapter } from "@bull-board/api/bullAdapter"
 import { IDefinitionQueue } from "../../domain"
+import * as basicAuth from "express-basic-auth"
 
-export const bullBoard = (app: Express, Queues: IDefinitionQueue[]) => {
+export const BullBoard = (app: Express, Queues: IDefinitionQueue[]) => {
   const serverAdapter = new ExpressAdapter()
-  serverAdapter.setBasePath("/admin/queues")
+  serverAdapter.setBasePath("/ui/queues")
 
   const queueServer = QueueBullService.getInstance()
   queueServer.addQueues(Queues)
@@ -24,5 +25,15 @@ export const bullBoard = (app: Express, Queues: IDefinitionQueue[]) => {
 
   queueServer.listen()
 
-  app.use("/admin/queues", serverAdapter.getRouter())
+  // Middleware para autenticación básica
+  app.use(
+    "/ui/queues",
+    basicAuth({
+      users: { [process.env.BULL_USER]: process.env.BULL_PASS },
+      challenge: true,
+      unauthorizedResponse: "No autorizado",
+    })
+  )
+
+  app.use("/ui/queues", serverAdapter.getRouter())
 }

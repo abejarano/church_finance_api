@@ -1,9 +1,12 @@
 import { Validator } from "node-input-validator"
 import { HttpStatus } from "../../../../Shared/domain"
+import { Logger } from "../../../../Shared/adapter"
 
 export default async (req, res) => {
+  const logger = Logger("AssingChurchValidator")
+
   const payload = req.body
-  console.log(`Validando asignacion de iglesia ${JSON.stringify(payload)}`)
+  logger.info(`Validando asignacion de iglesia ${JSON.stringify(payload)}`)
 
   const rule = {
     churchId: "required",
