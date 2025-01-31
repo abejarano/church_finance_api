@@ -33,7 +33,7 @@ export class FinancialYearMongoRepository
     const collection = await this.collection()
     const result = await collection.findOne({ financialMonthId })
 
-    if (result === null) {
+    if (!result) {
       return undefined
     }
 
@@ -56,7 +56,7 @@ export class FinancialYearMongoRepository
       churchId,
     })
 
-    if (result === null) {
+    if (!result) {
       return undefined
     }
 

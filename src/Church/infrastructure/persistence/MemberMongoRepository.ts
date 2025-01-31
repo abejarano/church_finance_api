@@ -33,9 +33,11 @@ export class MemberMongoRepository
     return this.buildPaginate<Member>(result)
   }
 
-  async one(dni: string): Promise<Member | undefined> {
+  async one(memberId: string): Promise<Member | undefined> {
     const collection = await this.collection()
-    const result = await collection.findOne({ dni })
+    const result = await collection.findOne({
+      memberId,
+    })
 
     return result
       ? Member.fromPrimitives({
