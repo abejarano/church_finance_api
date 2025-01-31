@@ -1,6 +1,5 @@
 import {
   AvailabilityAccountNotFound,
-  ConceptType,
   ContributionRequest,
   FilterContributionsRequest,
   OnlineContributions,
@@ -15,7 +14,7 @@ import {
   RegisterContributionsOnline,
   UpdateContributionStatus,
 } from "../../../applications"
-import { HttpStatus, Paginate, QueueName } from "../../../../Shared/domain"
+import { HttpStatus, Paginate } from "../../../../Shared/domain"
 import { QueueBullService, StorageGCP } from "../../../../Shared/infrastructure"
 import MemberContributionsDTO from "../dto/MemberContributions.dto"
 import {
@@ -60,17 +59,17 @@ export const onlineContributionsController = async (
       FinancialYearMongoRepository.getInstance()
     ).execute(request, availabilityAccount, member, financialConcept)
 
-    QueueBullService.getInstance().dispatch(
-      QueueName.UpdateAvailabilityAccountBalance,
-      {
-        availabilityAccountId: request.availabilityAccountId,
-        amount: request.amount,
-        operationType:
-          financialConcept.getType() === ConceptType.INCOME
-            ? "MONEY_IN"
-            : "MONEY_OUT",
-      }
-    )
+    // QueueBullService.getInstance().dispatch(
+    //   QueueName.UpdateAvailabilityAccountBalance,
+    //   {
+    //     availabilityAccountId: request.availabilityAccountId,
+    //     amount: request.amount,
+    //     operationType:
+    //       financialConcept.getType() === ConceptType.INCOME
+    //         ? "MONEY_IN"
+    //         : "MONEY_OUT",
+    //   }
+    // )
 
     res.status(HttpStatus.CREATED).send({
       message: "successful contribution registration",

@@ -1,7 +1,7 @@
-import { IFinancialYearRepository } from "./domain"
-import { FinancialMonthIsClosed } from "./domain/exceptions"
+import { IFinancialYearRepository } from "../domain"
+import { FinancialMonthIsClosed } from "../domain/exceptions"
 
-import { Logger } from "../Shared/adapter"
+import { Logger } from "../../Shared/adapter"
 
 export class FinancialMonthValidator {
   private logger = Logger("FinancialMonthValidator")
@@ -12,9 +12,11 @@ export class FinancialMonthValidator {
 
   async validate(churchId: string) {
     const currentYear = new Date().getFullYear()
-    const currentMonth = new Date().getMonth()
+    const currentMonth = new Date().getMonth() + 1
 
-    return
+    this.logger.info(
+      `Validating financial month ${currentMonth} ${currentYear} ${churchId}`
+    )
 
     const financialMonth =
       await this.financialYearRepository.findByMonthAndYear(
@@ -29,6 +31,7 @@ export class FinancialMonthValidator {
     }
 
     if (financialMonth.isClosed()) {
+      this.logger.info(`Financial month is closed`, financialMonth)
       throw new FinancialMonthIsClosed()
     }
   }
