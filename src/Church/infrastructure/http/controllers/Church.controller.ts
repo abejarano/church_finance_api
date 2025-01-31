@@ -13,6 +13,8 @@ import { ChurchMongoRepository } from "../../persistence/ChurchMongoRepository"
 import { MinisterMongoRepository } from "../../persistence/MinisterMongoRepository"
 import { FirstLoadFinancialConcepts } from "../../../../Financial/applications"
 import { FinancialConceptMongoRepository } from "../../../../Financial/infrastructure/persistence"
+import { GenerateFinancialMonths } from "../../../../ConsolidatedFinancial/applications"
+import { FinancialYearMongoRepository } from "../../../../ConsolidatedFinancial/infrastructure"
 // import {
 //   MinisterMongoRepository,
 //   RegionMongoRepository,
@@ -31,6 +33,13 @@ export class ChurchController {
           FinancialConceptMongoRepository.getInstance(),
           ChurchMongoRepository.getInstance()
         ).execute(church.getChurchId())
+
+        await new GenerateFinancialMonths(
+          FinancialYearMongoRepository.getInstance()
+        ).execute({
+          churchId: church.getChurchId(),
+          year: new Date().getFullYear(),
+        })
       }
 
       res.status(HttpStatus.CREATED).send({ message: "Registered Church" })

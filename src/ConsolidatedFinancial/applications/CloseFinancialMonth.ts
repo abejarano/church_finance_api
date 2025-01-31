@@ -1,15 +1,14 @@
-import { IQueue } from "../../Shared/domain"
 import {
   IFinancialYearRepository,
   UpdateFinancialMonthRequest,
 } from "../domain"
 
-export class CloseFinancialMonth implements IQueue {
+export class CloseFinancialMonth {
   constructor(
     private readonly financialYearRepository: IFinancialYearRepository
   ) {}
 
-  async handle(args: UpdateFinancialMonthRequest): Promise<void> {
+  async execute(args: UpdateFinancialMonthRequest): Promise<void> {
     const financialMonth = await this.financialYearRepository.findById(
       args.financialMonthId
     )
