@@ -1,9 +1,9 @@
 import axios from "axios"
 import { IQueue } from "../../domain"
 
-const chatId = "8046730073"
+const chatId = process.env.TELEGRAM_CHAT_ID
 
-const telegramToken = "8027540511:AAFQQGGvL9q7pPGOOhKMCslYOZ0t9pTmoe8"
+const telegramToken = process.env.TELEGRAM_BOT_TOKEN
 
 const TelegramSendMessage = async (message: string) => {
   const url = `https://api.telegram.org/bot${telegramToken}/sendMessage`
