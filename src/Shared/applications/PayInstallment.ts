@@ -8,39 +8,41 @@ export const PayInstallment = (
 ): number => {
   if (installment.status === InstallmentsStatus.PAID) {
     logger.debug(`Installment ${installment.installmentId} already paid`)
-    return
+    return amountTransferred
   }
+
+  const previousStatus =
+    installment.status ?? InstallmentsStatus.PENDING
 
   logger.info(
-    `Installment ${installment.installmentId} is was ${installment.status.toLowerCase()} payment`
+    `Installment ${installment.installmentId} is was ${previousStatus.toLowerCase()} payment`
   )
 
-  const amountToCompare =
-    installment.status === InstallmentsStatus.PENDING
-      ? installment.amount
-      : installment.amountPending
+  const totalAmount = installment.amount
+  const previousAmountPaid =
+    installment.amountPaid ?? totalAmount - (installment.amountPending ?? totalAmount)
+  const normalizedPreviousAmountPaid = Math.max(previousAmountPaid, 0)
 
+  const previousAmountPending =
+    installment.amountPending ?? Math.max(totalAmount - normalizedPreviousAmountPaid, 0)
+
+  const amountToPay = Math.min(amountTransferred, previousAmountPending)
+  const newAmountPaid = Math.min(
+    normalizedPreviousAmountPaid + amountToPay,
+    totalAmount
+  )
+  const newAmountPending = Math.max(totalAmount - newAmountPaid, 0)
+
+  installment.amountPaid = newAmountPaid
+  installment.amountPending = newAmountPending
   installment.status =
-    amountTransferred >= amountToCompare
+    newAmountPending === 0
       ? InstallmentsStatus.PAID
       : InstallmentsStatus.PARTIAL
-
-  const amountPending = installment.amountPending ?? installment.amount
-
-  const newAmountPending = amountPending - amountTransferred
-
-  if (newAmountPending < 0) {
-    installment.amountPending = 0
-    installment.amountPaid = installment.amount
-  } else {
-    installment.amountPending = newAmountPending
-    installment.amountPaid =
-      amountTransferred + (installment.amountPending || 0)
-  }
 
   installment.financialTransactionId = financialTransactionId
 
   logger.info(`Installment ${installment.installmentId} updated`, installment)
 
-  return amountTransferred - amountPending
+  return amountTransferred - amountToPay
 }
