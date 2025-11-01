@@ -5,12 +5,15 @@ import {
 } from "@/AccountsReceivable/domain"
 import { Logger } from "@/Shared/adapter"
 import { SendMailPaymentCommitment } from "@/SendMail/applications"
+import { GenericException } from "@/Shared/domain"
+import { IFinancialConceptRepository } from "@/Financial/domain/interfaces"
 
 export class CreateAccountReceivable {
   private logger = Logger(CreateAccountReceivable.name)
 
   constructor(
     private readonly accountReceivableRepository: IAccountsReceivableRepository,
+    private readonly financialConceptRepository: IFinancialConceptRepository,
     private readonly sendMailPaymentCommitment: SendMailPaymentCommitment
   ) {}
 
@@ -22,7 +25,18 @@ export class CreateAccountReceivable {
       requestAccountReceivable
     )
 
-    const account = AccountReceivable.create(requestAccountReceivable)
+    const financialConcept = await this.financialConceptRepository.one({
+      financialConceptId: requestAccountReceivable.financialConceptId,
+    })
+
+    if (!financialConcept) {
+      throw new GenericException("Financial Concept not found")
+    }
+
+    const account = AccountReceivable.create({
+      ...requestAccountReceivable,
+      financialConcept,
+    })
 
     await this.accountReceivableRepository.upsert(account)
 

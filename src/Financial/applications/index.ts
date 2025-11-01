@@ -17,8 +17,8 @@ export { FindFinancialConceptsByChurchIdAndTypeConcept } from "./financialConcep
 
 export { SearchFinanceRecord } from "./financeRecord/SearchFinanceRecord"
 export { GenerateFinanceRecordReport } from "./financeRecord/GenerateFinanceRecordReport"
-export { RegisterFinancialRecord } from "./financeRecord/RegisterFinancialRecord"
 export * from "./financeRecord/CancelFinancialRecord"
+export * from "./financeRecord/CreateFinancialRecord"
 
 export { CreateOrUpdateAvailabilityAccount } from "./availabilityAccount/CreateOrUpdateAvailabilityAccount"
 export { SearchAvailabilityAccountByChurchId } from "./availabilityAccount/SearchAvailabilityAccountByChurchId"
@@ -26,5 +26,6 @@ export { UpdateAvailabilityAccountBalance } from "./availabilityAccount/UpdateAv
 export { FindAvailabilityAccountByAvailabilityAccountId } from "./availabilityAccount/FindAvailabilityAccountByAvailabilityAccountId"
 
 export { DispatchUpdateAvailabilityAccountBalance } from "./DispatchUpdateAvailabilityAccountBalance"
-export { DispatchFinancialRecord } from "./DispatchFinancialRecord"
+export { DispatchCreateFinancialRecord } from "./DispatchCreateFinancialRecord"
 export { DispatchUpdateCostCenterMaster } from "./DispatchUpdateCostCenterMaster"
+export * from "./DispatchUpdateFinancialRecord"
